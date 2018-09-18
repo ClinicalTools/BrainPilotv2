@@ -22,11 +22,11 @@ public class Selection : ScriptableObject, ISelection {
         {
             if (value == true && _active != true)
             {
-                DoSelect();
+                Select();
             }
             if (value == false && _active != false)
             {
-                DoDeselect();
+                Deselect();
                 
             }
             _active = value;
@@ -87,7 +87,7 @@ public class Selection : ScriptableObject, ISelection {
     }
 
     [ContextMenu("DoSelect")]
-    public void DoSelect()
+    public void Select()
     {
         for (int i = registeredSelectables.Count - 1; i >= 0; i--)
         {
@@ -97,8 +97,18 @@ public class Selection : ScriptableObject, ISelection {
         _active = true;
     }
 
+    public List<Selectable> GetCurrentSelection()
+    {
+        if (!Active)
+            return null;
+        else
+        {
+            return registeredSelectables;
+        }
+    }
+
     [ContextMenu("DoDeselect")]
-    public void DoDeselect()
+    public void Deselect()
     {
         for (int i = registeredSelectables.Count - 1; i >= 0; i--)
         {
@@ -111,7 +121,7 @@ public class Selection : ScriptableObject, ISelection {
     public void SetSelect(Selection selection)
     {
         if (this == selection && !Active)
-            DoSelect();
+            Select();
     }
 
     public bool IsSelected(Selection selection)
