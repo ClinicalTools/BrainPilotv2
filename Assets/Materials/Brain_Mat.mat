@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Brain_Mat
-  m_Shader: {fileID: 4800000, guid: 69da13b05c5979b4bae271656195d0c8, type: 3}
+  m_Shader: {fileID: 4800000, guid: a0e755b732016e043ae318286e539935, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
