@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ISelectableStateAction : MonoBehaviour {
+/// <summary>
+/// Interface for loading and activating effects on a range of unknown objects in a scene.
+/// </summary>
+public interface ISelectableStateAction
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Load();
+
+    void Remove();
+
+    void Activate();
+
+    void Deactivate();
+
 }

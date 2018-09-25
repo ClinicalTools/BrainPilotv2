@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectableState : MonoBehaviour {
+/// <summary>
+/// A scriptable object that wraps a list of prefabs, intended to be loaded as SelectableStateActions. Also serves as an 'unlimted enum' that can be checked for equivalence.
+/// </summary>
+/// 
+[CreateAssetMenu]
+public class SelectableState : ScriptableObject, ISelectableState
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public List<GameObject> actions;
+
 }
