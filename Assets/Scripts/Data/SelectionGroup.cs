@@ -2,38 +2,80 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class SelectionGroup : ScriptableObject, ISelectionGroup
 {
 
-    public List<Selectable> selectables;
+    public List<ISelectable> selectables;
 
     public void ActivateState(ISelectableState state, bool deactivateAllOthers = false)
     {
-        throw new System.NotImplementedException();
+        if (selectables == null)
+            return;
+
+        foreach(Selectable selectable in selectables)
+        {
+            selectable.ActivateState(state, deactivateAllOthers);
+        }
     }
 
     public void DeactivateState(ISelectableState state)
     {
-        throw new System.NotImplementedException();
+        if (selectables == null)
+            return;
+
+        foreach(Selectable selectable in selectables)
+        {
+            selectable.DeactivateState(state);
+        }
     }
 
     public void DeregisterSelecable(ISelectable selectable)
     {
-        throw new System.NotImplementedException();
+        if (selectables == null)
+        {
+            selectables = new List<ISelectable>();
+        }
+
+        if (selectables.Contains(selectable))
+        {
+            selectables.Remove(selectable);
+        }
     }
 
     public void LoadState(ISelectableState state)
     {
-        throw new System.NotImplementedException();
+        if (selectables == null)
+            return;
+
+        foreach (Selectable selectable in selectables)
+        {
+            selectable.LoadState(state);
+        }
     }
 
     public void RegisterSelectable(ISelectable selectable)
     {
-        throw new System.NotImplementedException();
+        if (selectables == null)
+        {
+            selectables = new List<ISelectable>();
+        }
+
+        if (!selectables.Contains(selectable))
+        {
+            selectables.Add(selectable);
+        }
+
     }
 
     public void UnloadState(ISelectableState state)
     {
-        throw new System.NotImplementedException();
+        if (selectables == null)
+            return;
+
+        foreach (Selectable selectable in selectables)
+        {
+            selectable.UnloadState(state);
+        }
     }
 }

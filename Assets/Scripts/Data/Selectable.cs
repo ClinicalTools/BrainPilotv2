@@ -2,62 +2,137 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+/// <summary>
+/// Selectable asset. Listeners should subscribe to get updates. Models selection states only. Will call UpdateListeners on every change, so the listener side
+/// should manage how often the view is actually updated. 
+/// </summary>
 
 [CreateAssetMenu]
 [Serializable]
 public class Selectable : ScriptableObject, ISelectable
 {
 
-    public List<SelectableListener> listeners;
+    public List<ISelectableListener> listeners;
 
-    public List<SelectableState> loadedStates;
+    public List<ISelectableState> loadedStates;
 
-    public List<SelectableState> activeStates;
+    public List<ISelectableState> activeStates;
 
 
-
-    public void ActivateState(SelectableState state, bool deactivateAllOthers = false)
+    /// <summary>
+    /// Activates the state. 
+    /// </summary>
+    /// <param name="state">State.</param>
+    /// <param name="deactivateAllOthers">If set to <c>true</c> deactivate all others.</param>
+    public void ActivateState(ISelectableState state, bool deactivateAllOthers = false)
     {
-        throw new System.NotImplementedException();
+        if (activeStates == null)
+        {
+            activeStates = new List<ISelectableState>();
+        }
+        
+
+        if (deactivateAllOthers)
+        {
+            activeStates.Clear();
+        }
+        if (!loadedStates.Contains(state))
+        {
+            LoadState(state);
+        }
+        if (!activeStates.Contains(state))
+        {
+            activeStates.Add(state);
+        }
+        UpdateListeners();
     }
 
-    public void DeactivateState(SelectableState state)
+
+    public void DeactivateState(ISelectableState state)
     {
-        throw new System.NotImplementedException();
+        if (activeStates.Contains(state))
+        {
+            activeStates.Remove(state);
+            UpdateListeners();
+        }
     }
 
-    public List<SelectableState> GetActiveStates()
+    public List<ISelectableState> GetActiveStates()
     {
-        throw new System.NotImplementedException();
+        return activeStates;
     }
 
-    public List<SelectableListener> GetListeners()
+    public List<ISelectableListener> GetListeners()
     {
-        throw new System.NotImplementedException();
+        return listeners;
     }
 
-    public List<SelectableState> GetLoadedStates()
+    public List<ISelectableState> GetLoadedStates()
     {
-        throw new System.NotImplementedException();
+        return loadedStates;
     }
 
-    public void LoadState(SelectableState state)
+    public void LoadState(ISelectableState state)
     {
-        throw new System.NotImplementedException();
+        if (loadedStates == null)
+        {
+            loadedStates = new List<ISelectableState>();
+        }
+
+        if (!loadedStates.Contains(state))
+        {
+            loadedStates.Add(state);
+        }
     }
 
-    public void RegisterListener(SelectableListener listener)
+    public void RegisterListener(ISelectableListener listener)
     {
-        throw new System.NotImplementedException();
+        if(listeners == null)
+        {
+            listeners = new List<ISelectableListener>();
+        }
+
+        if (!listeners.Contains(listener))
+        {
+            listeners.Add(listener);
+        }
     }
 
-    public void UnloadState(SelectableState state)
+    public void UnloadState(ISelectableState state)
     {
-        throw new System.NotImplementedException();
+        if (loadedStates == null)
+        {
+            loadedStates = new List<ISelectableState>();
+        }
+
+        if (loadedStates.Contains(state))
+        {
+            loadedStates.Remove(state);
+        }
     }
 
-    public void UnregisterListener(SelectableListener listener)
+    public void UnregisterListener(ISelectableListener listener)
     {
-        throw new System.NotImplementedException();
+        if (listeners == null)
+        {
+            listeners = new List<ISelectableListener>();
+        }
+
+        if (listeners.Contains(listener))
+        {
+            listeners.Remove(listener);
+        }
     }
+
+    protected void UpdateListeners()
+    {
+        foreach(var listener in listeners)
+        {
+            listener.SelectableUpdated();
+        }
+    }
+
+
 }

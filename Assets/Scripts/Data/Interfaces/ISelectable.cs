@@ -11,54 +11,54 @@ public interface ISelectable
     /// Register a listener to get updates from the selectable asset.  
     /// </summary>
     /// <param name="listener"></param>
-    void RegisterListener(SelectableListener listener);
+    void RegisterListener(ISelectableListener listener);
 
     /// <summary>
     /// Unregister a listener from a selectable.
     /// </summary>
     /// <param name="listener"></param>
-    void UnregisterListener(SelectableListener listener);
+    void UnregisterListener(ISelectableListener listener);
 
     /// <summary>
     /// Load a selectablestate's actions as a child gameobject of it's SelectableElement. Does not activate.
     /// </summary>
     /// <param name="state"></param>
-    void LoadState(SelectableState state);
+    void LoadState(ISelectableState state);
 
     /// <summary>
     /// Remove a selectablestate's actions from the available states. 
     /// </summary>
     /// <param name="state"></param>
-    void UnloadState(SelectableState state);
+    void UnloadState(ISelectableState state);
 
     /// <summary>
     /// Activate a state on the given selectable. Ideally should be pre-loaded to save elecution time. 
     /// </summary>
     /// <param name="state"></param>
     /// <param name="deactivateAllOthers">If true will set all active states on the selection to deactive *before* activating.</param>
-    void ActivateState(SelectableState state, bool deactivateAllOthers = false);
+    void ActivateState(ISelectableState state, bool deactivateAllOthers = false);
 
     /// <summary>
     /// Deactivates a given state on the selectable.
     /// </summary>
     /// <param name="state"></param>
-    void DeactivateState(SelectableState state);
+    void DeactivateState(ISelectableState state);
 
     /// <summary>
     /// Returns a list of Active States.
     /// </summary>
     /// <returns></returns>
-    List<SelectableState> GetActiveStates();
+    List<ISelectableState> GetActiveStates();
 
     /// <summary>
     /// Returns a list of loaded states.
     /// </summary>
     /// <returns></returns>
-    List<SelectableState> GetLoadedStates();
+    List<ISelectableState> GetLoadedStates();
 
     /// <summary>
     /// Returns a list of all listeners curretly active on this state.
     /// </summary>
     /// <returns></returns>
-    List<SelectableListener> GetListeners();
+    List<ISelectableListener> GetListeners();
 }

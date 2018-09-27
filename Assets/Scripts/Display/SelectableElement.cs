@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectableElement : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+/// <summary>
+/// Selectable Element indexes common dependencies. 
+/// </summary>
+[RequireComponent(typeof(SelectableStateController))]
+[RequireComponent(typeof(SelectableListener))]
+[RequireComponent(typeof(MeshRenderer))]
+public class SelectableElement : MonoBehaviour 
+{
+
+    public Selectable selectable;
+
+    public SelectableStateController stateController;
+    public SelectableListener listener;
+    public MeshRenderer meshRenderer;
+
+    private void Awake()
+    {
+        stateController = GetComponent<SelectableStateController>();
+        listener = GetComponent<SelectableListener>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        listener.selectable = selectable;
+    }
+
 }

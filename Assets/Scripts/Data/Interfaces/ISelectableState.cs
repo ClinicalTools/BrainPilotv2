@@ -5,6 +5,6 @@ using UnityEngine;
 public interface ISelectableState
 {
 
-    // nobody's home
+    List<GameObject> GetPrefabs();
 
 }

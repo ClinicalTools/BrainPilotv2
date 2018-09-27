@@ -1,16 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class SelectableListener : MonoBehaviour {
+public class SelectableListener : MonoBehaviour, ISelectableListener
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public Selectable selectable;
+
+    public UnityEvent selectableUpdated;
+
+    private void OnEnable()
+    {
+        selectable?.RegisterListener(this);
+    }
+
+    private void OnDisable()
+    {
+        selectable?.UnregisterListener(this);
+    }
+
+
+
+    public void SelectableUpdated()
+    {
+        selectableUpdated.Invoke();
+    }
 }

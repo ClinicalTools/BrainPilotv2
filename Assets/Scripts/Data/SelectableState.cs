@@ -9,7 +9,11 @@ using UnityEngine;
 [CreateAssetMenu]
 public class SelectableState : ScriptableObject, ISelectableState
 {
+    [Tooltip("Prefabs should have a script that implements ISelectableStateAction")]
+    public List<GameObject> actionPrefabs;
 
-    public List<GameObject> actions;
-
+    public List<GameObject> GetPrefabs()
+    {
+        return actionPrefabs;
+    }
 }
