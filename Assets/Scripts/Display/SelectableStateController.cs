@@ -54,18 +54,24 @@ public class SelectableStateController : MonoBehaviour
     {
         var activeStates = element.selectable.GetActiveStates();
 
-        var statesToDeactivate = localActiveStates.FindAll(state => !activeStates.Contains(state));
+        var statesToDeactivate = localActiveStates?.FindAll(state => !activeStates.Contains(state));
 
-        var statesToActivate = activeStates.FindAll(state => !localActiveStates.Contains(state));
+        var statesToActivate = activeStates?.FindAll(state => !localActiveStates.Contains(state));
 
-        foreach(var state in statesToDeactivate)
+        if (statesToDeactivate != null)
         {
-            manager.DeactivateState(state);
+            foreach (var state in statesToDeactivate)
+            {
+                manager.DeactivateState(state);
+            }
         }
 
-        foreach(var state in statesToActivate)
+        if (statesToActivate != null)
         {
-            manager.ActivateState(state);
+            foreach (var state in statesToActivate)
+            {
+                manager.ActivateState(state);
+            }
         }
     }
 
@@ -76,18 +82,24 @@ public class SelectableStateController : MonoBehaviour
     {
         var loadedStates = element.selectable.GetLoadedStates();
 
-        var statesToUnload = localLoadedStates.FindAll(state => !loadedStates.Contains(state));
+        var statesToUnload = localLoadedStates?.FindAll(state => !loadedStates.Contains(state));
 
-        var statesToLoad = loadedStates.FindAll(state => !localLoadedStates.Contains(state));
+        var statesToLoad = loadedStates?.FindAll(state => !localLoadedStates.Contains(state));
 
-        foreach(var state in statesToUnload)
+        if (statesToUnload != null)
         {
-            manager.UnloadState(state);
+            foreach (var state in statesToUnload)
+            {
+                manager.UnloadState(state);
+            }
         }
 
-        foreach(var state in statesToLoad)
+        if (statesToLoad != null)
         {
-            manager.LoadState(state);
+            foreach (var state in statesToLoad)
+            {
+                manager.LoadState(state);
+            }
         }
     }
 }
