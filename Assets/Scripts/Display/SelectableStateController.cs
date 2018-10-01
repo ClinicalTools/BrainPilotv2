@@ -15,8 +15,8 @@ public class SelectableStateController : MonoBehaviour
     public StateActionManager manager;
     public bool updateStates;
 
-    public List<ISelectableState> localLoadedStates;
-    public List<ISelectableState> localActiveStates;
+    public List<SelectableState> localLoadedStates;
+    public List<SelectableState> localActiveStates;
 
 	void Start () 
     {

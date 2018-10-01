@@ -5,16 +5,16 @@ using UnityEngine;
 public interface ISelectionGroup
 {
 
-    void RegisterSelectable(ISelectable selectable);
+    void RegisterSelectable(Selectable selectable);
 
-    void DeregisterSelecable(ISelectable selectable);
+    void DeregisterSelecable(Selectable selectable);
 
-    void LoadState(ISelectableState state);
+    void LoadState(SelectableState state);
 
-    void UnloadState(ISelectableState state);
+    void UnloadState(SelectableState state);
 
-    void ActivateState(ISelectableState state, bool deactivateAllOthers = false);
+    void ActivateState(SelectableState state, bool deactivateAllOthers = false);
 
-    void DeactivateState(ISelectableState state);
+    void DeactivateState(SelectableState state);
 
 }

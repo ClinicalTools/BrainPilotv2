@@ -6,9 +6,9 @@ using UnityEngine;
 public class SelectionGroup : ScriptableObject, ISelectionGroup
 {
 
-    public List<ISelectable> selectables;
+    public List<Selectable> selectables;
 
-    public void ActivateState(ISelectableState state, bool deactivateAllOthers = false)
+    public void ActivateState(SelectableState state, bool deactivateAllOthers = false)
     {
         if (selectables == null)
             return;
@@ -19,7 +19,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         }
     }
 
-    public void DeactivateState(ISelectableState state)
+    public void DeactivateState(SelectableState state)
     {
         if (selectables == null)
             return;
@@ -27,14 +27,15 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         foreach(Selectable selectable in selectables)
         {
             selectable.DeactivateState(state);
+            
         }
     }
 
-    public void DeregisterSelecable(ISelectable selectable)
+    public void DeregisterSelecable(Selectable selectable)
     {
         if (selectables == null)
         {
-            selectables = new List<ISelectable>();
+            selectables = new List<Selectable>();
         }
 
         if (selectables.Contains(selectable))
@@ -43,7 +44,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         }
     }
 
-    public void LoadState(ISelectableState state)
+    public void LoadState(SelectableState state)
     {
         if (selectables == null)
             return;
@@ -54,11 +55,11 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         }
     }
 
-    public void RegisterSelectable(ISelectable selectable)
+    public void RegisterSelectable(Selectable selectable)
     {
         if (selectables == null)
         {
-            selectables = new List<ISelectable>();
+            selectables = new List<Selectable>();
         }
 
         if (!selectables.Contains(selectable))
@@ -68,7 +69,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
     }
 
-    public void UnloadState(ISelectableState state)
+    public void UnloadState(SelectableState state)
     {
         if (selectables == null)
             return;

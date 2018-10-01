@@ -14,11 +14,15 @@ using UnityEngine.Events;
 public class Selectable : ScriptableObject, ISelectable
 {
 
-    public List<ISelectableListener> listeners;
+    public List<SelectableListener> listeners;
 
-    public List<ISelectableState> loadedStates;
+    public List<SelectableState> loadedStates;
 
-    public List<ISelectableState> activeStates;
+    public List<SelectableState> activeStates;
+
+
+
+
 
 
     /// <summary>
@@ -26,11 +30,11 @@ public class Selectable : ScriptableObject, ISelectable
     /// </summary>
     /// <param name="state">State.</param>
     /// <param name="deactivateAllOthers">If set to <c>true</c> deactivate all others.</param>
-    public void ActivateState(ISelectableState state, bool deactivateAllOthers = false)
+    public void ActivateState(SelectableState state, bool deactivateAllOthers = false)
     {
         if (activeStates == null)
         {
-            activeStates = new List<ISelectableState>();
+            activeStates = new List<SelectableState>();
         }
         
 
@@ -38,19 +42,19 @@ public class Selectable : ScriptableObject, ISelectable
         {
             activeStates.Clear();
         }
-        if (!loadedStates.Contains(state))
+        if (!loadedStates.Contains(state as SelectableState))
         {
             LoadState(state);
         }
-        if (!activeStates.Contains(state))
+        if (!activeStates.Contains(state as SelectableState))
         {
-            activeStates.Add(state);
+            activeStates.Add(state as SelectableState);
         }
         UpdateListeners();
     }
 
 
-    public void DeactivateState(ISelectableState state)
+    public void DeactivateState(SelectableState state)
     {
         if (activeStates.Contains(state))
         {
@@ -59,26 +63,26 @@ public class Selectable : ScriptableObject, ISelectable
         }
     }
 
-    public List<ISelectableState> GetActiveStates()
+    public List<SelectableState> GetActiveStates()
     {
         return activeStates;
     }
 
-    public List<ISelectableListener> GetListeners()
+    public List<SelectableListener> GetListeners()
     {
         return listeners;
     }
 
-    public List<ISelectableState> GetLoadedStates()
+    public List<SelectableState> GetLoadedStates()
     {
         return loadedStates;
     }
 
-    public void LoadState(ISelectableState state)
+    public void LoadState(SelectableState state)
     {
         if (loadedStates == null)
         {
-            loadedStates = new List<ISelectableState>();
+            loadedStates = new List<SelectableState>();
         }
 
         if (!loadedStates.Contains(state))
@@ -87,11 +91,11 @@ public class Selectable : ScriptableObject, ISelectable
         }
     }
 
-    public void RegisterListener(ISelectableListener listener)
+    public void RegisterListener(SelectableListener listener)
     {
         if(listeners == null)
         {
-            listeners = new List<ISelectableListener>();
+            listeners = new List<SelectableListener>();
         }
 
         if (!listeners.Contains(listener))
@@ -100,11 +104,11 @@ public class Selectable : ScriptableObject, ISelectable
         }
     }
 
-    public void UnloadState(ISelectableState state)
+    public void UnloadState(SelectableState state)
     {
         if (loadedStates == null)
         {
-            loadedStates = new List<ISelectableState>();
+            loadedStates = new List<SelectableState>();
         }
 
         if (loadedStates.Contains(state))
@@ -113,11 +117,11 @@ public class Selectable : ScriptableObject, ISelectable
         }
     }
 
-    public void UnregisterListener(ISelectableListener listener)
+    public void UnregisterListener(SelectableListener listener)
     {
         if (listeners == null)
         {
-            listeners = new List<ISelectableListener>();
+            listeners = new List<SelectableListener>();
         }
 
         if (listeners.Contains(listener))

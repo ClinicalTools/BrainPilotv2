@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50e6ff6c20b3ab4bb1999413e87d903, type: 3}
+  m_Name: Somethingelse 2
+  m_EditorClassIdentifier: 
+  selectables:
+  - {fileID: 11400000, guid: 7e45a6a0cfdd24d65a28b82b021c8a16, type: 2}
+  - {fileID: 11400000, guid: b338cdb0cebe4430db9f11bc5a98a1f1, type: 2}
+  - {fileID: 11400000, guid: e63abfc05e98d4cce87a31dcd3ff3a73, type: 2}
+  - {fileID: 11400000, guid: 3bcbce016b80c4b44af852a17d92ac5e, type: 2}
