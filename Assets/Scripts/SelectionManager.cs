@@ -13,6 +13,13 @@ public class SelectionManager : ScriptableObject
 
     public List<SelectableState> allSelectionStates;
 
+    public void LoadAssetList()
+    {
+        FindAllSelectables();
+        FindAllSelectionGroups();
+        FindAllSelectionStates();
+    }
+
     public void LoadStateOnGroup(SelectableState state, SelectionGroup group)
     {
         group.LoadState(state);

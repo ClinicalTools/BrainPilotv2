@@ -106,6 +106,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93f3bdcf994bc4b82af1071994428d2c, type: 2}
   - {fileID: 11400000, guid: 414045effd9df473da55da7b7d71ee54, type: 2}
   allSelectionGroups:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: dadcb8c74a02a6144a44020696f64015, type: 2}
+  - {fileID: 11400000, guid: 8977ab504ae2e2942970515b876908b9, type: 2}
   - {fileID: 11400000, guid: b936180be275c74488abb792c9a1af92, type: 2}
-  allSelectionStates: []
+  - {fileID: 11400000, guid: e53a532b132996e47963e713eed4738f, type: 2}
+  - {fileID: 11400000, guid: a425ae8c4d1678946b8129cdc277210b, type: 2}
+  allSelectionStates:
+  - {fileID: 11400000, guid: 133c14b7e93fa444e98e3418f4750103, type: 2}
