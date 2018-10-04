@@ -21,9 +21,7 @@ public class SelectionManagerInspector : Editor {
 
     readonly string PathToSelectionGroups = "Assets/Data/SelectionGroups/";
 
-    List<SelectableState> availableStates;
-    string stateSearch = "";
-    Vector2 stateScrollPos;
+    SelectableState targetState;
 
     List<SelectableState> loadedStates;
     List<SelectableState> inverseLoadedStates;
@@ -39,8 +37,6 @@ public class SelectionManagerInspector : Editor {
         base.OnInspectorGUI();
         manager = target as SelectionManager;
         manager.LoadAssetList();
-
-        availableStates = manager.allSelectionStates;
 
         if (loadedStates == null)
             loadedStates = new List<SelectableState>();
@@ -61,10 +57,10 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplayStateHandler()
     {
-        EditorGUILayout.BeginHorizontal();
         
-
         DisplayStateSelector();
+
+        EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
 
         DisplayLoadedStates();
 
@@ -75,35 +71,24 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplayStateSelector()
     {
-        EditorGUILayout.BeginVertical("box", GUILayout.Height(300f), GUILayout.Width(300f));
 
-        EditorGUILayout.LabelField("States", GUILayout.Width(Screen.width * .3f));
-        stateSearch = EditorGUILayout.TextField(stateSearch);
+        EditorGUILayout.Space();
+        EditorGUILayout.BeginHorizontal("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
 
-        stateScrollPos = EditorGUILayout.BeginScrollView(stateScrollPos);
-        foreach(var state in manager.allSelectionStates)
+        targetState = (SelectableState)EditorGUILayout.ObjectField(targetState, typeof(SelectableState), false);
+
+        if (GUILayout.Button("Load"))
         {
-            if (!state.name.ToLowerInvariant().Contains(stateSearch.ToLowerInvariant()) || loadedStates.Contains(state) || inverseLoadedStates.Contains(state))
-            {
-                continue;
-            }
-
-            EditorGUILayout.BeginHorizontal();
-
-            EditorGUILayout.LabelField(state.name, GUILayout.Width(Screen.width * .18f));
-
-            if(GUILayout.Button("Load"))
-            {
-                if (!loadedStates.Contains(state))
-                    loadedStates.Add(state);
-                
-            }
-
-            EditorGUILayout.EndHorizontal();
+            if (targetState != null && !loadedStates.Contains(targetState))
+                loadedStates.Add(targetState);
         }
-        EditorGUILayout.EndScrollView();
+        if (GUILayout.Button("Load Inverse"))
+        {
+            if (targetState != null && !inverseLoadedStates.Contains(targetState))
+                inverseLoadedStates.Add(targetState);
+        }
 
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
     }
 
 
@@ -113,10 +98,10 @@ public class SelectionManagerInspector : Editor {
     /// </summary>
     private void DisplayLoadedStates()
     {
-        EditorGUILayout.BeginVertical("box", GUILayout.Height(300f));
+        EditorGUILayout.BeginVertical("box", GUILayout.Height(300f), GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .45f));
 
         EditorGUILayout.BeginVertical("box", GUILayout.Height(145f));
-        EditorGUILayout.LabelField("Loaded States", GUILayout.Width(Screen.width * .3f));
+        EditorGUILayout.LabelField("Loaded States", GUILayout.MinWidth(100f));
 
         
         if (loadedStates == null)
@@ -130,16 +115,21 @@ public class SelectionManagerInspector : Editor {
             }
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField(loadedStates[i].name, GUILayout.Width(Screen.width * .2f));
-            if (GUILayout.Button("Unload", GUILayout.Width(100f)))
+            EditorGUILayout.LabelField(loadedStates[i].name, GUILayout.MinWidth(100f));
+            if (GUILayout.Button("->", GUILayout.Width(50f)))
             {
-                loadedStates.RemoveAt(i);
+                activeStates.Add(loadedStates[i]);
             }
-            if (GUILayout.Button("\u2195"))
+            if (GUILayout.Button("\u2195", GUILayout.Width(50f)))
             {
                 inverseLoadedStates.Add(loadedStates[i]);
                 loadedStates.RemoveAt(i);
             }
+            if (GUILayout.Button("X", GUILayout.Width(50f)))
+            {
+                loadedStates.RemoveAt(i);
+            }
+
 
             EditorGUILayout.EndHorizontal();
         }
@@ -152,7 +142,7 @@ public class SelectionManagerInspector : Editor {
         // *** INVERSE LOADED STATES ***
         EditorGUILayout.BeginVertical("box", GUILayout.Height(145f));
         
-        EditorGUILayout.LabelField("Inverse Loaded States", GUILayout.Width(Screen.width * .3f));
+        EditorGUILayout.LabelField("Inverse Loaded States", GUILayout.MinWidth(100f));
 
         for (int i = inverseLoadedStates.Count - 1; i >= 0; i--)
         {
@@ -160,16 +150,22 @@ public class SelectionManagerInspector : Editor {
             {
                 continue;
             }
+
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField(inverseLoadedStates[i].name, GUILayout.Width(Screen.width * .2f));
-            if (GUILayout.Button("Unload", GUILayout.Width(100f)))
+            EditorGUILayout.LabelField(inverseLoadedStates[i].name, GUILayout.MinWidth(100f));
+
+            if (GUILayout.Button("->", GUILayout.Width(50f)))
             {
-                inverseLoadedStates.RemoveAt(i);
+                inverseActiveStates.Add(inverseLoadedStates[i]);
             }
-            if (GUILayout.Button("\u2195"))
+            if (GUILayout.Button("\u2195", GUILayout.Width(50f)))
             {
                 loadedStates.Add(inverseLoadedStates[i]);
+                inverseLoadedStates.RemoveAt(i);
+            }
+            if (GUILayout.Button("X", GUILayout.Width(50f)))
+            {
                 inverseLoadedStates.RemoveAt(i);
             }
 
@@ -185,24 +181,78 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplayActiveStates()
     {
-        EditorGUILayout.BeginVertical("box", GUILayout.Height(300f), GUILayout.Width(Screen.width * .3f));
+        EditorGUILayout.BeginVertical("box", GUILayout.Height(300f), GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .45f));
 
-        EditorGUILayout.BeginHorizontal("box");
-        EditorGUILayout.LabelField("Active States", GUILayout.Width(Screen.width * .3f));
-        // loaded states
-        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .45f), GUILayout.Height(145f));
+        EditorGUILayout.LabelField("Active States", GUILayout.MinWidth(100f));
 
-        EditorGUILayout.BeginHorizontal("box");
-        EditorGUILayout.LabelField("Inverse Active States", GUILayout.Width(Screen.width * .3f));
-        // inverse loaded states
-        EditorGUILayout.EndHorizontal();
+        // ****ACTIVE STATES******
+        for (int i = activeStates.Count - 1; i >= 0; i--)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField(activeStates[i].name, GUILayout.MinWidth(100f));
+
+            if (GUILayout.Button("<-", GUILayout.Width(50f)))   // just need to remove this entry from our own list, since it stays in loaded states but is not displayed
+            {
+                activeStates.RemoveAt(i);
+            }
+            if (GUILayout.Button("\u2195", GUILayout.Width(50f))) // switch to inverse, so need to switch pretty much everything! 
+            {
+                inverseActiveStates.Add(activeStates[i]);
+                inverseLoadedStates.Add(activeStates[i]);
+                loadedStates.Remove(activeStates[i]);
+                activeStates.RemoveAt(i);
+            }
+            if (GUILayout.Button("X", GUILayout.Width(50f))) // remove entirely
+            {
+                loadedStates.Remove(activeStates[i]);
+                activeStates.RemoveAt(i);
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .45f), GUILayout.Height(145f));
+        EditorGUILayout.LabelField("Inverse Active States", GUILayout.MinWidth(100f));
+
+        // ******INVERSE ACTIVE STATES*************
+        for (int i = inverseActiveStates.Count - 1; i >= 0; i--)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField(inverseActiveStates[i].name, GUILayout.MinWidth(100f));
+
+            if (GUILayout.Button("<-", GUILayout.Width(50f)))
+            {
+                inverseActiveStates.RemoveAt(i);
+            }
+            if (GUILayout.Button("\u2195", GUILayout.Width(50f))) // switch everything! 
+            {
+                loadedStates.Add(inverseActiveStates[i]);
+                activeStates.Add(inverseActiveStates[i]);
+                inverseLoadedStates.Remove(inverseActiveStates[i]);
+                inverseActiveStates.RemoveAt(i);
+            }
+            if (GUILayout.Button("X", GUILayout.Width(50f)))
+            {
+                inverseLoadedStates.Remove(inverseActiveStates[i]);
+                inverseActiveStates.RemoveAt(i);
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        EditorGUILayout.EndVertical();
 
         EditorGUILayout.EndVertical();
     }
 
     private void DisplayGroupSelector()
     {
-        EditorGUILayout.BeginHorizontal("box");
+        EditorGUILayout.BeginHorizontal("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
 
         targetGroup = (SelectionGroup)EditorGUILayout.ObjectField(targetGroup, typeof(SelectionGroup), false);
 
@@ -224,7 +274,7 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplayGroupEditor()
     {
-        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
          
         DisplaySelectionList();
         DisplayGroupList();
@@ -236,7 +286,7 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplayGroupOptions()
     {
-        EditorGUILayout.BeginVertical("box");
+        EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
         EditorGUILayout.Space();
 
         groupInProgressName = EditorGUILayout.TextField("Group Name", groupInProgressName);
@@ -293,16 +343,16 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplayGroupList()
     {
-        EditorGUILayout.BeginVertical("box");
-        EditorGUILayout.LabelField("Group:" + groupInProgressName);
+        EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .45f));
+        EditorGUILayout.LabelField("Group:" + groupInProgressName, GUILayout.Width(100f));
 
-        groupScrollPos = EditorGUILayout.BeginScrollView(groupScrollPos, GUILayout.Width(Screen.width * .45f),  GUILayout.Height(300f));
+        groupScrollPos = EditorGUILayout.BeginScrollView(groupScrollPos, GUILayout.Height(300f));
         for(int i = groupInProgress.Count - 1; i >= 0; i--)
         {
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField(groupInProgress[i].name, GUILayout.Width(Screen.width * .3f));
-            if (GUILayout.Button("-", GUILayout.ExpandWidth(true)))
+            EditorGUILayout.LabelField(groupInProgress[i].name, GUILayout.MinWidth(100f));
+            if (GUILayout.Button("-", GUILayout.Width(50f)))
             {
                 groupInProgress.RemoveAt(i);
             }
@@ -318,10 +368,11 @@ public class SelectionManagerInspector : Editor {
 
     private void DisplaySelectionList()
     {
-        Rect rect = (Rect)EditorGUILayout.BeginVertical("box");
-        EditorGUILayout.LabelField("Selectables");
-        selectableScrollPos = EditorGUILayout.BeginScrollView(selectableScrollPos, GUILayout.Width(Screen.width * .45f), GUILayout.Height(300f));
+        EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .45f));
+        EditorGUILayout.LabelField("Selectables", GUILayout.Width(100f));
         selectableSearch = EditorGUILayout.TextField(selectableSearch);
+
+        selectableScrollPos = EditorGUILayout.BeginScrollView(selectableScrollPos, GUILayout.Height(300f), GUILayout.Width(EditorGUIUtility.currentViewWidth * .45f));
         foreach (var selectable in manager.allSelectables)
         {
             if (!selectable.name.ToLowerInvariant().Contains(selectableSearch.ToLowerInvariant()) || groupInProgress.Contains(selectable)) // checks for case insensitive match
@@ -330,8 +381,8 @@ public class SelectionManagerInspector : Editor {
             EditorGUILayout.BeginHorizontal();
             
 
-            EditorGUILayout.LabelField(selectable.name, GUILayout.Width(Screen.width * .3f));
-            if (GUILayout.Button("+"))
+            EditorGUILayout.LabelField(selectable.name, GUILayout.MinWidth(100f));
+            if (GUILayout.Button("+", GUILayout.Width(50f)))
             {
                 groupInProgress.Add(selectable);
             }

@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class StateActionManager : MonoBehaviour 
 {
 
-    public Dictionary<ISelectableState, List<SelectableStateAction>> loadedStateDictionary;
-    public Dictionary<ISelectableState, List<SelectableStateAction>> activeStateDictionary;
+    public Dictionary<SelectableState, List<SelectableStateAction>> loadedStateDictionary;
+    public Dictionary<SelectableState, List<SelectableStateAction>> activeStateDictionary;
 
 
     /// <summary>
     /// Loads the state's prefab GameObjects as children of this GameObject, and runs Load() on all SelectableStateAction scripts on the child.
     /// </summary>
     /// <param name="state">Selectable State Asset</param>
-    public void LoadState(ISelectableState state)
+    public void LoadState(SelectableState state)
     {
         if (loadedStateDictionary == null)
         {
-            loadedStateDictionary = new Dictionary<ISelectableState, List<SelectableStateAction>>();
+            loadedStateDictionary = new Dictionary<SelectableState, List<SelectableStateAction>>();
         }
 
         var actions = new List<SelectableStateAction>();
@@ -54,7 +55,7 @@ public class StateActionManager : MonoBehaviour
     /// Unloads the state, but will not remove a GameObject (this should be done by the state actions!)
     /// </summary>
     /// <param name="state">State.</param>
-    public void UnloadState(ISelectableState state)
+    public void UnloadState(SelectableState state)
     {
         if (loadedStateDictionary.ContainsKey(state))
         {
@@ -70,7 +71,7 @@ public class StateActionManager : MonoBehaviour
     /// Activates a state on an element, sending a message to all the associated actions previously loaded by that <paramref name="state"/>.
     /// </summary>
     /// <param name="state">State.</param>
-    public void ActivateState(ISelectableState state)
+    public void ActivateState(SelectableState state)
     {
         if (!loadedStateDictionary.ContainsKey(state))
         {
@@ -80,7 +81,7 @@ public class StateActionManager : MonoBehaviour
 
         if (activeStateDictionary == null)
         {
-            activeStateDictionary = new Dictionary<ISelectableState, List<SelectableStateAction>>();
+            activeStateDictionary = new Dictionary<SelectableState, List<SelectableStateAction>>();
         }
 
         activeStateDictionary.Add(state, loadedStateDictionary[state]);
@@ -96,7 +97,7 @@ public class StateActionManager : MonoBehaviour
     /// Deactivates a state if it was active. 
     /// </summary>
     /// <param name="state">State.</param>
-    public void DeactivateState(ISelectableState state)
+    public void DeactivateState(SelectableState state)
     {
         if (!activeStateDictionary.ContainsKey(state))
         {

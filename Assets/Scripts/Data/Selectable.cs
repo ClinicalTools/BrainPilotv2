@@ -111,6 +111,11 @@ public class Selectable : ScriptableObject, ISelectable
             loadedStates = new List<SelectableState>();
         }
 
+        if (activeStates.Contains(state))
+        {
+            activeStates.Remove(state);
+        }
+
         if (loadedStates.Contains(state))
         {
             loadedStates.Remove(state);

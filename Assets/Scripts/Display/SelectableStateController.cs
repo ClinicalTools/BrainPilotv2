@@ -8,6 +8,7 @@ using UnityEngine;
 /// State Action Manager to actually index and toggle the individual actions according to what states are active. 
 /// </summary>
 [RequireComponent(typeof(StateActionManager))]
+[ExecuteInEditMode]
 public class SelectableStateController : MonoBehaviour 
 {
 

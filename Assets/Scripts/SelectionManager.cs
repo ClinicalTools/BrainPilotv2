@@ -49,6 +49,34 @@ public class SelectionManager : ScriptableObject
         ActivateStateOnGroup(state, inverseOfGroup);
     }
 
+    public void LoadStateOnInverse(SelectableState state, SelectionGroup group)
+    {
+        var inverseOfGroup = new SelectionGroup
+        {
+            selectables = new List<Selectable>(allSelectables.FindAll(selectable => !group.selectables.Contains(selectable)))
+        };
+        LoadStateOnGroup(state, inverseOfGroup);
+    }
+
+    public void UnloadStateOnInverse(SelectableState state, SelectionGroup group)
+    {
+        var inverseOfGroup = new SelectionGroup
+        {
+            selectables = new List<Selectable>(allSelectables.FindAll(selectable => !group.selectables.Contains(selectable)))
+        };
+        UnloadStateOnGroup(state, inverseOfGroup);
+    }
+
+
+    public void DeactiveateStateOnInverse(SelectableState state, SelectionGroup group)
+    {
+        var inverseOfGroup = new SelectionGroup
+        {
+            selectables = new List<Selectable>(allSelectables.FindAll(selectable => !group.selectables.Contains(selectable)))
+        };
+        DeactivateStateOnGroup(state, inverseOfGroup);
+    }
+
     public void ApplyStateToAll(SelectableState state)
     {
         var all = new SelectionGroup

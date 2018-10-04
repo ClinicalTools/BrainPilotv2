@@ -25,7 +25,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         }
         if (!activeStates.Contains(state))
         {
-            activeStates.Remove(state);
+            activeStates.Add(state);
         }
     }
 
@@ -40,8 +40,9 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
     public void UnloadAll()
     {
-        foreach(var state in loadedStates)
+        for(int i = loadedStates.Count - 1; i >= 0; i--)
         {
+            var state = loadedStates[i];
             DeactivateState(state);
             UnloadState(state);
         }

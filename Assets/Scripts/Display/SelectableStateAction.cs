@@ -31,7 +31,12 @@ public class SelectableStateAction : MonoBehaviour, ISelectableStateAction
     /// </summary>
     public virtual void Remove()
     {
+#if UNITY_EDITOR
+        DestroyImmediate(gameObject);
+#else
         Destroy(gameObject);
+#endif
+
     }
 
 }

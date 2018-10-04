@@ -8,11 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
-  m_Name: L_Cerebrum
+  m_Script: {fileID: 11500000, guid: a50e6ff6c20b3ab4bb1999413e87d903, type: 3}
+  m_Name: Cerebrum
   m_EditorClassIdentifier: 
-  listeners:
-  - {fileID: 0}
+  selectables:
+  - {fileID: 11400000, guid: 73811409e5a8d483082050760fcb2d93, type: 2}
+  - {fileID: 11400000, guid: a43ec04c01b574b5b8fef4389fb26f19, type: 2}
   loadedStates: []
   activeStates: []
-  description: 

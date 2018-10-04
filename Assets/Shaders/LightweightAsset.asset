@@ -18,8 +18,8 @@ MonoBehaviour:
   m_RequireSoftParticles: 0
   m_RequireOpaqueTexture: 0
   m_OpaqueDownsampling: 1
-  m_SupportsHDR: 0
-  m_MSAA: 2
+  m_SupportsHDR: 1
+  m_MSAA: 4
   m_RenderScale: 1
   m_SupportsDynamicBatching: 1
   m_DirectionalShadowsSupported: 1
@@ -43,5 +43,5 @@ MonoBehaviour:
     useOcclusionMesh: 0
     occlusionMaskScale: 1
     showDeviceView: 1
-    gameViewRenderMode: 3
+    gameViewRenderMode: 4
   m_ShadowType: 1

@@ -8,7 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16b282af8512d4c4c896fa34de0121f0, type: 3}
-  m_Name: New Selectable State
+  m_Script: {fileID: 11500000, guid: a50e6ff6c20b3ab4bb1999413e87d903, type: 3}
+  m_Name: UntitledSelectionGroup
   m_EditorClassIdentifier: 
-  actionPrefabs: []
+  selectables: []
+  loadedStates: []
+  activeStates: []

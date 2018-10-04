@@ -7,14 +7,14 @@ public class SelectionBundle : ScriptableObject {
     public SelectionBundle(SelectionGroup group, List<SelectableState> states, List<SelectableState> inverse)
     {
         selectionGroup = group;
-        selectableStates = states;
-        inverseStates = inverse;
+        loadedStates = states;
+        inverseLoadedStates = inverse;
     }
 
     public SelectionGroup selectionGroup;
 
-    public List<SelectableState> selectableStates;
+    public List<SelectableState> loadedStates;
 
-    public List<SelectableState> inverseStates;
+    public List<SelectableState> inverseLoadedStates;
 
 }

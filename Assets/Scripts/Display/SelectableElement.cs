@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(SelectableStateController))]
 [RequireComponent(typeof(SelectableListener))]
 [RequireComponent(typeof(MeshRenderer))]
+[ExecuteInEditMode]
 public class SelectableElement : MonoBehaviour 
 {
 
