@@ -32,10 +32,15 @@ public class SelectableStateController : MonoBehaviour
     /// <summary>
     /// When called, will run updates in the next Update()
     /// </summary>
-    void UpdateNextFrame()
+    public void UpdateNextFrame()
     {
         updateStates = true;
+        if (Application.isEditor && !Application.isPlaying)     // are we only in the editor? then let's apply our changes right away
+        {
+            Update();
+        }
     }
+    
 
     private void Update()
     {
@@ -64,6 +69,7 @@ public class SelectableStateController : MonoBehaviour
             foreach (var state in statesToDeactivate)
             {
                 manager.DeactivateState(state);
+                localActiveStates.Remove(state);
             }
         }
 
@@ -72,6 +78,7 @@ public class SelectableStateController : MonoBehaviour
             foreach (var state in statesToActivate)
             {
                 manager.ActivateState(state);
+                localActiveStates.Add(state);
             }
         }
     }
@@ -92,6 +99,8 @@ public class SelectableStateController : MonoBehaviour
             foreach (var state in statesToUnload)
             {
                 manager.UnloadState(state);
+                localLoadedStates.Remove(state);
+                //Debug.Log("Unloading state: " + state.name + " on " + transform.name);
             }
         }
 
@@ -100,6 +109,8 @@ public class SelectableStateController : MonoBehaviour
             foreach (var state in statesToLoad)
             {
                 manager.LoadState(state);
+                localLoadedStates.Add(state);
+                //Debug.Log("Loading state: " + state.name + " on " + transform.name);
             }
         }
     }

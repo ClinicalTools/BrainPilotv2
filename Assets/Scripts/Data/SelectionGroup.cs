@@ -13,7 +13,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
     public void ActivateState(SelectableState state, bool deactivateAllOthers = false)
     {
-        if (selectables == null)
+        if (selectables == null || state == null)
             return;
 
         if (activeStates == null)
@@ -22,6 +22,10 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         foreach(Selectable selectable in selectables)
         {
             selectable.ActivateState(state, deactivateAllOthers);
+        }
+        if (!loadedStates.Contains(state))
+        {
+            loadedStates.Add(state);
         }
         if (!activeStates.Contains(state))
         {
@@ -50,7 +54,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
     public void DeactivateState(SelectableState state)
     {
-        if (selectables == null)
+        if (selectables == null || state == null)
             return;
 
         if(activeStates == null)
@@ -84,7 +88,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
     public void LoadState(SelectableState state)
     {
-        if (selectables == null)
+        if (selectables == null || state == null)
             return;
 
         if (loadedStates == null)
@@ -116,7 +120,7 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
     public void UnloadState(SelectableState state)
     {
-        if (selectables == null)
+        if (selectables == null || state == null)
             return;
 
         if (loadedStates == null)
@@ -129,6 +133,10 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         if (loadedStates.Contains(state))
         {
             loadedStates.Remove(state);
+        }
+        if (activeStates.Contains(state))
+        {
+            activeStates.Remove(state);
         }
     }
 }

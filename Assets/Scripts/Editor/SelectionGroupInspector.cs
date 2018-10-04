@@ -32,6 +32,10 @@ public class SelectionGroupInspector : Editor {
         {
             group.ActivateState(state);
         }
+        if (GUILayout.Button("Deactivate"))
+        {
+            group.DeactivateState(state);
+        }
     }
 
 }

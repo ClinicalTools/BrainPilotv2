@@ -20,6 +20,8 @@ public class StateActionManager : MonoBehaviour
         {
             loadedStateDictionary = new Dictionary<SelectableState, List<SelectableStateAction>>();
         }
+        if (state == null)
+            return;
 
         var actions = new List<SelectableStateAction>();
 
@@ -48,7 +50,8 @@ public class StateActionManager : MonoBehaviour
         }
 
         // index these actions
-        loadedStateDictionary.Add(state, actions);
+        if (!loadedStateDictionary.ContainsKey(state))
+            loadedStateDictionary.Add(state, actions);
     }
 
     /// <summary>
@@ -57,6 +60,11 @@ public class StateActionManager : MonoBehaviour
     /// <param name="state">State.</param>
     public void UnloadState(SelectableState state)
     {
+        if (loadedStateDictionary == null)
+        {
+            loadedStateDictionary = new Dictionary<SelectableState, List<SelectableStateAction>>();
+        }
+
         if (loadedStateDictionary.ContainsKey(state))
         {
             foreach (var action in loadedStateDictionary[state])

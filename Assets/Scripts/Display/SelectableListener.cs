@@ -26,5 +26,6 @@ public class SelectableListener : MonoBehaviour, ISelectableListener
     public void SelectableUpdated()
     {
         selectableUpdated.Invoke();
+        
     }
 }

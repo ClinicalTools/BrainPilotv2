@@ -59,8 +59,9 @@ public class Selectable : ScriptableObject, ISelectable
         if (activeStates.Contains(state))
         {
             activeStates.Remove(state);
-            UpdateListeners();
+            
         }
+        UpdateListeners();
     }
 
     public List<SelectableState> GetActiveStates()
@@ -89,6 +90,7 @@ public class Selectable : ScriptableObject, ISelectable
         {
             loadedStates.Add(state);
         }
+        UpdateListeners();
     }
 
     public void RegisterListener(SelectableListener listener)
@@ -114,12 +116,15 @@ public class Selectable : ScriptableObject, ISelectable
         if (activeStates.Contains(state))
         {
             activeStates.Remove(state);
+            UpdateListeners();
         }
 
         if (loadedStates.Contains(state))
         {
             loadedStates.Remove(state);
+            
         }
+        UpdateListeners();
     }
 
     public void UnregisterListener(SelectableListener listener)
@@ -137,9 +142,12 @@ public class Selectable : ScriptableObject, ISelectable
 
     protected void UpdateListeners()
     {
-        foreach(var listener in listeners)
+        for (int i = listeners.Count - 1; i >= 0; i--)
         {
-            listener.SelectableUpdated();
+            if (listeners[i] == null)
+                listeners.RemoveAt(i);
+
+            listeners[i].SelectableUpdated();
         }
     }
 
