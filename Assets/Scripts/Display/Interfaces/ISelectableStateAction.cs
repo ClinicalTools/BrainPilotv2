@@ -16,4 +16,10 @@ public interface ISelectableStateAction
 
     void Deactivate();
 
+    SelectableState State
+    {
+        get;
+        set;
+    }
+
 }

@@ -18,6 +18,8 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
 
         if (activeStates == null)
             activeStates = new List<SelectableState>();
+        if (loadedStates == null)
+            loadedStates = new List<SelectableState>();
 
         foreach(Selectable selectable in selectables)
         {

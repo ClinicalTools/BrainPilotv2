@@ -53,6 +53,12 @@ public class Selectable : ScriptableObject, ISelectable
         UpdateListeners();
     }
 
+    public void ResetAll()
+    {
+        activeStates.Clear();
+        loadedStates.Clear();
+        UpdateListeners();
+    }
 
     public void DeactivateState(SelectableState state)
     {

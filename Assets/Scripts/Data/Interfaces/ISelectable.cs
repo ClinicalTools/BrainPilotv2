@@ -47,6 +47,8 @@ public interface ISelectable
     /// <param name="state"></param>
     void DeactivateState(SelectableState state);
 
+    void ResetAll();
+
     /// <summary>
     /// Returns a list of Active States.
     /// </summary>

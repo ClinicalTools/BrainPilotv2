@@ -19,7 +19,7 @@ public class SelectableStateController : MonoBehaviour
     public List<SelectableState> localLoadedStates;
     public List<SelectableState> localActiveStates;
 
-	void Start () 
+	void OnEnable () 
     {
         element = GetComponent<SelectableElement>();
         manager = GetComponent<StateActionManager>();
@@ -34,9 +34,11 @@ public class SelectableStateController : MonoBehaviour
     /// </summary>
     public void UpdateNextFrame()
     {
+        //Debug.Log("Update Next Frame ?" + transform.name);
         updateStates = true;
         if (Application.isEditor && !Application.isPlaying)     // are we only in the editor? then let's apply our changes right away
         {
+            //Debug.Log("Editor Update Coming!");
             Update();
         }
     }
