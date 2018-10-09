@@ -3,11 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[ExecuteInEditMode]
 public class StateActionManager : MonoBehaviour 
 {
-    
 
+    private void OnEnable()
+    {
+        Reset();
+    }
+
+    [ContextMenu("Reset")]
+    private void Reset()
+    {
+        UnloadState(null);
+        // this will remove all states left over that have lost their state property reference
+
+    }
 
     /// <summary>
     /// Loads the state's prefab GameObjects as children of this GameObject, and runs Load() on all SelectableStateAction scripts on the child.
@@ -78,6 +89,8 @@ public class StateActionManager : MonoBehaviour
         var actions = new List<SelectableStateAction>(GetComponentsInChildren<SelectableStateAction>());
         actions.FindAll(action => action.State == state).ForEach(action => action.Deactivate());
     }
+
+
 
 
 }

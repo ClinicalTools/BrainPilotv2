@@ -97,7 +97,7 @@ public class OvrAvatar : MonoBehaviour
     private Dictionary<string, OvrAvatarComponent> trackedComponents =
         new Dictionary<string, OvrAvatarComponent>();
 
-    private UnityEvent AssetsDoneLoading = new UnityEvent();
+    public UnityEvent AssetsDoneLoading = new UnityEvent();
     bool assetsFinishedLoading = false;
 
     public Transform LeftHandCustomPose;

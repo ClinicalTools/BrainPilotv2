@@ -171,8 +171,9 @@ class OVREngineConfigurationUpdater
 		{
 			if (mgrs [i].isActiveAndEnabled)
 			{
-				Debug.Log ("Enabling Unity VR support");
-				PlayerSettings.virtualRealitySupported = true;
+				//Debug.Log ("Enabling Unity VR support");
+                if (!Application.isPlaying)
+				    PlayerSettings.virtualRealitySupported = true;
 
 				bool oculusFound = false;
 #if UNITY_2017_2_OR_NEWER

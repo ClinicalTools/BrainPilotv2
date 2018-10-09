@@ -11,6 +11,7 @@ public class SelectableStateAction : MonoBehaviour, ISelectableStateAction
 
     public bool active;
 
+    [SerializeField]
     public SelectableState State
     {
         get;

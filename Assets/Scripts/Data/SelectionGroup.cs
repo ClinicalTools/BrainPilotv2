@@ -85,6 +85,8 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         if (selectables.Contains(selectable))
         {
             selectables.Remove(selectable);
+            activeStates.ForEach(state => selectable.DeactivateState(state));
+            loadedStates.ForEach(state => selectable.UnloadState(state));
         }
     }
 
@@ -116,6 +118,8 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
         if (!selectables.Contains(selectable))
         {
             selectables.Add(selectable);
+            loadedStates.ForEach(state => selectable.LoadState(state));
+            activeStates.ForEach(state => selectable.ActivateState(state));
         }
 
     }
