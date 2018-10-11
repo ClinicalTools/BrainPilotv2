@@ -11,7 +11,7 @@ using UnityEngine.Events;
 
 [CreateAssetMenu]
 [Serializable]
-public class Selectable : ScriptableObject, ISelectable
+public class Selectable : ScriptableObject, ISelectable, IResettable
 {
 
     public List<SelectableListener> listeners;
@@ -104,6 +104,13 @@ public class Selectable : ScriptableObject, ISelectable
         {
             listeners.Add(listener);
         }
+    }
+
+    public void Reset()
+    {
+        activeStates.Clear();
+        loadedStates.Clear();
+        UpdateListeners();
     }
 
     public void UnloadState(SelectableState state)

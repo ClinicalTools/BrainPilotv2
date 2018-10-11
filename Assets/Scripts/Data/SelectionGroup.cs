@@ -139,4 +139,5 @@ public class SelectionGroup : ScriptableObject, ISelectionGroup
             activeStates.Remove(state);
         }
     }
+
 }
