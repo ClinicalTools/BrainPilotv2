@@ -20,6 +20,7 @@ public class SelectionManagerInspector : Editor {
     List<Selectable> groupInProgress;
 
     readonly string PathToSelectionGroups = "Assets/Data/SelectionGroups/";
+    readonly string PathToBundles = "Assets/Data/Bundles/";
 
     SelectableState targetState;
 
@@ -27,6 +28,9 @@ public class SelectionManagerInspector : Editor {
     List<SelectableState> inverseLoadedStates;
     List<SelectableState> activeStates;
     List<SelectableState> inverseActiveStates;
+
+    string bundleName = "";
+    SelectionBundle bundleAsset;
 
 
     public override void OnInspectorGUI()
@@ -53,6 +57,86 @@ public class SelectionManagerInspector : Editor {
 
         DisplayStateHandler();
 
+        DisplayBundleArea();
+
+    }
+
+    private void DisplayBundleArea()
+    {
+        EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
+        EditorGUILayout.LabelField("Bundles");
+        EditorGUILayout.Space();
+
+        EditorGUILayout.BeginHorizontal("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
+
+        EditorGUILayout.LabelField("Bundle Name:", GUILayout.Width(100f));
+        bundleName = EditorGUILayout.TextArea(bundleName);
+
+        if (GUILayout.Button("Save Changes", GUILayout.Width(200f)))
+        {
+            SaveChangesToBundle();
+        }
+        if (GUILayout.Button("Save as New", GUILayout.Width(200f)))
+        {
+            SaveNewBundle();
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
+
+        bundleAsset = (SelectionBundle) EditorGUILayout.ObjectField(bundleAsset, typeof(SelectionBundle), false);
+
+        if (GUILayout.Button("Load Bundle", GUILayout.Width(200f)))
+        {
+            manager.LoadNewBundle(bundleAsset);
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.EndVertical();
+    }
+
+    private void SaveChangesToBundle()
+    {
+        if (bundleAsset == null)
+        {
+            SaveNewBundle();
+            return;
+        }
+
+        bundleAsset.loadedStates = loadedStates;
+        bundleAsset.inverseLoadedStates = inverseLoadedStates;
+        bundleAsset.activeStates = activeStates;
+        bundleAsset.inverseActiveStates = inverseActiveStates;
+
+        EditorUtility.SetDirty(bundleAsset);
+        AssetDatabase.SaveAssets();
+        
+    }
+
+    private void SaveNewBundle()
+    {
+        if (targetGroup == null)
+        {
+            Debug.Log("Cannot Save a bundle without a group");
+        }
+
+        bundleName?.Trim();
+        if (bundleName == null || bundleName == "")
+        {
+            bundleName = "UntitledBundle";
+        }
+        var bundle = ScriptableObject.CreateInstance<SelectionBundle>();
+        bundle.selectionGroup = targetGroup;
+        bundle.loadedStates = loadedStates;
+        bundle.inverseLoadedStates = inverseLoadedStates;
+        bundle.activeStates = activeStates;
+        bundle.inverseActiveStates = inverseActiveStates;
+
+        string path = AssetDatabase.GenerateUniqueAssetPath(PathToBundles + bundleName + ".asset");
+        AssetDatabase.CreateAsset(bundle, path);
+        AssetDatabase.SaveAssets();
     }
 
     private void DisplayStateHandler()
@@ -67,6 +151,44 @@ public class SelectionManagerInspector : Editor {
         DisplayActiveStates();
         
         EditorGUILayout.EndHorizontal();
+
+        DisplayApplyButtons();
+    }
+
+    private void DisplayApplyButtons()
+    {
+
+        EditorGUILayout.Space();
+        EditorGUILayout.BeginHorizontal("box", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .9f));
+
+        if (GUILayout.Button("Apply", GUILayout.MaxWidth(200f)))
+        {
+            DoGroupApplyActions();
+        }
+        if (GUILayout.Button("Clear", GUILayout.MaxWidth(200f)))
+        {
+            manager.ClearAllStates(targetGroup);
+            
+        }
+        if (GUILayout.Button("Reset All", GUILayout.MaxWidth(200f)))
+        {
+            manager.ResetAllSelectables();
+            manager.ResetAllGroups();
+        }
+        
+        EditorGUILayout.EndHorizontal();
+
+    }
+
+    private void DoGroupApplyActions()
+
+        // TODO: replace with a bundle creation and pass to selection manager
+    {
+
+        var bundle = ScriptableObject.CreateInstance<SelectionBundle>();
+        bundle.Setup(targetGroup, loadedStates, inverseLoadedStates, activeStates, inverseActiveStates);
+        manager.ApplyNewBundle(bundle);
+    
     }
 
     private void DisplayStateSelector()
