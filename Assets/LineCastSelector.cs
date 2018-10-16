@@ -52,6 +52,10 @@ public class LineCastSelector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Raycasts out and gathers all Selectable Elements we find
+    /// Collates those into a SelectionGroup and positions our cursor at the farthest selectable we have
+    /// </summary>
     private void UpdateSelection()
     {
         Vector3 targetDirection = targetPosition - originPosition;
@@ -80,17 +84,30 @@ public class LineCastSelector : MonoBehaviour
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
 
-        // sort our hitlist to find the furthest away selectable
-        hitListSelectables.Sort((a, b) => Vector3.SqrMagnitude(a.point - originPosition) > Vector3.SqrMagnitude(b.point - originPosition) ? -1 : 1);
-        cursor.transform.position = hitListSelectables[0].point;
-        furthestSelectable = hitListSelectables[0].transform.GetComponent<SelectableElement>().selectable;
+        if (hitListSelectables.Count == 0)
+            return;
+
+        // sort our hitlist to find the furthest away selectable, put the cursor there and save the reference
+
+        //hitListSelectables.Sort((a, b) => Vector3.SqrMagnitude(a.point - originPosition) > Vector3.SqrMagnitude(b.point - originPosition) ? 1 : -1);
+        var sortedPoints = hitListSelectables.OrderByDescending(hit => Vector3.SqrMagnitude(hit.point - originPosition)).ToList();
+        Debug.Log(sortedPoints[0]);
+        cursor.transform.position = sortedPoints[0].point;
+        //cursor.transform.rotation = Quaternion.LookRotation(hitListSelectables[0].normal);
+        furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
     }
 
+    /// <summary>
+    /// Update the positions of the line renderer
+    /// </summary>
     private void UpdateLine()
     {
         line.SetPositions(new[] { originPosition, targetPosition });
     }
 
+    /// <summary>
+    /// Get the input from our Vec2 Resource and adjust the distance of our line caster accordingly
+    /// </summary>
     private void UpdatePositions()
     {
         float changeInDistance = inputAxis.Value.y * inputEffectFactor;
