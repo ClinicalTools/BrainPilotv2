@@ -13,6 +13,7 @@ public class LineCastSelector : MonoBehaviour
 
     public SelectionGroup selection;
     public Selectable furthestSelectable;
+    public UIElement uiTarget;
 
     public Vec2Resource inputAxis;
 
@@ -73,9 +74,30 @@ public class LineCastSelector : MonoBehaviour
             
         List<RaycastHit> hitList = new List<RaycastHit>(hits);
 
-        // map over to list of selectables
+        // select out the hits with Selectables on them
         var hitListSelectables = hitList.FindAll(hit => hit.collider.GetComponent<SelectableElement>());
-        var selectionHitList = hitListSelectables.Select(hit => hit.transform.GetComponent<SelectableElement>().selectable).ToList();
+
+        if (hitListSelectables.Count == 0)
+            return;
+
+        // sort our hitlist by distance
+        var sortedPoints = hitListSelectables.OrderByDescending(hit => Vector3.SqrMagnitude(hit.point - originPosition)).ToList();
+
+        // map over to a list of selectables
+        var selectionHitList = sortedPoints.Select(hit => hit.transform.GetComponent<SelectableElement>().selectable).ToList();
+
+        // check to see if we have a UI Element and if so pick the first one out
+        
+        if (selectionHitList.Any(selectable => selectable.GetType() == typeof(UIElement)))
+        {
+            var ui = selectionHitList.First(selectable => selectable.GetType() == typeof(UIElement));
+            uiTarget = ui as UIElement;
+            cursor.transform.position = sortedPoints[selectionHitList.IndexOf(ui)].point;
+            selectionHitList = new List<Selectable>
+            {
+                ui
+            };
+        }
 
         // add or remove selectables from our selection
         var selectablesToRegister = selectionHitList.Except(selection.selectables).ToList();
@@ -84,16 +106,7 @@ public class LineCastSelector : MonoBehaviour
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
 
-        if (hitListSelectables.Count == 0)
-            return;
-
-        // sort our hitlist to find the furthest away selectable, put the cursor there and save the reference
-
-        //hitListSelectables.Sort((a, b) => Vector3.SqrMagnitude(a.point - originPosition) > Vector3.SqrMagnitude(b.point - originPosition) ? 1 : -1);
-        var sortedPoints = hitListSelectables.OrderByDescending(hit => Vector3.SqrMagnitude(hit.point - originPosition)).ToList();
-        Debug.Log(sortedPoints[0]);
         cursor.transform.position = sortedPoints[0].point;
-        //cursor.transform.rotation = Quaternion.LookRotation(hitListSelectables[0].normal);
         furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
     }
 
