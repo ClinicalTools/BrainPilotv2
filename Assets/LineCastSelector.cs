@@ -98,6 +98,12 @@ public class LineCastSelector : MonoBehaviour
                 ui
             };
         }
+        else
+        {
+            uiTarget = null;
+            cursor.transform.position = sortedPoints[0].point;
+            furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
+        }
 
         // add or remove selectables from our selection
         var selectablesToRegister = selectionHitList.Except(selection.selectables).ToList();
@@ -105,9 +111,6 @@ public class LineCastSelector : MonoBehaviour
 
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
-
-        cursor.transform.position = sortedPoints[0].point;
-        furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
     }
 
     /// <summary>
