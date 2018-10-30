@@ -29,6 +29,8 @@ public class LineCastSelector : MonoBehaviour
     protected Vector3 targetPosition;
 
     public Transform cursor;
+    protected Vector3 cursorSavedPosition;
+    protected Quaternion cursorSavedRotation;
 
     private void Start()
     {
@@ -49,8 +51,19 @@ public class LineCastSelector : MonoBehaviour
         }
         else
         {
-            line.SetPositions(new[] { Vector3.zero, Vector3.zero});
+            
+            cursor.position = cursorSavedPosition;
+            cursor.LookAt(transform);
+            //cursor.rotation = cursorSavedRotation;
         }
+        cursor.LookAt(transform);
+    }
+
+    public void GetClickDown(bool clickDown)
+    {
+        cursorSavedPosition = cursor.position;
+        //cursorSavedRotation = cursor.rotation;
+        isActive = !clickDown;
     }
 
     /// <summary>
@@ -118,7 +131,9 @@ public class LineCastSelector : MonoBehaviour
     /// </summary>
     private void UpdateLine()
     {
+        line.positionCount = 2;
         line.SetPositions(new[] { originPosition, targetPosition });
+        
     }
 
     /// <summary>

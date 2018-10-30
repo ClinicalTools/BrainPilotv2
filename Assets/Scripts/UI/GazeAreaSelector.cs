@@ -34,8 +34,8 @@ public class GazeAreaSelector : MonoBehaviour {
     float GazeAngle(GazeReceiver receiver)
     {
         Vector3 receiverDirection = (receiver.transform.position - gazeTransform.position);
-        Debug.Log("Direction: " + receiverDirection);
-        return Vector3.Angle(receiverDirection, transform.forward);
+        //Debug.Log("Direction: " + receiverDirection);
+        return Vector3.Angle(receiverDirection, gazeTransform.forward);
     }
 
     private void Update()
