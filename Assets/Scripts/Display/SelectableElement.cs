@@ -19,7 +19,7 @@ public class SelectableElement : MonoBehaviour
     public SelectableListener listener;
     public MeshRenderer meshRenderer;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         stateController = GetComponent<SelectableStateController>();
         listener = GetComponent<SelectableListener>();
