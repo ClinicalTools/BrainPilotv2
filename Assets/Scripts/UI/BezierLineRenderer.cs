@@ -65,7 +65,7 @@ public class BezierLineRenderer : MonoBehaviour {
         return position + direction.normalized * amount;
     }
 
-    Vector3 BezierPathCalculation(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    public static Vector3 BezierPathCalculation(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
     {
         float tt = t * t;
         float ttt = t * tt;
