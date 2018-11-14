@@ -11,9 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d67abc1d360c164dadbc801ef41849a, type: 3}
   m_Name: HexElement
   m_EditorClassIdentifier: 
-  listeners: []
-  loadedStates: []
+  listeners:
+  - {fileID: 0}
+  loadedStates:
+  - {fileID: 0}
   activeStates: []
   hover: 0
-  hoverEvent: {fileID: 0}
-  clickEvent: {fileID: 0}
+  click: 0
+  gaze: 0
+  hoverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  gazeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  hoverState: {fileID: 0}
+  clickState: {fileID: 0}
+  gazeState: {fileID: 0}

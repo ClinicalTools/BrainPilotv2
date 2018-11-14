@@ -3,6 +3,10 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class UITargetEvent : UnityEvent<UIElement> { }
 
 [RequireComponent(typeof(LineRenderer))]
 public class LineCastSelector : MonoBehaviour
@@ -14,6 +18,9 @@ public class LineCastSelector : MonoBehaviour
     public SelectionGroup selection;
     public Selectable furthestSelectable;
     public UIElement uiTarget;
+    
+
+    public UITargetEvent newTargetEvent;
 
     public Vec2Resource inputAxis;
 
@@ -82,6 +89,7 @@ public class LineCastSelector : MonoBehaviour
         {
             cursor.transform.position = transform.position;
             furthestSelectable = null;
+            uiTarget = null;
             return;
         }
             
@@ -101,10 +109,14 @@ public class LineCastSelector : MonoBehaviour
 
         // check to see if we have a UI Element and if so pick the first one out
         
-        if (selectionHitList.Any(selectable => selectable.GetType() == typeof(UIElement)))
+        if (selectionHitList.Any(selectable => selectable is UIElement))
         {
-            var ui = selectionHitList.First(selectable => selectable.GetType() == typeof(UIElement));
-            uiTarget = ui as UIElement;
+            var ui = selectionHitList.First(selectable => selectable is UIElement) as UIElement;
+            if (ui != uiTarget)
+            {
+                uiTarget = ui;
+                newTargetEvent.Invoke(uiTarget);
+            }
             cursor.transform.position = sortedPoints[selectionHitList.IndexOf(ui)].point;
             selectionHitList = new List<Selectable>
             {

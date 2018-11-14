@@ -7,14 +7,29 @@ using UnityEngine;
 /// </summary>
 public class ClickAction : MonoBehaviour, IClickAction
 {
+    /// <summary>
+    /// Answers a Click on a Selectable (could be null). Should return true if this ClickAction wants take that click. Default class returns false;
+    /// </summary>
+    /// <param name="clickstatus">Click == Down</param>
+    /// <param name="selectable">Selectable Element We are passed</param>
+    /// <returns></returns>
     public virtual bool AnswerNewClick(bool clickstatus, ISelectable selectable)
     {
         return false;
     }
 
-    public virtual bool ReleaseClickAction(bool status)
+    /// <summary>
+    /// Determines if we need to retain focus from our click switch. Returns True if the Actions can be finished in this method, and false if we need to wait. 
+    /// Example: Retturn false to retain click focus for a UI button that should only respond to click up. 
+    /// Default class returns true.
+    /// </summary>
+    /// <param name="clickstatus">Click == Down</param>
+    /// <returns></returns>
+    public virtual bool ReleaseClickAction(bool clickstatus)
     {
         return true;
     }
 
+
+    
 }

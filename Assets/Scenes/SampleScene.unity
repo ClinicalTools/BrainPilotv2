@@ -346,6 +346,11 @@ MonoBehaviour:
   selection: {fileID: 11400000, guid: fc1fdd2f6921b274f9d8e1eb7aa21c05, type: 2}
   furthestSelectable: {fileID: 0}
   uiTarget: {fileID: 0}
+  newTargetEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UITargetEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   inputAxis: {fileID: 11400000, guid: 02669eef20bce7649b69d9d9a4c96610, type: 2}
   distance: 0
   direction: {x: 0, y: 0, z: 1}
@@ -1404,6 +1409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 932417445}
   - component: {fileID: 932417446}
+  - component: {fileID: 932417447}
   m_Layer: 0
   m_Name: UIClickActions
   m_TagString: Untagged
@@ -1437,14 +1443,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiClickEvent:
     m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UIClickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  clickDown:
-    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932172705}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 932417447}
+        m_MethodName: SendUIClick
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1453,25 +1455,50 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  clickUp:
+    m_TypeName: UIClickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  cancelClickEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932172705}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 932417447}
+        m_MethodName: CancelClick
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UIClickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  regularClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ClickUpdateEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  clickDown:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  clickUp:
+    m_PersistentCalls:
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   uiElement: {fileID: 0}
+  parentSelector: {fileID: 0}
+--- !u!114 &932417447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932417444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7f3b7a0a03a1a45900bfc59735c4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1008127344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,7 +1662,7 @@ GameObject:
   - component: {fileID: 1078314953}
   - component: {fileID: 1078314954}
   m_Layer: 0
-  m_Name: FallbackClickActions
+  m_Name: FallbackClickActions-FreeMove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1917,7 +1944,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh24416
+  m_Name: pb_Mesh23548
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -3034,7 +3061,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3131,7 +3158,8 @@ MonoBehaviour:
   element: {fileID: 1715914040}
   manager: {fileID: 1715914043}
   updateStates: 0
-  localLoadedStates: []
+  localLoadedStates:
+  - {fileID: 0}
   localActiveStates: []
 --- !u!114 &1715914043
 MonoBehaviour:
@@ -3354,6 +3382,175 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: 02669eef20bce7649b69d9d9a4c96610, type: 2}
   axis: 1
+--- !u!1 &2085475494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2085475502}
+  - component: {fileID: 2085475501}
+  - component: {fileID: 2085475500}
+  - component: {fileID: 2085475499}
+  - component: {fileID: 2085475498}
+  - component: {fileID: 2085475497}
+  - component: {fileID: 2085475496}
+  - component: {fileID: 2085475495}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2085475495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e93740d3501ce4f8b6f975e6099c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectable: {fileID: 11400000, guid: cec422b9dd3c4b849a6d875e79121641, type: 2}
+  stateController: {fileID: 2085475497}
+  listener: {fileID: 2085475496}
+  meshRenderer: {fileID: 2085475500}
+  hoverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  hoverEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  endClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &2085475496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76d72bfc180e5c34084f42f167ca41b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectable: {fileID: 11400000, guid: cec422b9dd3c4b849a6d875e79121641, type: 2}
+  selectableUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &2085475497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b4ca6995730a9b46908fc816c6d31a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: {fileID: 2085475495}
+  manager: {fileID: 2085475498}
+  updateStates: 0
+  localLoadedStates:
+  - {fileID: 0}
+  localActiveStates: []
+--- !u!114 &2085475498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661e6f5718dac42ffb5efa5da8f8b510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2085475499
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2085475500
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 1a83656dabe4f404b94929d03d1a7576, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &2085475501
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2085475502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085475494}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.15, y: 0.05700016, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2091678694
 GameObject:
   m_ObjectHideFlags: 0

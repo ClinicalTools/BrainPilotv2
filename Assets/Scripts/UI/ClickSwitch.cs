@@ -31,14 +31,25 @@ public class ClickSwitch : MonoBehaviour {
 
         if (currentAction == null)
         {
-            var target = selector.furthestSelectable;
+            var target = selector.uiTarget ?? selector.furthestSelectable;
 
             currentAction = clickActions.Find(click => click.AnswerNewClick(status, target));
+            Debug.Log("Current Click Action : " + currentAction.name);
         }
         if (currentAction.ReleaseClickAction(status))
         {
             currentAction = null;
         }
+
+        clickStatus = status;
+    }
+
+    public void GetNewUITarget(UIElement element)
+    {
+        if (!clickStatus)
+            return;         // bail out if the buttons not down
+
+        
     }
 
 }
