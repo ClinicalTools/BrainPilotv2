@@ -17,10 +17,11 @@ public class ClickSender : MonoBehaviour
             return;
 
         element.clickEvent.Invoke(click);
-        
-        element.LoadState(element.clickState);
-
+        element.ActivateState(element.clickState);
         element.click = click;
+
+        if (!click)
+            element.onClickAction.Invoke();
     }
 
     public void CancelClick(UIElement element, bool click)
@@ -28,8 +29,10 @@ public class ClickSender : MonoBehaviour
         Debug.Log("Cancel Click Called on " + element.name);
         if (element == null)
             return;
-
+        
         element.click = click;
+        element.clickEvent.Invoke(click);
+        element.DeactivateState(element.clickState);
     }
 
 }

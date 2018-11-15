@@ -87,6 +87,10 @@ public class LineCastSelector : MonoBehaviour
         RaycastHit[] hits = Physics.RaycastAll(originPosition, targetDirection, distance);
         if (hits.Length == 0)
         {
+            // invoke our event if ui target if we are deselecting a ui target
+            if (uiTarget != null)
+                newTargetEvent.Invoke(null);
+
             cursor.transform.position = transform.position;
             furthestSelectable = null;
             uiTarget = null;
@@ -125,6 +129,10 @@ public class LineCastSelector : MonoBehaviour
         }
         else
         {
+            // invoke our event if ui target if we are deselecting a ui target
+            if (uiTarget != null)       
+                newTargetEvent.Invoke(null);
+
             uiTarget = null;
             cursor.transform.position = sortedPoints[0].point;
             furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
