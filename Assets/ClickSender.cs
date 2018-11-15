@@ -23,6 +23,7 @@ public class ClickSender : MonoBehaviour
         element.click = click;
     }
 
+
     public void CancelClick(UIElement element, bool click)
     {
         Debug.Log("Cancel Click Called on " + element.name);
