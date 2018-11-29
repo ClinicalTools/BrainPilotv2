@@ -9,17 +9,34 @@ using UnityEngine.Events;
 public class UISelectableElement : SelectableElement
 {
 
+    public UIElement uiSelectable;
+
     public UnityEvent hoverBeginEvent;
     public UnityEvent hoverEndEvent;
     public UnityEvent clickBeginEvent;
     public UnityEvent clickEndEvent;
+    public UnityEvent clickActionEvent;
 
-    [SerializeField]
-    protected bool hoverState = false;
+    protected bool hoverState;
+    protected bool clickState;
 
-    [SerializeField]
-    protected bool clickState = false;
+    protected override void Awake()
+    {
+        base.Awake();
 
+        uiSelectable = selectable as UIElement;
+        uiSelectable.hoverEvent.AddListener(GetHover);
+        uiSelectable.clickEvent.AddListener(GetClick);
+        uiSelectable.onClickAction.AddListener(DoClickAction);
+
+        hoverState = false;
+        clickState = false;
+    }
+
+    /// <summary>
+    /// Method called on hover begin or end
+    /// </summary>
+    /// <param name="hover"></param>
     public void GetHover(bool hover)
     {
         if (hover == hoverState)
@@ -33,6 +50,10 @@ public class UISelectableElement : SelectableElement
         hoverState = hover;
     }
 
+    /// <summary>
+    /// Method called when click is started or released (whether or not the click is cancelled by moving to another target)
+    /// </summary>
+    /// <param name="click"></param>
     public void GetClick(bool click)
     {
         if (click == clickState)
@@ -44,6 +65,14 @@ public class UISelectableElement : SelectableElement
             clickEndEvent.Invoke();
 
         clickState = click;
+    }
+
+    /// <summary>
+    /// Extra Method Called when click is released and *not* cancelled
+    /// </summary>
+    public void DoClickAction()
+    {
+        clickActionEvent.Invoke();
     }
 	
 }
