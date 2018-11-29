@@ -16,8 +16,7 @@ public class UIElement : Selectable
 
     public UIBoolEvent hoverEvent;
     public UIBoolEvent clickEvent;
-    public UIBoolEvent gazeEvent;
-    public UnityEvent onClickAction;
+    public UIBoolEvent gazeEvent; 
 
     public SelectableState hoverState;
     public SelectableState clickState;
