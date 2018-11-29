@@ -15,8 +15,7 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates:
   - {fileID: 0}
-  activeStates:
-  - {fileID: 0}
+  activeStates: []
   hover: 0
   click: 0
   gaze: 0

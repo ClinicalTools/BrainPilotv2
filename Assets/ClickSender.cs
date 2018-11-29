@@ -17,11 +17,10 @@ public class ClickSender : MonoBehaviour
             return;
 
         element.clickEvent.Invoke(click);
-        element.ActivateState(element.clickState);
-        element.click = click;
+        
+        element.LoadState(element.clickState);
 
-        if (!click)
-            element.onClickAction.Invoke();
+        element.click = click;
     }
 
 
@@ -30,10 +29,8 @@ public class ClickSender : MonoBehaviour
         Debug.Log("Cancel Click Called on " + element.name);
         if (element == null)
             return;
-        
+
         element.click = click;
-        element.clickEvent.Invoke(click);
-        element.DeactivateState(element.clickState);
     }
 
 }
