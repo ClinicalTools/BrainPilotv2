@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TweenMaterialEmission : MonoBehaviour {
+public class TweenMaterialEmission : MonoBehaviour
+{
 
     public Material material;
 
@@ -15,12 +15,15 @@ public class TweenMaterialEmission : MonoBehaviour {
 
     private void Start()
     {
-        material = material ?? GetComponent<MeshRenderer>().material;
+
+        material = GetComponent<MeshRenderer>().material;
+        //generate an instance of our material and assign it to the object
+
         startingColor = material.GetColor("_EmissionColor");
     }
 
     [ContextMenu("TweenToColor")]
-    public void TweenToColor()
+    public void TweenToVariableColor()
     {
         StopAllCoroutines();
         StartCoroutine(TweenMaterial(tweenToColor));
