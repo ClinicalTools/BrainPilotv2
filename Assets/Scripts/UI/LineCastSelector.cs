@@ -8,6 +8,9 @@ using UnityEngine.Events;
 [System.Serializable]
 public class UITargetEvent : UnityEvent<UIElement> { }
 
+[System.Serializable]
+public class SelectableTargetEvent : UnityEvent<Selectable> { }
+
 [RequireComponent(typeof(LineRenderer))]
 public class LineCastSelector : MonoBehaviour
 {
@@ -20,7 +23,8 @@ public class LineCastSelector : MonoBehaviour
     public UIElement uiTarget;
     
 
-    public UITargetEvent newTargetEvent;
+    public UITargetEvent uiTargetEvent;
+    public SelectableTargetEvent selectableTargetEvent;
 
     public Vec2Resource inputAxis;
 
@@ -89,9 +93,13 @@ public class LineCastSelector : MonoBehaviour
         {
             // invoke our event if ui target if we are deselecting a ui target
             if (uiTarget != null)
-                newTargetEvent.Invoke(null);
+                uiTargetEvent.Invoke(null);
 
             cursor.transform.position = transform.position;
+            if (furthestSelectable != null)
+            {
+                selectableTargetEvent.Invoke(null);
+            }
             furthestSelectable = null;
             uiTarget = null;
             return;
@@ -119,7 +127,7 @@ public class LineCastSelector : MonoBehaviour
             if (ui != uiTarget)
             {
                 uiTarget = ui;
-                newTargetEvent.Invoke(uiTarget);
+                uiTargetEvent.Invoke(uiTarget);
             }
             cursor.transform.position = sortedPoints[selectionHitList.IndexOf(ui)].point;
             selectionHitList = new List<Selectable>
@@ -131,11 +139,16 @@ public class LineCastSelector : MonoBehaviour
         {
             // invoke our event if ui target if we are deselecting a ui target
             if (uiTarget != null)       
-                newTargetEvent.Invoke(null);
+                uiTargetEvent.Invoke(null);
 
             uiTarget = null;
             cursor.transform.position = sortedPoints[0].point;
-            furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
+            if (furthestSelectable != sortedPoints[0].transform.GetComponent<SelectableElement>().selectable)
+            {
+                furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
+                selectableTargetEvent.Invoke(furthestSelectable);
+            }
+
         }
 
         // add or remove selectables from our selection
