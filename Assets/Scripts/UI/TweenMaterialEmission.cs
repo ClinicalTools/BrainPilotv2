@@ -19,6 +19,8 @@ public class TweenMaterialEmission : MonoBehaviour
         material = GetComponent<MeshRenderer>().material;
         //generate an instance of our material and assign it to the object
 
+        //material = GetComponent<InstanceMaterial>().instance;
+
         startingColor = material.GetColor("_EmissionColor");
     }
 

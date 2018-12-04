@@ -11,6 +11,7 @@ public class BrainElementSelectionBuilder : MonoBehaviour
     [ContextMenu("Build Brain Element Selectable")]
     public void Build()
     {
+#if UNITY_EDITOR
         var newSelectable = ScriptableObject.CreateInstance<BrainElement>();
 
         AssetDatabase.CreateAsset(newSelectable, selectableAssetPath + transform.name + ".asset");
@@ -18,7 +19,7 @@ public class BrainElementSelectionBuilder : MonoBehaviour
 
         var element = gameObject.AddComponent<SelectableElement>();
         element.selectable = newSelectable;
-
+#endif
 
     }
 
