@@ -37,10 +37,12 @@ public class EventSequence : MonoBehaviour
     {
         ResetAll();
         BuildGroupList();
+
         currentSeqGroup = groupList[groupIndex];
         RunEventGroup(currentSeqGroup);
     }
 
+    [ContextMenu("Reset All Events")]
     private void ResetAll()
     {
         if (sequenceEvents == null)
