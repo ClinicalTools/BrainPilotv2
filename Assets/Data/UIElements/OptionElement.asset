@@ -11,9 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d67abc1d360c164dadbc801ef41849a, type: 3}
   m_Name: OptionElement
   m_EditorClassIdentifier: 
-  listeners: []
-  loadedStates: []
+  listeners:
+  - {fileID: 0}
+  - {fileID: 0}
+  loadedStates:
+  - {fileID: 0}
   activeStates: []
+  label: Option Text
   hover: 0
   click: 0
   gaze: 0

@@ -10,6 +10,8 @@ public class UIBoolEvent : UnityEvent<bool> { }
 public class UIElement : Selectable
 {
 
+    public string label;
+
     public bool hover;
     public bool click;
     public bool gaze;
