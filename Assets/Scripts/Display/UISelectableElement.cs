@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +12,8 @@ public class UISelectableElement : SelectableElement
 
     public UIElement uiSelectable;
 
+    public UnityEvent visibleOnEvent;
+    public UnityEvent visibleOffEvent;
     public UnityEvent hoverBeginEvent;
     public UnityEvent hoverEndEvent;
     public UnityEvent clickBeginEvent;
@@ -19,25 +22,40 @@ public class UISelectableElement : SelectableElement
 
     protected bool hoverState;
     protected bool clickState;
+    protected bool visibleState;
 
     protected override void Awake()
     {
         base.Awake();
 
         uiSelectable = selectable as UIElement;
-        uiSelectable.hoverEvent.AddListener(GetHover);
-        uiSelectable.clickEvent.AddListener(GetClick);
+        uiSelectable.hoverEvent.AddListener(GetHoverState);
+        uiSelectable.clickEvent.AddListener(GetClickState);
+        uiSelectable.visibleEvent.AddListener(GetVisibleState);
         uiSelectable.onClickAction.AddListener(DoClickAction);
 
         hoverState = false;
         clickState = false;
     }
 
+    private void GetVisibleState(bool visible)
+    {
+        if (visible == visibleState)
+            return;
+
+        if (visible)
+            visibleOnEvent.Invoke();
+        else
+            visibleOffEvent.Invoke();
+
+        visibleState = visible;
+    }
+
     /// <summary>
     /// Method called on hover begin or end
     /// </summary>
     /// <param name="hover"></param>
-    public void GetHover(bool hover)
+    public void GetHoverState(bool hover)
     {
         if (hover == hoverState)
             return;
@@ -54,7 +72,7 @@ public class UISelectableElement : SelectableElement
     /// Method called when click is started or released (whether or not the click is cancelled by moving to another target)
     /// </summary>
     /// <param name="click"></param>
-    public void GetClick(bool click)
+    public void GetClickState(bool click)
     {
         if (click == clickState)
             return;

@@ -15,10 +15,12 @@ public class UIElement : Selectable
     public bool hover;
     public bool click;
     public bool gaze;
+    public bool visible;
 
     public UIBoolEvent hoverEvent;
     public UIBoolEvent clickEvent;
     public UIBoolEvent gazeEvent;
+    public UIBoolEvent visibleEvent;
     public UnityEvent onClickAction;
 
     public SelectableState hoverState;
