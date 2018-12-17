@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: LightweightAsset
   m_EditorClassIdentifier: 
   k_AssetVersion: 3
-  m_MaxPixelLights: 4
+  m_MaxPixelLights: 8
   m_SupportsVertexLight: 1
   m_RequireDepthTexture: 0
   m_RequireSoftParticles: 0
