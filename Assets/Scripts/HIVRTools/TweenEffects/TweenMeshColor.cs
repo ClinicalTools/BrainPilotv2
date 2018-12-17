@@ -13,14 +13,34 @@ public class TweenMeshColor : MonoBehaviour
     public float transitionTime = 0.3f;
     public AnimationCurve curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    public ColorResource tweenToColor;
-    private Color savedColor;
+    public ColorResource activeColor;
+    public ColorResource inActiveColor;
+    [SerializeField]
+    public bool ActiveState
+    {
+        get
+        {
+            return activeState;
+        }
+        set
+        {
+            if (activeState != value)
+                SetActiveState(value);
+        }
+    }
+    [SerializeField]
+    private bool activeState;
+    
 
     private void Start()
     {
         targetMaterial = targetMesh.material;
-        savedColor = targetMaterial.GetColor(propertyName);
-        
+
+        if (ActiveState)
+            targetMaterial.SetColor(propertyName, activeColor.Color);
+        else
+            targetMaterial.SetColor(propertyName, inActiveColor.Color);
+
     }
 
     public void SetActiveState(bool stateIsOn)
@@ -30,18 +50,18 @@ public class TweenMeshColor : MonoBehaviour
 
         if (stateIsOn)
         {
-            StartCoroutine(RunTransition(savedColor, tweenToColor.Color));
+            StartCoroutine(RunTransition(inActiveColor.Color, activeColor.Color));
         }
         else
         {
-            StartCoroutine(RunTransition(tweenToColor.Color, savedColor));
+            StartCoroutine(RunTransition(activeColor.Color, inActiveColor.Color));
         }
+
+        activeState = stateIsOn;
     }
 
     private IEnumerator RunTransition(Color startingColor, Color endingColor)
     {
-        targetMaterial = targetMesh.material;
-        savedColor = targetMaterial.GetColor(propertyName);
 
         float elapsedTime = 0f;
         while (elapsedTime <= transitionTime)

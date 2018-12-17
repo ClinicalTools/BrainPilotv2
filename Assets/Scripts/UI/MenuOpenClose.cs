@@ -9,24 +9,24 @@ public class MenuOpenClose : MonoBehaviour {
     public UnityEvent menuOpenEvent;
     public UnityEvent menuCloseEvent;
 
-    public bool menuIsOpen;
+    public bool menuActiveState;
 
     public void ToggleMenu()
     {
-        SetMenuStatus(!menuIsOpen);
+        SetMenuStatus(!menuActiveState);
     }
 
     public void SetMenuStatus(bool status)
     {
-        if (menuIsOpen == status)
+        if (menuActiveState == status)
             return;
 
-        if (menuIsOpen)
+        if (menuActiveState)
             menuCloseEvent.Invoke();
         else
             menuOpenEvent.Invoke();
 
-        menuIsOpen = status;
+        menuActiveState = status;
     }
 
 }
