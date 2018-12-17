@@ -11,6 +11,7 @@ public class OculusAxis2DToResource : MonoBehaviour
 
     private void Update()
     {
+
         OVRInput.Update();
         resource.Value = OVRInput.Get(axis);
         

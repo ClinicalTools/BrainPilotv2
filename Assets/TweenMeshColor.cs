@@ -40,6 +40,9 @@ public class TweenMeshColor : MonoBehaviour
 
     private IEnumerator RunTransition(Color startingColor, Color endingColor)
     {
+        targetMaterial = targetMesh.material;
+        savedColor = targetMaterial.GetColor(propertyName);
+
         float elapsedTime = 0f;
         while (elapsedTime <= transitionTime)
         {
