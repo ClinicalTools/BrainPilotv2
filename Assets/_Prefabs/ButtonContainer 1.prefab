@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 114490287530140344}
   - component: {fileID: 114951724225902208}
   - component: {fileID: 114777445249676050}
+  - component: {fileID: 114030974129752010}
   m_Layer: 0
   m_Name: ButtonContainer 1
   m_TagString: Untagged
@@ -198,9 +199,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508967329973304}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.12112005, z: -0.0003623776}
+  m_LocalScale: {x: 2, y: 4.632803, z: 25.41294}
   m_Children:
   - {fileID: 4915774501153246}
   - {fileID: 4776364610374440}
@@ -453,6 +454,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiElement: {fileID: 11400000, guid: ad85c02d5addcc0438a9218c3d32898a, type: 2}
+--- !u!114 &114030974129752010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508967329973304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90feb2fded2c91b44936d1da3a7f56c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickActionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  childElements: []
 --- !u!114 &114103313889741772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -482,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleTime: 0.3
-  scaleFactor: 1
+  scaleFactor: 0
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -770,7 +788,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508967329973304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b76b5b0d809b9ac46a011517fbfc83a7, type: 3}
   m_Name: 
@@ -4912,7 +4930,8 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates:
   - {fileID: 0}
-  localActiveStates: []
+  localActiveStates:
+  - {fileID: 0}
 --- !u!114 &114777445249676050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4926,12 +4945,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openActions:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114490287530140344}
+        m_MethodName: TweenToTarget
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114115168939613826}
+        m_MethodName: TweenInFromZero
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4283871564094140}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   closeActions:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114490287530140344}
+        m_MethodName: TweenToOrigin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114115168939613826}
+        m_MethodName: TweenToScaleFactor
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4283871564094140}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   menuActiveState: 0
@@ -4974,8 +5037,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  activeColor: {fileID: 0}
-  inActiveColor: {fileID: 0}
+  activeColor: {fileID: 11400000, guid: 1e559ea667ad9d04c851ad18e5da3616, type: 2}
+  inActiveColor: {fileID: 11400000, guid: 8e0893aa952036d43bcdc88470213493, type: 2}
   activeState: 0
 --- !u!114 &114812813147591434
 MonoBehaviour:
@@ -4993,7 +5056,8 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates:
   - {fileID: 0}
-  localActiveStates: []
+  localActiveStates:
+  - {fileID: 0}
 --- !u!114 &114846244050146150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5020,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 114673397084667198}
-  useOverrideText: 0
+  useOverrideText: 1
   overrideText: 
 --- !u!114 &114951724225902208
 MonoBehaviour:
