@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4720572485753094}
   - component: {fileID: 114891063291485116}
   - component: {fileID: 114166842913504274}
+  - component: {fileID: 114864018916428134}
   m_Layer: 0
   m_Name: MenuContainer
   m_TagString: Untagged
@@ -1078,8 +1079,7 @@ MonoBehaviour:
   element: {fileID: 114301930480339104}
   manager: {fileID: 114565160388305982}
   updateStates: 0
-  localLoadedStates:
-  - {fileID: 0}
+  localLoadedStates: []
   localActiveStates: []
 --- !u!114 &114828162728593050
 MonoBehaviour:
@@ -1373,6 +1373,17 @@ MonoBehaviour:
     m_RotationOrder: 4
   target: {fileID: 4892418935453944}
   activeState: 0
+--- !u!114 &114864018916428134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1138674691878634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c875f2278fe79304bbb88369d00821ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114891063291485116
 MonoBehaviour:
   m_ObjectHideFlags: 1

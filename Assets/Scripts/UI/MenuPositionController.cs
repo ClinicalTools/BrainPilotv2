@@ -34,8 +34,13 @@ public class MenuPositionController : MonoBehaviour {
     
     public void RecalculatePositions()
     {
-        mainCamera = mainCamera ?? Camera.main.transform;
-        lowerButtonOrigin = lowerButtonOrigin ?? transform.parent;
+        // mainCamera = mainCamera ?? Camera.main.transform;
+        if (mainCamera == null)
+            mainCamera = Camera.main.transform;
+
+        // lowerButtonOrigin = lowerButtonOrigin ?? transform.parent;
+        if (lowerButtonOrigin == null)
+            lowerButtonOrigin = transform.parent;
 
         float yDistance = mainCamera.position.y - lowerButtonOrigin.position.y;
         float margin = yDistance / (float)numberOfSubItems;

@@ -16,7 +16,9 @@ public class TweenScaleToFloatResource : MonoBehaviour {
 
     private void Start()
     {
-        targetTransform = targetTransform ?? transform;
+        if (targetTransform == null)
+            targetTransform = transform;
+            
         startingScale = targetTransform.localScale;
         lastResourceValue = resource.Value;
 
