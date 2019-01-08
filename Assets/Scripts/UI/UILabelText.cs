@@ -10,6 +10,7 @@ public class UILabelText : MonoBehaviour
 
     public bool useOverrideText;
 
+    [TextArea]
     public string overrideText;
 
     private void OnEnable()

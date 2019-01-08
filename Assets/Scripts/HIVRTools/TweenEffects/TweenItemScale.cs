@@ -16,14 +16,14 @@ public class TweenItemScale : MonoBehaviour {
 
     public UnityEvent effectComplete;
 
-    public void TweenTarget(Transform target)
+    public void TweenToScaleFactor(Transform target)
     {
-        StartCoroutine(TweenScale(target));
+        StartCoroutine(RunTweenToScaleFactor(target));
 
 
     }
 
-    IEnumerator TweenScale(Transform target)
+    IEnumerator RunTweenToScaleFactor(Transform target)
     {
         float elapsedTime = 0;
         Vector3 startingScale = target.localScale;
@@ -38,12 +38,12 @@ public class TweenItemScale : MonoBehaviour {
         effectComplete.Invoke();
     }
 
-    public void TweenInScale(Transform target)
+    public void TweenInFromZero(Transform target)
     {
-        StartCoroutine(TweenFromZero(target));
+        StartCoroutine(RunTweenInFromZero(target));
     }
 
-    IEnumerator TweenFromZero(Transform target)
+    IEnumerator RunTweenInFromZero(Transform target)
     {
         float elapsedTime = 0;
         Vector3 startingScale = Vector3.zero;
