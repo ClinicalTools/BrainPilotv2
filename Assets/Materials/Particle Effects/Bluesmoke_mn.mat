@@ -6,32 +6,23 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Main_texture01
-  m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
-  m_ShaderKeywords: _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMASKCOUNT_THREE
-    _DISSOLVEMASK_CYLINDER _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
-  m_LightmapFlags: 4
+  m_Name: Bluesmoke_mn
+  m_Shader: {fileID: 4800000, guid: aaaae814fe94bb842b90d814205414de, type: 3}
+  m_ShaderKeywords: _ALPHABLEND_ON _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_NONE
+    _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_ONE
+    _DISSOLVEMASK_NONE _FADING_ON
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - ALWAYS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 1450b0322d4bff9448f13939acc74d47, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -53,21 +44,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 4, y: 4}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1c1aa05b676044240bb09276892b7f3f, type: 3}
-        m_Scale: {x: 4, y: 4}
+        m_Texture: {fileID: 2800000, guid: f61f20a31fc51cc419961a7b514c6922, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 16ee09609125ac44ab5f63272f896d37, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 13ebf413d836c8948b51373a42bd3883, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -76,12 +59,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 0.67
+    - _BlendOp: 0
+    - _BumpScale: 1
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
     - _DissolveAlphaSource: 0
     - _DissolveAlphaSourceTexturesUVSet: 0
     - _DissolveCutoff: 0.25
@@ -97,41 +81,50 @@ Material:
     - _DissolveEdgeTextureSource: 0
     - _DissolveEdgeWidth: 0.25
     - _DissolveGIMultiplier: 1
-    - _DissolveGlobalControl: 2
+    - _DissolveGlobalControl: 0
     - _DissolveMainMapTiling: 1
     - _DissolveMappingType: 0
-    - _DissolveMask: 5
+    - _DissolveMask: 0
     - _DissolveMaskAxis: 0
-    - _DissolveMaskCount: 2
-    - _DissolveMaskInvert: -1
+    - _DissolveMaskCount: 0
+    - _DissolveMaskInvert: 1
     - _DissolveMaskOffset: 0
-    - _DissolveMaskRadius: 2
+    - _DissolveMaskRadius: 1
     - _DissolveMaskSpace: 0
     - _DissolveNoiseStrength: 0.1
     - _DissolveSourceAlphaTexturesBlend: 0
     - _DissolveTriplanarMappingSpace: 0
-    - _DstBlend: 0
+    - _DstBlend: 1
+    - _EmissionEnabled: 0
+    - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
+    - _GlossinessSource: 0
     - _GlossyReflections: 1
+    - _InvFade: 1
+    - _LightingEnabled: 1
     - _Metallic: 0
-    - _OcclusionStrength: 0.784
-    - _Parallax: 0.02
+    - _Mode: 4
+    - _Shininess: 1
     - _SmoothnessTextureChannel: 0
+    - _SoftParticlesEnabled: 1
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Surface: 0
-    - _UVSec: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _SrcBlend: 5
+    - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveEdgeColor: {r: 0, g: 1, b: 0, a: 1}
     - _DissolveMap1_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap2_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap3_Scroll: {r: 0, g: 0, b: 0, a: 0}
-    - _DissolveMaskNormal: {r: 0, g: 1, b: 0, a: 0}
-    - _DissolveMaskPosition: {r: 0, g: -1.733925, b: -1.9360001, a: 0}
+    - _DissolveMaskNormal: {r: 1, g: 0, b: 0, a: 0}
+    - _DissolveMaskPosition: {r: 0, g: 0, b: 0, a: 0}
     - _Dissolve_ObjectWorldPos: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0.004, g: 0.004, b: 0.004, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 1, b: 0, a: 0}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColor: {r: 0.10656359, g: 0.5011619, b: 0.53676474, a: 0.5}
