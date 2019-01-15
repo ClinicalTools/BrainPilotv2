@@ -15,6 +15,12 @@ public class TweenTMPAlpha : MonoBehaviour {
 
     public TextMeshPro textMesh;
 
+    public void SetFadeStatus(bool status) {
+        if (status)
+            FadeIn();
+        else FadeOut();
+    }
+
     [ContextMenu("Fade In")]
     public void FadeIn()
     {

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c71cf3d6cd0b894aa2e2fb30ad667b0, type: 3}
+  m_Name: WaypointMenu
+  m_EditorClassIdentifier: 
+  elements:
+  - {fileID: 11400000, guid: 60657752de6b650429667ddeee07f733, type: 2}
+  - {fileID: 11400000, guid: 0c5e39d46d081d34d80c422a9a3331d4, type: 2}
+  - {fileID: 11400000, guid: e0faf001db8706b4abec82b40836f78e, type: 2}
