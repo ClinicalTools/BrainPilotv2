@@ -981,7 +981,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Rubik-Bold SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
-  m_ShaderKeywords: GLOW_ON
+  m_ShaderKeywords: BEVEL_ON GLOW_ON UNDERLAY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -992,7 +992,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8b8c8a10edf94ddc8cc4cc4fcd5696a9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cube:
@@ -1000,7 +1000,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FaceTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 283f897e4925411ebbaa758b4cb13fc2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -1008,44 +1008,44 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1cdc5b506b1a4a33a53c30669ced1f51, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Ambient: 0.229
     - _Bevel: 1
     - _BevelClamp: 0.426
-    - _BevelOffset: -0.229
-    - _BevelRoundness: 0
-    - _BevelWidth: 0
-    - _BumpFace: 0.775
+    - _BevelOffset: -0.071
+    - _BevelRoundness: 0.422
+    - _BevelWidth: -0.014
+    - _BumpFace: 0
     - _BumpOutline: 0
     - _ColorMask: 15
     - _Diffuse: 0.5
     - _FaceDilate: -0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
-    - _GlowInner: 0.146
+    - _GlowInner: 0.37
     - _GlowOffset: 0.631
-    - _GlowOuter: 0.156
-    - _GlowPower: 0.909
+    - _GlowOuter: 0.326
+    - _GlowPower: 0.528
     - _GradientScale: 6
-    - _LightAngle: 3.511
+    - _LightAngle: 3.85
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
     - _OutlineSoftness: -0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.128
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 8.91
     - _ScaleRatioA: 0.8333333
     - _ScaleRatioB: 0.6770833
-    - _ScaleRatioC: 0.59497654
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
-    - _SpecularPower: 3.109
+    - _SpecularPower: 3.345
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -1053,9 +1053,9 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 512
     - _TextureWidth: 512
-    - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0.633
-    - _UnderlayOffsetY: 0.645
+    - _UnderlayDilate: -0.062
+    - _UnderlayOffsetX: -0.009
+    - _UnderlayOffsetY: -0.468
     - _UnderlaySoftness: 0.493
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
@@ -1071,7 +1071,7 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 0.3647059, b: 1, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _UnderlayColor: {r: 0.5, g: 0.25672078, b: 0, a: 0.67058825}
 --- !u!28 &28077568984724442
 Texture2D:
   m_ObjectHideFlags: 0

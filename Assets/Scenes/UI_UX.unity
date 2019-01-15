@@ -1818,7 +1818,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4459214061492724, guid: 11ad05f5fddc4ae4fbf4e1a2e60a5972,
     type: 2}
   m_PrefabInternal: {fileID: 1274888920}
---- !u!114 &1096421016
+--- !u!114 &1096421024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1832,6 +1832,7 @@ MonoBehaviour:
   textMeshPro: {fileID: 1145670750}
   useOverrideText: 0
   overrideText: 
+  uIElement: {fileID: 0}
 --- !u!1 &1145670748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1860,7 +1861,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1145670748}
   m_LocalRotation: {x: -0, y: 1, z: -0.0000000037252899, w: 0.000000029802319}
-  m_LocalPosition: {x: 0, y: 0, z: 0.22}
+  m_LocalPosition: {x: 0, y: 0, z: 1.1}
   m_LocalScale: {x: 2, y: 4.6328015, z: 25.412819}
   m_Children:
   - {fileID: 1527919100}
@@ -1912,7 +1913,7 @@ MonoBehaviour:
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 11400000, guid: 69a525efa7e6472eab268f6ea605f06e,
     type: 2}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 14aa93acbb234d16aaef0e8b46814db6, type: 2}
   m_tintAllSprites: 0
   m_overrideHtmlColors: 0
   m_faceColor:
@@ -2445,6 +2446,10 @@ Prefab:
     - target: {fileID: 1623493143194382, guid: 11ad05f5fddc4ae4fbf4e1a2e60a5972, type: 2}
       propertyPath: m_Name
       value: MenuPanel_Waypoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794996419209902, guid: 11ad05f5fddc4ae4fbf4e1a2e60a5972, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11ad05f5fddc4ae4fbf4e1a2e60a5972, type: 2}
