@@ -9,10 +9,10 @@ using UnityEngine;
 public class UIVisibleController : MonoBehaviour {
 
     public bool defaultVisibleState = true;
-    UIElement elementData;
+    public UIElement elementData;
 
-	// Use this for initialization
-	void Start () {
+	
+	void OnEnable () {
         SetVisibleState(defaultVisibleState);
 	}
 	

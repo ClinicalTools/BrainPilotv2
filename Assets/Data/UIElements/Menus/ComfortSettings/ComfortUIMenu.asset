@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c71cf3d6cd0b894aa2e2fb30ad667b0, type: 3}
+  m_Name: ComfortUIMenu
+  m_EditorClassIdentifier: 
+  elements:
+  - {fileID: 11400000, guid: 69616db3a32573d4487e6dfc11d6a8e2, type: 2}
+  - {fileID: 11400000, guid: 1b0ce9cc1ccbbdf4fa1fc150a463f2b2, type: 2}
+  - {fileID: 11400000, guid: c353b00474106b245836a3e0794d1bad, type: 2}
