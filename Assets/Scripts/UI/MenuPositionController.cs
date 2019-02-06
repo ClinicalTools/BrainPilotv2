@@ -64,9 +64,10 @@ public class MenuPositionController : MonoBehaviour {
         }
         foreach(var anchor in anchors)
         {
-            Destroy(anchor.gameObject);
+            if (anchor)
+                Destroy(anchor.gameObject);
         }
-        anchors.Clear();
+        anchors = new List<Transform>();
     }
 
     public void CreateAnchorObjects()
@@ -105,7 +106,7 @@ public class MenuPositionController : MonoBehaviour {
 
     public Transform GetAnchorTransform(int index)
     {
-        return anchors?[index];
+        return anchors?[index % anchors.Count]; // modulus added to allow for higher indexes to roll over if a position is relying on child count
     }
 
 

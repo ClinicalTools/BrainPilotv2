@@ -12,6 +12,13 @@ public class UISelectableObject : MonoBehaviour {
 
     private void OnValidate()
     {
+        if (uiElement)
+            SetAllChildrenUIElements();
+    }
+
+    public void SetNewUIElement(UIElement newElement)
+    {
+        uiElement = newElement;
         SetAllChildrenUIElements();
     }
 

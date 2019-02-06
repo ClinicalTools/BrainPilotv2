@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d67abc1d360c164dadbc801ef41849a, type: 3}
+  m_Name: ContentA 2
+  m_EditorClassIdentifier: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  label: Toncrent
+  hover: 0
+  click: 0
+  gaze: 0
+  visible: 0
+  hoverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  gazeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  visibleEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UIBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  onClickAction:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  hoverState: {fileID: 0}
+  clickState: {fileID: 0}
+  gazeState: {fileID: 0}
