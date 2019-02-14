@@ -8,19 +8,28 @@ public class MaterialSwitchState : SelectableStateAction {
 
     protected Material savedMaterial;
 
-    public override void Activate()
+	[SerializeField]
+	protected Color emissionColor;
+
+	public override void Activate()
     {
         base.Activate();
+		
+		//savedMaterial = element.meshRenderer.sharedMaterial;
+		//element.meshRenderer.sharedMaterial = material;
 
-        savedMaterial = element.meshRenderer.sharedMaterial;
-        element.meshRenderer.sharedMaterial = material;
+		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+		propertyBlock.SetColor("_EmissionColor", emissionColor);
+		element.meshRenderer.SetPropertyBlock(propertyBlock);
     }
 
     public override void Deactivate()
     {
         base.Deactivate();
 
-        element.meshRenderer.sharedMaterial = savedMaterial;
-    }
+		//element.meshRenderer.sharedMaterial = savedMaterial;
+
+		element.meshRenderer.SetPropertyBlock(null);
+	}
 
 }
