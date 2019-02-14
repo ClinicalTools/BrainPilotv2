@@ -30,7 +30,6 @@ public class UISelectableObject : MonoBehaviour {
         foreach (var uiSelectableElement in uiList)
         {
             uiSelectableElement.selectable = uiElement;
-            Debug.Log("Setting " + uiSelectableElement.name + "'s data to " + uiElement);
         }
     }
 
