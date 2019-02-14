@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Higher level script to tie together UIElements' data layer and open-close actions on menu prefabs. 
@@ -14,6 +15,7 @@ public class MenuInstanceGenerator : MonoBehaviour
     public UISelectableElement parentSelectableElement;
     public UIElementMenu uiElementMenu;
     public GameObject menuItemPrefab;
+    
 
     private MenuPositionController menuPositionController;
 
@@ -43,18 +45,20 @@ public class MenuInstanceGenerator : MonoBehaviour
     [ContextMenu("Clear All")]
     public void Clear()
     {
+        for (int i = transform.childCount-1; i >= 0; i--)
+        {
 # if UNITY_EDITOR
-        foreach(Transform child in transform)
-        {
-            GameObject.DestroyImmediate(child.gameObject);
-        }
+            GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
 #else
-        foreach(Transform child in transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+            GameObject.Destroy(transform.GetChild(i).gameObject);
 #endif
-       
+        }
+
+    }
+
+    private void Start()
+    {
+        SetUpMenu(uiElementMenu);
     }
 
     private void CreateMenuItems(UIElementMenu uiElementMenu, GameObject menuItemPrefab)
@@ -120,6 +124,8 @@ public class MenuInstanceGenerator : MonoBehaviour
 
     private void SetUpMenu(UIElementMenu uiElementMenu)
     {
+        if (!uiElementMenu)
+            return;
         
 
         menuPositionController = GetComponent<MenuPositionController>();
@@ -132,11 +138,13 @@ public class MenuInstanceGenerator : MonoBehaviour
         {
             Debug.LogWarning(transform.name + " did not find a selectable parent object");
         }
+        
+
         parentSelectableElement.clickActionEvent.AddListener(uiElementMenu.ToggleVisible);  // set the parent's click action to toggle visible state on our ui element list
 
     }
 
-    private UISelectableElement FindParentSelectable()
+    public UISelectableElement FindParentSelectable()
     {
         return GetComponentInParent<UISelectableElement>();
     }
