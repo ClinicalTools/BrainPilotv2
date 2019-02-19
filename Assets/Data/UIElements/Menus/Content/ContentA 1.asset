@@ -11,7 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d67abc1d360c164dadbc801ef41849a, type: 3}
   m_Name: ContentA 1
   m_EditorClassIdentifier: 
-  listeners: []
+  listeners:
+  - {fileID: 0}
+  - {fileID: 0}
   loadedStates: []
   activeStates: []
   label: Corntent

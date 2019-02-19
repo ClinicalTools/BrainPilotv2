@@ -19,28 +19,40 @@ public class DroneControllerEditor : Editor
 	}
 }
 
-public class DroneController : MonoBehaviour {
-
+[System.Serializable]
+public class DroneSettings
+{
 	//UI Element Menu reference for setting text?
 	public float maxDistance;
 	public float maxSpeed;
 	public AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 	public float fadeDuration = 2f;
+}
 
+public class DroneController : MonoBehaviour {
+
+	public DroneSettings settings;
+
+	[SerializeField]
+	private Vector3[] potentialGoals;
 	[SerializeField]
 	private Transform mainCamera;
 	[SerializeField]
-	private Vector3[] potentialGoals;
+	private LineCastSelector selector;
+
+	public TMPro.TextMeshPro textField;
 
 	private bool _active = false;
 	private float distance;
 	private Vector3 goalLoc;
 	private MeshRenderer mesh;
+	private Selectable selection;
+	private Sequence sequence;
 
 
 	// Use this for initialization
 	void Start () {
-		maxDistance *= maxDistance;
+		settings.maxDistance *= settings.maxDistance;
 		mesh = GetComponent<MeshRenderer>();
 	}
 	
@@ -59,19 +71,47 @@ public class DroneController : MonoBehaviour {
 			}
 
 			//float lerpVal = SmoothStep.SmoothStop(3, distance / maxDistance);
-			float lerpVal = curve.Evaluate(distance / maxDistance);
+			float lerpVal = settings.curve.Evaluate(distance / settings.maxDistance);
 			
 			transform.position = Vector3.MoveTowards(
 									transform.position,
 									goalLoc,
-									lerpVal * maxSpeed);
+									lerpVal * settings.maxSpeed);
+			if (selection != null) {
+				UpdateText();
+			}
 		}
 	}
 
-	private Vector3 GetClosestGoalOffset()
+	
+
+	public void SetSelectable(Selectable selectable)
 	{
-		Vector3 goal = potentialGoals[PickClosestGoalIdx()];
-		return mainCamera.position + ScaleByVec3(mainCamera, goal);
+		selection = selectable;
+	}
+
+	public void RunSequence(Sequence s)
+	{
+		sequence = s;
+		sequence.StartSequence();
+	}
+
+	public void ClearSelectable()
+	{
+		selection = null;
+	}
+
+	//This should be put into a listener or something I guess.
+	private void UpdateText()
+	{
+		if (sequence != null && sequence.IsActive()) {
+			textField.text = sequence.GetActiveStep().stepDisplayInfo;
+		} else if (selection is BrainElement) {
+			//Update with a description of the selected brain piece
+			textField.text = ((BrainElement)selection).description;
+		} else {
+			//Other uses
+		}
 	}
 
 	/// <summary>
@@ -83,9 +123,15 @@ public class DroneController : MonoBehaviour {
 	private Vector3 ScaleByVec3(Transform input, Vector3 scaleVals)
 	{
 		return
-			input.right   * scaleVals.x + 
-			input.up      * scaleVals.y + 
+			input.right * scaleVals.x +
+			input.up * scaleVals.y +
 			input.forward * scaleVals.z;
+	}
+
+	private Vector3 GetClosestGoalOffset()
+	{
+		Vector3 goal = potentialGoals[PickClosestGoalIdx()];
+		return mainCamera.position + ScaleByVec3(mainCamera, goal);
 	}
 
 	private int PickClosestGoalIdx()
@@ -101,18 +147,6 @@ public class DroneController : MonoBehaviour {
 		}
 		return lowestIdx;
 	}
-
-	//Add any listeners?
-	private void OnEnable()
-	{
-		
-	}
-
-	private void OnDisable()
-	{
-		
-	}
-
 
 	public void Activate()
 	{
@@ -135,7 +169,7 @@ public class DroneController : MonoBehaviour {
 	{
 		float val = mesh.sharedMaterial.GetFloat("_DissolveCutoff");
 		float lerpVal = 0f;
-		float interval = Time.deltaTime / fadeDuration;
+		float interval = Time.deltaTime / settings.fadeDuration;
 		while (val != endVal) {
 			lerpVal += interval;
 			val = Mathf.Lerp(val, endVal, lerpVal);
