@@ -11,11 +11,16 @@ public class DroneListener : MonoBehaviour {
 
 	private void OnEnable()
 	{
-
+		//somecontroller.RegisterListener(this);
 	}
 
 	private void OnDisable()
 	{
+		//somecontroller.UnregisterListener(this);
+	}
 
+	public void Invoke()
+	{
+		
 	}
 }

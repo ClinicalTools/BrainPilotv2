@@ -40,7 +40,9 @@ public class SelectableStateAction : MonoBehaviour, ISelectableStateAction
     public virtual void Remove()
     {
 #if UNITY_EDITOR
-        DestroyImmediate(gameObject);
+		//UnityEditor.Undo.RecordObject(this, "Deleted " + element.name);
+		UnityEditor.Undo.DestroyObjectImmediate(gameObject);
+        //DestroyImmediate(gameObject);
 #else
         Destroy(gameObject);
 #endif

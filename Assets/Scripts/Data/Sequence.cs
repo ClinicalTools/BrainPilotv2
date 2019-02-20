@@ -10,7 +10,7 @@ public class Sequence : ScriptableObject {
 	[SerializeField]
 	private bool _active;
 	[SerializeField]
-	private int _stepIdx;
+	private int _stepIdx = 0;
 
 	public SequenceElement GetActiveStep()
 	{
@@ -19,6 +19,7 @@ public class Sequence : ScriptableObject {
 
 	public void AdvanceSequence()
 	{
+		Debug.Log("Advancing Sequence in sequence");
 		if (_stepIdx == steps.Length - 1) {
 			FinishSequence();
 		} else {
@@ -28,8 +29,25 @@ public class Sequence : ScriptableObject {
 		}
 	}
 
+	public void RecedeSequence()
+	{
+		if (_stepIdx == 0) {
+			return;
+		} else {
+			steps[_stepIdx].Deactivate();
+			_stepIdx--;
+			steps[_stepIdx].Activate();
+		}
+	}
+
+	
+
 	public void StartSequence()
 	{
+		if (steps.Length == 0) {
+			_active = false;
+			return;
+		}
 		steps[_stepIdx].Activate();
 		_active = true;
 	}
@@ -44,6 +62,11 @@ public class Sequence : ScriptableObject {
 	{
 		steps[_stepIdx].Deactivate();
 		_active = false;
+		ResetSequence();
+	}
+
+	public void ResetSequence()
+	{
 		_stepIdx = 0;
 	}
 

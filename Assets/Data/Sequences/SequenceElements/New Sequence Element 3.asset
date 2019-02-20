@@ -9,12 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7405d630c676d8b47ba1df3d7766d5b5, type: 3}
-  m_Name: New Sequence Element 2
+  m_Name: New Sequence Element 3
   m_EditorClassIdentifier: 
   waypointLocation: {x: 0, y: 0, z: 0}
   lookAtPoint: {fileID: 0}
   scaleVal: 0
   piecesToActivate: []
+  piecesToActivate2: []
   OnEventBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -25,3 +26,4 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  stepDisplayInfo: This will have an event I hope

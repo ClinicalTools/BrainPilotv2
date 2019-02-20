@@ -59,7 +59,8 @@ public class DroneController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (_active) {
-			transform.LookAt(mainCamera);
+			//transform.LookAt(mainCamera);
+			transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
 
 			//goalLoc = mainCamera.position + mainCamera.forward * 3 + mainCamera.right * 3;
 			goalLoc = GetClosestGoalOffset();
@@ -77,42 +78,116 @@ public class DroneController : MonoBehaviour {
 									transform.position,
 									goalLoc,
 									lerpVal * settings.maxSpeed);
-			if (selection != null) {
-				UpdateText();
-			}
+			UpdateText();
 		}
 	}
 
-	
-
-	public void SetSelectable(Selectable selectable)
+	public void Activate()
 	{
-		selection = selectable;
+		_active = true;
+		StartCoroutine(FadeMesh(0f));
 	}
 
-	public void RunSequence(Sequence s)
+	public void Deactivate()
 	{
-		sequence = s;
-		sequence.StartSequence();
+		_active = false;
+		StartCoroutine(FadeMesh(1f));
 	}
 
-	public void ClearSelectable()
+	/// <summary>
+	/// Fades the Disolve shader in or out.
+	/// 1 = invisible
+	/// </summary>
+	/// <param name="endVal"></param>
+	private IEnumerator FadeMesh(float endVal, float duration = 2f)
 	{
-		selection = null;
+		float val = mesh.sharedMaterial.GetFloat("_DissolveCutoff");
+		float lerpVal = 0f;
+		float interval = Time.deltaTime / settings.fadeDuration;
+		while (val != endVal) {
+			lerpVal += interval;
+			val = Mathf.Lerp(val, endVal, lerpVal);
+			mesh.sharedMaterial.SetFloat("_DissolveCutoff", val);
+			yield return null;
+		}
 	}
 
+	#region TextDisplay
 	//This should be put into a listener or something I guess.
 	private void UpdateText()
 	{
 		if (sequence != null && sequence.IsActive()) {
 			textField.text = sequence.GetActiveStep().stepDisplayInfo;
-		} else if (selection is BrainElement) {
+		} else if (selection != null && selection is BrainElement) {
 			//Update with a description of the selected brain piece
 			textField.text = ((BrainElement)selection).description;
 		} else {
 			//Other uses
 		}
 	}
+
+	public void SetSelectable(Selectable selectable)
+	{
+		selection = selectable;
+	}
+	
+	/// <summary>
+	/// Loads a sequence and runs it.
+	/// </summary>
+	/// <param name="s">The sequence to run</param>
+	public void ResumeSequence(Sequence s)
+	{
+		if (!_active) {
+			Activate();
+		}
+		sequence = s;
+		sequence.StartSequence();
+		UpdateText();
+	}
+
+	public void BeginSequence(Sequence s)
+	{
+		if (!_active) {
+			Activate();
+		}
+		sequence = s;
+		sequence.ResetSequence();
+		sequence.StartSequence();
+		UpdateText();
+	}
+
+	/// <summary>
+	/// Advances the sequence to the next area
+	/// </summary>
+	public void AdvanceSequence()
+	{
+		print("Advancing sequence");
+		sequence?.AdvanceSequence();
+		if (!sequence.IsActive()) {
+			sequence = null;
+			Deactivate();
+		} else {
+			UpdateText();
+		}
+	}
+
+	/// <summary>
+	/// Advances the sequence to the next area
+	/// </summary>
+	public void RecedeSequence()
+	{
+		sequence?.RecedeSequence();
+		UpdateText();
+	}
+
+	public void ClearSelectable()
+	{
+		selection = null;
+	}
+	#endregion
+
+
+	#region Movement
 
 	/// <summary>
 	/// Scales the x, y, and z of the input's position by the x, y, and z of the scaleVals
@@ -148,33 +223,6 @@ public class DroneController : MonoBehaviour {
 		return lowestIdx;
 	}
 
-	public void Activate()
-	{
-		_active = true;
-		StartCoroutine(FadeMesh(0f));
-	}
+	#endregion
 
-	public void Deactivate()
-	{
-		_active = false;
-		StartCoroutine(FadeMesh(1f));
-	}
-
-	/// <summary>
-	/// Fades the Disolve shader in or out.
-	/// 1 = invisible
-	/// </summary>
-	/// <param name="endVal"></param>
-	private IEnumerator FadeMesh(float endVal, float duration = 2f)
-	{
-		float val = mesh.sharedMaterial.GetFloat("_DissolveCutoff");
-		float lerpVal = 0f;
-		float interval = Time.deltaTime / settings.fadeDuration;
-		while (val != endVal) {
-			lerpVal += interval;
-			val = Mathf.Lerp(val, endVal, lerpVal);
-			mesh.sharedMaterial.SetFloat("_DissolveCutoff", val);
-			yield return null;
-		}
-	}
 }

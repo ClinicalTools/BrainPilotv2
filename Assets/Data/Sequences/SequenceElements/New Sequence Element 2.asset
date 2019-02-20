@@ -14,7 +14,10 @@ MonoBehaviour:
   waypointLocation: {x: 0, y: 0, z: 0}
   lookAtPoint: {fileID: 0}
   scaleVal: 0
-  piecesToActivate: []
+  piecesToActivate:
+  - {fileID: 0}
+  piecesToActivate2:
+  - {fileID: 11400000, guid: a43ec04c01b574b5b8fef4389fb26f19, type: 2}
   OnEventBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -25,3 +28,4 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  stepDisplayInfo: I'm going to highlight a brain piece
