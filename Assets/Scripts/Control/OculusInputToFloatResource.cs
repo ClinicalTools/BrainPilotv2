@@ -12,8 +12,9 @@ public class OculusInputToFloatResource : MonoBehaviour
 
     private void Update()
     {
-    
-        resource.Value = OVRInput.Get(axis, controller);
+		if (controller == OVRInput.GetActiveController()) {
+			resource.Value = OVRInput.Get(axis, controller);
+		}
     }
 
 }
