@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITYEDITOR
 [CustomEditor(typeof(DroneController))]
 public class DroneControllerEditor : Editor
 {
@@ -18,6 +19,7 @@ public class DroneControllerEditor : Editor
 		}
 	}
 }
+#endif
 
 [System.Serializable]
 public class DroneSettings
@@ -52,6 +54,7 @@ public class DroneController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;
 		settings.maxDistance *= settings.maxDistance;
 		mesh = GetComponent<MeshRenderer>();
 	}
@@ -112,7 +115,7 @@ public class DroneController : MonoBehaviour {
 		}
 	}
 
-	#region TextDisplay
+#region TextDisplay
 	//This should be put into a listener or something I guess.
 	private void UpdateText()
 	{
@@ -184,10 +187,10 @@ public class DroneController : MonoBehaviour {
 	{
 		selection = null;
 	}
-	#endregion
+#endregion
 
 
-	#region Movement
+#region Movement
 
 	/// <summary>
 	/// Scales the x, y, and z of the input's position by the x, y, and z of the scaleVals
@@ -223,6 +226,6 @@ public class DroneController : MonoBehaviour {
 		return lowestIdx;
 	}
 
-	#endregion
+#endregion
 
 }

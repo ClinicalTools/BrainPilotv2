@@ -19,7 +19,7 @@ public class SequenceEvent
 [System.Serializable]
 public class UnityEventSequenced: UnityEvent<EventSequence, SequenceEvent> { }
 
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class EventSequence : MonoBehaviour
 {
 

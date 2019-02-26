@@ -15,7 +15,11 @@ public class OculusAxis2DToResource : MonoBehaviour
     {
 
         OVRInput.Update();
-        resource.Value = OVRInput.Get(axis, controller);
+		if (controller == OVRInput.GetActiveController()) {
+			Debug.Log("Thumbstick: " + OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick));
+			Debug.Log("Touchpad: " + OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad));
+			resource.Value = OVRInput.Get(axis, controller);
+		}
         
     }
 
