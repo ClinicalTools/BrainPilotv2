@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-#if UNITYEDITOR
+#if UNITY_EDITOR
 [CustomEditor(typeof(DroneController))]
 public class DroneControllerEditor : Editor
 {
@@ -12,10 +12,10 @@ public class DroneControllerEditor : Editor
 		base.OnInspectorGUI();
 		var controller = (DroneController)target;
 		if (GUILayout.Button("Activate")) {
-			controller.Activate();
+			controller.SetActive(true);
 		}
 		if (GUILayout.Button("Deactivate")) {
-			controller.Deactivate();
+			controller.SetActive(false);
 		}
 	}
 }
@@ -36,7 +36,7 @@ public class DroneController : MonoBehaviour {
 	public DroneSettings settings;
 
 	[SerializeField]
-	private Vector3[] potentialGoals;
+	private List<Vector3> potentialGoals;
 	[SerializeField]
 	private Transform mainCamera;
 	[SerializeField]
@@ -49,7 +49,12 @@ public class DroneController : MonoBehaviour {
 	private Vector3 goalLoc;
 	private MeshRenderer mesh;
 	private Selectable selection;
+	[SerializeField]
 	private Sequence sequence;
+
+	public bool gazeBased;
+	//Used without gaze
+	private int activeGoalIdx;
 
 
 	// Use this for initialization
@@ -58,16 +63,23 @@ public class DroneController : MonoBehaviour {
 		settings.maxDistance *= settings.maxDistance;
 		mesh = GetComponent<MeshRenderer>();
 	}
+
+	/**
+	 * GazeBased is current implementation
+	 * Otherwise will have the drone spawn in one of the predetermined
+	 * spots and not move until the Move button is pressed.
+	 * Then it will recalculate the closest goal.
+	 */
 	
 	// Update is called once per frame
 	void Update () {
-		if (_active) {
-			//transform.LookAt(mainCamera);
+		if (gazeBased && _active) {
+			//Rotate the drone to face the player
 			transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
 
+			//Move the drone towards the nearest goal location
 			//goalLoc = mainCamera.position + mainCamera.forward * 3 + mainCamera.right * 3;
 			goalLoc = GetClosestGoalOffset();
-
 			Debug.DrawLine(mainCamera.position, goalLoc);
 			distance = (transform.position - goalLoc).sqrMagnitude;
 			if (distance < 0.1f) {
@@ -81,20 +93,44 @@ public class DroneController : MonoBehaviour {
 									transform.position,
 									goalLoc,
 									lerpVal * settings.maxSpeed);
+
+			//Update the text on the drone
+			UpdateText();
+		} else if (_active) {
+			transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
+
 			UpdateText();
 		}
 	}
 
-	public void Activate()
+	public void SetActive(bool active)
 	{
-		_active = true;
-		StartCoroutine(FadeMesh(0f));
+		_active = active;
+		StartCoroutine(FadeMesh(_active ? 0f : 1f));
+
+		if (!gazeBased) {
+			if (!_active) {
+				goalLoc = Vector3.zero;
+			} else {
+				TeleportToClosestGoal();
+			}
+		}
 	}
 
-	public void Deactivate()
+	public void ToggleActive()
 	{
-		_active = false;
-		StartCoroutine(FadeMesh(1f));
+		SetActive(!_active);
+	}
+
+	public void TeleportToClosestGoal()
+	{
+		if (goalLoc == Vector3.zero) {
+			transform.position = GetClosestGoalOffset();
+			goalLoc = transform.position;
+		} else {
+			activeGoalIdx++;
+			transform.position = potentialGoals[activeGoalIdx % potentialGoals.Count];
+		}
 	}
 
 	/// <summary>
@@ -133,25 +169,15 @@ public class DroneController : MonoBehaviour {
 	{
 		selection = selectable;
 	}
-	
-	/// <summary>
-	/// Loads a sequence and runs it.
-	/// </summary>
-	/// <param name="s">The sequence to run</param>
-	public void ResumeSequence(Sequence s)
-	{
-		if (!_active) {
-			Activate();
-		}
-		sequence = s;
-		sequence.StartSequence();
-		UpdateText();
-	}
 
+	/// <summary>
+	/// Loads a sequence from the start
+	/// </summary>
+	/// <param name="s"></param>
 	public void BeginSequence(Sequence s)
 	{
 		if (!_active) {
-			Activate();
+			SetActive(true);
 		}
 		sequence = s;
 		sequence.ResetSequence();
@@ -160,27 +186,49 @@ public class DroneController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Advances the sequence to the next area
+	/// Loads a sequence and resumes it.
+	/// </summary>
+	/// <param name="s">The sequence to run</param>
+	public void ResumeSequence(Sequence s)
+	{
+		if (!_active) {
+			SetActive(true);
+		}
+		sequence = s;
+		sequence.StartSequence();
+		UpdateText();
+	}
+
+	/// <summary>
+	/// Advances the active sequence to the next area
 	/// </summary>
 	public void AdvanceSequence()
 	{
-		print("Advancing sequence");
-		sequence?.AdvanceSequence();
-		if (!sequence.IsActive()) {
-			sequence = null;
-			Deactivate();
+		if (sequence == null) {
+			print("Null sequence");
 		} else {
-			UpdateText();
+			print("Advancing sequence");
+			sequence.AdvanceSequence();
+			if (!sequence.IsActive()) {
+				sequence = null;
+				SetActive(false);
+			} else {
+				UpdateText();
+			}
 		}
 	}
 
 	/// <summary>
-	/// Advances the sequence to the next area
+	/// Retretes the sequence to the previous area
 	/// </summary>
 	public void RecedeSequence()
 	{
-		sequence?.RecedeSequence();
-		UpdateText();
+		if (sequence == null) {
+			print("Null sequence");
+		} else {
+			sequence.RecedeSequence();
+			UpdateText();
+		}
 	}
 
 	public void ClearSelectable()
@@ -216,13 +264,15 @@ public class DroneController : MonoBehaviour {
 	{
 		int lowestIdx = 0;
 		float lowestDist = 0;
-		for(int i = 0; i < potentialGoals.Length; i++) {
+		for(int i = 0; i < potentialGoals.Count; i++) {
 			Vector3 potentialGoalPos = mainCamera.position + ScaleByVec3(mainCamera, potentialGoals[i]);
 			if (i == 0 || (transform.position - potentialGoalPos).sqrMagnitude < lowestDist) {
 				lowestIdx = i;
 				lowestDist = (transform.position - potentialGoalPos).sqrMagnitude;
 			}
 		}
+
+		activeGoalIdx = lowestIdx;
 		return lowestIdx;
 	}
 
