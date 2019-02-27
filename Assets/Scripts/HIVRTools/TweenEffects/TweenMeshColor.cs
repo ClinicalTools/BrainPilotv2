@@ -8,6 +8,7 @@ public class TweenMeshColor : MonoBehaviour
 
     public MeshRenderer targetMesh;
     private Material targetMaterial;
+	private MaterialPropertyBlock properties;
     public string propertyName = "_Color";
 
     public float transitionTime = 0.3f;
@@ -30,16 +31,23 @@ public class TweenMeshColor : MonoBehaviour
     }
     [SerializeField]
     private bool activeState;
-    
 
     private void Start()
     {
-        targetMaterial = targetMesh.material;
+		properties = new MaterialPropertyBlock();
+		targetMesh.GetPropertyBlock(properties);
+		//targetMaterial = targetMesh.material;
 
-        if (ActiveState)
-            targetMaterial.SetColor(propertyName, activeColor.Color);
-        else
-            targetMaterial.SetColor(propertyName, inActiveColor.Color);
+		if (ActiveState) {
+			targetMesh.SetPropertyBlock(null);
+			//properties.SetColor(propertyName, activeColor.Color);
+			//targetMesh.SetPropertyBlock(properties);
+			//targetMaterial.SetColor(propertyName, activeColor.Color);
+		} else {
+			properties.SetColor(propertyName, inActiveColor.Color);
+			targetMesh.SetPropertyBlock(properties);
+			//targetMaterial.SetColor(propertyName, inActiveColor.Color);
+		}
 
     }
 
@@ -68,7 +76,9 @@ public class TweenMeshColor : MonoBehaviour
         {
             float ratio = elapsedTime / transitionTime;
             Color nextColor = Color.LerpUnclamped(startingColor, endingColor, curve.Evaluate(ratio));
-            targetMaterial.SetColor(propertyName, nextColor);
+			properties.SetColor(propertyName, nextColor);
+			targetMesh.SetPropertyBlock(properties);
+			//targetMaterial.SetColor(propertyName, nextColor);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

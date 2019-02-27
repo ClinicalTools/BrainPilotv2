@@ -13,7 +13,10 @@ public class UILerpEmissionHover : UIInteractState
     public override void Load()
     {
         base.Load();
-        startingColor = uiElement.meshRenderer.material.GetColor("_EmissionColor");
+		MaterialPropertyBlock properties = new MaterialPropertyBlock();
+		uiElement.meshRenderer.GetPropertyBlock(properties);
+		startingColor = properties.GetColor("_EmissionColor");
+        //startingColor = uiElement.meshRenderer.sharedMaterial.GetColor("_EmissionColor");
         SwitchColor(hoverColor);
     }
 
@@ -45,13 +48,20 @@ public class UILerpEmissionHover : UIInteractState
     IEnumerator LerpToColor(Color nextColor)
     {
         float timeElapsed = 0;
-        Color lastColor = uiElement.meshRenderer.material.GetColor("_EmissionColor");
-        while (timeElapsed <= transitionTime)
+
+		MaterialPropertyBlock properties = new MaterialPropertyBlock();
+		uiElement.meshRenderer.GetPropertyBlock(properties);
+		Color lastColor = properties.GetColor("_EmissionColor");
+		//Color lastColor = uiElement.meshRenderer.material.GetColor("_EmissionColor");
+
+		while (timeElapsed <= transitionTime)
         {
             float t = timeElapsed / transitionTime;
             Color color = Color.Lerp(lastColor, nextColor, t);
 
-            uiElement.meshRenderer.material.SetColor("_EmissionColor", color);
+			properties.SetColor("_EmissionColor", color);
+			uiElement.meshRenderer.SetPropertyBlock(properties);
+            //uiElement.meshRenderer.material.SetColor("_EmissionColor", color);
 
             timeElapsed += Time.deltaTime;
             yield return null;
