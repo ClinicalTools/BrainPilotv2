@@ -36,6 +36,11 @@ public class LineCastSelector : MonoBehaviour
 
     public bool isActive;
 
+	/*public bool accelerateOnHold;
+	public AnimationCurve speedIncrease;
+	public float speedFactor;
+	private float timeHeld;*/
+
     protected Vector3 originPosition;
     protected Vector3 targetPosition;
 
