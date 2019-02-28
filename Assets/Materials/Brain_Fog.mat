@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Brain_Fog
   m_Shader: {fileID: 4800000, guid: 6b83e5dd8246b584c837b83b7d27b444, type: 3}
-  m_ShaderKeywords: _ALPHABLEND_ON _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_NONE
-    _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_ONE
+  m_ShaderKeywords: _ALPHABLEND_ON _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_GRADIENT
+    _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_THREE
     _DISSOLVEMASK_CYLINDER _FADING_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -90,24 +90,24 @@ Material:
     - _DissolveAlphaSource: 0
     - _DissolveAlphaSourceTexturesUVSet: 0
     - _DissolveCutoff: 0.25
-    - _DissolveEdgeColorIntensity: 0
+    - _DissolveEdgeColorIntensity: 1
     - _DissolveEdgeDistortionSource: 0
-    - _DissolveEdgeDistortionStrength: 0
+    - _DissolveEdgeDistortionStrength: 1
     - _DissolveEdgeShape: 1
     - _DissolveEdgeTextureAlphaOffset: 0
     - _DissolveEdgeTextureIsDynamic: 0
     - _DissolveEdgeTextureMipmap: 0
     - _DissolveEdgeTexturePhaseOffset: 0
     - _DissolveEdgeTextureReverse: 0
-    - _DissolveEdgeTextureSource: 0
-    - _DissolveEdgeWidth: 0.25
+    - _DissolveEdgeTextureSource: 1
+    - _DissolveEdgeWidth: 0.1
     - _DissolveGIMultiplier: 0
-    - _DissolveGlobalControl: 2
+    - _DissolveGlobalControl: 0
     - _DissolveMainMapTiling: 1
     - _DissolveMappingType: 0
     - _DissolveMask: 5
     - _DissolveMaskAxis: 0
-    - _DissolveMaskCount: 0
+    - _DissolveMaskCount: 2
     - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 0
     - _DissolveMaskRadius: 1
@@ -140,9 +140,9 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.5019608, g: 0.14901961, b: 0.14901961, a: 1}
+    - _Color: {r: 1.0039216, g: 0.29803923, b: 0.29803923, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
-    - _DissolveEdgeColor: {r: 0, g: 1, b: 0, a: 1}
+    - _DissolveEdgeColor: {r: 0, g: 0.88762283, b: 1, a: 1}
     - _DissolveMap1_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap2_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap3_Scroll: {r: 0, g: 0, b: 0, a: 0}
