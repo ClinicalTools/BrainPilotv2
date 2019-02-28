@@ -15,6 +15,8 @@ public class AnchorUXController : MonoBehaviour {
 
     public bool isActive;
 
+	public bool invertX;
+
     public float forwardSpeed = .1f;
     public float orbitSpeed = 5f;
 
@@ -86,7 +88,7 @@ public class AnchorUXController : MonoBehaviour {
 
     private void DoOrbitAround()
     {
-        float changeRotation = orbitSpeed * inputResource.Value.x;
+		float changeRotation = orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
         platform.RotateAround(cursor.position, Vector3.up, changeRotation);
     }
 

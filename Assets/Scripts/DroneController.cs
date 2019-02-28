@@ -43,6 +43,7 @@ public class DroneController : MonoBehaviour {
 	private LineCastSelector selector;
 
 	public TMPro.TextMeshPro textField;
+	public bool isPositionStatic;
 
 	private bool _active = false;
 	private float distance;
@@ -62,10 +63,13 @@ public class DroneController : MonoBehaviour {
 	void Start () {
 		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;
 		settings.maxDistance *= settings.maxDistance;
-		mesh = GetComponent<MeshRenderer>();
+		if (mesh == null) {
+			mesh = GetComponentInChildren<MeshRenderer>();
+		}
 
 		if (!gazeBased) {
-			mainCamera = transform.parent;
+			//mainCamera = transform.parent;
+			mainCamera = GameObject.Find("Platform_01").transform;
 		}
 	}
 
@@ -78,39 +82,58 @@ public class DroneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (gazeBased && _active) {
-			//Rotate the drone to face the player
-			transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
+		if (_active) {
+			if (gazeBased) {
+				//Rotate the drone to face the player
+				transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
 
-			//Move the drone towards the nearest goal location
-			//goalLoc = mainCamera.position + mainCamera.forward * 3 + mainCamera.right * 3;
-			goalLoc = GetGoalOffset(PickClosestGoalIdx());
-			Debug.DrawLine(mainCamera.position, goalLoc);
-			distance = (transform.position - goalLoc).sqrMagnitude;
-			if (distance < 0.1f) {
-				return;
+				//Move the drone towards the nearest goal location
+				//goalLoc = mainCamera.position + mainCamera.forward * 3 + mainCamera.right * 3;
+				goalLoc = GetGoalOffset(PickClosestGoalIdx());
+				Debug.DrawLine(mainCamera.position, goalLoc, Color.red);
+				distance = (transform.position - goalLoc).sqrMagnitude;
+				if (distance < 0.1f) {
+					return;
+				}
+
+				//float lerpVal = SmoothStep.SmoothStop(3, distance / maxDistance);
+				float lerpVal = settings.curve.Evaluate(distance / settings.maxDistance);
+
+				transform.position = Vector3.MoveTowards(
+										transform.position,
+										goalLoc,
+										lerpVal * settings.maxSpeed);
+
+				//Update the text on the drone
+				UpdateText();
+			} else {
+				goalLoc = GetGoalOffset(activeGoalIdx);
+				if (isPositionStatic) {
+					transform.position = goalLoc;
+				} else {
+					distance = (transform.position - goalLoc).sqrMagnitude;
+					if (distance > .02f) {
+						float lerpVal = settings.curve.Evaluate(distance / settings.maxDistance);
+						Debug.DrawLine(mainCamera.position, goalLoc, Color.red);
+
+						transform.position = Vector3.MoveTowards(
+												transform.position,
+												goalLoc,
+												lerpVal * settings.maxSpeed);
+					}
+				}
+				transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
+
+				UpdateText();
 			}
-
-			//float lerpVal = SmoothStep.SmoothStop(3, distance / maxDistance);
-			float lerpVal = settings.curve.Evaluate(distance / settings.maxDistance);
-			
-			transform.position = Vector3.MoveTowards(
-									transform.position,
-									goalLoc,
-									lerpVal * settings.maxSpeed);
-
-			//Update the text on the drone
-			UpdateText();
-		} else if (_active) {
-			transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
-
-			UpdateText();
 		}
 	}
 
 	public void SetActive(bool active)
 	{
 		_active = active;
+		GetComponentInChildren<TweenItemScaleBetweenVec3Resources>().SetActiveState(active);
+		StopAllCoroutines();
 		StartCoroutine(FadeMesh(_active ? 0f : 1f));
 
 		if (!gazeBased) {
@@ -136,6 +159,7 @@ public class DroneController : MonoBehaviour {
 			activeGoalIdx++;
 			activeGoalIdx = activeGoalIdx % potentialGoals.Count;
 			transform.position = GetGoalOffset(activeGoalIdx);
+			goalLoc = transform.position;
 		}
 	}
 
