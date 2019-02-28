@@ -48,6 +48,7 @@ public class DroneController : MonoBehaviour {
 	private float distance;
 	private Vector3 goalLoc;
 	private MeshRenderer mesh;
+	[SerializeField]
 	private Selectable selection;
 	[SerializeField]
 	private Sequence sequence;
@@ -62,6 +63,10 @@ public class DroneController : MonoBehaviour {
 		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;
 		settings.maxDistance *= settings.maxDistance;
 		mesh = GetComponent<MeshRenderer>();
+
+		if (!gazeBased) {
+			mainCamera = transform.parent;
+		}
 	}
 
 	/**
@@ -79,7 +84,7 @@ public class DroneController : MonoBehaviour {
 
 			//Move the drone towards the nearest goal location
 			//goalLoc = mainCamera.position + mainCamera.forward * 3 + mainCamera.right * 3;
-			goalLoc = GetClosestGoalOffset();
+			goalLoc = GetGoalOffset(PickClosestGoalIdx());
 			Debug.DrawLine(mainCamera.position, goalLoc);
 			distance = (transform.position - goalLoc).sqrMagnitude;
 			if (distance < 0.1f) {
@@ -125,11 +130,12 @@ public class DroneController : MonoBehaviour {
 	public void TeleportToClosestGoal()
 	{
 		if (goalLoc == Vector3.zero) {
-			transform.position = GetClosestGoalOffset();
+			transform.position = GetGoalOffset(PickClosestGoalIdx());
 			goalLoc = transform.position;
 		} else {
 			activeGoalIdx++;
-			transform.position = potentialGoals[activeGoalIdx % potentialGoals.Count];
+			activeGoalIdx = activeGoalIdx % potentialGoals.Count;
+			transform.position = GetGoalOffset(activeGoalIdx);
 		}
 	}
 
@@ -254,9 +260,9 @@ public class DroneController : MonoBehaviour {
 			input.forward * scaleVals.z;
 	}
 
-	private Vector3 GetClosestGoalOffset()
+	private Vector3 GetGoalOffset(int idx)
 	{
-		Vector3 goal = potentialGoals[PickClosestGoalIdx()];
+		Vector3 goal = potentialGoals[idx];
 		return mainCamera.position + ScaleByVec3(mainCamera, goal);
 	}
 
