@@ -11,6 +11,9 @@ public class MaterialSwitchState : SelectableStateAction {
 	[SerializeField]
 	protected Color emissionColor;
 
+	private float none = 0;
+	private float cylinder = 6;
+
 	public override void Activate()
     {
         base.Activate();
@@ -19,7 +22,8 @@ public class MaterialSwitchState : SelectableStateAction {
 		//element.meshRenderer.sharedMaterial = material;
 
 		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
-		propertyBlock.SetColor("_EmissionColor", emissionColor);
+		//propertyBlock.SetColor("_EmissionColor", emissionColor);
+		propertyBlock.SetFloat("_DissolveMask", none);
 		element.meshRenderer.SetPropertyBlock(propertyBlock);
     }
 

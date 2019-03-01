@@ -65,6 +65,7 @@ public class LineCastSelector : MonoBehaviour
             
             cursor.position = cursorSavedPosition;
             cursor.LookAt(transform);
+			cursor.GetComponentInChildren<MeshRenderer>().enabled = false;
             //cursor.rotation = cursorSavedRotation;
         }
         cursor.LookAt(transform);
@@ -75,7 +76,9 @@ public class LineCastSelector : MonoBehaviour
         cursorSavedPosition = cursor.position;
         //cursorSavedRotation = cursor.rotation;
         isActive = !clickDown;
-    }
+
+		cursor.GetComponentInChildren<MeshRenderer>().enabled = isActive;
+	}
 
     /// <summary>
     /// Raycasts out and gathers all Selectable Elements we find
