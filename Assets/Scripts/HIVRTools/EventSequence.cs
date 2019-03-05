@@ -19,8 +19,8 @@ public class SequenceEvent
 [System.Serializable]
 public class UnityEventSequenced: UnityEvent<EventSequence, SequenceEvent> { }
 
-//[CreateAssetMenu]
-public class EventSequence : MonoBehaviour
+[CreateAssetMenu]
+public class EventSequence : ScriptableObject
 {
 
     public List<SequenceEvent> sequenceEvents;
