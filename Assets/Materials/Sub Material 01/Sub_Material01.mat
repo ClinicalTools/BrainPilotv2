@@ -8,8 +8,9 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Sub_Material01
   m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
-  m_ShaderKeywords: _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMASKCOUNT_THREE
-    _DISSOLVEMASK_CYLINDER _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+  m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_TRIPLANAR
+    _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASK_CYLINDER _METALLICGLOSSMAP _METALLICSPECGLOSSMAP
+    _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -82,7 +83,7 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DissolveAlphaSource: 0
+    - _DissolveAlphaSource: 1
     - _DissolveAlphaSourceTexturesUVSet: 0
     - _DissolveCutoff: 0.25
     - _DissolveEdgeColorIntensity: 0
@@ -97,9 +98,9 @@ Material:
     - _DissolveEdgeTextureSource: 0
     - _DissolveEdgeWidth: 0.25
     - _DissolveGIMultiplier: 1
-    - _DissolveGlobalControl: 2
+    - _DissolveGlobalControl: 3
     - _DissolveMainMapTiling: 1
-    - _DissolveMappingType: 0
+    - _DissolveMappingType: 1
     - _DissolveMask: 5
     - _DissolveMaskAxis: 0
     - _DissolveMaskCount: 2
