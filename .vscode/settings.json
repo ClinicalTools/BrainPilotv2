@@ -43,7 +43,6 @@
         "**/*.user": true,
         "**/*.userprefs": true,
         "**/*.wav": true,
-        "// Configure glob patterns for excluding files and folders.     \"files.exclude\": {         \"**/.git\": true,         \"**/.DS_Store\": true,         \"**/*.meta\": true,         \"**/*.*.meta\": true,         \"**/*.unity\": true,         \"**/*.unityproj\": true,         \"**/*.mat\": true,         \"**/*.fbx\": true,         \"**/*.FBX\": true,         \"**/*.tga\": true,         \"**/*.cubemap\": true,         \"**/*.prefab\": true,         \"**/Library\": true,         \"**/ProjectSettings\": true,         \"**/Temp\": true     }": true,
         "build/": true,
         "Build/": true,
         "library/": true,
@@ -54,5 +53,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "files.watcherExclude": {
+        "\"files.exclude\": {         \"**/.git\": true,         \"**/.DS_Store\": true,         \"**/*.meta\": true,         \"**/*.*.meta\": true,         \"**/*.unity\": true,         \"**/*.unityproj\": true,         \"**/*.mat\": true,         \"**/*.fbx\": true,         \"**/*.FBX\": true,         \"**/*.tga\": true,         \"**/*.cubemap\": true,         \"**/*.prefab\": true,         \"**/Library\": true,         \"**/ProjectSettings\": true,         \"**/Temp\": true     }": true
+    }
 }
