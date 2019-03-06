@@ -7,7 +7,7 @@ public class AnimationController : MonoBehaviour {
 	new public Animation animation;
 
 	public bool active;
-	public Selectable lastSelectable;
+	private Selectable lastSelectable;
 
 	/**
 	 * The idea is to play the animation only on selection switch

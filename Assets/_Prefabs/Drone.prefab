@@ -469,7 +469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4903152758261036}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PhysicalScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 114077173442530380}
   - component: {fileID: 114409221138023500}
   - component: {fileID: 114748664027351388}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Menu_Bar02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4251439992367742}
   - component: {fileID: 114021081599447010}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,7 +647,6 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   - component: {fileID: 222014127237640390}
   - component: {fileID: 114690719890461538}
-  m_Layer: 0
   m_Name: TextMeshPro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639140111471082}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TextContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -681,7 +680,7 @@ GameObject:
   - component: {fileID: 33257659325388220}
   - component: {fileID: 222624058060659234}
   - component: {fileID: 114008167585948310}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TextMeshPro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
