@@ -24,7 +24,8 @@ public class MaterialSwitchState : SelectableStateAction {
 		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 		//propertyBlock.SetColor("_EmissionColor", emissionColor);
 		propertyBlock.SetFloat("_DissolveMask", none);
-		element.meshRenderer.SetPropertyBlock(propertyBlock);
+		GetComponent<MeshRenderer>().SetPropertyBlock(propertyBlock);
+		//element.meshRenderer.SetPropertyBlock(propertyBlock);
     }
 
     public override void Deactivate()
@@ -33,6 +34,7 @@ public class MaterialSwitchState : SelectableStateAction {
 
 		//element.meshRenderer.sharedMaterial = savedMaterial;
 
+		GetComponent<MeshRenderer>().SetPropertyBlock(null);
 		element.meshRenderer.SetPropertyBlock(null);
 	}
 

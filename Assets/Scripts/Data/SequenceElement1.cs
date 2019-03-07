@@ -11,50 +11,84 @@ public class SequenceElement1 : MonoBehaviour {
 	 * This could include waypoint/location data, scale,
 	 * events to call, etc.
 	 */
+	[System.Serializable]
+	private class PlatformInformation
+	{
+		public Vector3 waypointLocation;
+		//public Transform waypointLocation;
 
-	public Vector3 waypointLocation;
-	//public Transform waypointLocation;
+		public Transform lookAtPoint;
+		//public Vector3 lookAtDirection;
 
-	public Transform lookAtPoint;
-	//public Vector3 lookAtDirection;
+		public float scaleVal;
+	}
 
-	public float scaleVal;
 
-	public SelectableElement[] piecesToActivate;
-	public BrainElement[] piecesToActivate2;
+	[SerializeField]
+	private PlatformInformation platformInformation;
+
+	public string textToDisplay;
+
+	public MaterialSwitchState[] brainPiecesToHighlight;
 	
 	public UnityEvent OnEventBegin;
 	public UnityEvent OnEventEnd;
 
-	public string stepDisplayInfo;
-	
+
 	//This could help with pages of strings. We'd have control of the content
 	//per page. Difficult to include images/other though
 	//public string[] infoPages;
 
+	private void OnEnable()
+	{
+		//Check to see if the loaded element is in the active part
+		if (gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene()) {
+			//Set the sequence as the drone's chosen sequence
+		}
+	}
+
 	public void Activate()
 	{
 		OnEventBegin.Invoke();
-		foreach(SelectableElement element in piecesToActivate) {
-			element?.GetComponent<MaterialSwitchState>()?.Activate();
-		}
-		foreach(BrainElement element in piecesToActivate2) {
-			foreach(SelectableListener obj in element.listeners) {
-				obj?.GetComponent<MaterialSwitchState>()?.Activate();
-			}
-		}
+		HighlightBrainPieces();
+		HandlePlatformMovement();
 	}
 
 	public void Deactivate()
 	{
 		OnEventEnd.Invoke();
-		foreach (SelectableElement element in piecesToActivate) {
-			element?.GetComponent<MaterialSwitchState>()?.Deactivate();
+		UnhighlightBrainPieces();
+	}
+
+	public void HighlightBrainPieces()
+	{
+		foreach (MaterialSwitchState element in brainPiecesToHighlight) {
+			element?.Activate();
 		}
-		foreach (BrainElement element in piecesToActivate2) {
-			foreach (SelectableListener obj in element.listeners) {
-				obj?.GetComponent<MaterialSwitchState>()?.Deactivate();
-			}
+	}
+
+	public void UnhighlightBrainPieces()
+	{
+		foreach (MaterialSwitchState element in brainPiecesToHighlight) {
+			element?.Deactivate();
+		}
+	}
+
+	public void HandlePlatformMovement()
+	{
+		StartCoroutine(IterateMovement());
+	}
+
+	private IEnumerator IterateMovement()
+	{
+		float time = 0;
+		float totalTime = 3f;
+		while (time < totalTime) {
+			/*LerpMovement();
+			LerpRotation();
+			LerpScale(); */
+			time += Time.deltaTime;
+			yield return null;
 		}
 	}
 }
