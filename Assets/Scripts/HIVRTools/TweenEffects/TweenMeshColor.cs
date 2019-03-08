@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,20 +33,80 @@ public class TweenMeshColor : MonoBehaviour
     [SerializeField]
     private bool activeState;
 
-    private void Start()
+
+	private class MatTup {
+		public MeshRenderer renderer; public Material original;
+
+		public MatTup(Material original, MeshRenderer renderer)
+		{
+			this.original = original;
+			this.renderer = renderer;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj.GetType() != typeof(MatTup)) {
+				return false;
+			}
+
+			return original == ((MatTup)obj).original && renderer.sharedMaterial == ((MatTup)obj).renderer.sharedMaterial;
+		}
+
+		public override int GetHashCode()
+		{
+			var hashCode = 1957053554;
+			hashCode = hashCode * -1521134295 + EqualityComparer<Material>.Default.GetHashCode(original);
+			hashCode = hashCode * -1521134295 + EqualityComparer<MeshRenderer>.Default.GetHashCode(renderer);
+			return hashCode;
+		}
+	}
+
+	private static List<MatTup> originalMatList;
+	private static bool unityAppQuitCalled = false;
+
+	private void FixMaterials()
+	{
+		foreach(MatTup m in originalMatList) {
+			m.renderer.sharedMaterial = m.original;
+		}
+	}
+
+	private void Start()
     {
+		if (!unityAppQuitCalled) {
+			unityAppQuitCalled = true;
+			Application.quitting += FixMaterials;
+		}
+
 		properties = new MaterialPropertyBlock();
 		targetMesh.GetPropertyBlock(properties);
 		//targetMaterial = targetMesh.material;
 
-		if (ActiveState) {
+		//In order to not mess up the order, swap the sharedmaterial's
+		//state with the inactive one to help batching
+		//targetMesh.sharedMaterial.SetColor(propertyName, activeColor.Color);
+		//return;
+		if (originalMatList == null) {
+			originalMatList = new List<MatTup>();
+		}
+		if (originalMatList.Find((MatTup x) => x.original.Equals(targetMesh.sharedMaterial)) != null) {
+			Material m = new Material(targetMesh.sharedMaterial);
+			targetMesh.sharedMaterial.SetColor(propertyName, inActiveColor.Color);
+			originalMatList.Add(new MatTup(m, targetMesh));
+		}
+		targetMesh.sharedMaterial.SetColor(propertyName, inActiveColor.Color);
+
+		if (!ActiveState) {
 			targetMesh.SetPropertyBlock(null);
 			//properties.SetColor(propertyName, activeColor.Color);
 			//targetMesh.SetPropertyBlock(properties);
+
 			//targetMaterial.SetColor(propertyName, activeColor.Color);
 		} else {
-			properties.SetColor(propertyName, inActiveColor.Color);
+			properties.SetColor(propertyName, activeColor.Color);
 			targetMesh.SetPropertyBlock(properties);
+			
+			//properties.SetColor(propertyName, inActiveColor.Color);
 			//targetMaterial.SetColor(propertyName, inActiveColor.Color);
 		}
 

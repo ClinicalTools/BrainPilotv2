@@ -1952,7 +1952,6 @@ GameObject:
   - component: {fileID: 4216675425075416}
   - component: {fileID: 33660408936478548}
   - component: {fileID: 23906641127566682}
-  - component: {fileID: 114209334060637098}
   m_Layer: 0
   m_Name: L_Cerebrum_solid
   m_TagString: Untagged
@@ -3723,7 +3722,6 @@ GameObject:
   - component: {fileID: 4262744813034176}
   - component: {fileID: 33130168668733852}
   - component: {fileID: 23789888928390316}
-  - component: {fileID: 114658670385489930}
   m_Layer: 0
   m_Name: R_Cerebrum_solid
   m_TagString: Untagged
@@ -4553,9 +4551,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1505540670237180}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.988, y: 0.988, z: 0.988}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.9880001, y: 0.98800004, z: 0.98800004}
   m_Children: []
   m_Father: {fileID: 4861538887117552}
   m_RootOrder: 0
@@ -4648,7 +4646,7 @@ Transform:
   m_GameObject: {fileID: 1949280342276518}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.988, y: 0.988, z: 0.988}
+  m_LocalScale: {x: 0.98800004, y: 0.9880001, z: 0.9880001}
   m_Children: []
   m_Father: {fileID: 4265721426258766}
   m_RootOrder: 0
@@ -16899,21 +16897,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114209334060637098
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1505540670237180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62a7847895233fe4da45bce758b1ae32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element: {fileID: 0}
-  active: 0
-  material: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114209464970960376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20415,21 +20398,6 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates: []
   localActiveStates: []
---- !u!114 &114658670385489930
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1949280342276518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62a7847895233fe4da45bce758b1ae32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element: {fileID: 0}
-  active: 0
-  material: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114658896449513518
 MonoBehaviour:
   m_ObjectHideFlags: 1
