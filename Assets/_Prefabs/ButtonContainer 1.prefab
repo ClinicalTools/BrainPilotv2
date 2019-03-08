@@ -232,7 +232,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4776364610374440}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4651420621322556
 Transform:
@@ -245,7 +245,7 @@ Transform:
   m_LocalScale: {x: 2.5, y: 5, z: 100}
   m_Children: []
   m_Father: {fileID: 4776364610374440}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4657650523072772
 Transform:
@@ -283,8 +283,8 @@ Transform:
   m_LocalPosition: {x: -0.0736, y: -0, z: -0.01}
   m_LocalScale: {x: 0.4, y: 0.2, z: 0.01}
   m_Children:
-  - {fileID: 4651420621322556}
   - {fileID: 4619227438062152}
+  - {fileID: 4651420621322556}
   - {fileID: 224732313168448496}
   - {fileID: 4657650523072772}
   m_Father: {fileID: 4283871564094140}
@@ -4475,6 +4475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultVisibleState: 0
+  elementData: {fileID: 0}
 --- !u!114 &114789255487236318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4562,6 +4563,7 @@ MonoBehaviour:
   textMeshPro: {fileID: 114673397084667198}
   useOverrideText: 0
   overrideText: 
+  uIElement: {fileID: 0}
 --- !u!114 &114951724225902208
 MonoBehaviour:
   m_ObjectHideFlags: 1

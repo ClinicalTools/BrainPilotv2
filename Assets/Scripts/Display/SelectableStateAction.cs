@@ -41,7 +41,8 @@ public class SelectableStateAction : MonoBehaviour, ISelectableStateAction
     {
 #if UNITY_EDITOR
 		//UnityEditor.Undo.RecordObject(this, "Deleted " + element.name);
-		UnityEditor.Undo.DestroyObjectImmediate(gameObject);
+		Debug.LogWarning("DESTROYING " + gameObject.name);
+		//UnityEditor.Undo.DestroyObjectImmediate(gameObject);
         //DestroyImmediate(gameObject);
 #else
         Destroy(gameObject);

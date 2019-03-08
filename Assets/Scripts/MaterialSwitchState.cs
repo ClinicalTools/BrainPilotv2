@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class MaterialSwitchState : SelectableStateAction {
 
-    public Material material;
+	//public Material material;
+	//protected Material savedMaterial;
 
-    protected Material savedMaterial;
+	public MeshRenderer renderer;
 
 	[SerializeField]
 	protected Color emissionColor;
@@ -22,9 +24,9 @@ public class MaterialSwitchState : SelectableStateAction {
 		//element.meshRenderer.sharedMaterial = material;
 
 		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
-		//propertyBlock.SetColor("_EmissionColor", emissionColor);
+		propertyBlock.SetColor("_EmissionColor", emissionColor);
 		propertyBlock.SetFloat("_DissolveMask", none);
-		GetComponent<MeshRenderer>().SetPropertyBlock(propertyBlock);
+		renderer.SetPropertyBlock(propertyBlock);
 		//element.meshRenderer.SetPropertyBlock(propertyBlock);
     }
 
@@ -34,8 +36,8 @@ public class MaterialSwitchState : SelectableStateAction {
 
 		//element.meshRenderer.sharedMaterial = savedMaterial;
 
-		GetComponent<MeshRenderer>().SetPropertyBlock(null);
-		element.meshRenderer.SetPropertyBlock(null);
+		renderer.SetPropertyBlock(null);
+		//element.meshRenderer.SetPropertyBlock(null);
 	}
 
 }

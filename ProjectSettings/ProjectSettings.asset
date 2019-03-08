@@ -154,6 +154,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.HIS.BrainPilot2
     Standalone: com.oculus.UnitySample
+    WebGL: com.oculus.UnitySample
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 23
@@ -368,6 +369,9 @@ PlayerSettings:
     m_Devices:
     - Oculus
     - None
+  - m_BuildTarget: WebGL
+    m_Enabled: 1
+    m_Devices: []
   m_BuildTargetEnableVuforiaSettings: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0

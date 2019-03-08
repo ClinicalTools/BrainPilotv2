@@ -34,5 +34,37 @@ public class GenerateBrainSubScene {
 			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
 		}
 	}
+
+	[MenuItem("Brain Scene/" + "Bake Lighting")]
+	public static void BakeLighting()
+	{
+		s = new List<string>(AssetDatabase.FindAssets("t:scene", new[] { "Assets/Scenes/Layered Scenes" }));
+		previouslyActive = SceneManager.GetActiveScene();
+		EditorApplication.update += Update;
+	}
+
+	private static bool lightmapFinished;
+	private static List<string> s;
+	private static Scene previouslyActive;
+	
+
+	private static void Update()
+	{
+		if (!Lightmapping.isRunning) {
+			if (s.Count == 0) {
+				EditorApplication.update -= Update;
+				SceneManager.SetActiveScene(previouslyActive);
+			}
+			StartLightmap(s[0]);
+			s.RemoveAt(0);
+		}
+	}
+
+	private static void StartLightmap(string str)
+	{
+		string assetPath = AssetDatabase.GUIDToAssetPath(str);
+		SceneManager.SetActiveScene(SceneManager.GetSceneByPath(assetPath));
+		Lightmapping.BakeAsync();
+	}
 #endif
 }
