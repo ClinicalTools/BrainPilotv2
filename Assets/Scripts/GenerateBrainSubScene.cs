@@ -35,12 +35,19 @@ public class GenerateBrainSubScene {
 		}
 	}
 
-	[MenuItem("Brain Scene/" + "Bake Lighting")]
-	public static void BakeLighting()
+	[MenuItem("Brain Scene/" + "Bake All Lighting")]
+	public static void BakeAllLighting()
 	{
 		s = new List<string>(AssetDatabase.FindAssets("t:scene", new[] { "Assets/Scenes/Layered Scenes" }));
 		previouslyActive = SceneManager.GetActiveScene();
 		EditorApplication.update += Update;
+	}
+
+	[MenuItem("Brain Scene/" + "Bake Active Lighting")]
+	public static void BakeActiveLighting()
+	{
+		previouslyActive = SceneManager.GetActiveScene();
+		EditorApplication.update += UpdateActive;
 	}
 
 	private static bool lightmapFinished;
@@ -54,16 +61,42 @@ public class GenerateBrainSubScene {
 			if (s.Count == 0) {
 				EditorApplication.update -= Update;
 				SceneManager.SetActiveScene(previouslyActive);
+				return;
 			}
-			StartLightmap(s[0]);
+			string assetPath = AssetDatabase.GUIDToAssetPath(s[0]);
 			s.RemoveAt(0);
+			Scene scene = SceneManager.GetSceneByPath(assetPath);
+			if(!scene.isLoaded) {
+				EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Additive);
+			}
+			StartLightmap(scene);
 		}
 	}
 
-	private static void StartLightmap(string str)
+	private static List<Scene> activeSceneList;
+	private static void UpdateActive()
 	{
-		string assetPath = AssetDatabase.GUIDToAssetPath(str);
-		SceneManager.SetActiveScene(SceneManager.GetSceneByPath(assetPath));
+		if (activeSceneList == null) {
+			activeSceneList = new List<Scene>();
+			for(int i = 0; i < EditorSceneManager.sceneCount; i++) {
+				activeSceneList.Add(EditorSceneManager.GetSceneAt(i));
+			}
+		}
+
+		if (!Lightmapping.isRunning) {
+			if (activeSceneList.Count == 0) {
+				EditorApplication.update -= Update;
+				EditorSceneManager.SetActiveScene(previouslyActive);
+				return;
+			}
+			StartLightmap(activeSceneList[0]);
+			activeSceneList.RemoveAt(0);
+		}
+	}
+
+	private static void StartLightmap(Scene s)
+	{
+		EditorSceneManager.SetActiveScene(s);
 		Lightmapping.BakeAsync();
 	}
 #endif

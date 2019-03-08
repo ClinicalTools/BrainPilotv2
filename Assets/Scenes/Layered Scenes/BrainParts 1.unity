@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000004, guid: 7e1eeead4cf433e41872ea575d99da7f,
+  m_LightingDataAsset: {fileID: 112000004, guid: 908a5fb57b23bc24da3684381dd0bfce,
     type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -771,7 +771,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1405637435606920, guid: 690c80b936d90584b90d8731df180517, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690c80b936d90584b90d8731df180517, type: 2}
