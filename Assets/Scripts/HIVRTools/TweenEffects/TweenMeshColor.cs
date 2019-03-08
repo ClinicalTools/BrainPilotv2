@@ -75,7 +75,7 @@ public class TweenMeshColor : MonoBehaviour
     {
 		if (!unityAppQuitCalled) {
 			unityAppQuitCalled = true;
-			Application.quitting += FixMaterials;
+			//Application.quitting += FixMaterials;
 		}
 
 		properties = new MaterialPropertyBlock();
@@ -86,6 +86,7 @@ public class TweenMeshColor : MonoBehaviour
 		//state with the inactive one to help batching
 		//targetMesh.sharedMaterial.SetColor(propertyName, activeColor.Color);
 		//return;
+
 		if (originalMatList == null) {
 			originalMatList = new List<MatTup>();
 		}
