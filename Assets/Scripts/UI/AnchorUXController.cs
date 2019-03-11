@@ -19,6 +19,15 @@ public class AnchorUXController : MonoBehaviour {
 
     public float forwardSpeed = .1f;
     public float orbitSpeed = 5f;
+	public float rotationSpeed = 1f;
+
+	public enum MovementType
+	{
+		Orbit,
+		Rotate
+	}
+
+	public MovementType movementType = MovementType.Orbit;
 
     /// <summary>
     /// The target we are using to move to / from and orbit around
@@ -79,9 +88,17 @@ public class AnchorUXController : MonoBehaviour {
         StartCustomMovement.Invoke();
         while (isActive)
         {
-            DoForwardMovement();
-            DoOrbitAround();
-            yield return null;
+			switch (movementType) {
+				case MovementType.Orbit:
+					DoForwardMovement();
+					DoOrbitAround();
+					break;
+				case MovementType.Rotate:
+					DoForwardMovement();
+					DoRotate();
+					break;
+			}
+			yield return null;
         }
         StopCustomMovement.Invoke();
     }
@@ -91,6 +108,12 @@ public class AnchorUXController : MonoBehaviour {
 		float changeRotation = orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
         platform.RotateAround(cursor.position, Vector3.up, changeRotation);
     }
+
+	private void DoRotate()
+	{
+		float changeRotation = rotationSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		platform.Rotate(Vector3.up, changeRotation);
+	}
 
     private void DoForwardMovement()
     {
