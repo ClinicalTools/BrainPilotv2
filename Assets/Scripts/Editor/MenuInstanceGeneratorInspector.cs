@@ -115,34 +115,33 @@ public class MenuInstanceGeneratorInspector : Editor
 
         EditorGUILayout.Space();
 
-        //for(int i = 0; i < menuItemNames.Count; i++)
-        //{
+		//for(int i = 0; i < menuItemNames.Count; i++)
+		//{
 
-        //    EditorGUILayout.BeginHorizontal();
+		//    EditorGUILayout.BeginHorizontal();
 
-        //    menuItemNames[i] = EditorGUILayout.TextArea(menuItemNames[i], GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .7f));
-        //    if (GUILayout.Button("X", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .1f))) 
-        //    {
-        //        menuItemNames.RemoveAt(i);
-        //    }
+		//    menuItemNames[i] = EditorGUILayout.TextArea(menuItemNames[i], GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .7f));
+		//    if (GUILayout.Button("X", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .1f))) 
+		//    {
+		//        menuItemNames.RemoveAt(i);
+		//    }
 
-        //    EditorGUILayout.EndHorizontal();
-        //}
+		//    EditorGUILayout.EndHorizontal();
+		//}
+		if (uiElementMenuAssetTarget != null) {
+			for (int i = 0; i < uiElementMenuAssetTarget.elements.Count; i++) {
 
-        for (int i = 0; i < uiElementMenuAssetTarget.elements.Count; i++)
-        {
+				EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.BeginHorizontal();
+				uiElementMenuAssetTarget.elements[i].name = EditorGUILayout.TextArea(uiElementMenuAssetTarget.elements[i].name, GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .7f));
+				if (GUILayout.Button("X", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .1f))) {
+					uiElementMenuAssetTarget.elements.RemoveAt(i);
+				}
 
-            uiElementMenuAssetTarget.elements[i].name = EditorGUILayout.TextArea(uiElementMenuAssetTarget.elements[i].name, GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .7f));
-            if (GUILayout.Button("X", GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * .1f)))
-            {
-                uiElementMenuAssetTarget.elements.RemoveAt(i);
-            }
-            
 
-            EditorGUILayout.EndHorizontal();
-        }
+				EditorGUILayout.EndHorizontal();
+			}
+		}
 
 
         EditorGUILayout.EndVertical();
