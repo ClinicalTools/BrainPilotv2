@@ -85,7 +85,7 @@ public class GenerateBrainSubScene {
 
 		if (!Lightmapping.isRunning) {
 			if (activeSceneList.Count == 0) {
-				EditorApplication.update -= Update;
+				EditorApplication.update -= UpdateActive;
 				EditorSceneManager.SetActiveScene(previouslyActive);
 				return;
 			}
