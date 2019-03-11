@@ -40,8 +40,8 @@ public class BrainSceneReferencesEditor : Editor
     }
 
 	private static GUIContent
-		moveUpButtonContent = new GUIContent("\u25bc", "move down"),
-		moveDownButtonContent = new GUIContent("\u25b2", "move down"),
+		moveUpButtonContent = new GUIContent("\u25b2", "move up"),
+		moveDownButtonContent = new GUIContent("\u25bc", "move down"),
 		duplicateButtonContent = new GUIContent("+", "duplicate"),
 		deleteButtonContent = new GUIContent("-", "delete"),
 		addButtonContent = new GUIContent("+", "add element");
@@ -103,12 +103,11 @@ public class BrainSceneReferencesEditor : Editor
 
 	private static void ShowButtons(SerializedProperty list, int index)
 	{
-		
-		if (GUILayout.Button(moveUpButtonContent, EditorStyles.miniButtonLeft, miniButtonWidth)) {
-			list.MoveArrayElement(index, index - 1);
-		}
-		if (GUILayout.Button(moveDownButtonContent, EditorStyles.miniButtonMid, miniButtonWidth)) {
+		if (GUILayout.Button(moveDownButtonContent, EditorStyles.miniButtonLeft, miniButtonWidth)) {
 			list.MoveArrayElement(index, index + 1);
+		}
+		if (GUILayout.Button(moveUpButtonContent, EditorStyles.miniButtonMid, miniButtonWidth)) {
+			list.MoveArrayElement(index, index - 1);
 		}
 		/*if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonLeft, miniButtonWidth)) {
 			list.InsertArrayElementAtIndex(index);
