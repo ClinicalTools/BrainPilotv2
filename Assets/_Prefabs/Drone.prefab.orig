@@ -133,10 +133,6 @@ GameObject:
   - component: {fileID: 222788459305062380}
   - component: {fileID: 114410676224029724}
   m_Layer: 9
-<<<<<<< HEAD
-=======
-  m_Name: TextMeshPro
->>>>>>> Beginning work on new structure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -407,7 +403,6 @@ GameObject:
   - component: {fileID: 4218007061794668}
   - component: {fileID: 114977160052718844}
   m_Layer: 9
-<<<<<<< HEAD
   m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,9 +456,6 @@ GameObject:
   - component: {fileID: 114748664027351388}
   m_Layer: 9
   m_Name: Menu_Bar02
-=======
-  m_Name: Drone
->>>>>>> Beginning work on new structure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -587,7 +579,6 @@ GameObject:
   - component: {fileID: 222014127237640390}
   - component: {fileID: 114690719890461538}
   m_Layer: 9
-<<<<<<< HEAD
   m_Name: TextMeshPro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,9 +647,6 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   - component: {fileID: 222014127237640390}
   - component: {fileID: 114690719890461538}
-  m_Layer: 0
-=======
->>>>>>> Beginning work on new structure
   m_Name: TextMeshPro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +728,7 @@ Transform:
   - {fileID: 4218007061794668}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -225, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4176470350469452
 Transform:
   m_ObjectHideFlags: 1
@@ -1620,7 +1608,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
+<<<<<<< HEAD
   - {fileID: 2100000, guid: add3db9f0e5e7794d8365328344f75c4, type: 2}
+=======
+  - {fileID: 2100000, guid: 7b69a913c25eb854a9eaf4e73b68597f, type: 2}
+>>>>>>> b4d9ca0b33a23ba637643ea2b57776770ca8b400
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2075,7 +2067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4515232f1f9acf14cb92be85c34358bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetMesh: {fileID: 23469113881373542}
+  targetMesh: {fileID: 0}
   propertyName: _Color
   transitionTime: 0.3
   curve:
@@ -5269,7 +5261,8 @@ MonoBehaviour:
   element: {fileID: 114356876535426476}
   manager: {fileID: 114640703159216296}
   updateStates: 0
-  localLoadedStates: []
+  localLoadedStates:
+  - {fileID: 0}
   localActiveStates: []
   localActiveStates: []
 --- !u!114 &114818416946670056
