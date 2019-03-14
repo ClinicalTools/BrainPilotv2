@@ -19,7 +19,7 @@ public class AnchorUXController : MonoBehaviour {
 
     public float forwardSpeed = .1f;
     public float orbitSpeed = 5f;
-	public float rotationSpeed = 1f;
+	public float rotationSpeed = .4f;
 
 	public enum MovementType
 	{

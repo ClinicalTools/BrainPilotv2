@@ -32,9 +32,29 @@ public class DroneData : ScriptableObject {
 	
 	public void UpdateSelectable(Selectable s)
 	{
+		foreach (DroneListener listener in list) {
+			listener.Invoke(false);
+		}
 		selection = s;
 		foreach(DroneListener listener in list) {
-			listener.Invoke();
+			listener.Invoke(true);
+		}
+	}
+
+	public void HighlightSelected(Selectable selected)
+	{
+		if (selection == null) {
+			return;
+		}
+		if (selected == selection) {
+			//Highlight is being called after the selection has been updated
+			foreach(SelectableListener l in selection.listeners) {
+				l?.GetComponent<MaterialSwitchState>()?.Activate();
+			}
+		} else {
+			foreach (SelectableListener l in selection.listeners) {
+				l?.GetComponent<MaterialSwitchState>()?.Deactivate();
+			}
 		}
 	}
 }

@@ -8,13 +8,22 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Reconstruct.unity
     guid: 95797a823e9a9064c9a9a52afc97cc06
-  - enabled: 0
-    path: Assets/Scenes/tEST bRAIN.unity
-    guid: 41cc2459fd9ae5c45881f1a49d120ce6
+  - enabled: 1
+    path: Assets/Scenes/Layered Scenes/Hub Scene.unity
+    guid: a6f4587296a9bfe45bcca823cb973304
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/Main Scene.unity
     guid: 652620de51b674c4a9d26cb666949561
   - enabled: 1
-    path: Assets/Scenes/Layered Scenes/BrainParts 1.unity
+    path: Assets/Scenes/Layered Scenes/Full Brain.unity
     guid: 33d0f9463b8ec664ebe1db7c22de4451
+  - enabled: 1
+    path: Assets/Scenes/Layered Scenes/New Scene.unity
+    guid: 587e776fadf71f046a324f2e427b8a0d
+  - enabled: 1
+    path: Assets/Scenes/Layered Scenes/New Scene 1.unity
+    guid: 5d2761e95e216ac49bb1f4c241f5777e
+  - enabled: 1
+    path: Assets/Scenes/Layered Scenes/New Scene 2.unity
+    guid: d9321339859b961489e209b93be7c8f0
   m_configObjects: {}

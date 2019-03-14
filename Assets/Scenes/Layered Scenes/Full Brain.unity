@@ -119,6 +119,38 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 23906641127566682, guid: 690c80b936d90584b90d8731df180517,
     type: 2}
   m_PrefabInternal: {fileID: 1969707691}
+--- !u!23 &289240296 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 23533406147975424, guid: 690c80b936d90584b90d8731df180517,
+    type: 2}
+  m_PrefabInternal: {fileID: 1969707691}
+--- !u!1 &328934490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1943615598844700, guid: 690c80b936d90584b90d8731df180517,
+    type: 2}
+  m_PrefabInternal: {fileID: 1969707691}
+--- !u!114 &328934496 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114252332995188296, guid: 690c80b936d90584b90d8731df180517,
+    type: 2}
+  m_PrefabInternal: {fileID: 1969707691}
+  m_Script: {fileID: 11500000, guid: e01e6e4801f0b0a489123d89b9339791, type: 3}
+--- !u!114 &328934500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 328934490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a7847895233fe4da45bce758b1ae32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: {fileID: 328934496}
+  active: 0
+  renderer: {fileID: 289240296}
+  emissionColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
+  makeSolid: 0
 --- !u!1 &1142337772 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1533005206998788, guid: 690c80b936d90584b90d8731df180517,
@@ -145,6 +177,7 @@ MonoBehaviour:
   active: 0
   renderer: {fileID: 21032724}
   emissionColor: {r: 0.4061054, g: 0.45112166, b: 0.509434, a: 0}
+  makeSolid: 0
 --- !u!1001 &1252187066
 Prefab:
   m_ObjectHideFlags: 0
@@ -229,6 +262,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114788572361003640, guid: 690c80b936d90584b90d8731df180517,
+        type: 2}
+      propertyPath: selectableUpdated.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4023960906845312, guid: 690c80b936d90584b90d8731df180517, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -788,6 +826,31 @@ Prefab:
     - target: {fileID: 1241524112726648, guid: 690c80b936d90584b90d8731df180517, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114788572361003640, guid: 690c80b936d90584b90d8731df180517,
+        type: 2}
+      propertyPath: selectableUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114788572361003640, guid: 690c80b936d90584b90d8731df180517,
+        type: 2}
+      propertyPath: selectableUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114788572361003640, guid: 690c80b936d90584b90d8731df180517,
+        type: 2}
+      propertyPath: selectableUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1142337782}
+    - target: {fileID: 114788572361003640, guid: 690c80b936d90584b90d8731df180517,
+        type: 2}
+      propertyPath: selectableUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Activate
+      objectReference: {fileID: 0}
+    - target: {fileID: 114788572361003640, guid: 690c80b936d90584b90d8731df180517,
+        type: 2}
+      propertyPath: selectableUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690c80b936d90584b90d8731df180517, type: 2}

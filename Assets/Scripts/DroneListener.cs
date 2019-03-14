@@ -7,7 +7,8 @@ using UnityEngine.Events;
 public class DroneListener : MonoBehaviour {
 
 	public DroneData data;
-	public SelectableTargetEvent dataEvent;
+	public SelectableTargetEvent activeDataEvent;
+	public SelectableTargetEvent deactivateDataEvent;
 
 	private void OnEnable()
 	{
@@ -28,13 +29,25 @@ public class DroneListener : MonoBehaviour {
 		data?.UnregisterListener(this);
 	}
 
+	Selectable updatingWith;
+
 	public void UpdateDataSelectable(Selectable s)
 	{
+		updatingWith = s;
 		data.UpdateSelectable(s);
 	}
 
-	public void Invoke()
+	public void Invoke(bool active)
 	{
-		dataEvent.Invoke(data.selection);
+		if (active) {
+			activeDataEvent.Invoke(data.selection);
+		} else {
+			deactivateDataEvent.Invoke(updatingWith);
+		}
+	}
+
+	public void Highlight(Selectable s)
+	{
+		data.HighlightSelected(s);
 	}
 }

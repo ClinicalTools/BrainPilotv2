@@ -39,19 +39,44 @@ public class GenerateBrainSubScene {
 	public static void BakeAllLighting()
 	{
 		s = new List<string>(AssetDatabase.FindAssets("t:scene", new[] { "Assets/Scenes/Layered Scenes" }));
-		previouslyActive = SceneManager.GetActiveScene();
-		EditorApplication.update += Update;
+		if (false) {
+			previouslyActive = SceneManager.GetActiveScene();
+			Lightmapping.BakeMultipleScenes(s.ToArray());
+		} else {
+			EditorApplication.update += Update;
+		}
 	}
 
 	[MenuItem("Brain Scene/" + "Bake Active Lighting")]
 	public static void BakeActiveLighting()
 	{
 		previouslyActive = SceneManager.GetActiveScene();
-		EditorApplication.update += UpdateActive;
+
+		activeSceneList = new List<Scene>();
+		for (int i = 0; i < SceneManager.sceneCount; i++) {
+			activeSceneList.Add(SceneManager.GetSceneAt(i));
+			//EditorSceneManager.CloseScene(activeSceneList[i], true);
+			//SceneManager.UnloadSceneAsync(activeSceneList[i]);
+		}
+		activeSceneListCopy = new List<Scene>(activeSceneList);
+
+		foreach (Scene asdf in activeSceneList) {
+			Debug.Log(asdf.path);
+		} 
+		//EditorApplication.update -= UpdateActive;
+
+
+		if (false) {
+			Lightmapping.BakeMultipleScenes(s.ToArray());
+		} else {
+			EditorApplication.update += UpdateActive;
+		}
 	}
 
 	private static bool lightmapFinished;
 	private static List<string> s;
+	private static List<Scene> activeSceneList;
+	private static List<Scene> activeSceneListCopy;
 	private static Scene previouslyActive;
 	
 
@@ -73,31 +98,39 @@ public class GenerateBrainSubScene {
 		}
 	}
 
-	private static List<Scene> activeSceneList;
+	private static bool lightmapRunning;
 	private static void UpdateActive()
 	{
-		if (activeSceneList == null) {
-			activeSceneList = new List<Scene>();
-			for(int i = 0; i < EditorSceneManager.sceneCount; i++) {
-				activeSceneList.Add(EditorSceneManager.GetSceneAt(i));
+		if (lightmapRunning) {
+			if (!Lightmapping.isRunning) {
+				lightmapRunning = false;
 			}
+			return;
 		}
 
 		if (!Lightmapping.isRunning) {
 			if (activeSceneList.Count == 0) {
 				EditorApplication.update -= UpdateActive;
-				EditorSceneManager.SetActiveScene(previouslyActive);
+
+				//Reload all active scenes
+				foreach(Scene scene in activeSceneListCopy) {
+					EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Additive);
+				}
+				SceneManager.SetActiveScene(previouslyActive);
 				return;
 			}
-			StartLightmap(activeSceneList[0]);
+			Debug.Log(activeSceneList[0].path);
+			EditorSceneManager.OpenScene(activeSceneList[0].path, OpenSceneMode.Single);
+			StartLightmap(activeSceneList[0]); 
 			activeSceneList.RemoveAt(0);
+			lightmapRunning = true;
 		}
 	}
 
 	private static void StartLightmap(Scene s)
 	{
-		EditorSceneManager.SetActiveScene(s);
-		Lightmapping.BakeAsync();
+		//SceneManager.SetActiveScene(s);
+		Lightmapping.Bake();
 	}
 #endif
 }
