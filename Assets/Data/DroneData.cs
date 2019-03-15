@@ -57,4 +57,18 @@ public class DroneData : ScriptableObject {
 			}
 		}
 	}
+
+	public void HighlightSelected(bool active)
+	{
+		if (active) {
+			//Highlight is being called after the selection has been updated
+			foreach (SelectableListener l in selection.listeners) {
+				l?.GetComponent<MaterialSwitchState>()?.Activate();
+			}
+		} else {
+			foreach (SelectableListener l in selection.listeners) {
+				l?.GetComponent<MaterialSwitchState>()?.Deactivate();
+			}
+		}
+	}
 }

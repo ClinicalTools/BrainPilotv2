@@ -9,12 +9,12 @@ Material:
   m_Name: Main_Material
   m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_TRIPLANAR
-    _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASK_CYLINDER _METALLICGLOSSMAP _METALLICSPECGLOSSMAP
+    _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASK_CYLINDER _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP
     _NORMALMAP _OCCLUSIONMAP
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -104,7 +104,7 @@ Material:
     - _DissolveMask: 5
     - _DissolveMaskAxis: 0
     - _DissolveMaskCount: 2
-    - _DissolveMaskInvert: 1
+    - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 0
     - _DissolveMaskRadius: 1
     - _DissolveMaskSpace: 0

@@ -60,7 +60,9 @@ public class GenerateBrainSubScene {
 		}
 		activeSceneListCopy = new List<Scene>(activeSceneList);
 
+		s = new List<string>();
 		foreach (Scene asdf in activeSceneList) {
+			s.Add(asdf.path);
 			Debug.Log(asdf.path);
 		} 
 		//EditorApplication.update -= UpdateActive;
@@ -99,12 +101,19 @@ public class GenerateBrainSubScene {
 	}
 
 	private static bool lightmapRunning;
+	static int i = 0;
 	private static void UpdateActive()
 	{
 		if (lightmapRunning) {
 			if (!Lightmapping.isRunning) {
 				lightmapRunning = false;
 			}
+			return;
+		}
+		
+		i++;
+		if (i > 10) {
+			EditorApplication.update -= UpdateActive;
 			return;
 		}
 
@@ -119,13 +128,13 @@ public class GenerateBrainSubScene {
 				SceneManager.SetActiveScene(previouslyActive);
 				return;
 			}
-			Debug.Log(activeSceneList[0].path);
+			Debug.Log((activeSceneList == null) + ", " + (activeSceneList[0] == null) + ", " + activeSceneList[0].path);
 			EditorSceneManager.OpenScene(activeSceneList[0].path, OpenSceneMode.Single);
 			StartLightmap(activeSceneList[0]); 
 			activeSceneList.RemoveAt(0);
 			lightmapRunning = true;
 		}
-	}
+	} 
 
 	private static void StartLightmap(Scene s)
 	{

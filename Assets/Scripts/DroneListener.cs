@@ -50,4 +50,9 @@ public class DroneListener : MonoBehaviour {
 	{
 		data.HighlightSelected(s);
 	}
+
+	public void Highlight(bool b)
+	{
+		data.HighlightSelected(b);
+	}
 }

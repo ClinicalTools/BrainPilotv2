@@ -32,13 +32,13 @@ public class MaterialSwitchState : SelectableStateAction {
 		//element.meshRenderer.sharedMaterial = material;
 		
 		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+		//Emission needs to be enabled in the material ahead of time for this to work
 		propertyBlock.SetColor("_EmissionColor", emissionColor);
 		if (makeSolid) {
-			//propertyBlock.
-			propertyBlock.SetFloat("_DissolveGlobalControl", none); //("_DissolveMask"
+			propertyBlock.SetFloat("_DissolveGlobalControl", none);
+			propertyBlock.SetFloat("_DissolveMaskInvert", 0);
 		}
 		renderer.SetPropertyBlock(propertyBlock);
-		
 
 		//element.meshRenderer.SetPropertyBlock(propertyBlock);
     }

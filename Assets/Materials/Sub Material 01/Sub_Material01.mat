@@ -9,9 +9,9 @@ Material:
   m_Name: Sub_Material01
   m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_TRIPLANAR
-    _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASK_CYLINDER _METALLICGLOSSMAP _METALLICSPECGLOSSMAP
+    _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASK_CYLINDER _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP
     _NORMALMAP _OCCLUSIONMAP
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -79,7 +79,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _BumpScale: 0.57
+    - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
