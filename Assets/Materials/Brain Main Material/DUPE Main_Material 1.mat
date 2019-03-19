@@ -104,7 +104,7 @@ Material:
     - _DissolveMask: 5
     - _DissolveMaskAxis: 0
     - _DissolveMaskCount: 2
-    - _DissolveMaskInvert: 1
+    - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 0
     - _DissolveMaskRadius: 1
     - _DissolveMaskSpace: 0

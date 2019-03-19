@@ -40,6 +40,8 @@ public class DroneController : MonoBehaviour {
 	[SerializeField]
 	private Transform mainCamera;
 	[SerializeField]
+	private Transform platform;
+	[SerializeField]
 	private LineCastSelector selector;
 
 	public TMPro.TextMeshPro textField;
@@ -52,7 +54,7 @@ public class DroneController : MonoBehaviour {
 	[SerializeField]
 	private Selectable selection;
 	[SerializeField]
-	private Sequence sequence;
+	private Sequence1 sequence;
 
 	public bool gazeBased;
 	//Used without gaze
@@ -69,7 +71,7 @@ public class DroneController : MonoBehaviour {
 
 		if (!gazeBased) {
 			//mainCamera = transform.parent;
-			mainCamera = GameObject.Find("Platform_01").transform;
+			mainCamera = GameObject.Find("new_platform01").transform;
 		}
 	}
 
@@ -186,7 +188,7 @@ public class DroneController : MonoBehaviour {
 	private void UpdateText()
 	{
 		if (sequence != null && sequence.IsActive()) {
-			textField.text = sequence.GetActiveStep().stepDisplayInfo;
+			textField.text = sequence.GetActiveStep().textToDisplay;
 		} else if (selection != null && selection is BrainElement) {
 			//Update with a description of the selected brain piece
 			textField.text = ((BrainElement)selection).description;
@@ -204,7 +206,7 @@ public class DroneController : MonoBehaviour {
 	/// Loads a sequence from the start
 	/// </summary>
 	/// <param name="s"></param>
-	public void BeginSequence(Sequence s)
+	public void BeginSequence(Sequence1 s)
 	{
 		if (!_active) {
 			SetActive(true);
@@ -219,7 +221,7 @@ public class DroneController : MonoBehaviour {
 	/// Loads a sequence and resumes it.
 	/// </summary>
 	/// <param name="s">The sequence to run</param>
-	public void ResumeSequence(Sequence s)
+	public void ResumeSequence(Sequence1 s)
 	{
 		if (!_active) {
 			SetActive(true);
@@ -244,6 +246,7 @@ public class DroneController : MonoBehaviour {
 				SetActive(false);
 			} else {
 				UpdateText();
+				StartCoroutine(MovePlatform());
 			}
 		}
 	}
@@ -270,6 +273,38 @@ public class DroneController : MonoBehaviour {
 
 #region Movement
 
+	private IEnumerator MovePlatform()
+	{
+		SequenceElement1.PlatformInformation info = sequence.GetActiveStep().GetPlatformInfo();
+		float totalDuration = 5f;
+		float _time = 0f;
+		float lerpVal;
+		Vector3 platformLoc = platform.position;
+		Vector3 platformRot = platform.eulerAngles;
+		Vector3 platformScale = platform.localScale;
+		while (_time < totalDuration) {
+			_time += Time.deltaTime;
+			lerpVal = _time / totalDuration;
+			if (info.waypointLocation != Vector3.zero) {
+				platform.position = Vector3.Lerp(platformLoc, info.waypointLocation, lerpVal);
+			}
+
+			if (info.scaleVal > 0) {
+				platform.localScale = Vector3.Lerp(platformScale, Vector3.one * info.scaleVal, lerpVal);
+			}
+
+			if (info.lookAtPoint != null) {
+				Vector3 pos = platform.position;
+				if (info.waypointLocation != Vector3.zero) {
+					pos = info.waypointLocation;
+				}
+				platform.eulerAngles = Vector3.Lerp(platformRot, pos - info.lookAtPoint.position, lerpVal);
+			}
+			yield return null;
+		}
+
+	}
+	
 	/// <summary>
 	/// Scales the x, y, and z of the input's position by the x, y, and z of the scaleVals
 	/// </summary>

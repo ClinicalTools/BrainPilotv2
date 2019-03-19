@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
-using UnityEditor.SceneManagement;
-#endif
 
 public class BeginLesson : MonoBehaviour {
 
@@ -32,35 +29,27 @@ public class BeginLesson : MonoBehaviour {
 		}
 		loadingScenes = true;
 		try {
-			/*if (!mainScene.IsValid()) {
-				List<EditorBuildSettingsScene> buildScenes = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
-				buildScenes.Add(new EditorBuildSettingsScene("Assets/Scenes/Layered Scenes/Main Scene", true));
-				EditorBuildSettings.scenes = buildScenes.ToArray();
-				mainScene = SceneManager.GetSceneByName("Main Scene");
-			}*/
-
 			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(mainScene.SceneName, LoadSceneMode.Single);
 			asyncLoad.allowSceneActivation = false;
-			foreach (SceneField s in scenesToLoad.sceneReferences) {
-				//#if UNITY_EDITOR
-				//EditorSceneManager.OpenScene(EditorSceneManager.GetSceneByName(s.SceneName).path, OpenSceneMode.Additive);
-				//#else
-				//Surround with if unity editor to improve build performance
-				if (!ContainsScene(s.SceneName)) {
-					EditorBuildSettingsScene addedScene = AddSceneToBuildList(s);
-					List<EditorBuildSettingsScene> list = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
-					int i = 0;
-					while (list.Find((EditorBuildSettingsScene x) =>x.path == addedScene.path) != null) {
-						i++;
-						if (i > 5000) {
-							break;
+			if (scenesToLoad != null) {
+				foreach (SceneField s in scenesToLoad.sceneReferences) {
+#if	UNITY_EDITOR
+					if (!ContainsScene(s.SceneName)) {
+						EditorBuildSettingsScene addedScene = AddSceneToBuildList(s);
+						List<EditorBuildSettingsScene> list = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
+						int i = 0;
+						while (list.Find((EditorBuildSettingsScene x) => x.path == addedScene.path) != null) {
+							i++;
+							if (i > 5000) {
+								break;
+							}
+							continue;
 						}
-						continue;
 					}
+#endif
+					SceneManager.LoadScene(s.SceneName, LoadSceneMode.Additive);
+					//#endif
 				}
-
-				SceneManager.LoadScene(s.SceneName, LoadSceneMode.Additive);
-//#endif
 			}
 			loadingScenes = false;
 			asyncLoad.allowSceneActivation = true;
@@ -70,6 +59,12 @@ public class BeginLesson : MonoBehaviour {
 		}
 	}
 
+	public void SetSceneGroup(BrainSceneReferences scenes)
+	{
+		scenesToLoad = scenes;
+	}
+
+#if UNITY_EDITOR
 	public bool ContainsScene(string sceneName)
 	{
 		List<EditorBuildSettingsScene> list = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
@@ -115,19 +110,5 @@ public class BeginLesson : MonoBehaviour {
 		EditorBuildSettings.scenes = buildScenes.ToArray();
 		return newScene;
 	}
-
-	public void Replace()
-	{
-		foreach(TMPro.TMP_InputField t in transform) {
-			Transform f = Instantiate(t.transform, t.transform.parent);
-			Destroy(f.GetComponent<TMPro.TMP_InputField>());
-			TMPro.TMP_InputField a = f.gameObject.AddComponent<TMPro.TMP_InputField>() as TMPro.TMP_InputField;
-			
-		}
-	}
-
-	public void SetSceneGroup(BrainSceneReferences scenes)
-	{
-		scenesToLoad = scenes;
-	}
+#endif
 }

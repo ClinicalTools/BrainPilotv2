@@ -12,7 +12,7 @@ public class SequenceElement1 : MonoBehaviour {
 	 * events to call, etc.
 	 */
 	[System.Serializable]
-	private class PlatformInformation
+	public class PlatformInformation
 	{
 		public Vector3 waypointLocation;
 		//public Transform waypointLocation;
@@ -33,7 +33,6 @@ public class SequenceElement1 : MonoBehaviour {
 	
 	public UnityEvent OnEventBegin;
 	public UnityEvent OnEventEnd;
-
 
 	//This could help with pages of strings. We'd have control of the content
 	//per page. Difficult to include images/other though
@@ -90,5 +89,10 @@ public class SequenceElement1 : MonoBehaviour {
 			time += Time.deltaTime;
 			yield return null;
 		}
+	}
+
+	public PlatformInformation GetPlatformInfo()
+	{
+		return platformInformation;
 	}
 }

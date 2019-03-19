@@ -17,9 +17,10 @@ public class AnchorUXController : MonoBehaviour {
 
 	public bool invertX;
 
-    public float forwardSpeed = .1f;
+    public float forwardSpeed = .05f;
     public float orbitSpeed = 5f;
-	public float rotationSpeed = .4f;
+	public float rotationSpeed = .8f;
+	public float deadzoneRadius = .2f;
 
 	public enum MovementType
 	{
@@ -27,7 +28,31 @@ public class AnchorUXController : MonoBehaviour {
 		Rotate
 	}
 
-	public MovementType movementType = MovementType.Orbit;
+	public float asdf
+	{
+		get;
+		set;
+	}
+
+	private MovementType _movementType;
+	public MovementType movementType
+	{// = MovementType.Orbit;
+		get
+		{
+			return _movementType;
+		}
+		set
+		{
+			switch (value) {
+				case MovementType.Orbit:
+					invertX = false;
+					break;
+				case MovementType.Rotate:
+					invertX = true;
+					break;
+			}
+		}
+	}
 
     /// <summary>
     /// The target we are using to move to / from and orbit around
