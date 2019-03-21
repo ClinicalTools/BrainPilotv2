@@ -51,6 +51,7 @@ public class AnchorUXController : MonoBehaviour {
 					invertX = true;
 					break;
 			}
+			_movementType = value;
 		}
 	}
 
@@ -107,6 +108,15 @@ public class AnchorUXController : MonoBehaviour {
         StopAllCoroutines();
         StartCoroutine(RunGetInput());
     }
+
+	/// <summary>
+	/// Adjust the method of movement
+	/// </summary>
+	/// <param name="idx">0 for Orbit, 1 for Rotate</param>
+	public void SetInputMethod(int idx)
+	{
+		movementType = (MovementType)idx;
+	}
 
     IEnumerator RunGetInput()
     {

@@ -60,6 +60,12 @@ public class DroneData : ScriptableObject {
 
 	public void HighlightSelected(bool active)
 	{
+		if (selection is UIElement) {
+			return;
+		}
+		if (selection == null) {
+			return;
+		}
 		if (active) {
 			//Highlight is being called after the selection has been updated
 			foreach (SelectableListener l in selection.listeners) {

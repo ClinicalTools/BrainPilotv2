@@ -104,6 +104,7 @@ public class LineCastSelector : MonoBehaviour
                 uiTargetEvent.Invoke(null);
 
             cursor.transform.position = transform.position;
+			cursor.gameObject.SetActive(false);
             if (furthestSelectable != null)
             {
                 selectableTargetEvent.Invoke(null);
@@ -112,6 +113,7 @@ public class LineCastSelector : MonoBehaviour
             uiTarget = null;
             return;
         }
+		cursor.gameObject.SetActive(true);
             
         List<RaycastHit> hitList = new List<RaycastHit>(hits);
 
@@ -135,6 +137,7 @@ public class LineCastSelector : MonoBehaviour
             if (ui != uiTarget)
             {
                 uiTarget = ui;
+				//Enter UI
                 uiTargetEvent.Invoke(uiTarget);
             }
             cursor.transform.position = sortedPoints[selectionHitList.IndexOf(ui)].point;
@@ -145,17 +148,20 @@ public class LineCastSelector : MonoBehaviour
         }
         else
         {
-            // invoke our event if ui target if we are deselecting a ui target
-            if (uiTarget != null)       
-                uiTargetEvent.Invoke(null);
+			// invoke our event if ui target if we are deselecting a ui target
+			if (uiTarget != null) {
+				//UI to brain
+				uiTargetEvent.Invoke(null);
+			}
 
-            uiTarget = null;
             cursor.transform.position = sortedPoints[0].point;
-            if (furthestSelectable != sortedPoints[0].transform.GetComponent<SelectableElement>().selectable)
+            if (uiTarget != null || furthestSelectable != sortedPoints[0].transform.GetComponent<SelectableElement>().selectable)
             {
                 furthestSelectable = sortedPoints[0].transform.GetComponent<SelectableElement>().selectable;
+				//Brain to Brain
                 selectableTargetEvent.Invoke(furthestSelectable);
             }
+            uiTarget = null;
 
         }
 

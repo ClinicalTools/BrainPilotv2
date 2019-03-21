@@ -8,6 +8,7 @@ public class MaterialSwitchState : MonoBehaviour {
 
 	//public Material material;
 	protected Material savedMaterial;
+	private bool active;
 
 	public MeshRenderer renderer;
 
@@ -41,6 +42,10 @@ public class MaterialSwitchState : MonoBehaviour {
 	public /*override*/ void Activate()
     {
 		//base.Activate();
+		if (active) {
+			return;
+		}
+		active = true;
 		savedMaterial = renderer.sharedMaterial;
 
 		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
@@ -75,6 +80,7 @@ public class MaterialSwitchState : MonoBehaviour {
 		//base.Deactivate();
 
 		renderer.sharedMaterial = savedMaterial;
+		active = false;
 		//renderer.SetPropertyBlock(null);
 	}
 }

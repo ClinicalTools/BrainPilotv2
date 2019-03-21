@@ -254,6 +254,7 @@ public class DroneController : MonoBehaviour {
 				SetActive(false);
 			} else {
 				UpdateText();
+				StopMovingPlatform();
 				StartCoroutine(MovePlatform());
 			}
 		}
@@ -269,6 +270,8 @@ public class DroneController : MonoBehaviour {
 		} else {
 			sequence.RecedeSequence();
 			UpdateText();
+			StopMovingPlatform();
+			StartCoroutine(MovePlatform());
 		}
 	}
 
@@ -281,52 +284,133 @@ public class DroneController : MonoBehaviour {
 
 #region Movement
 
+	SequenceElement1.PlatformInformation info;
+	bool moving = false;
+
 	private IEnumerator MovePlatform()
 	{
-		SequenceElement1.PlatformInformation info = sequence.GetActiveStep().GetPlatformInfo();
+		info = sequence.GetActiveStep().GetPlatformInfo();
 		float totalDuration = 5f;
 		float _time = 0f;
 		float lerpVal;
 		Vector3 platformLoc = platform.position;
-		Vector3 platformRot = platform.eulerAngles;
 		Quaternion platformRotQ = platform.rotation;
 		Vector3 platformScale = platform.localScale;
 
 		Vector3 pos = platform.position;
-		/*if (info.waypointLocation != Vector3.zero) {
+		if (info.waypointLocation != Vector3.zero) {
 			pos = info.waypointLocation;
 		}
-		float angle = Quaternion.Angle(platform.rotation, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up));
-		float deltaAngle = angle / (totalDuration / Time.deltaTime);*/
 
-		while (_time < totalDuration) {
+		bool
+			posDone = false,
+			rotDone = false,
+			scaleDone = false;
+
+		if (info.waypointLocation != Vector3.zero) {
+			if (platform.position == info.waypointLocation) {
+				//info.waypointLocation = Vector3.zero;
+				posDone = true;
+			}
+		} else {
+			posDone = true;
+		}
+		if (info.lookAtPoint != null) {
+			if (platform.rotation == Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up)) {
+				//info.lookAtPoint = null;
+				rotDone = true;
+			}
+		} else {
+			rotDone = true;
+		}
+		if (info.scaleVal > 0) {
+			if (info.scaleVal == platformScale.x) {
+				//info.scaleVal = 0;
+				scaleDone = true;
+			}
+		} else {
+			scaleDone = true;
+		}
+
+		
+
+		//Lerp to match the values over totalDuration
+		moving = true;
+		while (moving && _time < totalDuration && !(posDone && rotDone && scaleDone)) {
 			_time += Time.deltaTime;
 			lerpVal = _time / totalDuration;
-			if (info.waypointLocation != Vector3.zero) {
-				platform.position = Vector3.Lerp(platformLoc, info.waypointLocation, lerpVal);
+
+			if (!posDone) {
+				if (info.waypointLocation != Vector3.zero) {
+					platform.position = Vector3.Lerp(platformLoc, info.waypointLocation, lerpVal);
+					if (platform.position == info.waypointLocation) {
+						posDone = true;
+					}
+				}
 			}
 
+			if (!scaleDone) {
+				if (info.scaleVal > 0) {
+					platform.localScale = Vector3.Lerp(platformScale, Vector3.one * info.scaleVal, lerpVal);
+					if (info.scaleVal == platformScale.x) {
+						scaleDone = true;
+					}
+				}
+			}
+
+			if (!rotDone) {
+				if (info.lookAtPoint != null) {
+					pos = platform.position;
+					if (info.waypointLocation != Vector3.zero) {
+						pos = info.waypointLocation;
+					}
+					Quaternion lookAt = Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up);
+
+					//Could use Quaternion.Lerp
+					platform.rotation = Quaternion.Lerp(platformRotQ, lookAt, lerpVal);
+					//platform.rotation = Quaternion.RotateTowards(platform.rotation, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up), deltaAngle);
+					pos = platform.rotation.eulerAngles;
+					pos.x = 0;
+					pos.z = 0;
+					platform.eulerAngles = pos;
+
+					if (platform.rotation == lookAt) {
+						rotDone = true;
+					}
+				}
+			}
+
+			yield return null;
+		}
+		moving = false;
+		info = null;
+	}
+
+	private void StopMovingPlatform()
+	{
+		//Only called when advancing/receeding the sequence
+		if (moving) {
+			if (info.waypointLocation != Vector3.zero) {
+				platform.position = info.waypointLocation;
+			}
+			
 			if (info.scaleVal > 0) {
-				platform.localScale = Vector3.Lerp(platformScale, Vector3.one * info.scaleVal, lerpVal);
+				platform.localScale = Vector3.one * info.scaleVal;
 			}
 
 			if (info.lookAtPoint != null) {
-				pos = platform.position;
-				if (info.waypointLocation != Vector3.zero) {
-					pos = info.waypointLocation;
-				}
+				Quaternion lookAt = Quaternion.LookRotation(info.lookAtPoint.position - platform.position, Vector3.up);
 
-				//Could use Quaternion.Lerp
-				platform.rotation = Quaternion.Lerp(platformRotQ, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up), lerpVal);
-				//platform.rotation = Quaternion.RotateTowards(platform.rotation, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up), deltaAngle);
-				pos = platform.rotation.eulerAngles;
-				pos.x = 0;
-				pos.z = 0;
-				platform.eulerAngles = pos;
+				platform.rotation = lookAt;
+				Vector3 eulers = platform.rotation.eulerAngles;
+				eulers.x = 0;
+				eulers.z = 0;
+				platform.eulerAngles = eulers;
 			}
-			yield return null;
 		}
-
+		moving = false;
+		info = null;
+		StopCoroutine("MovePlatform");
 	}
 	
 	/// <summary>

@@ -35,11 +35,14 @@ public class AnimationController : MonoBehaviour {
 			string desc = "";
 			GetComponentInChildren<TMPro.TextMeshProUGUI>().text = desc;
 		}
+		if (GetComponentInChildren<CanvasGroup>()) {
+			GetComponentInChildren<CanvasGroup>().alpha = 0;
+		}
 	}
 
 	public void HandleNewSelection(Selectable s)
 	{
-		if (s == null && active) {
+		if (s == null) {
 			StopAnimation();
 		} else {
 			lastSelectable = s;

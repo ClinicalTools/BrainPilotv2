@@ -34,6 +34,10 @@ public class DroneListener : MonoBehaviour {
 	public void UpdateDataSelectable(Selectable s)
 	{
 		updatingWith = s;
+		if (s == null || s is UIElement) {
+
+			s = null;
+		}
 		data.UpdateSelectable(s);
 	}
 
