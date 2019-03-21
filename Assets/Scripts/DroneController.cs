@@ -68,7 +68,7 @@ public class DroneController : MonoBehaviour {
 		if (mesh == null) {
 			mesh = GetComponentInChildren<MeshRenderer>();
 		}
-
+		mesh.sharedMaterial.SetFloat("_DissolveCutoff", 1f);
 		if (!gazeBased) {
 			//mainCamera = transform.parent;
 			mainCamera = GameObject.Find("new_platform01").transform;
@@ -134,9 +134,17 @@ public class DroneController : MonoBehaviour {
 	public void SetActive(bool active)
 	{
 		_active = active;
+		if (active) {
+			transform.Find("TextContainer").gameObject.SetActive(active);
+		}
+
 		GetComponentInChildren<TweenItemScaleBetweenVec3Resources>().SetActiveState(active);
 		StopAllCoroutines();
 		StartCoroutine(FadeMesh(_active ? 0f : 1f));
+
+		if (!active) {
+			transform.Find("TextContainer").gameObject.SetActive(active);
+		}
 
 		if (!gazeBased) {
 			if (!_active) {
@@ -281,7 +289,16 @@ public class DroneController : MonoBehaviour {
 		float lerpVal;
 		Vector3 platformLoc = platform.position;
 		Vector3 platformRot = platform.eulerAngles;
+		Quaternion platformRotQ = platform.rotation;
 		Vector3 platformScale = platform.localScale;
+
+		Vector3 pos = platform.position;
+		/*if (info.waypointLocation != Vector3.zero) {
+			pos = info.waypointLocation;
+		}
+		float angle = Quaternion.Angle(platform.rotation, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up));
+		float deltaAngle = angle / (totalDuration / Time.deltaTime);*/
+
 		while (_time < totalDuration) {
 			_time += Time.deltaTime;
 			lerpVal = _time / totalDuration;
@@ -294,11 +311,18 @@ public class DroneController : MonoBehaviour {
 			}
 
 			if (info.lookAtPoint != null) {
-				Vector3 pos = platform.position;
+				pos = platform.position;
 				if (info.waypointLocation != Vector3.zero) {
 					pos = info.waypointLocation;
 				}
-				platform.eulerAngles = Vector3.Lerp(platformRot, pos - info.lookAtPoint.position, lerpVal);
+
+				//Could use Quaternion.Lerp
+				platform.rotation = Quaternion.Lerp(platformRotQ, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up), lerpVal);
+				//platform.rotation = Quaternion.RotateTowards(platform.rotation, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up), deltaAngle);
+				pos = platform.rotation.eulerAngles;
+				pos.x = 0;
+				pos.z = 0;
+				platform.eulerAngles = pos;
 			}
 			yield return null;
 		}

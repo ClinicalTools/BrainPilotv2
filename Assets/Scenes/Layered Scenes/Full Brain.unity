@@ -406,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 289240296}
   emissionColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
-  makeSolid: 0
+  makeSolid: 1
 --- !u!23 &396056860 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 23571764725081068, guid: 690c80b936d90584b90d8731df180517,
@@ -1277,7 +1277,18 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   OnEventEnd:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1230600794}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1078023539 stripped
@@ -1354,7 +1365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 21032724}
-  emissionColor: {r: 0.25111252, g: 0.29979435, b: 0.31132078, a: 1}
+  emissionColor: {r: 0.118725546, g: 0.7180845, b: 0.8679245, a: 1}
   makeSolid: 1
 --- !u!23 &1151831922 stripped
 MeshRenderer:

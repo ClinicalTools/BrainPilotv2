@@ -31,6 +31,10 @@ public class AnimationController : MonoBehaviour {
 		active = false;
 		animation.Rewind();
 		animation.Stop();
+		if (GetComponentInChildren<TMPro.TextMeshProUGUI>()) {
+			string desc = "";
+			GetComponentInChildren<TMPro.TextMeshProUGUI>().text = desc;
+		}
 	}
 
 	public void HandleNewSelection(Selectable s)
