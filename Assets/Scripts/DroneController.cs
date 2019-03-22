@@ -210,6 +210,13 @@ public class DroneController : MonoBehaviour {
 		selection = selectable;
 	}
 
+	private void UpdatePlatform()
+	{
+		UpdateText();
+		StopMovingPlatform();
+		StartCoroutine(MovePlatform());
+	}
+
 	/// <summary>
 	/// Loads a sequence from the start
 	/// </summary>
@@ -222,7 +229,7 @@ public class DroneController : MonoBehaviour {
 		sequence = s;
 		sequence.ResetSequence();
 		sequence.StartSequence();
-		UpdateText();
+		UpdatePlatform();
 	}
 
 	/// <summary>
@@ -236,7 +243,7 @@ public class DroneController : MonoBehaviour {
 		}
 		sequence = s;
 		sequence.StartSequence();
-		UpdateText();
+		UpdatePlatform();
 	}
 
 	/// <summary>
@@ -250,12 +257,11 @@ public class DroneController : MonoBehaviour {
 			print("Advancing sequence");
 			sequence.AdvanceSequence();
 			if (!sequence.IsActive()) {
-				sequence = null;
-				SetActive(false);
+				GetComponentInParent<DroneManager>().GrabNextSequence();
+				/*sequence = null;
+				SetActive(false);*/
 			} else {
-				UpdateText();
-				StopMovingPlatform();
-				StartCoroutine(MovePlatform());
+				UpdatePlatform();
 			}
 		}
 	}
@@ -268,10 +274,14 @@ public class DroneController : MonoBehaviour {
 		if (sequence == null) {
 			print("Null sequence");
 		} else {
-			sequence.RecedeSequence();
-			UpdateText();
-			StopMovingPlatform();
-			StartCoroutine(MovePlatform());
+			//if at start, get previous lesson
+
+			if (sequence.RecedeSequence()) {
+				UpdatePlatform();
+			} else {
+				GetComponentInParent<DroneManager>().GrabPreviousSequence();
+
+			}
 		}
 	}
 

@@ -7,29 +7,55 @@ public class DroneManager : MonoBehaviour {
 
 	public DroneController drone;
 	public SequenceManager sequenceManager;
+	int activeScene = 1;
 
 	// Use this for initialization
 	void Start () {
 		if (drone == null) {
 			drone = GetComponentInChildren<DroneController>();
 		}
-		Invoke("GrabSequence", 2f);
+		Invoke("GrabActiveSequence", 2f);
 	}
-	
-	public void GrabSequence()
+
+	public void GrabActiveSequence()
 	{
-		GameObject[] objs = SceneManager.GetSceneAt(1).GetRootGameObjects();
+		GrabSequenceAt(activeScene);
+	}
+
+	public void GrabNextSequence()
+	{
+		activeScene++;
+		GrabSequenceAt(activeScene);
+	}
+
+	public void GrabPreviousSequence()
+	{
+		activeScene--;
+		GrabSequenceAt(activeScene);
+	}
+
+	public void GrabSequenceAt(int sceneIdx)
+	{
+		if (sceneIdx >= SceneManager.sceneCount) {
+			HideDrone();
+			return;
+		} else if (sceneIdx <= 0) {
+			sceneIdx = 1;
+			activeScene = 1;
+		}
+		GameObject[] objs = SceneManager.GetSceneAt(sceneIdx).GetRootGameObjects();
+
+		//Parse through the scene's game objects looking for what we want
 		foreach(GameObject obj in objs) {
 			if (obj.GetComponent<SequenceManager>()) {
-				print("Got em");
 				sequenceManager = obj.GetComponent<SequenceManager>();
-				drone.BeginSequence(sequenceManager.GetSequence());
+				drone.ResumeSequence(sequenceManager.GetSequence());
 			}
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
+	public void HideDrone()
+	{
+		drone.SetActive(false);
 	}
 }

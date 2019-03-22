@@ -16,11 +16,20 @@ public class Sequence1 : MonoBehaviour {
 		return steps[_stepIdx];
 	}
 
+	[ContextMenu("Load elements")]
+	public void LoadElements()
+	{
+		steps = new SequenceElement1[transform.childCount];
+		for(int i = 0; i < transform.childCount; i++) {
+			steps[i] = transform.GetChild(i).GetComponent<SequenceElement1>();
+		}
+	}
+
 	public void AdvanceSequence()
 	{
 		Debug.Log("Advancing Sequence in sequence");
 		if (_stepIdx == steps.Length - 1) {
-			FinishSequence();
+			FinishSequence(false);
 		} else {
 			steps[_stepIdx].Deactivate();
 			_stepIdx++;
@@ -28,14 +37,19 @@ public class Sequence1 : MonoBehaviour {
 		}
 	}
 
-	public void RecedeSequence()
+	/// <summary>
+	/// Receeds the sequence
+	/// </summary>
+	/// <returns>true if successful, false if not</returns>
+	public bool RecedeSequence()
 	{
 		if (_stepIdx == 0) {
-			return;
+			return false;
 		} else {
 			steps[_stepIdx].Deactivate();
 			_stepIdx--;
 			steps[_stepIdx].Activate();
+			return true;
 		}
 	}
 
@@ -57,11 +71,13 @@ public class Sequence1 : MonoBehaviour {
 		_active = false;
 	}
 
-	public void FinishSequence()
+	public void FinishSequence(bool reset)
 	{
 		steps[_stepIdx].Deactivate();
 		_active = false;
-		ResetSequence();
+		if (reset) {
+			ResetSequence();
+		}
 	}
 
 	public void ResetSequence()

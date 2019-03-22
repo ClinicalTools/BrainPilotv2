@@ -1513,7 +1513,7 @@ Prefab:
         type: 2}
       propertyPath: brainPiecesToHighlight.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1142337782}
     - target: {fileID: 1388242233194358, guid: 0913a091ae13e084bb52e09332dbf10b, type: 2}
       propertyPath: m_IsActive
       value: 1
@@ -1521,7 +1521,7 @@ Prefab:
     - target: {fileID: 114590426821970788, guid: 0913a091ae13e084bb52e09332dbf10b,
         type: 2}
       propertyPath: textToDisplay
-      value: Highlighting the Cerebrum
+      value: Look at this piece
       objectReference: {fileID: 0}
     - target: {fileID: 114826669470783662, guid: 0913a091ae13e084bb52e09332dbf10b,
         type: 2}
@@ -1533,6 +1533,21 @@ Prefab:
       propertyPath: steps.Array.data[2]
       value: 
       objectReference: {fileID: 1050820059}
+    - target: {fileID: 114590426821970788, guid: 0913a091ae13e084bb52e09332dbf10b,
+        type: 2}
+      propertyPath: brainPiecesToHighlight.Array.data[2]
+      value: 
+      objectReference: {fileID: 1142337782}
+    - target: {fileID: 114590426821970788, guid: 0913a091ae13e084bb52e09332dbf10b,
+        type: 2}
+      propertyPath: brainPiecesToHighlight.Array.data[3]
+      value: 
+      objectReference: {fileID: 1142337782}
+    - target: {fileID: 114590426821970788, guid: 0913a091ae13e084bb52e09332dbf10b,
+        type: 2}
+      propertyPath: brainPiecesToHighlight.Array.data[4]
+      value: 
+      objectReference: {fileID: 1142337782}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0913a091ae13e084bb52e09332dbf10b, type: 2}
   m_IsPrefabAsset: 0

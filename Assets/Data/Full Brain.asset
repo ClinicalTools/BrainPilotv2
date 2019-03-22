@@ -14,5 +14,7 @@ MonoBehaviour:
   title: Full Brain
   description: This loads the full brain
   sceneReferences:
-  - m_SceneAsset: {fileID: 102900000, guid: 33d0f9463b8ec664ebe1db7c22de4451, type: 3}
-    m_SceneName: Full Brain
+  - m_SceneAsset: {fileID: 102900000, guid: 4ae1c38a8d1866048bca2fd0050e8bf2, type: 3}
+    m_SceneName: InnerBrain
+  - m_SceneAsset: {fileID: 102900000, guid: 4042ced2e13a728458cfd2cee52e47be, type: 3}
+    m_SceneName: OuterBrain

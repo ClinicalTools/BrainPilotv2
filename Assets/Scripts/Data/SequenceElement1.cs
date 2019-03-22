@@ -46,6 +46,18 @@ public class SequenceElement1 : MonoBehaviour {
 		}
 	}
 
+#if UNITY_EDITOR
+	[ContextMenu("Input Camera Position")]
+	public void InputCameraPos()
+	{
+		Transform cam = UnityEditor.SceneView.lastActiveSceneView.camera.transform;
+		if (cam == null) {
+			Debug.LogWarning("Scene camera not found!");
+			return;
+		}
+		platformInformation.waypointLocation = cam.position;
+	}
+#endif
 	public void Activate()
 	{
 		OnEventBegin.Invoke();
