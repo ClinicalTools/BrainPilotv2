@@ -14,9 +14,11 @@ MonoBehaviour:
   listeners:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   loadedStates: []
   activeStates: []
-  label: Movement
+  label: Rotate
   hover: 0
   click: 0
   gaze: 0

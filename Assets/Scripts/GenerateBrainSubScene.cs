@@ -14,6 +14,10 @@ public class GenerateBrainSubScene {
 	const string savePath = "Assets/Scenes/Layered Scenes";
 	const string brainLocation = "Assets/_Prefabs/BrainModel.prefab";
 	const string sequenceLocation = "Assets/_Prefabs/SequenceManager.prefab";
+	const string particleManagerLocation = "Assets/_Prefabs/ParticleManager.prefab";
+
+	private static Dictionary<System.Type, GameObject> references;// = new Dictionary<System.Type, GameObject>();
+
 
 #if UNITY_EDITOR
 	[MenuItem("Brain Scene/" + menuText)]
@@ -22,19 +26,39 @@ public class GenerateBrainSubScene {
 		Scene temp = SceneManager.GetActiveScene();
 		Scene s = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
 		SceneManager.SetActiveScene(s);
+		references = new Dictionary<System.Type, GameObject>();
+
 		try {
 			Object o = AssetDatabase.LoadAssetAtPath(brainLocation, typeof(Object));
-			GameObject.Instantiate(o).name = "BrainModel";
+			GameObject obj = (GameObject)GameObject.Instantiate(o);
+			obj.name = "BrainModel";
+			references.Add(typeof(Transform), obj);
 		} catch (System.ArgumentException e) {
 			Debug.LogError("No brain model prefab found at path: " + brainLocation);
 		}
 
 		try {
 			Object o = AssetDatabase.LoadAssetAtPath(sequenceLocation, typeof(Object));
-			GameObject.Instantiate(o).name = "SequenceManager";
+			GameObject obj = (GameObject)GameObject.Instantiate(o);
+			obj.name = "SequenceManager";
+			references.Add(typeof(SequenceManager), obj);
 		} catch (System.ArgumentException e) {
 			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
 		}
+
+		try {
+			Object o = AssetDatabase.LoadAssetAtPath(particleManagerLocation, typeof(Object));
+			GameObject obj = (GameObject)GameObject.Instantiate(o);
+			obj.name = "ParticleManager";
+			//references.Add(typeof(ParticleManager), obj);
+		} catch (System.ArgumentException e) {
+			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
+		}		
+	}
+
+	public static GameObject GetObjectOfType(System.Type type)
+	{
+		return references[type];
 	}
 
 	[MenuItem("Brain Scene/" + "Bake All Lighting")]

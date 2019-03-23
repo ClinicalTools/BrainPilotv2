@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4413148703584132}
+  - component: {fileID: 114156908737989058}
   m_Layer: 0
   m_Name: SequenceManager
   m_TagString: Untagged
@@ -99,6 +100,17 @@ Transform:
   m_Father: {fileID: 4401524988278598}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114156908737989058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388242233194358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398e2a6b62c5acb40b89e36193a17354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114590426821970788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,11 +122,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypointLocation: {x: 0, y: 0, z: 0}
-  lookAtPoint: {fileID: 0}
-  scaleVal: 0
-  piecesToActivate: []
-  piecesToActivate2: []
+  platformInformation:
+    waypointLocation: {x: 0, y: 0, z: 0}
+    lookAtPoint: {fileID: 0}
+    scaleVal: 0
+  textToDisplay: 
+  brainPiecesToHighlight: []
   OnEventBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -125,7 +138,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  stepDisplayInfo: 
 --- !u!114 &114826669470783662
 MonoBehaviour:
   m_ObjectHideFlags: 1
