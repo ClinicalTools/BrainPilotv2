@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SignalEvent : MonoBehaviour 
 {
+	private SignalManager signalManager;
 	//instantiate the particle system
 	public ParticleSystem particle;
+	private ParticleSystem stopper;
 	public List<ParticleCollisionEvent> collisionEvents;	
 	
 	//instantiate the material
@@ -14,12 +16,12 @@ public class SignalEvent : MonoBehaviour
 	public Color highlightColor = Color.cyan;
 	
 	private float duration = 1f;
-	private float start;
 	private float timer;
-	private bool isFading;
-	private const float ALPHA_MAX = 1f;
-	private const float ALPHA_MIN = 0f;
 
+	void Awake ()
+	{
+		signalManager = GameObject.FindObjectOfType<SignalManager>();
+	}
 
 	void Start () 
 	{
@@ -31,15 +33,16 @@ public class SignalEvent : MonoBehaviour
 		particle = GetComponent<ParticleSystem>();
 		collisionEvents = new List<ParticleCollisionEvent>();
 		timer = 1f;
-		isFading = false;
 	}
 	void OnParticleCollision (GameObject other)
 	{
 		Debug.Log("Particle Collision Triggered");
 		_material.SetColor("_EmissionColor", highlightColor);
 		timer = 0f;
-		isFading = true;
-
+		stopper = other.GetComponent<ParticleSystem>();
+		stopper.Stop();
+		Debug.Log(stopper.gameObject.name + " was stopped.");
+		signalManager.SendNextSignal(stopper);
 	}
 	
 	// Update is called once per frame
@@ -48,8 +51,6 @@ public class SignalEvent : MonoBehaviour
 			timer += Time.deltaTime;
 			_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
 		} else {
-			//Debug.Log("Time reset");
-			isFading = false;
 			timer = 1f;
 		}
 		
