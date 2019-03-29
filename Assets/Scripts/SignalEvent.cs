@@ -32,6 +32,9 @@ public class SignalEvent : MonoBehaviour
 				}
 			}
 		}
+		if (block == null) {
+			block = new MaterialPropertyBlock();
+		}
 	}
 
 	void Start () 
@@ -39,11 +42,13 @@ public class SignalEvent : MonoBehaviour
 		//Fetching the Renderer from the Object
 		Renderer rend = GetComponent<Renderer>();
 		if (GetComponent<MaterialSwitchState>()) {
-			_material = GetComponent<MaterialSwitchState>().renderer.material;
+			startColor = GetComponent<MaterialSwitchState>().renderer.sharedMaterial.GetColor("_EmissionColor");
+			//_material = GetComponent<MaterialSwitchState>().renderer.material;
 		} else {
-			_material = rend.material;
+			startColor = rend.sharedMaterial.GetColor("_EmissionColor");
+			//_material = rend.material;
 		}
-		startColor = _material.GetColor("_EmissionColor");
+		//startColor = _material.GetColor("_EmissionColor");
 		//Fetching the Particle System
 		particle = GetComponentInChildren<ParticleSystem>();
 		collisionEvents = new List<ParticleCollisionEvent>();
@@ -58,7 +63,7 @@ public class SignalEvent : MonoBehaviour
 			return;
 		}
 		Debug.Log("Particle Collision Triggered");
-		_material.SetColor("_EmissionColor", highlightColor);
+		//_material.SetColor("_EmissionColor", highlightColor);
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
 		stopper.Stop();
@@ -73,12 +78,16 @@ public class SignalEvent : MonoBehaviour
 		yield return new WaitForSecondsRealtime(time);
 		signalManager.SendNextSignal(system);
 	}
-	
+
+	MaterialPropertyBlock block;
+
 	// Update is called once per frame
 	void Update () {
 		if (timer < duration) {
 			timer += Time.deltaTime;
-			_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
+			block.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer / duration));
+			GetComponent<Renderer>().SetPropertyBlock(block);
+			//_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
 		} else {
 			timer = duration;
 		}

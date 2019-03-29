@@ -46,7 +46,15 @@ public class MaterialSwitchState : MonoBehaviour {
 			return;
 		}
 		active = true;
-		savedMaterial = renderer.sharedMaterial;
+		if (propertyBlock != null && renderer.HasPropertyBlock()) {
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			renderer.GetPropertyBlock(block);
+			renderer.SetPropertyBlock(null);
+			savedMaterial = renderer.sharedMaterial;
+			renderer.SetPropertyBlock(block);
+		} else {
+			savedMaterial = renderer.sharedMaterial;
+		}
 
 		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
 		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
@@ -54,7 +62,7 @@ public class MaterialSwitchState : MonoBehaviour {
 		renderer.material.EnableKeyword("_EmissionColor");
 		//renderer.sharedMaterial.EnableKeyword("_DissolveMaskInvert");
 
-		renderer.material.SetColor("_EmissionColor", emissionColor);
+		renderer.material.SetColor("_Color", emissionColor);
 		renderer.material.SetTexture("_EmissionMap", renderer.sharedMaterial.mainTexture);
 		if (makeSolid) {
 			renderer.material.SetFloat("_DissolveGlobalControl", none);
@@ -84,13 +92,29 @@ public class MaterialSwitchState : MonoBehaviour {
 		//renderer.SetPropertyBlock(null);
 	}
 
-	public void HighlightBlip()
+	public void HighlightBlip(Color c)
 	{
-
+		highlightColor = c;
+		timeVal = 0;
 	}
-
+	private float timeVal = 1f;
+	private Color highlightColor;
+	MaterialPropertyBlock propertyBlock;
+	private float duration = 1f;
 	private void Update()
 	{
-		
+		return;
+		if (timeVal < duration) {
+			propertyBlock = new MaterialPropertyBlock();
+			propertyBlock.SetColor("_EmissionColor", Color.Lerp(highlightColor, Color.black, timeVal / duration));
+			//propertyBlock.SetColor("_Color", highlightColor);
+			renderer.SetPropertyBlock(propertyBlock);
+		} else {
+			if (renderer.HasPropertyBlock()) {
+				propertyBlock = null;
+				//renderer.SetPropertyBlock(propertyBlock);
+			}
+			timeVal = duration;
+		}
 	}
 }
