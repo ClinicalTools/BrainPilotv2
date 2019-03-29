@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SignalEvent : MonoBehaviour 
 {
+	[SerializeField]
 	private SignalManager signalManager;
 	//instantiate the particle system
 	public ParticleSystem particle;
@@ -20,38 +21,66 @@ public class SignalEvent : MonoBehaviour
 
 	void Awake ()
 	{
-		signalManager = GameObject.FindObjectOfType<SignalManager>();
+		if (signalManager == null) {
+			Debug.LogWarning("Did you forget to assign a signal manager?", gameObject);
+			SignalManager[] array = GameObject.FindObjectsOfType<SignalManager>();
+			foreach (SignalManager sm in array) {
+				if (sm.gameObject.scene == gameObject.scene) {
+					Debug.Log("Loaded the chosen signal manager", sm.gameObject);
+					signalManager = sm;
+					break;
+				}
+			}
+		}
 	}
 
 	void Start () 
 	{
 		//Fetching the Renderer from the Object
 		Renderer rend = GetComponent<Renderer>();
-		_material = rend.material;
+		if (GetComponent<MaterialSwitchState>()) {
+			_material = GetComponent<MaterialSwitchState>().renderer.material;
+		} else {
+			_material = rend.material;
+		}
 		startColor = _material.GetColor("_EmissionColor");
 		//Fetching the Particle System
-		particle = GetComponent<ParticleSystem>();
+		particle = GetComponentInChildren<ParticleSystem>();
 		collisionEvents = new List<ParticleCollisionEvent>();
 		timer = 1f;
 	}
+
+	//other represents the particle system that sent the colliding particle
 	void OnParticleCollision (GameObject other)
 	{
+		gameObject.layer = 0;
+		if (!signalManager.active) {
+			return;
+		}
 		Debug.Log("Particle Collision Triggered");
 		_material.SetColor("_EmissionColor", highlightColor);
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
 		stopper.Stop();
+		
 		Debug.Log(stopper.gameObject.name + " was stopped.");
-		signalManager.SendNextSignal(stopper);
+		StartCoroutine(DelayCall(.5f, stopper));
+		//signalManager.SendNextSignal(stopper);
+	}
+
+	private IEnumerator DelayCall(float time, ParticleSystem system)
+	{
+		yield return new WaitForSecondsRealtime(time);
+		signalManager.SendNextSignal(system);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (timer < 1) {
+		if (timer < duration) {
 			timer += Time.deltaTime;
 			_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
 		} else {
-			timer = 1f;
+			timer = duration;
 		}
 		
 	}

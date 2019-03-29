@@ -33,7 +33,7 @@ public class GenerateBrainSubScene {
 			GameObject obj = (GameObject)GameObject.Instantiate(o);
 			obj.name = "BrainModel";
 			references.Add(typeof(Transform), obj);
-		} catch (System.ArgumentException e) {
+		} catch (System.ArgumentException) {
 			Debug.LogError("No brain model prefab found at path: " + brainLocation);
 		}
 
@@ -42,7 +42,7 @@ public class GenerateBrainSubScene {
 			GameObject obj = (GameObject)GameObject.Instantiate(o);
 			obj.name = "SequenceManager";
 			references.Add(typeof(SequenceManager), obj);
-		} catch (System.ArgumentException e) {
+		} catch (System.ArgumentException) {
 			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
 		}
 
@@ -51,7 +51,7 @@ public class GenerateBrainSubScene {
 			GameObject obj = (GameObject)GameObject.Instantiate(o);
 			obj.name = "ParticleManager";
 			//references.Add(typeof(ParticleManager), obj);
-		} catch (System.ArgumentException e) {
+		} catch (System.ArgumentException) {
 			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
 		}		
 	}
@@ -65,12 +65,12 @@ public class GenerateBrainSubScene {
 	public static void BakeAllLighting()
 	{
 		s = new List<string>(AssetDatabase.FindAssets("t:scene", new[] { "Assets/Scenes/Layered Scenes" }));
-		if (false) {
+#if false
 			previouslyActive = SceneManager.GetActiveScene();
 			Lightmapping.BakeMultipleScenes(s.ToArray());
-		} else {
+#else
 			EditorApplication.update += Update;
-		}
+#endif
 	}
 
 	[MenuItem("Brain Scene/" + "Bake Active Lighting")]
@@ -90,15 +90,15 @@ public class GenerateBrainSubScene {
 		foreach (Scene asdf in activeSceneList) {
 			s.Add(asdf.path);
 			Debug.Log(asdf.path);
-		} 
+		}
 		//EditorApplication.update -= UpdateActive;
 
 
-		if (false) {
-			Lightmapping.BakeMultipleScenes(s.ToArray());
-		} else {
-			EditorApplication.update += UpdateActive;
-		}
+#if false
+		Lightmapping.BakeMultipleScenes(s.ToArray());
+#else
+		EditorApplication.update += UpdateActive;
+#endif
 	}
 
 	private static bool lightmapFinished;
@@ -168,4 +168,4 @@ public class GenerateBrainSubScene {
 		Lightmapping.Bake();
 	}
 #endif
-}
+	}

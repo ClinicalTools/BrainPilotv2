@@ -10,7 +10,7 @@ public class MaterialSwitchState : MonoBehaviour {
 	protected Material savedMaterial;
 	private bool active;
 
-	public MeshRenderer renderer;
+	new public MeshRenderer renderer;
 
 	[SerializeField]
 	protected Color emissionColor = new Color(63/255f, 63/255f, 63/255f);
@@ -27,7 +27,7 @@ public class MaterialSwitchState : MonoBehaviour {
 		}*/
 #if UNITY_EDITOR
 		if (renderer == null) {
-			if (transform.childCount > 0) {
+			if (transform.childCount > 0 && transform.GetChild(0).GetComponentInChildren<MeshRenderer>()) {
 				renderer = transform.GetChild(0).GetComponent<MeshRenderer>();
 				if (renderer == null) {
 					UnityEditor.Undo.DestroyObjectImmediate(this);
@@ -82,5 +82,15 @@ public class MaterialSwitchState : MonoBehaviour {
 		renderer.sharedMaterial = savedMaterial;
 		active = false;
 		//renderer.SetPropertyBlock(null);
+	}
+
+	public void HighlightBlip()
+	{
+
+	}
+
+	private void Update()
+	{
+		
 	}
 }

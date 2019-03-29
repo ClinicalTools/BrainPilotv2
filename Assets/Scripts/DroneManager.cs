@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DroneManager : MonoBehaviour {
+//ActiveSceneController
+public class DroneManager : SubSceneListener {
 
 	public DroneController drone;
 	public SequenceManager sequenceManager;
-	int activeScene = 1;
+	public SignalManagerManager signalManager;
+	private int activeScene => subSceneManager.activeScene;
+	private bool started = false;
 
 	// Use this for initialization
 	void Start () {
 		if (drone == null) {
 			drone = GetComponentInChildren<DroneController>();
 		}
+		if (subSceneManager == null) {
+			RetrieveSubSceneManager();
+		}
+		subSceneManager.RegisterListener(this);
+		subSceneManager.activeScene = 1;
 		Invoke("GrabActiveSequence", 2f);
 	}
 
@@ -24,38 +32,69 @@ public class DroneManager : MonoBehaviour {
 
 	public void GrabNextSequence()
 	{
-		activeScene++;
-		GrabSequenceAt(activeScene);
+		GrabSequenceAt(activeScene + 1);
 	}
 
 	public void GrabPreviousSequence()
 	{
-		activeScene--;
-		GrabSequenceAt(activeScene);
+		GrabSequenceAt(activeScene - 1);
 	}
+
+
+
+
 
 	public void GrabSequenceAt(int sceneIdx)
 	{
-		if (sceneIdx >= SceneManager.sceneCount) {
+		if (!started || sceneIdx != subSceneManager.activeScene) {
+			signalManager?.StopAll();
+			subSceneManager.UpdateSelectedScene(sceneIdx);
+		}
+		started = true;
+		LoadLesson();
+		LoadSignals();
+	}
+
+	private void LoadLesson()
+	{
+		if (activeScene >= SceneManager.sceneCount) {
 			HideDrone();
 			return;
-		} else if (sceneIdx <= 0) {
-			sceneIdx = 1;
-			activeScene = 1;
+		} else if (activeScene <= 0) {
+			subSceneManager.activeScene = 1;
 		}
-		GameObject[] objs = SceneManager.GetSceneAt(sceneIdx).GetRootGameObjects();
-
+		drone.ResumeSequence(sequenceManager.GetSequence());
+		
+		//Handled from Invoke
+		/*
 		//Parse through the scene's game objects looking for what we want
-		foreach(GameObject obj in objs) {
+		foreach (GameObject obj in objs) {
 			if (obj.GetComponent<SequenceManager>()) {
 				sequenceManager = obj.GetComponent<SequenceManager>();
 				drone.ResumeSequence(sequenceManager.GetSequence());
 			}
-		}
+		}*/
+	}
+
+	private void LoadSignals()
+	{
+		signalManager.PlayAll();
 	}
 
 	public void HideDrone()
 	{
 		drone.SetActive(false);
 	}
+
+	public override void Invoke()
+	{
+		if (subSceneManager == null) {
+			print("I was null");
+			RetrieveSubSceneManager();
+		}
+		sequenceManager = subSceneManager.sequenceManager;
+		signalManager = subSceneManager.signalManager;
+	}
+
+	
 }

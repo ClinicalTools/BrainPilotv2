@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Sequence1 : MonoBehaviour {
 	public string sequenceTitle;
 	public SequenceElement1[] steps;

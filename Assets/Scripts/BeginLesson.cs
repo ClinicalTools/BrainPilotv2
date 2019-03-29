@@ -53,7 +53,7 @@ public class BeginLesson : MonoBehaviour {
 			}
 			loadingScenes = false;
 			asyncLoad.allowSceneActivation = true;
-		} catch (System.NullReferenceException e) {
+		} catch (System.NullReferenceException) {
 			loadingScenes = false;
 			return;
 		}
