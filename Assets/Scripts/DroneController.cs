@@ -17,6 +17,14 @@ public class DroneControllerEditor : Editor
 		if (GUILayout.Button("Deactivate")) {
 			controller.SetActive(false);
 		}
+
+		if (GUILayout.Button("Advance Sequence")) {
+			controller.AdvanceSequence();
+		}
+
+		if (GUILayout.Button("Receed Sequence")) {
+			controller.RecedeSequence();
+		}
 	}
 }
 #endif
@@ -213,9 +221,10 @@ public class DroneController : MonoBehaviour {
 	private void UpdatePlatform()
 	{
 		UpdateText();
-		StopMovingPlatform();
-		StartCoroutine(MovePlatform());
+		StopMovingPlatform(false);
+		movePlatformCoroutine = StartCoroutine(MovePlatform());
 	}
+	private Coroutine movePlatformCoroutine;
 
 	/// <summary>
 	/// Loads a sequence from the start
@@ -396,10 +405,10 @@ public class DroneController : MonoBehaviour {
 		info = null;
 	}
 
-	private void StopMovingPlatform()
+	private void StopMovingPlatform(bool finishUpdating)
 	{
 		//Only called when advancing/receeding the sequence
-		if (moving) {
+		if (moving && finishUpdating) {
 			if (info.waypointLocation != Vector3.zero) {
 				platform.position = info.waypointLocation;
 			}
@@ -420,7 +429,9 @@ public class DroneController : MonoBehaviour {
 		}
 		moving = false;
 		info = null;
-		StopCoroutine("MovePlatform");
+		if (movePlatformCoroutine != null) {
+			StopCoroutine(movePlatformCoroutine);
+		}
 	}
 	
 	/// <summary>
@@ -459,6 +470,5 @@ public class DroneController : MonoBehaviour {
 		return lowestIdx;
 	}
 
-#endregion
-
+	#endregion
 }

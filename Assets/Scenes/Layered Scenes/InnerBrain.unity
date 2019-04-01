@@ -247,6 +247,58 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4047669790515850, guid: 17e846d428d47d44c9c1518aec9f2fab,
     type: 2}
   m_PrefabInternal: {fileID: 1713924}
+--- !u!1 &5824810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5824811}
+  - component: {fileID: 5824812}
+  m_Layer: 0
+  m_Name: Sequence2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5824811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 5824810}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2091668914}
+  - {fileID: 906044884}
+  - {fileID: 1479817940}
+  - {fileID: 65779641}
+  m_Father: {fileID: 1737327833}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5824812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 5824810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5fbe46e41e57c4ab543e3c970e4921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sequenceTitle: Hunger Pathway
+  steps:
+  - {fileID: 2091668915}
+  - {fileID: 906044885}
+  - {fileID: 1479817941}
+  - {fileID: 65779642}
+  _active: 0
+  _stepIdx: 0
 --- !u!1001 &24596423
 Prefab:
   m_ObjectHideFlags: 0
@@ -362,6 +414,65 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4047669790515850, guid: 17e846d428d47d44c9c1518aec9f2fab,
     type: 2}
   m_PrefabInternal: {fileID: 24596423}
+--- !u!1 &65779640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 65779641}
+  - component: {fileID: 65779642}
+  m_Layer: 0
+  m_Name: Thalmus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &65779641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 65779640}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5824811}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65779642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 65779640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToDisplay: The signals then travel to the Thalmus which transmit the signals
+    elsewhere across the brain
+  platformInformation:
+    waypointLocation: {x: -2.0047252, y: 0.19712561, z: 13.405919}
+    lookAtPoint: {fileID: 2022505447}
+    scaleVal: 2
+  brainPiecesToHighlight:
+  - {fileID: 2022505072}
+  - {fileID: 2022505064}
+  OnEventBegin:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnEventEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &182162632
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,11 +1033,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textToDisplay: Here we see the Right Putamen
   platformInformation:
     waypointLocation: {x: 5.714977, y: 1.4316477, z: 14.882743}
     lookAtPoint: {fileID: 1030231710}
     scaleVal: 4.5
-  textToDisplay: Here we see the Right Putamen
   brainPiecesToHighlight:
   - {fileID: 2022505067}
   OnEventBegin:
@@ -1272,6 +1383,7 @@ MonoBehaviour:
   signalManager: {fileID: 1615623011}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &572336667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1284,7 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 572336664}
-  emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  emissionColor: {r: 1, g: 1, b: 0, a: 1}
   makeSolid: 1
 --- !u!64 &572336668
 MeshCollider:
@@ -1533,11 +1645,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textToDisplay: And below that is the Amygdaloid, responsible for Emotions
   platformInformation:
     waypointLocation: {x: 4.485526, y: -0.5666424, z: 12.262514}
     lookAtPoint: {fileID: 704121108}
     scaleVal: 3
-  textToDisplay: And below that is the Amygdaloid, responsible for Emotions
   brainPiecesToHighlight:
   - {fileID: 2022505085}
   OnEventBegin:
@@ -1852,6 +1964,7 @@ MonoBehaviour:
   signalManager: {fileID: 721288250}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &751980077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1864,7 +1977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 751980074}
-  emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  emissionColor: {r: 1, g: 1, b: 0, a: 1}
   makeSolid: 1
 --- !u!64 &751980078
 MeshCollider:
@@ -2401,6 +2514,64 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 856287926}
   m_Mesh: {fileID: 4300004, guid: 0142a748064c02e408b918ff06af3433, type: 3}
+--- !u!1 &906044883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 906044884}
+  - component: {fileID: 906044885}
+  m_Layer: 0
+  m_Name: Further Explanation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &906044884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 906044883}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5824811}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &906044885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 906044883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToDisplay: Our dopamine trails start here
+  platformInformation:
+    waypointLocation: {x: 0, y: 0, z: 0}
+    lookAtPoint: {fileID: 0}
+    scaleVal: 0
+  brainPiecesToHighlight:
+  - {fileID: 991856585}
+  - {fileID: 938022525}
+  OnEventBegin:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnEventEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &938022515
 GameObject:
   m_ObjectHideFlags: 0
@@ -3029,6 +3200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2df57175672d3046b9e4ea40668d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startOnAwake: 0
 --- !u!4 &1000884665
 Transform:
   m_ObjectHideFlags: 0
@@ -4692,6 +4864,76 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1479817939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1479817940}
+  - component: {fileID: 1479817941}
+  m_Layer: 0
+  m_Name: Nucleus Accumbens
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1479817940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1479817939}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5824811}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1479817941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1479817939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToDisplay: The dopamine trails up to the nucleus accumbens where it is amplified
+    before moving on
+  platformInformation:
+    waypointLocation: {x: -2.3017945, y: 0.4941151, z: 16.684175}
+    lookAtPoint: {fileID: 572336658}
+    scaleVal: 4.5
+  brainPiecesToHighlight:
+  - {fileID: 572336667}
+  - {fileID: 751980077}
+  OnEventBegin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1000884664}
+        m_MethodName: PlayAll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnEventEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1488681583
 GameObject:
   m_ObjectHideFlags: 0
@@ -5297,6 +5539,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 386246072}
+  - {fileID: 5824811}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8357,6 +8600,7 @@ MonoBehaviour:
   signalManager: {fileID: 0}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &2022504976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8371,6 +8615,7 @@ MonoBehaviour:
   signalManager: {fileID: 1615623011}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &2022504977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8385,6 +8630,7 @@ MonoBehaviour:
   signalManager: {fileID: 721288250}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &2022505057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13636,11 +13882,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textToDisplay: They play important roles in some function I'm not aware of
   platformInformation:
     waypointLocation: {x: 4.485526, y: -0.5666424, z: 12.262514}
     lookAtPoint: {fileID: 648389206}
     scaleVal: 8
-  textToDisplay: They play important roles in some function I'm not aware of
   brainPiecesToHighlight: []
   OnEventBegin:
     m_PersistentCalls:
@@ -13721,6 +13967,64 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &2091668913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2091668914}
+  - component: {fileID: 2091668915}
+  m_Layer: 0
+  m_Name: Ventral Tegmental Intro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2091668914
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2091668913}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5824811}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2091668915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2091668913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToDisplay: Out pleasure starts with the Ventral Tegmental area
+  platformInformation:
+    waypointLocation: {x: 0.1702187, y: -1.5060489, z: 12.102424}
+    lookAtPoint: {fileID: 991856576}
+    scaleVal: 1
+  brainPiecesToHighlight:
+  - {fileID: 991856585}
+  - {fileID: 938022525}
+  OnEventBegin:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnEventEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &2112903859
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,11 +23,11 @@ public class SequenceElement1 : MonoBehaviour {
 		public float scaleVal;
 	}
 
+	[TextArea]
+	public string textToDisplay;
 
 	[SerializeField]
 	private PlatformInformation platformInformation;
-
-	public string textToDisplay;
 
 	public MaterialSwitchState[] brainPiecesToHighlight;
 	
@@ -56,6 +56,14 @@ public class SequenceElement1 : MonoBehaviour {
 			return;
 		}
 		platformInformation.waypointLocation = cam.position;
+	}
+
+	[ContextMenu("Clear Platform Info")]
+	public void ClearPlatformInfo()
+	{
+		platformInformation.lookAtPoint = null;
+		platformInformation.scaleVal = 0;
+		platformInformation.waypointLocation = Vector3.zero;
 	}
 #endif
 	public void Activate()

@@ -27,24 +27,30 @@ public class DroneManager : SubSceneListener {
 
 	public void GrabActiveSequence()
 	{
-		GrabSequenceAt(activeScene);
+		GetSceneSequences(activeScene);
 	}
 
 	public void GrabNextSequence()
 	{
-		GrabSequenceAt(activeScene + 1);
+		if (sequenceManager.isAtEnd) {
+			GetSceneSequences(activeScene + 1);
+		} else {
+			sequenceManager.AdvanceSequence();
+			LoadLesson();
+		}
 	}
 
 	public void GrabPreviousSequence()
 	{
-		GrabSequenceAt(activeScene - 1);
+		if (sequenceManager.isAtBeginning) {
+			GetSceneSequences(activeScene - 1);
+		} else {
+			sequenceManager.ReceedSequence();
+			LoadLesson();
+		}
 	}
 
-
-
-
-
-	public void GrabSequenceAt(int sceneIdx)
+	public void GetSceneSequences(int sceneIdx)
 	{
 		if (!started || sceneIdx != subSceneManager.activeScene) {
 			signalManager?.StopAll();
@@ -78,7 +84,9 @@ public class DroneManager : SubSceneListener {
 
 	private void LoadSignals()
 	{
-		signalManager.PlayAll();
+		if (signalManager.startOnAwake) {
+			signalManager.PlayAll();
+		}
 	}
 
 	public void HideDrone()

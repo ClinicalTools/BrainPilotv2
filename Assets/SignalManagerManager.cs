@@ -5,6 +5,7 @@ using UnityEngine;
 public class SignalManagerManager : MonoBehaviour {
 
 	SignalManager[] managers;
+	public bool startOnAwake;
 
 	// Use this for initialization
 	void Start () {

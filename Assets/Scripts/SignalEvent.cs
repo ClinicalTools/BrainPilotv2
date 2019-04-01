@@ -62,7 +62,7 @@ public class SignalEvent : MonoBehaviour
 		if (!signalManager.active) {
 			return;
 		}
-		Debug.Log("Particle Collision Triggered");
+		//Debug.Log("Particle Collision Triggered");
 		//_material.SetColor("_EmissionColor", highlightColor);
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
@@ -80,16 +80,24 @@ public class SignalEvent : MonoBehaviour
 	}
 
 	MaterialPropertyBlock block;
-
+	public bool activated;
 	// Update is called once per frame
 	void Update () {
 		if (timer < duration) {
+			activated = true;
 			timer += Time.deltaTime;
 			block.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer / duration));
-			GetComponent<Renderer>().SetPropertyBlock(block);
+
+			if (GetComponent<MaterialSwitchState>()) {
+				GetComponent<MaterialSwitchState>().renderer.SetPropertyBlock(block);
+			} else {
+				GetComponent<Renderer>().SetPropertyBlock(block);
+			}
+			//GetComponent<Renderer>().SetPropertyBlock(block);
 			//_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
 		} else {
 			timer = duration;
+			activated = false;
 		}
 		
 	}

@@ -562,6 +562,7 @@ MonoBehaviour:
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!1 &248283435
 GameObject:
   m_ObjectHideFlags: 0
@@ -4583,6 +4584,7 @@ MonoBehaviour:
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &264754013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4597,6 +4599,7 @@ MonoBehaviour:
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!114 &264754049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12638,11 +12641,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textToDisplay: Now look at the cerebellum
   platformInformation:
     waypointLocation: {x: -0.1064505, y: -4.8845315, z: 16.550358}
     lookAtPoint: {fileID: 264754855}
     scaleVal: 4.5
-  textToDisplay: Now look at the cerebellum
   brainPiecesToHighlight:
   - {fileID: 264754073}
   OnEventBegin:
@@ -12936,6 +12939,7 @@ MonoBehaviour:
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  activated: 0
 --- !u!1 &560631401
 GameObject:
   m_ObjectHideFlags: 0
@@ -13597,11 +13601,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textToDisplay: This has been a test
   platformInformation:
     waypointLocation: {x: 4.485526, y: -0.5666424, z: 12.262514}
     lookAtPoint: {fileID: 1737327833}
     scaleVal: 8
-  textToDisplay: This has been a test
   brainPiecesToHighlight: []
   OnEventBegin:
     m_PersistentCalls:
@@ -13653,11 +13657,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textToDisplay: Look at this cerebrum
   platformInformation:
     waypointLocation: {x: 16.14176, y: 1.224009, z: 12.936108}
     lookAtPoint: {fileID: 264754342}
     scaleVal: 4.5
-  textToDisplay: Look at this cerebrum
   brainPiecesToHighlight:
   - {fileID: 264754011}
   OnEventBegin:
@@ -13777,6 +13781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2df57175672d3046b9e4ea40668d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startOnAwake: 1
 --- !u!4 &799135742
 Transform:
   m_ObjectHideFlags: 0
