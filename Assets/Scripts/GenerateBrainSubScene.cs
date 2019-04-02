@@ -14,7 +14,7 @@ public class GenerateBrainSubScene {
 	const string savePath = "Assets/Scenes/Layered Scenes";
 	const string brainLocation = "Assets/_Prefabs/BrainModel.prefab";
 	const string sequenceLocation = "Assets/_Prefabs/SequenceManager.prefab";
-	const string particleManagerLocation = "Assets/_Prefabs/ParticleManager.prefab";
+	const string particleManagerLocation = "Assets/_Prefabs/SignalManager.prefab";
 
 	private static Dictionary<System.Type, GameObject> references;// = new Dictionary<System.Type, GameObject>();
 
@@ -52,7 +52,7 @@ public class GenerateBrainSubScene {
 			obj.name = "ParticleManager";
 			//references.Add(typeof(ParticleManager), obj);
 		} catch (System.ArgumentException) {
-			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
+			Debug.LogError("No sequence manager found at path: " + particleManagerLocation);
 		}		
 	}
 

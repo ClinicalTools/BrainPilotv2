@@ -13,11 +13,13 @@ public class SignalManagerManager : MonoBehaviour {
 		StopAll();
 	}
 
-	public void PlayAll()
+	public void PlayAll(bool includeNonLoops)
 	{
 		foreach (SignalManager manager in managers) {
-			manager.Play();
-			manager.active = true;
+			if (includeNonLoops || manager.loop) {
+				manager.Play();
+				manager.active = true;
+			}
 		}
 	}
 

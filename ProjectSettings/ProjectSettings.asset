@@ -362,8 +362,8 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_Enabled: 1
     m_Devices:
-    - None
     - Oculus
+    - None
     - OpenVR
   - m_BuildTarget: Android
     m_Enabled: 1

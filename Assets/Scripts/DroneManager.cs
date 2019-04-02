@@ -85,7 +85,7 @@ public class DroneManager : SubSceneListener {
 	private void LoadSignals()
 	{
 		if (signalManager.startOnAwake) {
-			signalManager.PlayAll();
+			signalManager.PlayAll(false);
 		}
 	}
 

@@ -68,7 +68,7 @@ public class MaterialSwitchState : MonoBehaviour {
 			renderer.material.SetFloat("_DissolveGlobalControl", none);
 			renderer.material.SetFloat("_DissolveMaskInvert", 0);
 		}
-
+		
 
 		/*
 		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
@@ -80,8 +80,11 @@ public class MaterialSwitchState : MonoBehaviour {
 			propertyBlock.SetFloat("_DissolveMaskInvert", 0);
 		}
 		renderer.SetPropertyBlock(propertyBlock);
+
+		ParticleSystemRenderer r = new ParticleSystemRenderer();
+		r.SetPropertyBlock(propertyBlock);
 		*/
-    }
+	}
 
     public /*override*/ void Deactivate()
     {

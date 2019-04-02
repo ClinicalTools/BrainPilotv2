@@ -247,6 +247,10 @@ public class DroneController : MonoBehaviour {
 	/// <param name="s">The sequence to run</param>
 	public void ResumeSequence(Sequence1 s)
 	{
+		if (s == null) {
+			Debug.LogWarning("Sequence is null!");
+			return;
+		}
 		if (!_active) {
 			SetActive(true);
 		}

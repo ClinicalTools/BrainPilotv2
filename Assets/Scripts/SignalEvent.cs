@@ -37,7 +37,7 @@ public class SignalEvent : MonoBehaviour
 		}
 	}
 
-	void Start () 
+	void Start ()
 	{
 		//Fetching the Renderer from the Object
 		Renderer rend = GetComponent<Renderer>();
@@ -50,7 +50,9 @@ public class SignalEvent : MonoBehaviour
 		}
 		//startColor = _material.GetColor("_EmissionColor");
 		//Fetching the Particle System
-		particle = GetComponentInChildren<ParticleSystem>();
+		if (particle == null) {
+			particle = GetComponentInChildren<ParticleSystem>();
+		}
 		collisionEvents = new List<ParticleCollisionEvent>();
 		timer = 1f;
 	}
@@ -58,19 +60,21 @@ public class SignalEvent : MonoBehaviour
 	//other represents the particle system that sent the colliding particle
 	void OnParticleCollision (GameObject other)
 	{
+		//Debug.Log(gameObject.name + ": " + gameObject.layer + "\nSender: " + other.name, gameObject);
+		if (gameObject.layer != 10) {
+			return;
+		}
 		gameObject.layer = 0;
 		if (!signalManager.active) {
 			return;
 		}
-		//Debug.Log("Particle Collision Triggered");
-		//_material.SetColor("_EmissionColor", highlightColor);
+		
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
 		stopper.Stop();
 		
-		Debug.Log(stopper.gameObject.name + " was stopped.");
+		//Debug.Log(stopper.gameObject.name + " was stopped.", stopper.gameObject);
 		StartCoroutine(DelayCall(.5f, stopper));
-		//signalManager.SendNextSignal(stopper);
 	}
 
 	private IEnumerator DelayCall(float time, ParticleSystem system)
