@@ -72,6 +72,16 @@ public class SignalEvent : MonoBehaviour
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
 		stopper.Stop();
+
+		ParticleSystem.Particle[] particles = null;
+		stopper.GetParticles(particles);
+		if (particles != null) {
+			for (int i = 0; i < particles.Length; i++) {
+				particles[i].velocity = Vector3.zero;
+			}
+		}
+		//This kills all particles and deletes their trails as well
+		//stopper.SetParticles(new ParticleSystem.Particle[] { }, 0);
 		
 		//Debug.Log(stopper.gameObject.name + " was stopped.", stopper.gameObject);
 		StartCoroutine(DelayCall(.5f, stopper));

@@ -222,7 +222,7 @@ Prefab:
     - target: {fileID: 198329201599103972, guid: 17e846d428d47d44c9c1518aec9f2fab,
         type: 2}
       propertyPath: lengthInSec
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 198329201599103972, guid: 17e846d428d47d44c9c1518aec9f2fab,
         type: 2}
@@ -1707,6 +1707,7 @@ MonoBehaviour:
   - {fileID: 1028022774}
   - {fileID: 1071521256}
   active: 0
+  loop: 1
 --- !u!1 &740167710
 GameObject:
   m_ObjectHideFlags: 0
@@ -5417,6 +5418,7 @@ MonoBehaviour:
   - {fileID: 1713925}
   - {fileID: 24596424}
   active: 0
+  loop: 1
 --- !u!1 &1631680689
 GameObject:
   m_ObjectHideFlags: 0

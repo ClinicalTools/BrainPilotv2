@@ -58,7 +58,7 @@ public class DroneController : MonoBehaviour {
 	private bool _active = false;
 	private float distance;
 	private Vector3 goalLoc;
-	private MeshRenderer mesh;
+	private MeshRenderer[] mesh;
 	[SerializeField]
 	private Selectable selection;
 	[SerializeField]
@@ -74,9 +74,11 @@ public class DroneController : MonoBehaviour {
 		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;
 		settings.maxDistance *= settings.maxDistance;
 		if (mesh == null) {
-			mesh = GetComponentInChildren<MeshRenderer>();
+			mesh = GetComponentsInChildren<MeshRenderer>();
 		}
-		mesh.sharedMaterial.SetFloat("_DissolveCutoff", 1f);
+		foreach (MeshRenderer m in mesh) {
+			m.sharedMaterial.SetFloat("_DissolveCutoff", 1f);
+		}
 		if (!gazeBased) {
 			//mainCamera = transform.parent;
 			mainCamera = GameObject.Find("new_platform01").transform;
@@ -188,13 +190,15 @@ public class DroneController : MonoBehaviour {
 	/// <param name="endVal"></param>
 	private IEnumerator FadeMesh(float endVal, float duration = 2f)
 	{
-		float val = mesh.sharedMaterial.GetFloat("_DissolveCutoff");
+		float val = mesh[0].sharedMaterial.GetFloat("_DissolveCutoff");
 		float lerpVal = 0f;
 		float interval = Time.deltaTime / settings.fadeDuration;
 		while (val != endVal) {
 			lerpVal += interval;
 			val = Mathf.Lerp(val, endVal, lerpVal);
-			mesh.sharedMaterial.SetFloat("_DissolveCutoff", val);
+			foreach (MeshRenderer m in mesh) {
+				m.sharedMaterial.SetFloat("_DissolveCutoff", val);
+			}
 			yield return null;
 		}
 	}
@@ -221,8 +225,17 @@ public class DroneController : MonoBehaviour {
 	private void UpdatePlatform()
 	{
 		UpdateText();
-		StopMovingPlatform(false);
+		StopMovingPlatform(IsPlatformInfoEmpty());
 		movePlatformCoroutine = StartCoroutine(MovePlatform());
+	}
+
+	private bool IsPlatformInfoEmpty()
+	{
+		if (info == null) return true;
+		return
+			info.waypointLocation == Vector3.zero &&
+			info.scaleVal == 0 &&
+			info.lookAtPoint == null;
 	}
 	private Coroutine movePlatformCoroutine;
 
