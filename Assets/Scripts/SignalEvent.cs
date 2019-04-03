@@ -14,7 +14,7 @@ public class SignalEvent : MonoBehaviour
 	//instantiate the material
 	private Material _material;
 	private Color startColor = Color.black;
-	public Color highlightColor = Color.cyan;
+	private Color highlightColor = Color.cyan;
 	
 	private float duration = 1f;
 	private float timer;
@@ -61,11 +61,13 @@ public class SignalEvent : MonoBehaviour
 		_material.SetColor("_EmissionColor", highlightColor);
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
+		var mainstopper = stopper.main;
+		highlightColor = mainstopper.startColor.color;
 		stopper.Stop();
 		
 		Debug.Log(stopper.gameObject.name + " was stopped.");
 		StartCoroutine(DelayCall(.5f, stopper));
-		//signalManager.SendNextSignal(stopper);
+		signalManager.SendNextSignal(stopper);
 	}
 
 	private IEnumerator DelayCall(float time, ParticleSystem system)
