@@ -278,7 +278,7 @@ Transform:
   - {fileID: 1479817940}
   - {fileID: 65779641}
   m_Father: {fileID: 1737327833}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5824812
 MonoBehaviour:
@@ -1149,7 +1149,7 @@ Transform:
   - {fileID: 719142272}
   - {fileID: 2057488568}
   m_Father: {fileID: 1737327833}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &386246073
 MonoBehaviour:
@@ -5089,7 +5089,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1000884664}
         m_MethodName: PlayAll
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5710,8 +5710,8 @@ Transform:
   m_LocalPosition: {x: -0.009174722, y: -2.953585, z: 19.795399}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 386246072}
   - {fileID: 5824811}
+  - {fileID: 386246072}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
