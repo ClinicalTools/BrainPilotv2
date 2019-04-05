@@ -2557,9 +2557,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textToDisplay: Our dopamine trails start here
   platformInformation:
-    waypointLocation: {x: 0, y: 0, z: 0}
-    lookAtPoint: {fileID: 0}
-    scaleVal: 0
+    waypointLocation: {x: 0.1702187, y: -1.5060489, z: 12.102424}
+    lookAtPoint: {fileID: 991856576}
+    scaleVal: 1
   brainPiecesToHighlight:
   - {fileID: 991856585}
   - {fileID: 938022525}
