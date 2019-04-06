@@ -15,8 +15,8 @@ public class MaterialSwitchState : MonoBehaviour {
 	[SerializeField]
 	protected Color emissionColor = new Color(63/255f, 63/255f, 63/255f);
 
-	private float none = 0;
-	private float cylinder = 6;
+	private readonly float none = 0;
+	//private float cylinder = 6;
 
 	public bool makeSolid = true;
 
@@ -46,7 +46,7 @@ public class MaterialSwitchState : MonoBehaviour {
 			return;
 		}
 		active = true;
-		if (propertyBlock != null && renderer.HasPropertyBlock()) {
+		if (renderer.HasPropertyBlock()) {
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
 			renderer.GetPropertyBlock(block);
 			renderer.SetPropertyBlock(null);
@@ -94,7 +94,7 @@ public class MaterialSwitchState : MonoBehaviour {
 		active = false;
 		//renderer.SetPropertyBlock(null);
 	}
-
+	/*
 	public void HighlightBlip(Color c)
 	{
 		highlightColor = c;
@@ -106,7 +106,7 @@ public class MaterialSwitchState : MonoBehaviour {
 	private float duration = 1f;
 	private void Update()
 	{
-		return;
+		/*
 		if (timeVal < duration) {
 			propertyBlock = new MaterialPropertyBlock();
 			propertyBlock.SetColor("_EmissionColor", Color.Lerp(highlightColor, Color.black, timeVal / duration));
@@ -119,5 +119,5 @@ public class MaterialSwitchState : MonoBehaviour {
 			}
 			timeVal = duration;
 		}
-	}
+	}*/
 }

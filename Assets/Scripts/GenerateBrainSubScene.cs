@@ -23,7 +23,6 @@ public class GenerateBrainSubScene {
 	[MenuItem("Brain Scene/" + menuText)]
 	public static void GenerateScene()
 	{
-		Scene temp = SceneManager.GetActiveScene();
 		Scene s = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
 		SceneManager.SetActiveScene(s);
 		references = new Dictionary<System.Type, GameObject>();
@@ -154,7 +153,6 @@ public class GenerateBrainSubScene {
 				SceneManager.SetActiveScene(previouslyActive);
 				return;
 			}
-			Debug.Log((activeSceneList == null) + ", " + (activeSceneList[0] == null) + ", " + activeSceneList[0].path);
 			EditorSceneManager.OpenScene(activeSceneList[0].path, OpenSceneMode.Single);
 			StartLightmap(activeSceneList[0]); 
 			activeSceneList.RemoveAt(0);

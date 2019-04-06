@@ -13,8 +13,8 @@ public class SignalPointEvent : MonoBehaviour
 	public List<ParticleCollisionEvent> collisionEvents;	
 	
 	//instantiate the material
-	private Material _material;
-	private Color startColor = Color.black;
+	//private Material _material;
+	//private Color startColor = Color.black;
 	private Color highlightColor = Color.cyan;
 	
 	private float duration = 1f;
@@ -61,6 +61,7 @@ public class SignalPointEvent : MonoBehaviour
 		mainModule.startColor = highlightColor;
 		Debug.Log(stopper.gameObject.name + " was stopped.");
 		StartCoroutine(DelayCall(.5f, stopper));
+		particle.Play();
 		signalManager.SendNextSignal(stopper);
 	}
 
