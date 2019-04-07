@@ -56,7 +56,6 @@ public class SignalEvent : MonoBehaviour
 		collisionEvents = new List<ParticleCollisionEvent>();
 		timer = 1f;
 	}
-
 	//other represents the particle system that sent the colliding particle
 	void OnParticleCollision (GameObject other)
 	{
@@ -73,15 +72,21 @@ public class SignalEvent : MonoBehaviour
 		stopper = other.GetComponent<ParticleSystem>();
 		var mainstopper = stopper.main;
 		highlightColor = mainstopper.startColor.color;
-		stopper.Stop();
 
-		ParticleSystem.Particle[] particles = null;
-		stopper.GetParticles(particles);
+		
+		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[10];
+		int particlesAlive = stopper.GetParticles(particles);
 		if (particles != null) {
-			for (int i = 0; i < particles.Length; i++) {
-				particles[i].velocity = Vector3.zero;
+			for (int i = 0; i < particlesAlive; i++) {
+				//particles[i].velocity = Vector3.zero;
+				particles[i].startLifetime = 1;
+				particles[i].remainingLifetime = .8f;
 			}
+			stopper.SetParticles(particles, particlesAlive);
 		}
+
+		//stopper.Stop();
+
 		//This kills all particles and deletes their trails as well
 		//stopper.SetParticles(new ParticleSystem.Particle[] { }, 0);
 		
