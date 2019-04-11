@@ -14,4 +14,5 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  description: Thinking
+  elementName: Pre-Frontal Cortex (L)
+  description: Executive function, planning, consequence, rationalization, intelligence

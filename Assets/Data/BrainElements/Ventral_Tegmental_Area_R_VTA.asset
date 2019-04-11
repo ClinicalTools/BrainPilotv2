@@ -15,4 +15,6 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates: []
   activeStates: []
-  description: Info Relay
+  elementName: Ventral Tegmental Area (R)
+  description: Excitation, motivation, and habituation. Source of dopamine for mesolimbic
+    pleasure pathway
