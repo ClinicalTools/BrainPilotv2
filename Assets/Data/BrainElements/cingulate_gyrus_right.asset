@@ -14,4 +14,6 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  description: 
+  elementName: Cingulate Gyrus (R)
+  description: Processing emotions, behavior regulation, autonomic motor function.
+    Anterior is involved in motivation, and attention.
