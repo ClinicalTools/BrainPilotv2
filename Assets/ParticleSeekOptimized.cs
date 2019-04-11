@@ -12,15 +12,22 @@ public class ParticleSeekOptimized : MonoBehaviour
 
     ParticleSystem.MainModule particleSystemMainModule;
 
+	Vector3 targetPos;
     void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
         particleSystemMainModule = particleSystem.main;
-    }
+		if (col != null) {
+			targetPos = col.ClosestPoint(transform.position);
+		} else {
+			targetPos = target.position;
+		}
+	}
+	public MeshCollider col;
 
     void LateUpdate()
     {
-        int maxParticles = particleSystemMainModule.maxParticles;
+		int maxParticles = particleSystemMainModule.maxParticles;
 
         if (particles == null || particles.Length < maxParticles)
         {
@@ -31,22 +38,22 @@ public class ParticleSeekOptimized : MonoBehaviour
         float forceDeltaTime = force * Time.deltaTime;
 
         Vector3 targetTransformedPosition;
-
+		
         switch (particleSystemMainModule.simulationSpace)
         {
-            case ParticleSystemSimulationSpace.Local:
+			case ParticleSystemSimulationSpace.Local:
                 {
-                    targetTransformedPosition = transform.InverseTransformPoint(target.position);
+                    targetTransformedPosition = transform.InverseTransformPoint(targetPos);
                     break;
                 }
             case ParticleSystemSimulationSpace.Custom:
                 {
-                    targetTransformedPosition = particleSystemMainModule.customSimulationSpace.InverseTransformPoint(target.position);
+                    targetTransformedPosition = particleSystemMainModule.customSimulationSpace.InverseTransformPoint(targetPos);
                     break;
                 }
             case ParticleSystemSimulationSpace.World:
                 {
-                    targetTransformedPosition = target.position;
+					targetTransformedPosition = targetPos;// target.position;
                     break;
                 }
             default:

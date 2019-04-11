@@ -30,32 +30,12 @@ public class SignalManager : MonoBehaviour {
 
 	public void Play()
 	{
+		if (relayChain.Length == 0) {
+			return;
+		}
 		relayChain[0].Play();
 		relayChain[0].GetComponent<ParticleSeekOptimized>().target.gameObject.layer = PARTICLE_COLLISION;
 		active = true;
-		particles = new ParticleSystem.Particle[5];
-		relayChain[0].GetParticles(particles);
-		particle = particles[0];
-		Invoke("a", .3f);
-	}
-	public void a()
-	{
-		trackParticle = true;
-	}
-
-	ParticleSystem.Particle particle;
-	ParticleSystem.Particle[] particles;
-	bool trackParticle;
-
-	void Update()
-	{
-		if (trackParticle) {
-			relayChain[0].GetParticles(particles);
-			print(particles[0].startLifetime + ": " + particles[0].remainingLifetime);
-			if (particles[0].remainingLifetime <= 0) {
-				trackParticle = false;
-			}
-		}
 	}
 
 	void OnEnable()

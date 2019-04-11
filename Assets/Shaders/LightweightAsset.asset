@@ -14,9 +14,9 @@ MonoBehaviour:
   k_AssetVersion: 3
   m_MaxPixelLights: 1
   m_SupportsVertexLight: 1
-  m_RequireDepthTexture: 0
-  m_RequireSoftParticles: 0
-  m_RequireOpaqueTexture: 1
+  m_RequireDepthTexture: 1
+  m_RequireSoftParticles: 1
+  m_RequireOpaqueTexture: 0
   m_OpaqueDownsampling: 1
   m_SupportsHDR: 1
   m_MSAA: 2
@@ -28,7 +28,7 @@ MonoBehaviour:
   m_ShadowCascades: 1
   m_Cascade2Split: 0.25
   m_Cascade4Split: {x: 0.067, y: 0.2, z: 0.467}
-  m_LocalShadowsSupported: 1
+  m_LocalShadowsSupported: 0
   m_LocalShadowsAtlasResolution: 1024
   m_SoftShadowsSupported: 0
   m_KeepAdditionalLightVariants: 1
@@ -42,6 +42,6 @@ MonoBehaviour:
     viewportScale: 1
     useOcclusionMesh: 0
     occlusionMaskScale: 1
-    showDeviceView: 1
-    gameViewRenderMode: 4
+    showDeviceView: 0
+    gameViewRenderMode: 3
   m_ShadowType: 1

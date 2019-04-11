@@ -62,6 +62,7 @@ public class SubSceneManager : ScriptableObject {
 		LoadSequence(activeScene);
 	}
 
+#if UNITY_EDITOR
 	[CustomEditor(typeof(SubSceneManager))]
 	public class SubSceneManagerInspector : Editor
 	{
@@ -77,4 +78,5 @@ public class SubSceneManager : ScriptableObject {
 			//serializedObject.ApplyModifiedProperties();
 		}
 	}
+#endif
 }

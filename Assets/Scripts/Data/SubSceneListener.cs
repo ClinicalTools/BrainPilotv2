@@ -11,6 +11,10 @@ public abstract class SubSceneListener : MonoBehaviour {
 
 	protected void RetrieveSubSceneManager()
 	{
+#if UNITY_EDITOR
 		CustomUtilities.LoadAsset.Load(out subSceneManager, "Assets/Data");
+#else
+		throw new System.Exception("Cannot load sub scene manager!");
+#endif
 	}
 }

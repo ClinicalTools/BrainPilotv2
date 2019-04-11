@@ -32,7 +32,7 @@ RenderSettings:
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 0
+  m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000004, guid: 4387d108e6227fe4cb140c8d4e74659a,
+  m_LightingDataAsset: {fileID: 112000002, guid: 942716e629f99e04baaf026710128f1c,
     type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -195,6 +195,7 @@ MonoBehaviour:
     fadeDuration: 2
   potentialGoals: []
   mainCamera: {fileID: 0}
+  platform: {fileID: 0}
   selector: {fileID: 0}
   textField: {fileID: 0}
   isPositionStatic: 0
@@ -653,7 +654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &86993959
 Transform:
   m_ObjectHideFlags: 0
@@ -11919,7 +11920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &774103857
 Transform:
   m_ObjectHideFlags: 0
@@ -15247,7 +15248,7 @@ MonoBehaviour:
   forwardSpeed: 0.1
   orbitSpeed: 0.5
   rotationSpeed: 1
-  movementType: 0
+  deadzoneRadius: 0.2
   cursor: {fileID: 232123880}
   platform: {fileID: 225182037}
   line: {fileID: 571345768}
@@ -20606,7 +20607,7 @@ Prefab:
     - target: {fileID: 2300000, guid: a9baa824f06ad6340b5e790715e0ae77, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ea803b5034743284ba3d1dd7196139a5, type: 2}
+      objectReference: {fileID: 2100000, guid: aadd5a709a48466c887296bb5b1b8110, type: 2}
     - target: {fileID: 100000, guid: a9baa824f06ad6340b5e790715e0ae77, type: 3}
       propertyPath: m_Name
       value: sky_sphere03
