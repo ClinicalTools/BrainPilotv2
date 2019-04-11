@@ -11,4 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
   m_Name: L_Gracile_Tubercle
   m_EditorClassIdentifier: 
-  description: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  elementName: Gracile Tubercle (L)
+  description: Lower body sensations
