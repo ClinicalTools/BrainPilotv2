@@ -42,6 +42,6 @@ MonoBehaviour:
     viewportScale: 1
     useOcclusionMesh: 0
     occlusionMaskScale: 1
-    showDeviceView: 0
-    gameViewRenderMode: 3
+    showDeviceView: 1
+    gameViewRenderMode: 2
   m_ShadowType: 1
