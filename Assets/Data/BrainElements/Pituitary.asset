@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Pituitary
+  summary: Hormones
   description: Hormones secreted

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Geniculate (r)
+  summary: Hearing and vision
   description: Medial (hearing). Lateral (vision)

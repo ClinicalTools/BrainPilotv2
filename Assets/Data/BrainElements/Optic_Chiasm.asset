@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Optic Chiasm
+  summary: Vision
   description: Vision

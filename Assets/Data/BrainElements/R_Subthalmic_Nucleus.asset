@@ -15,5 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Subthalamic Nucleus (R)
+  summary: Dampens signals from basal ganglia
   description: Dampens signals from basal ganglia, gives time to think before you
     mov

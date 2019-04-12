@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Optic Tract
+  summary: Vision
   description: Vision

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve I: Olfactory (L)'
+  summary: Smell
   description: Smell

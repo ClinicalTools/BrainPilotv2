@@ -15,5 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve X: Vagus (R)'
+  summary: Larynx, pharynx muscles, parasympathetic
   description: ' Laryngeal and pharyngeal muscles, parasympathetic innervation of
     abdomen and thorax'

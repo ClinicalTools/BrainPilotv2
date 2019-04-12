@@ -15,5 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Cerebral Peduncle
+  summary: Conducts sensory & motor nerves
   description: Conduct ascending (sensory) and descending (motor) nerve tracts between
     cerebrum and pons

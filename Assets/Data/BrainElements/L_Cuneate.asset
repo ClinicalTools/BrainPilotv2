@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Cuneate (L)
+  summary: Touch and proprioception
   description: Carries touch and proprioception

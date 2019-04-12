@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve VII: Facial (R)'
+  summary: Face muscles and taste
   description: Facial muscles, taste in anterior tongue, and salivary glands

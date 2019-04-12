@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Cerebellum (R)
+  summary: Motor control
   description: Motor control

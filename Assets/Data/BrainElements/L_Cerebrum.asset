@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Cerebrum (L)
+  summary: Thinking
   description: Makes sense of and integrates incoming information

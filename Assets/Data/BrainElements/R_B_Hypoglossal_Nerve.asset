@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve XII: Hypoglossal (R)'
-  description: ' Tongue muscles'
+  summary: Tongue muscles
+  description: Tongue muscles

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Frontal Lobe (L)
+  summary: Intellect
   description: Executive function, planning, consequence, rationalization, intelligence

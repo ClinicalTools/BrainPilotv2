@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Pons
+  summary: Links cerebellum to brain
   description: Links cerebellum to rest of brain, role in dreams

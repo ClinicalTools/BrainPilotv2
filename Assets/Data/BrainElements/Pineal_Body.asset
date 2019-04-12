@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Pineal Body
+  summary: Sleep, melatonin
   description: Involved in sleep, makes melatonin

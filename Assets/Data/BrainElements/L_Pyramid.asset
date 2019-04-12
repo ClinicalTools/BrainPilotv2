@@ -15,5 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Pyramid (L)
+  summary: Conducts motor information
   description: Passes motor fibers from the medulla oblongata and spinal cord to and
     from brain

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Mamillary Body (L)
+  summary: Relays signals, memory
   description: Signal relay, memory formation

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve VIII: Vestibulocochlear (L)'
+  summary: Sound and equilibrium
   description: Sense of sound, rotation, and gravity

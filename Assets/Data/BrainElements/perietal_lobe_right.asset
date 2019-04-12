@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Parietal Lobe (R)
+  summary: Vision, language, mathematics
   description: ' Visual, language, mathematics, body location'

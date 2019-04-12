@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve VI: Abducens (L)'
+  summary: Eye muscle
   description: Controls lateral rectus muscle of eye for outward gaze

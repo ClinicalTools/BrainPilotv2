@@ -15,5 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Lateral Ventricle (L)
+  summary: Ventricle
   description: Part of the ventricles which carry cerebrospinal fluid, bring in nutrients
     and carry away waste

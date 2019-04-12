@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Occipital Lobe (R)
+  summary: Visual processing
   description: Visual processing

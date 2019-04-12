@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Temporal Lobe (L)
+  summary: Auditory processing
   description: Auditory processing

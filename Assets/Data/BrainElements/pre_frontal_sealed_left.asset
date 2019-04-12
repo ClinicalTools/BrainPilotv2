@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Pre-Frontal Cortex (L)
+  summary: Executive function
   description: Executive function, planning, consequence, rationalization, intelligence

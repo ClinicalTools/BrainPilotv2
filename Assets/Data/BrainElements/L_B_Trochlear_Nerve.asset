@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve IV: Trochlear (L)'
+  summary: Eye muscle
   description: Controls superior oblique muscle of eye

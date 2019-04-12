@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Olfactory Nerve Branches
+  summary: Smell
   description: Smell

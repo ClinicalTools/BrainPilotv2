@@ -15,5 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Medulla Oblongata (L)
+  summary: Breathing & circulation, relays signals
   description: Controls autonomic system, respiration, circulation. Relays neurons
     between forebrain and midbrain

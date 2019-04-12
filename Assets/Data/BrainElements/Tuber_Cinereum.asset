@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Arcuate Nucleus
+  summary: Appetite
   description: Appetite control, located in tuber cinereum of hypothalamus

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Inferior Colliculus (R)
+  summary: Auditory & visual reflexes
   description: Auditory and visual reflexes

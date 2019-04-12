@@ -16,4 +16,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Hippocampus (L)
+  summary: Memory
   description: Memory formation and consolidation of new long-term memories

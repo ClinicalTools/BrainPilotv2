@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve IX: Glossopharyngeal (R)'
+  summary: Taste
   description: Taste in posterior tongue

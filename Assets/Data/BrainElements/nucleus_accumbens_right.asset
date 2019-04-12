@@ -16,5 +16,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Nucleus Accumbens (R)
-  description: Processing of motivation, aversion, motivation, reward, reinforcement
-    learning
+  summary: Motivation, aversion, reward, reinforcement
+  description: Processing of motivation, aversion, reward, reinforcement learning

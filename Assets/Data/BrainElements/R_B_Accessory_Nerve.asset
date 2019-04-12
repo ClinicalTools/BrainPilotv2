@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve  XI: Accessory (R)'
+  summary: Neck, back muscles
   description: Neck and upper back muscles - sternocleidomastoid and trapezius

@@ -15,4 +15,5 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: 'Cranial Nerve II: Optic (R)'
+  summary: Seeing
   description: Seeing
