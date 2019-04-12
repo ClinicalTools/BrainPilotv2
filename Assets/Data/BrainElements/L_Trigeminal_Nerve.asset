@@ -11,4 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
   m_Name: L_Trigeminal_Nerve
   m_EditorClassIdentifier: 
-  description: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  elementName: 'Cranial Nerve V: Trigeminal (L)'
+  description: Receives sensation from face in 3 divisions. Controls chewing muscles

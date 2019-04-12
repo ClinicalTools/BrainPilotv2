@@ -11,4 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
   m_Name: R_B_Intermedius_Nerve
   m_EditorClassIdentifier: 
-  description: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  elementName: Intermediate nerve (R)
+  description: Part of Cranial Nerve VII (Facial Nerve). Carries its sensory and parasympathetic
+    fibers
