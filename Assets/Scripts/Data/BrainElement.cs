@@ -8,6 +8,8 @@ public class BrainElement : Selectable
 
 	public string elementName;
 
+	public string summary;
+
 	[TextArea]
     public string description;
 

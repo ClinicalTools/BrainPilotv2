@@ -42,7 +42,7 @@ public class BrainSceneReferencesEditor : Editor
 	private static GUIContent
 		moveUpButtonContent = new GUIContent("\u25b2", "move up"),
 		moveDownButtonContent = new GUIContent("\u25bc", "move down"),
-		duplicateButtonContent = new GUIContent("+", "duplicate"),
+		//duplicateButtonContent = new GUIContent("+", "duplicate"),
 		deleteButtonContent = new GUIContent("-", "delete"),
 		addButtonContent = new GUIContent("+", "add element");
 

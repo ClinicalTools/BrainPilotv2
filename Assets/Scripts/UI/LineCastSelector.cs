@@ -188,7 +188,8 @@ public class LineCastSelector : MonoBehaviour
     /// </summary>
     private void UpdatePositions()
     {
-        float changeInDistance = inputAxis.Value.y * inputEffectFactor;
+        float changeInDistance = inputAxis.Value.y * inputAxis.Value.y * (inputAxis.Value.y > 0 ? 1 : -1);
+		changeInDistance *= inputEffectFactor;
         distance += changeInDistance;
         distance = Mathf.Clamp(distance, 0f, maxDistance);
 

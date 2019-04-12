@@ -17,6 +17,14 @@ public class DroneControllerEditor : Editor
 		if (GUILayout.Button("Deactivate")) {
 			controller.SetActive(false);
 		}
+
+		if (GUILayout.Button("Advance Sequence")) {
+			controller.AdvanceSequence();
+		}
+
+		if (GUILayout.Button("Receed Sequence")) {
+			controller.RecedeSequence();
+		}
 	}
 }
 #endif
@@ -50,7 +58,7 @@ public class DroneController : MonoBehaviour {
 	private bool _active = false;
 	private float distance;
 	private Vector3 goalLoc;
-	private MeshRenderer mesh;
+	private MeshRenderer[] mesh;
 	[SerializeField]
 	private Selectable selection;
 	[SerializeField]
@@ -66,9 +74,11 @@ public class DroneController : MonoBehaviour {
 		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;
 		settings.maxDistance *= settings.maxDistance;
 		if (mesh == null) {
-			mesh = GetComponentInChildren<MeshRenderer>();
+			mesh = GetComponentsInChildren<MeshRenderer>();
 		}
-		mesh.sharedMaterial.SetFloat("_DissolveCutoff", 1f);
+		foreach (MeshRenderer m in mesh) {
+			m.sharedMaterial.SetFloat("_DissolveCutoff", 1f);
+		}
 		if (!gazeBased) {
 			//mainCamera = transform.parent;
 			mainCamera = GameObject.Find("new_platform01").transform;
@@ -180,13 +190,15 @@ public class DroneController : MonoBehaviour {
 	/// <param name="endVal"></param>
 	private IEnumerator FadeMesh(float endVal, float duration = 2f)
 	{
-		float val = mesh.sharedMaterial.GetFloat("_DissolveCutoff");
+		float val = mesh[0].sharedMaterial.GetFloat("_DissolveCutoff");
 		float lerpVal = 0f;
 		float interval = Time.deltaTime / settings.fadeDuration;
 		while (val != endVal) {
 			lerpVal += interval;
 			val = Mathf.Lerp(val, endVal, lerpVal);
-			mesh.sharedMaterial.SetFloat("_DissolveCutoff", val);
+			foreach (MeshRenderer m in mesh) {
+				m.sharedMaterial.SetFloat("_DissolveCutoff", val);
+			}
 			yield return null;
 		}
 	}
@@ -213,9 +225,19 @@ public class DroneController : MonoBehaviour {
 	private void UpdatePlatform()
 	{
 		UpdateText();
-		StopMovingPlatform();
-		StartCoroutine(MovePlatform());
+		StopMovingPlatform(IsPlatformInfoEmpty());
+		movePlatformCoroutine = StartCoroutine(MovePlatform());
 	}
+
+	private bool IsPlatformInfoEmpty()
+	{
+		if (info == null) return true;
+		return
+			info.waypointLocation == Vector3.zero &&
+			info.scaleVal == 0 &&
+			info.lookAtPoint == null;
+	}
+	private Coroutine movePlatformCoroutine;
 
 	/// <summary>
 	/// Loads a sequence from the start
@@ -238,6 +260,10 @@ public class DroneController : MonoBehaviour {
 	/// <param name="s">The sequence to run</param>
 	public void ResumeSequence(Sequence1 s)
 	{
+		if (s == null) {
+			Debug.LogWarning("Sequence is null!");
+			return;
+		}
 		if (!_active) {
 			SetActive(true);
 		}
@@ -396,10 +422,10 @@ public class DroneController : MonoBehaviour {
 		info = null;
 	}
 
-	private void StopMovingPlatform()
+	private void StopMovingPlatform(bool finishUpdating)
 	{
 		//Only called when advancing/receeding the sequence
-		if (moving) {
+		if (moving && finishUpdating) {
 			if (info.waypointLocation != Vector3.zero) {
 				platform.position = info.waypointLocation;
 			}
@@ -420,7 +446,9 @@ public class DroneController : MonoBehaviour {
 		}
 		moving = false;
 		info = null;
-		StopCoroutine("MovePlatform");
+		if (movePlatformCoroutine != null) {
+			StopCoroutine(movePlatformCoroutine);
+		}
 	}
 	
 	/// <summary>
@@ -459,6 +487,5 @@ public class DroneController : MonoBehaviour {
 		return lowestIdx;
 	}
 
-#endregion
-
+	#endregion
 }

@@ -5,18 +5,33 @@ using UnityEngine;
 public class SignalManagerManager : MonoBehaviour {
 
 	SignalManager[] managers;
+	public bool startOnAwake;
+	private bool active;
 
 	// Use this for initialization
 	void Start () {
 		managers = GetComponentsInChildren<SignalManager>();
 		StopAll();
+		active = false;
 	}
 
-	public void PlayAll()
+	public void ToggleEmitter()
 	{
+		if (active) {
+			StopAll();
+		} else {
+			PlayAll(false);
+		}
+	}
+
+	public void PlayAll(bool includeNonLoops)
+	{
+		active = true;
 		foreach (SignalManager manager in managers) {
-			manager.Play();
-			manager.active = true;
+			if (includeNonLoops || manager.loop) {
+				manager.Play();
+				manager.active = true;
+			}
 		}
 	}
 
@@ -28,6 +43,7 @@ public class SignalManagerManager : MonoBehaviour {
 
 	public void StopAll()
 	{
+		active = false;
 		foreach (SignalManager manager in managers) {
 			manager.StopAll();
 			manager.active = false;

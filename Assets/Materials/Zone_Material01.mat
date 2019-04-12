@@ -9,6 +9,7 @@ Material:
   m_Name: Zone_Material01
   m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
   m_ShaderKeywords: _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMASK_CYLINDER _EMISSION
+    _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -114,12 +115,12 @@ Material:
     - _DstBlend: 10
     - _GlossMapScale: 1
     - _Glossiness: 0.375
-    - _GlossyReflections: 1
+    - _GlossyReflections: 0
     - _Metallic: 0.123
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 5
     - _Surface: 1
     - _UVSec: 0
