@@ -16,4 +16,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Cerebral Aqueduct
   summary: Ventricle
-  description: Part of the brain ventricles, connects the 3rd and 4th ventricles.
+  description: Connects the 3rd and 4th ventricles.

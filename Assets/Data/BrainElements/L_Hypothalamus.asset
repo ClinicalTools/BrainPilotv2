@@ -15,6 +15,6 @@ MonoBehaviour:
   loadedStates: []
   activeStates: []
   elementName: Hypothalamus (L)
-  summary: Metabolism, homeostasis, more
-  description: Metabolism, homeostasis, motivation, hunger, thirst, olfaction, circadian
-    rhythms, sleep, more
+  summary: Metabolism, homeostasis, hunger, more
+  description: Metabolism, homeostasis, hunger, thirst, circadian rhythms, sleep,
+    more

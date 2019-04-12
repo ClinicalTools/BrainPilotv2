@@ -16,4 +16,4 @@ MonoBehaviour:
   activeStates: []
   elementName: 'Cranial Nerve V: Trigeminal (R)'
   summary: Sensaton from face, chewing muscles
-  description: Receives sensation from face in 3 divisions. Controls chewing muscles
+  description: Receives sensation from face; 3 divisions. Controls chewing muscles.

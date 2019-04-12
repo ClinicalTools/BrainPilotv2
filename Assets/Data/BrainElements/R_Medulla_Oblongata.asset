@@ -16,5 +16,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Medullar Oblongata
   summary: 'Breathing & circulation, relays signals  '
-  description: Controls autonomic system, respiration, circulation. Relays neurons
-    between forebrain and midbrain
+  description: Controls autonomic system, respiration, circulation. Relays neurons.

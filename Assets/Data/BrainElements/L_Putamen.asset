@@ -14,7 +14,6 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  elementName: Putamen
+  elementName: Putamen (L)
   summary: Conducts signals from cortex to basal ganglia
-  description: Conduit for information from cortex into basal ganglia, part of dorsal
-    striatum
+  description: Conduit for information from cortex to basal ganglia

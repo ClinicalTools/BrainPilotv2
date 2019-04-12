@@ -16,5 +16,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Thalamus (L)
   summary: Major relay center
-  description: Major relay center of sensory input (except smell) from brain stem
-    to cerebrum
+  description: Major relay center of sensory input (except smell)  to cerebrum

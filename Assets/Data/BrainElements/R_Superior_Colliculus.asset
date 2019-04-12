@@ -16,5 +16,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Superior Colliculus (R)
   summary: Receives signals from eye, head
-  description: Receives various signals including from the eye, helps with the orientation
-    of the eyes and head
+  description: Receives various signals including from the eye, helps with orientation

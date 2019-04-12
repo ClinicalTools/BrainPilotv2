@@ -16,5 +16,5 @@ MonoBehaviour:
   activeStates: []
   elementName: Hypothalamus (R)
   summary: Metabolism, homeostasis, more
-  description: Metabolism, homeostasis, motivation, hunger, thirst, olfaction, circadian
-    rhythms, sleep, more
+  description: Metabolism, homeostasis, hunger, thirst, circadian rhythms, sleep,
+    more

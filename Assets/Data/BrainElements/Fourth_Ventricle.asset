@@ -17,5 +17,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Fourth Ventricle
   summary: Ventricle
-  description: Part of the ventricles which carry cerebrospinal fluid, bring in nutrients
-    and carry away waste
+  description: Filled with cerebrospinal fluid, carries in nutrients and removes waste

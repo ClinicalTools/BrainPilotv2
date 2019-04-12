@@ -17,5 +17,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Ventral Tegmental Area (L)
   summary: Excitation, motivation, pleasure
-  description: Excitation, motivation, and habituation. Source of dopamine for mesolimbic
-    pleasure pathway
+  description: Excitation, motivation, and mesolimbic pleasure pathway. Makes dopamine.

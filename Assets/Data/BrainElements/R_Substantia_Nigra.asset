@@ -16,5 +16,4 @@ MonoBehaviour:
   activeStates: []
   elementName: Substantia Nigra
   summary: Reward and movement
-  description: Reward and movement. Part of the dopaminergic pathways, part of basal
-    ganglia
+  description: 'Reward and movement. A dopaminergic pathway. '
