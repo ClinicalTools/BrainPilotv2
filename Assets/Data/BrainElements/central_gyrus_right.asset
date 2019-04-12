@@ -14,5 +14,7 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  elementName: 
-  description: 
+  elementName: Pre-Central Gyrus & Post-Central Gyrus (R)
+  description: 'Primary Motor Cortex - Anterior to central sulcus
+
+    Primary Somatosensory Cortex - Posterior to central sulcus'
