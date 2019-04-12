@@ -30,6 +30,8 @@ public class SequenceElement1 : MonoBehaviour {
 	private PlatformInformation platformInformation;
 
 	public MaterialSwitchState[] brainPiecesToHighlight;
+
+	public Color optMaterialColor;
 	
 	public UnityEvent OnEventBegin;
 	public UnityEvent OnEventEnd;
@@ -82,7 +84,11 @@ public class SequenceElement1 : MonoBehaviour {
 	public void HighlightBrainPieces()
 	{
 		foreach (MaterialSwitchState element in brainPiecesToHighlight) {
-			element?.Activate();
+			if (optMaterialColor != Color.black) {
+				element?.ActivateWithColor(optMaterialColor);
+			} else {
+				element?.Activate();
+			}
 		}
 	}
 

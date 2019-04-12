@@ -38,6 +38,15 @@ public class MaterialSwitchState : MonoBehaviour {
 		}
 #endif
 	}
+
+	public void ActivateWithColor(Color c)
+	{
+		Color temp = emissionColor;
+		emissionColor = c;
+		Activate();
+		emissionColor = temp;
+	}
+
 	Material matTemp;
 	public /*override*/ void Activate()
     {

@@ -138,5 +138,5 @@ Material:
     - _DissolveMaskNormal: {r: 1, g: 0, b: 0, a: 0}
     - _DissolveMaskPosition: {r: 0, g: 0, b: 0, a: 0}
     - _Dissolve_ObjectWorldPos: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 4.594794, b: 1.1171656, a: 1}
+    - _EmissionColor: {r: 0, g: 4.5947948, b: 1.1306561, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

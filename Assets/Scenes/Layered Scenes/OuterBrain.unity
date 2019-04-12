@@ -523,7 +523,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
   activated: 0
 --- !u!1 &248283435
 GameObject:
@@ -2483,6 +2482,7 @@ GameObject:
   - component: {fileID: 264754341}
   - component: {fileID: 264754340}
   - component: {fileID: 264754339}
+  - component: {fileID: 264753858}
   - component: {fileID: 264754338}
   - component: {fileID: 264754337}
   - component: {fileID: 264754336}
@@ -2544,6 +2544,7 @@ GameObject:
   - component: {fileID: 264754350}
   - component: {fileID: 264754349}
   - component: {fileID: 264754348}
+  - component: {fileID: 264753859}
   - component: {fileID: 264754347}
   - component: {fileID: 264754346}
   - component: {fileID: 264754345}
@@ -2557,6 +2558,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
+--- !u!64 &264753858
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 264753855}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: -2
+  m_SkinWidth: 0.02
+  m_Mesh: {fileID: 4300000, guid: fc95c32ccd5a16f468228045fe7bd786, type: 3}
+--- !u!64 &264753859
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 264753857}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: -2
+  m_SkinWidth: 0.02
+  m_Mesh: {fileID: 4300000, guid: fc95c32ccd5a16f468228045fe7bd786, type: 3}
 --- !u!23 &264753930
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4516,7 +4545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 264753854}
-  emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  emissionColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
   makeSolid: 1
 --- !u!114 &264754011
 MonoBehaviour:
@@ -4530,7 +4559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 264753856}
-  emissionColor: {r: 0.118725546, g: 0.7180845, b: 0.8679245, a: 1}
+  emissionColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &264754012
 MonoBehaviour:
@@ -4545,7 +4574,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
   activated: 0
 --- !u!114 &264754013
 MonoBehaviour:
@@ -4560,7 +4588,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
   activated: 0
 --- !u!114 &264754049
 MonoBehaviour:
@@ -12900,7 +12927,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signalManager: {fileID: 79269550}
   particle: {fileID: 0}
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
   activated: 0
 --- !u!1 &560631401
 GameObject:
