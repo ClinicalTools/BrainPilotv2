@@ -15,6 +15,8 @@ public class AnchorUXController : MonoBehaviour {
 
     public bool isActive;
 
+	public bool lockActive;
+
 	public bool invertX;
 
     public float forwardSpeed = .05f;
@@ -73,13 +75,44 @@ public class AnchorUXController : MonoBehaviour {
     public UnityEvent StartCustomMovement;
     public UnityEvent StopCustomMovement;
 
+	[ContextMenu("TestDisable")]
+	public void DisableInput()
+	{
+		SetActive(false);
+		lockActive = true;
+		GradientColorKey red = new GradientColorKey(Color.red, 0);
+		GradientColorKey blue = new GradientColorKey(new Color(129, 141, 255), 1);
+		GradientAlphaKey reda = new GradientAlphaKey(150f, 0);
+		GradientAlphaKey bluea = new GradientAlphaKey(255f, 1);
+		Gradient g = new Gradient();
+		g.alphaKeys = new[] { reda, bluea };
+		g.colorKeys = new[] { red, blue };
+		line.colorGradient = g;
+	}
+
+	public void EnableInput()
+	{
+		lockActive = false;
+		GradientColorKey white = new GradientColorKey(Color.white, 0);
+		GradientAlphaKey whitea = new GradientAlphaKey(0f, 0);
+		GradientColorKey blue = new GradientColorKey(new Color(129, 141, 255), 1);
+		GradientAlphaKey bluea = new GradientAlphaKey(255f, 1);
+		Gradient g = new Gradient();
+		g.alphaKeys = new[] { whitea, bluea };
+		g.colorKeys = new[] { white, blue };
+		line.colorGradient = g;
+	}
+
     /// <summary>
     /// Sets our active status (like when a forward trigger is down). Punts if status is our current status and nothing will happen. Otherwise fires appropriate events and enters an input subroutine. 
     /// </summary>
     /// <param name="status"></param>
     public void SetActive(bool status)
     {
-        if (isActive == status)
+		if (lockActive)
+			return;
+
+		if (isActive == status)
             return;
 
         isActive = status;
