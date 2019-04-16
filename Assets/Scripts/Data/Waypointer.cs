@@ -18,7 +18,14 @@ public class Waypointer : MonoBehaviour {
 	
 	[SerializeField]
 	private PlatformInformation platformInformation;
-	
+
+    [SerializeField]
+    private Transform platform;
+
+    private Vector3 platformLoc;
+    private Vector3 platformScale;
+    private Quaternion platformRotQ;
+
 	#if UNITY_EDITOR
 	[ContextMenu("Input Camera Position")]
 	public void InputCameraPos()
@@ -53,16 +60,56 @@ public class Waypointer : MonoBehaviour {
 	{
 		float time = 0;
 		float totalTime = 3f;
+        platformLoc = platform.position;
+        platformScale = platform.localScale;
+        platformRotQ = platform.rotation;
 		while (time < totalTime) {
-			/*LerpMovement();
-			LerpRotation();
-			LerpScale(); */
+            LerpMovement(time / totalTime);
+			LerpRotation(time / totalTime);
+			LerpScale(time / totalTime);
 			time += Time.deltaTime;
 			yield return null;
 		}
 	}
 
-	public PlatformInformation GetPlatformInfo()
+    private void LerpMovement(float val)
+    {
+        if (platformInformation.waypointLocation != Vector3.zero)
+        {
+            platform.position = Vector3.Lerp(platformLoc, platformInformation.waypointLocation, val);
+        }
+    }
+
+    private void LerpRotation(float val)
+    {
+        if (platformInformation.lookAtPoint != null)
+        {
+            Vector3 pos = platform.position;
+            if (platformInformation.waypointLocation != Vector3.zero)
+            {
+                pos = platformInformation.waypointLocation;
+            }
+            Quaternion lookAt = Quaternion.LookRotation(platformInformation.lookAtPoint.position - pos, Vector3.up);
+
+            //Could use Quaternion.Lerp
+            platform.rotation = Quaternion.Lerp(platformRotQ, lookAt, val);
+            //platform.rotation = Quaternion.RotateTowards(platform.rotation, Quaternion.LookRotation(info.lookAtPoint.position - pos, Vector3.up), deltaAngle);
+            pos = platform.rotation.eulerAngles;
+            pos.x = 0;
+            pos.z = 0;
+            platform.eulerAngles = pos;
+        }
+    }
+
+    private void LerpScale(float val)
+    {
+        if (platformInformation.scaleVal > 0)
+        {
+            platform.localScale = Vector3.Lerp(platformScale, Vector3.one * platformInformation.scaleVal, val);
+        }
+    }
+
+    public PlatformInformation GetPlatformInfo()
 	{
 		return platformInformation;
 	}
