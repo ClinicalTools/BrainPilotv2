@@ -318,7 +318,8 @@ public class DroneController : MonoBehaviour {
 
 
 				//BIG SPACE TO GET MY ATTENTION
-
+				//Review the implementation of lessons and decide what to do
+				//When lessons finish
 
 
 

@@ -103,11 +103,11 @@ public class AnchorUXController : MonoBehaviour {
 		line.colorGradient = g;
 	}
 
-    /// <summary>
-    /// Sets our active status (like when a forward trigger is down). Punts if status is our current status and nothing will happen. Otherwise fires appropriate events and enters an input subroutine. 
-    /// </summary>
-    /// <param name="status"></param>
-    public void SetActive(bool status)
+	/// <summary>
+	/// Sets our active status (like when a forward trigger is down). Punts if status is our current status and nothing will happen. Otherwise fires appropriate events and enters an input subroutine. 
+	/// </summary>
+	/// <param name="status"></param>
+	public void SetActive(bool status)
     {
 		if (lockActive)
 			return;
@@ -154,15 +154,23 @@ public class AnchorUXController : MonoBehaviour {
     IEnumerator RunGetInput()
     {
         StartCustomMovement.Invoke();
-        while (isActive)
-        {
+		float damper = 0;
+		float dampDuration = .75f;
+		while (isActive) {
+			if (Math.Abs(inputResource.Value.y) < deadzoneRadius) {
+				damper = 0;
+			} else if (damper < dampDuration) {
+				damper += Time.deltaTime;
+				damper = Mathf.Min(damper, dampDuration);
+			}
+			
 			switch (movementType) {
 				case MovementType.Orbit:
-					DoForwardMovement();
+					DoForwardMovement(damper / dampDuration);
 					DoOrbitAround();
 					break;
 				case MovementType.Rotate:
-					DoForwardMovement();
+					DoForwardMovement(damper / dampDuration);
 					DoRotate();
 					break;
 			}
@@ -183,11 +191,13 @@ public class AnchorUXController : MonoBehaviour {
 		platform.Rotate(Vector3.up, changeRotation);
 	}
 
-    private void DoForwardMovement()
+    private void DoForwardMovement(float val = 1)
     {
-        float changeAmount = forwardSpeed * inputResource.Value.y;
+        float changeAmount = val * forwardSpeed * inputResource.Value.y * inputResource.Value.y;
+		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
+		Debug.Log("Val: " + val + ", change: " + changeAmount);
         Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
-
+		Debug.Log(direction * changeAmount);
         platform.position += direction * changeAmount;
 
     }
