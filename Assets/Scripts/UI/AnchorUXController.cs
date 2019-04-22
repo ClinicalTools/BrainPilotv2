@@ -167,11 +167,11 @@ public class AnchorUXController : MonoBehaviour {
 			switch (movementType) {
 				case MovementType.Orbit:
 					DoForwardMovement(damper / dampDuration);
-					DoOrbitAround();
+					DoOrbitAround(damper / dampDuration);
 					break;
 				case MovementType.Rotate:
 					DoForwardMovement(damper / dampDuration);
-					DoRotate();
+					DoRotate(damper / dampDuration);
 					break;
 			}
 			yield return null;
@@ -179,15 +179,15 @@ public class AnchorUXController : MonoBehaviour {
         StopCustomMovement.Invoke();
     }
 
-    private void DoOrbitAround()
+	private void DoOrbitAround(float val = 1)
     {
-		float changeRotation = orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		float changeRotation = val * orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
         platform.RotateAround(cursor.position, Vector3.up, changeRotation);
     }
 
-	private void DoRotate()
+	private void DoRotate(float val = 1)
 	{
-		float changeRotation = rotationSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		float changeRotation = val * rotationSpeed * inputResource.Value.x * (invertX ? 1 : -1);
 		platform.Rotate(Vector3.up, changeRotation);
 	}
 
