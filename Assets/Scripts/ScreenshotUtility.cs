@@ -47,6 +47,8 @@ public class ScreenshotUtility : MonoBehaviour
 	private const string ImageCntKey = "IMAGE_CNT";
 	#endregion
 
+
+#if UNITY_EDITOR || !UNITY_ANDROID
 	/// <summary>
 	/// Lets the screenshot utility persist through scenes.
 	/// </summary>
@@ -98,4 +100,5 @@ public class ScreenshotUtility : MonoBehaviour
 			                              m_ScaleFactor);
 		}
 	}
+#endif
 }

@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/Hub Scene.unity
     guid: a6f4587296a9bfe45bcca823cb973304
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Layered Scenes/Main Scene.unity
     guid: 652620de51b674c4a9d26cb666949561
   - enabled: 0
@@ -23,10 +23,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Layered Scenes/New Scene 2.unity
     guid: d9321339859b961489e209b93be7c8f0
-  - enabled: 1
+  - enabled: 0
+    path: Assets/Scenes/Layered Scenes/GO TEST.unity
+    guid: 61fb96c24dcdf17419b6f1f9400bdbf8
+  - enabled: 0
     path: Assets/Scenes/Layered Scenes/InnerBrain.unity
     guid: 4ae1c38a8d1866048bca2fd0050e8bf2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Layered Scenes/OuterBrain.unity
     guid: 4042ced2e13a728458cfd2cee52e47be
   - enabled: 0

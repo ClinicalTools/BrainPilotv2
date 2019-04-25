@@ -73,7 +73,9 @@ namespace UnityEngine.EventSystems
         [Tooltip("Minimum pointer movement in degrees to start dragging")]
         public float angleDragThreshold = 1;
 
-        
+		[Header("Oculus Go Controller")]
+		[Tooltip("The tracking space of the player's camera")]
+		public Transform trackingSpace;
         
 
 
@@ -604,10 +606,28 @@ namespace UnityEngine.EventSystems
             OVRPointerEventData leftData;
             GetPointerData(kMouseLeftId, out leftData, true );
             leftData.Reset();
-            
-            //Now set the world space ray. This ray is what the user uses to point at UI elements
-            leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
-            leftData.scrollDelta = GetExtraScrollDelta();
+
+			//Now set the world space ray. This ray is what the user uses to point at UI elements
+			//leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
+			OVRInput.Controller controller = OVRInput.GetConnectedControllers() & (OVRInput.Controller.LTrackedRemote | OVRInput.Controller.RTrackedRemote);
+			if (trackingSpace != null && controller != OVRInput.Controller.None) {
+				controller = ((controller & OVRInput.Controller.LTrackedRemote) != OVRInput.Controller.None) ? OVRInput.Controller.LTrackedRemote : OVRInput.Controller.RTrackedRemote;
+
+				Quaternion orientation = OVRInput.GetLocalControllerRotation(controller);
+				Vector3 localStartPoint = OVRInput.GetLocalControllerPosition(controller);
+
+				Matrix4x4 localToWorld = trackingSpace.localToWorldMatrix;
+				Vector3 worldStartPoint = localToWorld.MultiplyPoint(localStartPoint);
+				Vector3 worldOrientation = localToWorld.MultiplyVector(orientation * Vector3.forward);
+				leftData.worldSpaceRay = new Ray(worldStartPoint, worldOrientation);
+			} else {
+				Debug.Log(OVRInput.GetConnectedControllers());
+				leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
+			}
+
+
+
+			leftData.scrollDelta = GetExtraScrollDelta();
 
             //Populate some default values
             leftData.button = PointerEventData.InputButton.Left;

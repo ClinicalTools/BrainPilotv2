@@ -157,7 +157,8 @@ public class AnchorUXController : MonoBehaviour {
 		float damper = 0;
 		float dampDuration = .75f;
 		while (isActive) {
-			if (Math.Abs(inputResource.Value.y) < deadzoneRadius) {
+			 
+			if (inputResource.Value.sqrMagnitude < deadzoneRadius * deadzoneRadius) {
 				damper = 0;
 			} else if (damper < dampDuration) {
 				damper += Time.deltaTime;
