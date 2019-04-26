@@ -19,7 +19,8 @@ public class AnchorUXController : MonoBehaviour {
 
 	public bool invertX;
 
-    public float forwardSpeed = .05f;
+	[Tooltip("Max units per second")]
+	public float forwardSpeed = 5f;
     public float orbitSpeed = 5f;
 	public float rotationSpeed = .8f;
 	public float deadzoneRadius = .2f;
@@ -183,22 +184,23 @@ public class AnchorUXController : MonoBehaviour {
 	private void DoOrbitAround(float val = 1)
     {
 		float changeRotation = val * orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
-        platform.RotateAround(cursor.position, Vector3.up, changeRotation);
+		changeRotation *= Time.deltaTime;
+		platform.RotateAround(cursor.position, Vector3.up, changeRotation);
     }
 
 	private void DoRotate(float val = 1)
 	{
 		float changeRotation = val * rotationSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		changeRotation *= Time.deltaTime;
 		platform.Rotate(Vector3.up, changeRotation);
 	}
 
     private void DoForwardMovement(float val = 1)
     {
         float changeAmount = val * forwardSpeed * inputResource.Value.y * inputResource.Value.y;
+		changeAmount *= Time.deltaTime;
 		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
-		Debug.Log("Val: " + val + ", change: " + changeAmount);
         Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
-		Debug.Log(direction * changeAmount);
         platform.position += direction * changeAmount;
 
     }

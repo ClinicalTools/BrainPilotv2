@@ -621,7 +621,6 @@ namespace UnityEngine.EventSystems
 				Vector3 worldOrientation = localToWorld.MultiplyVector(orientation * Vector3.forward);
 				leftData.worldSpaceRay = new Ray(worldStartPoint, worldOrientation);
 			} else {
-				Debug.Log(OVRInput.GetConnectedControllers());
 				leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
 			}
 

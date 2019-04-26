@@ -654,7 +654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &86993959
 Transform:
   m_ObjectHideFlags: 0
@@ -1085,8 +1085,7 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates:
   - {fileID: 0}
-  localActiveStates:
-  - {fileID: 0}
+  localActiveStates: []
 --- !u!114 &128559637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2103,7 +2102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &231364623
 Transform:
   m_ObjectHideFlags: 0
@@ -2208,7 +2207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &232123880
 Transform:
   m_ObjectHideFlags: 0
@@ -5821,7 +5820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &250792637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5834,8 +5833,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainScene:
-    m_SceneAsset: {fileID: 102900000, guid: 61fb96c24dcdf17419b6f1f9400bdbf8, type: 3}
-    m_SceneName: GO TEST
+    m_SceneAsset: {fileID: 102900000, guid: 652620de51b674c4a9d26cb666949561, type: 3}
+    m_SceneName: Main Scene
   scenesToLoad: {fileID: 11400000, guid: 53bea5b647fafa34bb4cc1adc46fdf61, type: 2}
 --- !u!4 &250792638
 Transform:
@@ -6384,7 +6383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &360382619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6787,8 +6786,7 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates:
   - {fileID: 0}
-  localActiveStates:
-  - {fileID: 0}
+  localActiveStates: []
 --- !u!114 &423312452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10919,7 +10917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &571345767
 Transform:
   m_ObjectHideFlags: 0
@@ -11966,7 +11964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &774103857
 Transform:
   m_ObjectHideFlags: 0
@@ -13847,7 +13845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1126733716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14287,7 +14285,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1388801131875136, guid: 9491b620dc33af2438eab432bb0bbadc, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9491b620dc33af2438eab432bb0bbadc, type: 2}
@@ -14310,7 +14308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1194545869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14726,7 +14724,8 @@ MonoBehaviour:
   element: {fileID: 1240624222}
   manager: {fileID: 1240624226}
   updateStates: 0
-  localLoadedStates: []
+  localLoadedStates:
+  - {fileID: 0}
   localActiveStates: []
 --- !u!114 &1240624226
 MonoBehaviour:
@@ -15484,7 +15483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1258012688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15708,7 +15707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1271779268
 Light:
   m_ObjectHideFlags: 0
@@ -16473,7 +16472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1362504220
 Transform:
   m_ObjectHideFlags: 0
@@ -16495,7 +16494,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh482354
+  m_Name: pb_Mesh109532
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
