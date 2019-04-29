@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: cdc62267fc541fb4093a6d1ee350da2c
+timeCreated: 1472127685
+licenseType: Store
+PluginImporter:
+  serializedVersion: 1
+  iconMap: 
+    ch.sycoforge.Combine.CombineShadow: {fileID: 2800000, guid: d64842b39346f81429b1c7056c2e3518, type: 3} 
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+    WindowsStoreApps:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
