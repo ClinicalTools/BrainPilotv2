@@ -21,7 +21,7 @@ public class AnimationController : MonoBehaviour {
 
 		
 		if (GetComponentInChildren<TMPro.TextMeshProUGUI>()) {
-			string desc = ((BrainElement)lastSelectable)?.description;
+			string desc = ((BrainElement)lastSelectable)?.elementName;
 			GetComponentInChildren<TMPro.TextMeshProUGUI>().text = desc;
 		}
 	}

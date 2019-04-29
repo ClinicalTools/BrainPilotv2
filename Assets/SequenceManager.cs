@@ -22,6 +22,14 @@ public class SequenceManager : MonoBehaviour {
 		}
 	}
 
+	public int count
+	{
+		get
+		{
+			return sequences.Count;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		sequences = new List<Sequence1>(GetComponentsInChildren<Sequence1>());

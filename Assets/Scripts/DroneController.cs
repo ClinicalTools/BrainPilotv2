@@ -63,6 +63,7 @@ public class DroneController : MonoBehaviour {
 	private Selectable selection;
 	[SerializeField]
 	private Sequence1 sequence;
+	private bool ignoreSequence = false;
 
 	public bool gazeBased;
 	//Used without gaze
@@ -207,7 +208,7 @@ public class DroneController : MonoBehaviour {
 	//This should be put into a listener or something I guess.
 	private void UpdateText()
 	{
-		if (sequence != null && sequence.IsActive()) {
+		if (!ignoreSequence && sequence != null && sequence.IsActive()) {
 			textField.text = sequence.GetActiveStep().textToDisplay;
 		} else if (selection != null && selection is BrainElement) {
 			//Update with a description of the selected brain piece
@@ -248,12 +249,25 @@ public class DroneController : MonoBehaviour {
 		if (!_active) {
 			SetActive(true);
 		}
+		ignoreSequence = false;
 		sequence = s;
 		sequence.ResetSequence();
 		sequence.StartSequence();
 		UpdatePlatform();
 	}
 
+	public void BeginSequenceAt(int i)
+	{
+		GetComponentInParent<DroneManager>().GrabSequenceAt(1);
+	}
+
+	public void ResumeSequence()
+	{
+		ignoreSequence = false;
+		sequence.ResumeSequence();
+		UpdatePlatform();
+	}
+	
 	/// <summary>
 	/// Loads a sequence and resumes it.
 	/// </summary>
@@ -267,8 +281,16 @@ public class DroneController : MonoBehaviour {
 		if (!_active) {
 			SetActive(true);
 		}
+		ignoreSequence = false;
 		sequence = s;
 		sequence.StartSequence();
+		UpdatePlatform();
+	}
+
+	public void PauseSequence()
+	{
+		ignoreSequence = true;
+		sequence?.PauseSequence();
 		UpdatePlatform();
 	}
 
@@ -277,12 +299,36 @@ public class DroneController : MonoBehaviour {
 	/// </summary>
 	public void AdvanceSequence()
 	{
+		if (ignoreSequence) {
+			return;
+		}
 		if (sequence == null) {
 			print("Null sequence");
 		} else {
 			print("Advancing sequence");
 			sequence.AdvanceSequence();
 			if (!sequence.IsActive()) {
+				//FOR ECGC
+
+
+
+				GameObject.FindObjectOfType<AnchorUXController>().EnableInput();
+
+
+
+
+				//BIG SPACE TO GET MY ATTENTION
+				//Review the implementation of lessons and decide what to do
+				//When lessons finish
+
+
+
+
+
+
+
+
+
 				GetComponentInParent<DroneManager>().GrabNextSequence();
 				/*sequence = null;
 				SetActive(false);*/
@@ -297,6 +343,9 @@ public class DroneController : MonoBehaviour {
 	/// </summary>
 	public void RecedeSequence()
 	{
+		if (ignoreSequence) {
+			return;
+		}
 		if (sequence == null) {
 			print("Null sequence");
 		} else {
@@ -309,6 +358,11 @@ public class DroneController : MonoBehaviour {
 
 			}
 		}
+	}
+
+	public void ClearSequence()
+	{
+		sequence = null;
 	}
 
 	public void ClearSelectable()

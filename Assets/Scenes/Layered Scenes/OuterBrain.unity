@@ -12637,6 +12637,7 @@ MonoBehaviour:
     scaleVal: 4.5
   brainPiecesToHighlight:
   - {fileID: 264754073}
+  optMaterialColor: {r: 0, g: 0, b: 0, a: 0}
   OnEventBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -13595,6 +13596,7 @@ MonoBehaviour:
     lookAtPoint: {fileID: 1737327833}
     scaleVal: 8
   brainPiecesToHighlight: []
+  optMaterialColor: {r: 0, g: 0, b: 0, a: 0}
   OnEventBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -13645,13 +13647,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d924953b7825bc42b8f01ce1e6ef2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToDisplay: Look at this cerebrum
+  textToDisplay: That concludes our tour of the Pleasure Pathway.
   platformInformation:
-    waypointLocation: {x: 16.14176, y: 1.224009, z: 12.936108}
-    lookAtPoint: {fileID: 264754342}
-    scaleVal: 4.5
-  brainPiecesToHighlight:
-  - {fileID: 264754011}
+    waypointLocation: {x: 0, y: 0, z: 0}
+    lookAtPoint: {fileID: 0}
+    scaleVal: 0
+  brainPiecesToHighlight: []
+  optMaterialColor: {r: 0, g: 0, b: 0, a: 0}
   OnEventBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -14780,8 +14782,6 @@ MonoBehaviour:
   sequenceTitle: Title of the Sequence
   steps:
   - {fileID: 734543731}
-  - {fileID: 417748575}
-  - {fileID: 719142273}
   _active: 0
   _stepIdx: 0
 --- !u!1 &1219319960

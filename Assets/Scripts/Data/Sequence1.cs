@@ -24,6 +24,7 @@ public class Sequence1 : MonoBehaviour {
 		for(int i = 0; i < transform.childCount; i++) {
 			steps[i] = transform.GetChild(i).GetComponent<SequenceElement1>();
 		}
+		
 	}
 
 	public void AdvanceSequence()
@@ -62,7 +63,7 @@ public class Sequence1 : MonoBehaviour {
 			_active = false;
 			return;
 		}
-		steps[_stepIdx].Activate();
+		steps[_stepIdx]?.Activate();
 		_active = true;
 	}
 
@@ -72,9 +73,15 @@ public class Sequence1 : MonoBehaviour {
 		_active = false;
 	}
 
+	public void ResumeSequence()
+	{
+		steps[_stepIdx].Activate();
+		_active = true;
+	}
+
 	public void FinishSequence(bool reset)
 	{
-		steps[_stepIdx].Deactivate();
+		steps[_stepIdx]?.Deactivate();
 		_active = false;
 		if (reset) {
 			ResetSequence();

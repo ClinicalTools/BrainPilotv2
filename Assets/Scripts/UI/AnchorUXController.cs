@@ -11,13 +11,24 @@ using UnityEngine.Events;
 /// </summary>
 public class AnchorUXController : MonoBehaviour {
 
-    public Vec2Resource inputResource;
+	/*
+	 * Pre-frame dependent values:
+	 * forward: .1
+	 * orbit: .5
+	 * rotation: .4
+	 * deadzone: .2
+	 */
+
+	public Vec2Resource inputResource;
 
     public bool isActive;
 
+	public bool lockActive;
+
 	public bool invertX;
 
-    public float forwardSpeed = .05f;
+	[Tooltip("Max units per second")]
+	public float forwardSpeed = 5f;
     public float orbitSpeed = 5f;
 	public float rotationSpeed = .8f;
 	public float deadzoneRadius = .2f;
@@ -25,13 +36,8 @@ public class AnchorUXController : MonoBehaviour {
 	public enum MovementType
 	{
 		Orbit,
-		Rotate
-	}
-
-	public float asdf
-	{
-		get;
-		set;
+		Rotate,
+		Line
 	}
 
 	private MovementType _movementType;
@@ -49,6 +55,8 @@ public class AnchorUXController : MonoBehaviour {
 					break;
 				case MovementType.Rotate:
 					invertX = true;
+					break;
+				case MovementType.Line:
 					break;
 			}
 			_movementType = value;
@@ -73,13 +81,44 @@ public class AnchorUXController : MonoBehaviour {
     public UnityEvent StartCustomMovement;
     public UnityEvent StopCustomMovement;
 
-    /// <summary>
-    /// Sets our active status (like when a forward trigger is down). Punts if status is our current status and nothing will happen. Otherwise fires appropriate events and enters an input subroutine. 
-    /// </summary>
-    /// <param name="status"></param>
-    public void SetActive(bool status)
+	[ContextMenu("TestDisable")]
+	public void DisableInput()
+	{
+		SetActive(false);
+		lockActive = true;
+		GradientColorKey red = new GradientColorKey(Color.red, 0);
+		GradientColorKey blue = new GradientColorKey(new Color(129, 141, 255), 1);
+		GradientAlphaKey reda = new GradientAlphaKey(150f, 0);
+		GradientAlphaKey bluea = new GradientAlphaKey(255f, 1);
+		Gradient g = new Gradient();
+		g.alphaKeys = new[] { reda, bluea };
+		g.colorKeys = new[] { red, blue };
+		line.colorGradient = g;
+	}
+
+	public void EnableInput()
+	{
+		lockActive = false;
+		GradientColorKey white = new GradientColorKey(Color.white, 0);
+		GradientAlphaKey whitea = new GradientAlphaKey(0f, 0);
+		GradientColorKey blue = new GradientColorKey(new Color(129, 141, 255), 1);
+		GradientAlphaKey bluea = new GradientAlphaKey(255f, 1);
+		Gradient g = new Gradient();
+		g.alphaKeys = new[] { whitea, bluea };
+		g.colorKeys = new[] { white, blue };
+		line.colorGradient = g;
+	}
+
+	/// <summary>
+	/// Sets our active status (like when a forward trigger is down). Punts if status is our current status and nothing will happen. Otherwise fires appropriate events and enters an input subroutine. 
+	/// </summary>
+	/// <param name="status"></param>
+	public void SetActive(bool status)
     {
-        if (isActive == status)
+		if (lockActive)
+			return;
+
+		if (isActive == status)
             return;
 
         isActive = status;
@@ -121,16 +160,28 @@ public class AnchorUXController : MonoBehaviour {
     IEnumerator RunGetInput()
     {
         StartCustomMovement.Invoke();
-        while (isActive)
-        {
+		float damper = 0;
+		float dampDuration = .75f;
+		while (isActive) {
+			 
+			if (inputResource.Value.sqrMagnitude < deadzoneRadius * deadzoneRadius) {
+				damper = 0;
+			} else if (damper < dampDuration) {
+				damper += Time.deltaTime;
+				damper = Mathf.Min(damper, dampDuration);
+			}
+			
 			switch (movementType) {
 				case MovementType.Orbit:
-					DoForwardMovement();
-					DoOrbitAround();
+					DoForwardMovement(damper / dampDuration);
+					DoOrbitAround(damper / dampDuration);
 					break;
 				case MovementType.Rotate:
-					DoForwardMovement();
-					DoRotate();
+					DoForwardMovement(damper / dampDuration);
+					DoRotate(damper / dampDuration);
+					break;
+				case MovementType.Line:
+					HandleLineMovement(damper / dampDuration);
 					break;
 			}
 			yield return null;
@@ -138,23 +189,31 @@ public class AnchorUXController : MonoBehaviour {
         StopCustomMovement.Invoke();
     }
 
-    private void DoOrbitAround()
+	private void HandleLineMovement(float val = 1)
+	{
+
+	}
+
+	private void DoOrbitAround(float val = 1)
     {
-		float changeRotation = orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
-        platform.RotateAround(cursor.position, Vector3.up, changeRotation);
+		float changeRotation = val * orbitSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		changeRotation *= Time.deltaTime;
+		platform.RotateAround(cursor.position, Vector3.up, changeRotation);
     }
 
-	private void DoRotate()
+	private void DoRotate(float val = 1)
 	{
-		float changeRotation = rotationSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		float changeRotation = val * rotationSpeed * inputResource.Value.x * (invertX ? 1 : -1);
+		changeRotation *= Time.deltaTime;
 		platform.Rotate(Vector3.up, changeRotation);
 	}
 
-    private void DoForwardMovement()
+    private void DoForwardMovement(float val = 1)
     {
-        float changeAmount = forwardSpeed * inputResource.Value.y;
+        float changeAmount = val * forwardSpeed * inputResource.Value.y * inputResource.Value.y;
+		changeAmount *= Time.deltaTime;
+		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
         Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
-
         platform.position += direction * changeAmount;
 
     }
