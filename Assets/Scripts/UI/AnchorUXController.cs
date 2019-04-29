@@ -11,7 +11,15 @@ using UnityEngine.Events;
 /// </summary>
 public class AnchorUXController : MonoBehaviour {
 
-    public Vec2Resource inputResource;
+	/*
+	 * Pre-frame dependent values:
+	 * forward: .1
+	 * orbit: .5
+	 * rotation: .4
+	 * deadzone: .2
+	 */
+
+	public Vec2Resource inputResource;
 
     public bool isActive;
 
@@ -28,13 +36,8 @@ public class AnchorUXController : MonoBehaviour {
 	public enum MovementType
 	{
 		Orbit,
-		Rotate
-	}
-
-	public float asdf
-	{
-		get;
-		set;
+		Rotate,
+		Line
 	}
 
 	private MovementType _movementType;
@@ -52,6 +55,8 @@ public class AnchorUXController : MonoBehaviour {
 					break;
 				case MovementType.Rotate:
 					invertX = true;
+					break;
+				case MovementType.Line:
 					break;
 			}
 			_movementType = value;
@@ -175,11 +180,19 @@ public class AnchorUXController : MonoBehaviour {
 					DoForwardMovement(damper / dampDuration);
 					DoRotate(damper / dampDuration);
 					break;
+				case MovementType.Line:
+					HandleLineMovement(damper / dampDuration);
+					break;
 			}
 			yield return null;
         }
         StopCustomMovement.Invoke();
     }
+
+	private void HandleLineMovement(float val = 1)
+	{
+
+	}
 
 	private void DoOrbitAround(float val = 1)
     {
