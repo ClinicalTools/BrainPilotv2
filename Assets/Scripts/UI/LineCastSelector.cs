@@ -32,7 +32,8 @@ public class LineCastSelector : MonoBehaviour
     public Vector3 direction = Vector3.forward;
 
     public float maxDistance = 10f;
-    public float inputEffectFactor = 1f;
+	//Used to be .25f
+    public float inputEffectFactor = 10f;
 
     public bool isActive;
 
@@ -190,6 +191,7 @@ public class LineCastSelector : MonoBehaviour
     {
         float changeInDistance = inputAxis.Value.y * inputAxis.Value.y * (inputAxis.Value.y > 0 ? 1 : -1);
 		changeInDistance *= inputEffectFactor;
+		changeInDistance *= Time.deltaTime;
         distance += changeInDistance;
         distance = Mathf.Clamp(distance, 0f, maxDistance);
 

@@ -69,6 +69,8 @@ public class DroneController : MonoBehaviour {
 	//Used without gaze
 	private int activeGoalIdx;
 
+	public float val = 100;
+
 
 	// Use this for initialization
 	void Start () {
@@ -84,6 +86,9 @@ public class DroneController : MonoBehaviour {
 			//mainCamera = transform.parent;
 			mainCamera = GameObject.Find("new_platform01").transform;
 		}
+
+		QualitySettings.vSyncCount = 0;
+		Application.targetFrameRate = 10;
 	}
 
 	/**
@@ -92,9 +97,13 @@ public class DroneController : MonoBehaviour {
 	 * spots and not move until the Move button is pressed.
 	 * Then it will recalculate the closest goal.
 	 */
-	
+
 	// Update is called once per frame
 	void Update () {
+		for(int i = 0; i < val; i++) {
+			Debug.Log("Hello");
+		}
+
 		if (_active) {
 			if (gazeBased) {
 				//Rotate the drone to face the player
