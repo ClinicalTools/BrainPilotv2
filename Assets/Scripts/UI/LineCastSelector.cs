@@ -63,8 +63,8 @@ public class LineCastSelector : MonoBehaviour
         {
             UpdatePositions();
             UpdateLine();
+			//UpdateScale();
             UpdateSelection();
-            
         }
         else
         {
@@ -74,7 +74,8 @@ public class LineCastSelector : MonoBehaviour
 			cursor.GetComponentInChildren<MeshRenderer>().enabled = false;
             //cursor.rotation = cursorSavedRotation;
         }
-        cursor.LookAt(transform);
+		UpdateScale();
+		cursor.LookAt(transform);
     }
 
     public void GetClickDown(bool clickDown)
@@ -173,6 +174,22 @@ public class LineCastSelector : MonoBehaviour
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
     }
+
+	private void UpdateScale()
+	{
+		float distance = (cursor.position - transform.position).magnitude;
+		float y = distance * Mathf.Atan(2);
+
+		//cursor decreases at 1/(sizeDecreaseRate * x)
+		float sizeDecreaseRate = 3;
+		//The bigger the startSize, the smaller it is. 1 = default size
+		float startSize = 2;
+
+		float adjustment = 1 / (sizeDecreaseRate * (distance / maxDistance) + startSize);
+		y *= adjustment;
+
+		cursor.localScale = Vector3.one * y;
+	}
 
     /// <summary>
     /// Update the positions of the line renderer
