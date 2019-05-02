@@ -47,8 +47,8 @@ namespace AdvancedDissolve_Example
 
             Vector3 position = cylinder.transform.position - cylinder.transform.up * cylinder.transform.localScale.y;
             Vector3 normal   = cylinder.transform.up;
-            float radius     = cylinder.transform.localScale.x * 0.5f;
-            float height     = cylinder.transform.localScale.y * 2;
+            float radius     = cylinder.transform.lossyScale.x * 0.5f;
+            float height     = cylinder.transform.lossyScale.y * 2;
 
 
             if (updateGlobal)

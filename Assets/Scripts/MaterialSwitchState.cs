@@ -55,7 +55,7 @@ public class MaterialSwitchState : MonoBehaviour {
 			return;
 		}
 		active = true;
-		renderer.enabled = true;
+		//renderer.enabled = true;
 		if (renderer.HasPropertyBlock()) {
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
 			renderer.GetPropertyBlock(block);
@@ -102,7 +102,7 @@ public class MaterialSwitchState : MonoBehaviour {
 
 		renderer.sharedMaterial = savedMaterial;
 		active = false;
-		renderer.enabled = false;
+		//renderer.enabled = false;
 		//renderer.SetPropertyBlock(null);
 	}
 	/*
