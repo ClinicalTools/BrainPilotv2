@@ -1014,9 +1014,9 @@ namespace CurvedUI
                 //go through only go that can be selected and are drawn by the canvas
                 gph = go.GetComponent<Graphic>();
 #if UNITY_5_1
-                        if (go.GetComponent<Selectable>() != null && gph != null && gph.depth != -1)
+                        if (go.GetComponent<UnityEngine.UI.Selectable>() != null && gph != null && gph.depth != -1)
 #else
-                if (go.GetComponent<Selectable>() != null && gph != null && gph.depth != -1 && gph.raycastTarget)
+                if (go.GetComponent<UnityEngine.UI.Selectable>() != null && gph != null && gph.depth != -1 && gph.raycastTarget)
 #endif
                 {
                     if (eventData.selectedObject != go)
