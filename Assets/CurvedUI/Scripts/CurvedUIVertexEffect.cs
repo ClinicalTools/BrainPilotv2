@@ -120,7 +120,7 @@ namespace CurvedUI
             //if we have an interactable component, make sure its inside the canvas and it's Z position is 0 in relation to the canvas.
             //Otherwise the interactions on it will not be accurate, or it may not work at all!
             //This is because, in order to save performance, CurvedUI creates a collider only for the space inside the Canvas rectangle.
-            if (myCanvas && GetComponent<Selectable>())
+            if (myCanvas && GetComponent<UnityEngine.UI.Selectable>())
             {
                 Vector3 myPosOnCanvas = myCanvas.transform.worldToLocalMatrix.MultiplyPoint3x4(this.transform.position);
                 RectTransform canvasRect = (myCanvas.transform as RectTransform);
