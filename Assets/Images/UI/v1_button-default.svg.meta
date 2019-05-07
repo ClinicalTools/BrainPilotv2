@@ -2,18 +2,14 @@ fileFormatVersion: 2
 guid: b5095ce1d8d714a4d88cc55ca9b28bb3
 ScriptedImporter:
   fileIDToRecycleName:
-    100000: gameObject/v1_button-default
-    400000: gameObject/v1_button-default/Transform
-    2800000: texAtlas
-    21200000: gameObject/v1_button-default/SpriteRenderer
+    2800002: tex
     21300000: sprite
-    100100000: gameObject
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: a57477913897c46af95d590f580878bd, type: 3}
-  svgType: 0
+  svgType: 1
   texturedSpriteMeshType: 0
   svgPixelsPerUnit: 100
   gradientResolution: 128
@@ -32,7 +28,7 @@ ScriptedImporter:
   maxTangentAngleEnabled: 0
   maxTangentAngle: 5
   keepTextureAspectRatio: 1
-  textureSize: 256
+  textureSize: 512
   textureWidth: 256
   textureHeight: 256
   wrapMode: 0

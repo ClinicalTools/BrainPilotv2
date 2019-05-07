@@ -2,18 +2,14 @@ fileFormatVersion: 2
 guid: 83241fbb4933c7f4c991394c0e29943e
 ScriptedImporter:
   fileIDToRecycleName:
-    100000: gameObject/v1_angled-button
-    400000: gameObject/v1_angled-button/Transform
-    2800000: texAtlas
-    21200000: gameObject/v1_angled-button/SpriteRenderer
+    2800002: tex
     21300000: sprite
-    100100000: gameObject
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: a57477913897c46af95d590f580878bd, type: 3}
-  svgType: 0
+  svgType: 1
   texturedSpriteMeshType: 0
   svgPixelsPerUnit: 100
   gradientResolution: 128
@@ -41,16 +37,16 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: 
+      name: v1_angled-buttonSprite
       originalName: 
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5097518}
       alignment: 0
       border: {x: 0, y: 0, z: 0, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 0
-        height: 0
+        width: 100
+        height: 24
       spriteID: bdac3710c2a1c114783385b90b578d09
     PhysicsOutlines: []

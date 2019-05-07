@@ -617,12 +617,10 @@ public static class OVRInput
 			if (ShouldResolveController(controller.controllerType, controllerMask))
 			{
 				RawButton resolvedMask = rawMask | controller.ResolveToRawMask(virtualMask);
-
 				if (((RawButton)controller.previousState.Buttons & resolvedMask) != 0)
 				{
 					return false;
 				}
-
 				if ((((RawButton)controller.currentState.Buttons & resolvedMask) != 0)
 					&& (((RawButton)controller.previousState.Buttons & resolvedMask) == 0))
 				{
