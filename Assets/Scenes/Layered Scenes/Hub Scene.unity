@@ -1085,7 +1085,8 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates:
   - {fileID: 0}
-  localActiveStates: []
+  localActiveStates:
+  - {fileID: 0}
 --- !u!114 &128559637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6786,7 +6787,8 @@ MonoBehaviour:
   updateStates: 0
   localLoadedStates:
   - {fileID: 0}
-  localActiveStates: []
+  localActiveStates:
+  - {fileID: 0}
 --- !u!114 &423312452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14724,8 +14726,7 @@ MonoBehaviour:
   element: {fileID: 1240624222}
   manager: {fileID: 1240624226}
   updateStates: 0
-  localLoadedStates:
-  - {fileID: 0}
+  localLoadedStates: []
   localActiveStates: []
 --- !u!114 &1240624226
 MonoBehaviour:
@@ -15500,7 +15501,7 @@ MonoBehaviour:
   isActive: 0
   lockActive: 0
   invertX: 0
-  forwardSpeed: 0.1
+  forwardSpeed: 0.5
   orbitSpeed: 0.5
   rotationSpeed: 1
   deadzoneRadius: 0.2
