@@ -9,7 +9,7 @@ Material:
   m_Name: CactusPack
   m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEMAPPINGTYPE_TRIPLANAR
-    _DISSOLVEMASK_CYLINDER _NORMALMAP
+    _DISSOLVEMASK_BOX _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -106,7 +106,7 @@ Material:
     - _DissolveGlobalControl: 0
     - _DissolveMainMapTiling: 1
     - _DissolveMappingType: 1
-    - _DissolveMask: 5
+    - _DissolveMask: 4
     - _DissolveMaskAxis: 1
     - _DissolveMaskCount: 0
     - _DissolveMaskInvert: -1
