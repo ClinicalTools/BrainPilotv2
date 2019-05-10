@@ -14,7 +14,7 @@ ScriptedImporter:
   svgPixelsPerUnit: 100
   gradientResolution: 128
   alignment: 0
-  customPivot: {x: 0, y: 0}
+  customPivot: {x: 0.5, y: 0.5}
   generatePhysicsShape: 0
   preserveViewport: 0
   advancedMode: 0
@@ -31,22 +31,22 @@ ScriptedImporter:
   textureSize: 1024
   textureWidth: 256
   textureHeight: 256
-  wrapMode: 0
+  wrapMode: 1
   filterMode: 1
   sampleCount: 4
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: 
+      name: content-panel-cutout
       originalName: 
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       alignment: 0
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 308, y: 0, z: 69, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 0
-        height: 0
+        width: 1024
+        height: 422
       spriteID: b72bc45521a224e4b84c4be0fca85363
     PhysicsOutlines: []
