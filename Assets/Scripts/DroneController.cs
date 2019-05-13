@@ -86,9 +86,6 @@ public class DroneController : MonoBehaviour {
 			//mainCamera = transform.parent;
 			mainCamera = GameObject.Find("new_platform01").transform;
 		}
-
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = 10;
 	}
 
 	/**

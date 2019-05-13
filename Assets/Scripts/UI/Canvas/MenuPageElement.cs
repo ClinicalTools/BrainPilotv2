@@ -1,18 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [RequireComponent(typeof(MenuAnimator))]
 public class MenuPageElement : MonoBehaviour {
 
-	public MenuPage m_parent;
+	public MenuPageElement m_parent;
 	private MenuAnimator animator;
-
-	// Use this for initialization
-	void Start()
-	{
-
-	}
 
 	public void Activate()
 	{
@@ -21,46 +18,67 @@ public class MenuPageElement : MonoBehaviour {
 
 	public void GoBack()
 	{
-		if (m_parent == null) {
-			Debug.Log("Cannot go back. No parent menu");
-			return;
-		}
-
 		Activate(true);
 	}
 
+	public MenuAnimator GetAnimator()
+	{
+		if (animator == null) {
+			animator = GetComponent<MenuAnimator>();
+		}
+		return animator;
+	}
+
+	/// <summary>
+	/// Activates a menu screen and disables all others
+	/// </summary>
+	/// <param name="goingBack"></param>
 	private void Activate(bool goingBack)
 	{
 		Transform child;
 		if (animator == null) {
 			animator = GetComponent<MenuAnimator>();
 		}
-		if (m_parent == null) {
-			m_parent = GetComponentInParent<MenuPage>();
-		}
-		if (m_parent != null) {
-			if (goingBack) {
-				animator.BackTransition(false);
-				
-			} else {
-				animator.Transition(true);
-			}
-			for (int i = 0; i < transform.parent.transform.childCount; i++) {
-				child = transform.parent.transform.GetChild(i);
-				if (child != transform) {
-					if (goingBack) {
-						child.GetComponent<MenuAnimator>().BackTransition(true);
-					} else {
-						if (child.gameObject.activeInHierarchy && child.GetComponent<MenuAnimator>()) {
 
-						} else {
-							child.GetComponent<MenuAnimator>().Transition(false);
-						}
+		if (goingBack) {
+			if (m_parent == null) {
+				Debug.LogWarning("Error: Cannot go back because parent is unassigned");
+				return;
+			}
+			animator.BackTransition(false);
+			m_parent.GetAnimator().BackTransition(true);
+		} else {
+			for (int i = 0; i < transform.parent.childCount; i++) {
+				child = transform.parent.GetChild(i);
+				if (child.gameObject.activeInHierarchy) {
+					if (child.GetComponent<MenuAnimator>() != null) {
+						child.gameObject.SetActive(false);
+					} else {
+						child.GetComponent<MenuAnimator>().Transition(false);
 					}
-				} else {
-					transform.parent.GetChild(i).gameObject.SetActive(false);
+					break;
 				}
+			}
+			animator.Transition(true);
+		}
+	}
+
+#if UNITY_EDITOR
+	[CustomEditor(typeof(MenuPageElement))]
+	public class MenuPageElementInspector : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+
+			if (GUILayout.Button("Activate")) {
+				((MenuPageElement)target).Activate();
+			}
+
+			if (GUILayout.Button("Go Back")) {
+				((MenuPageElement)target).GoBack();
 			}
 		}
 	}
+#endif
 }

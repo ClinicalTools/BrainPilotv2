@@ -12,7 +12,7 @@ public class MenuAnimator : MonoBehaviour {
 		FadeInRight,
 		FadeInLeft
 	}
-
+	public bool animate;
 	Animator ani;
 	Animation ani2;
 	public void Start()
@@ -23,11 +23,13 @@ public class MenuAnimator : MonoBehaviour {
 
 	public void SetActive()
 	{
+		Debug.Log("Active");
 		gameObject.SetActive(true);
 	}
 
 	public void SetInactive()
 	{
+		Debug.Log("Inactive");
 		gameObject.SetActive(false);
 	}
 
@@ -39,12 +41,20 @@ public class MenuAnimator : MonoBehaviour {
 
 		if (enabling) {
 			gameObject.SetActive(true);
+			if (animate) {
+				//ani.SetTrigger(AnimationActions.FadeInRight.ToString());
+				PlayAnimation("Entering");
+			}
 			//ani2.Play("Entering");
-			//ani.SetTrigger(AnimationActions.FadeInRight.ToString());
 		} else {
 			//ani2.Play("Selected");
-			//ani.SetTrigger(AnimationActions.FadeOutLeft.ToString());
-			gameObject.SetActive(false);
+			if (animate) {
+				//ani.SetTrigger(AnimationActions.FadeOutLeft.ToString());
+				//StartCoroutine(DisableWhenAniDone());
+				PlayAnimation("Selected");
+			} else {
+				gameObject.SetActive(false);
+			}
 		}
 	}
 
@@ -55,12 +65,74 @@ public class MenuAnimator : MonoBehaviour {
 		}
 		if (enabling) {
 			gameObject.SetActive(true);
-			//ani.SetTrigger(AnimationActions.FadeInLeft.ToString());
-			//ani2.Play("Entering");
+			if (animate) {
+				//ani.SetTrigger(AnimationActions.FadeInLeft.ToString());
+				PlayAnimation("Selected", true);
+				//ani2.Play("Entering");
+			}
 		} else {
-			gameObject.SetActive(false);
-			//ani.SetTrigger(AnimationActions.FadeOutRight.ToString());
-			//ani2.Play();
+			if (animate) {
+				//ani.SetTrigger(AnimationActions.FadeOutRight.ToString());
+				PlayAnimation("Entering", true);
+				StartCoroutine(DisableWhenAniDone());
+
+				/*ani2["Entering"].speed = -1;
+				ani2["Entering"].time = ani2["Entering"].length;
+				ani2.Play("Entering");*/
+			} else {
+				gameObject.SetActive(false);
+			}
 		}
 	}
+
+	public void PlayAnimation(string name, bool reverse = false)
+	{
+		PlayAnimation(name, -1f, true);
+	}
+
+	public void PlayAnimation(string name, float speed, bool playFromEnd)
+	{
+		if (ani2 == null) {
+			Start();
+		}
+		ani2[name].speed = speed;
+		if (playFromEnd) {
+			ani2[name].time = ani2[name].length;
+		} else {
+			ani2[name].time = 0;
+		}
+		ani2.Play(name);
+	}
+
+	private IEnumerator DisableWhenAniDone()
+	{
+		while(ani2.isPlaying) {
+			yield return null;
+		}
+		gameObject.SetActive(false);
+	}
+#if UNITY_EDITOR
+	[UnityEditor.CustomEditor(typeof(MenuAnimator))]
+	public class MenuAnimatorInspector : UnityEditor.Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+
+			if (GUILayout.Button("Play Entering Forward")) {
+				((MenuAnimator)target).PlayAnimation("Entering");
+			}
+			if (GUILayout.Button("Play Entering Reversed")) {
+				((MenuAnimator)target).PlayAnimation("Entering", true);
+			}
+			if (GUILayout.Button("Play Selected Forward")) {
+				((MenuAnimator)target).PlayAnimation("Selected");
+			}
+			if (GUILayout.Button("Play Selected Reversed")) {
+				((MenuAnimator)target).PlayAnimation("Selected", true);
+			}
+
+		}
+	}
+#endif
 }
