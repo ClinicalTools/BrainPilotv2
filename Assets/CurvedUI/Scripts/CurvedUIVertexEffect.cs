@@ -126,12 +126,12 @@ namespace CurvedUI
                 RectTransform canvasRect = (myCanvas.transform as RectTransform);
                 if (myPosOnCanvas.x.Abs() > canvasRect.rect.width / 2.0f || myPosOnCanvas.y.Abs() > canvasRect.rect.height / 2.0f)
                 {
-                    Debug.LogWarning("CurvedUI: " + GetComponent<Selectable>().GetType().Name + " \"" + this.gameObject.name + "\" is outside of the canvas. It will not be interactable. Move it inside the canvas rectangle (white border in scene view) for it to work.", this.gameObject);
+                    Debug.LogWarning("CurvedUI: " + GetComponent<UnityEngine.UI.Selectable>().GetType().Name + " \"" + this.gameObject.name + "\" is outside of the canvas. It will not be interactable. Move it inside the canvas rectangle (white border in scene view) for it to work.", this.gameObject);
                 }
 
                 if (myPosOnCanvas.z.Abs() > 0.1f)
                 {
-                    Debug.LogWarning("CurvedUI: The Z position of \"" + this.gameObject.name + "\" "  + GetComponent<Selectable>().GetType().Name + ", or one of its parents is not 0 in relation to the canvas. The interactions may not be accurate.", this.gameObject);
+                    Debug.LogWarning("CurvedUI: The Z position of \"" + this.gameObject.name + "\" "  + GetComponent<UnityEngine.UI.Selectable>().GetType().Name + ", or one of its parents is not 0 in relation to the canvas. The interactions may not be accurate.", this.gameObject);
                 }
             }
         }
