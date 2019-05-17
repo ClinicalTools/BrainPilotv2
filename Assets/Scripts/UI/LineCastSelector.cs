@@ -49,6 +49,8 @@ public class LineCastSelector : MonoBehaviour
     protected Vector3 cursorSavedPosition;
     protected Quaternion cursorSavedRotation;
 
+	private float stickTime = 0f;
+
     private void Start()
     {
         origin = origin ?? transform;
@@ -64,7 +66,15 @@ public class LineCastSelector : MonoBehaviour
             UpdatePositions();
             UpdateLine();
 			//UpdateScale();
-            UpdateSelection();
+			if (stickTime > 0) {
+				stickTime -= Time.deltaTime;
+			} else {
+				cursor.transform.position = transform.position;
+				cursor.gameObject.SetActive(false);
+			}
+			UpdateSelection();
+
+			
         }
         else
         {
@@ -99,14 +109,16 @@ public class LineCastSelector : MonoBehaviour
 
         // do our raycast & convert to a list
         RaycastHit[] hits = Physics.RaycastAll(originPosition, targetDirection, distance);
-        if (hits.Length == 0)
+		//Debug.Log(hits.Length);
+		if (hits.Length == 0)
         {
             // invoke our event if ui target if we are deselecting a ui target
             if (uiTarget != null)
                 uiTargetEvent.Invoke(null);
 
-            cursor.transform.position = transform.position;
-			cursor.gameObject.SetActive(false);
+			stickTime = 1f;
+			//cursor.transform.position = transform.position;
+			//cursor.gameObject.SetActive(false);
             if (furthestSelectable != null)
             {
                 selectableTargetEvent.Invoke(null);
@@ -122,8 +134,9 @@ public class LineCastSelector : MonoBehaviour
         // select out the hits with Selectables on them
         var hitListSelectables = hitList.FindAll(hit => hit.collider.GetComponent<SelectableElement>());
 
-        if (hitListSelectables.Count == 0)
-            return;
+		if (hitListSelectables.Count == 0) {
+			return;
+		}
 
         // sort our hitlist by distance
         var sortedPoints = hitListSelectables.OrderByDescending(hit => Vector3.SqrMagnitude(hit.point - originPosition)).ToList();
