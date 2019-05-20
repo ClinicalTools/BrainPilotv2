@@ -225,12 +225,6 @@ public class DroneController : MonoBehaviour {
 
 	public void UpdateDroneButtons()
 	{
-		print(!ignoreSequence);
-		if (sequence != null) {
-			print(sequence.IsActive());
-		} else {
-			print("Sequence is null");
-		}
 		if (!ignoreSequence && sequence != null && sequence.IsActive()) {
 			buttons.SetActive(true);
 		} else {

@@ -66,14 +66,6 @@ public class LineCastSelector : MonoBehaviour
             UpdatePositions();
             UpdateLine();
 			//UpdateScale();
-			if (stickTime > 0) {
-				stickTime -= Time.deltaTime;
-			} else if (stickTime != -1) {
-				cursor.transform.position = transform.position;
-				cursor.gameObject.SetActive(false);
-				furthestSelectable = null;
-				stickTime = -1;
-			}
 			UpdateSelection();
 
 			
@@ -95,7 +87,9 @@ public class LineCastSelector : MonoBehaviour
         cursorSavedPosition = cursor.position;
         //cursorSavedRotation = cursor.rotation;
         isActive = !clickDown;
-
+		if (isActive) {
+			stickTime = 1f;
+		}
 		cursor.GetComponentInChildren<MeshRenderer>().enabled = isActive;
 	}
 
@@ -118,17 +112,28 @@ public class LineCastSelector : MonoBehaviour
                 uiTargetEvent.Invoke(null);
 			//cursor.transform.position = transform.position;
 			//cursor.gameObject.SetActive(false);
-            if (furthestSelectable != null)
+            if (furthestSelectable != null && stickTime == 0)
             {
-                selectableTargetEvent.Invoke(null);
+                //selectableTargetEvent.Invoke(null);
 				stickTime = 1f;
+			}
+
+			if (stickTime > 0) {
+				stickTime -= Time.deltaTime;
+			} else if (stickTime != -1) {
+				selectableTargetEvent.Invoke(null);
+				cursor.transform.position = transform.position;
+				cursor.gameObject.SetActive(false);
+				furthestSelectable = null;
+				stickTime = -1;
 			}
 
 			//Uncomment to revert to pre-stick
 			//furthestSelectable = null;
-            uiTarget = null;
+			uiTarget = null;
             return;
         }
+		stickTime = 0;
 		cursor.gameObject.SetActive(true);
             
         List<RaycastHit> hitList = new List<RaycastHit>(hits);
