@@ -68,9 +68,11 @@ public class LineCastSelector : MonoBehaviour
 			//UpdateScale();
 			if (stickTime > 0) {
 				stickTime -= Time.deltaTime;
-			} else {
+			} else if (stickTime != -1) {
 				cursor.transform.position = transform.position;
 				cursor.gameObject.SetActive(false);
+				furthestSelectable = null;
+				stickTime = -1;
 			}
 			UpdateSelection();
 
@@ -109,21 +111,21 @@ public class LineCastSelector : MonoBehaviour
 
         // do our raycast & convert to a list
         RaycastHit[] hits = Physics.RaycastAll(originPosition, targetDirection, distance);
-		//Debug.Log(hits.Length);
 		if (hits.Length == 0)
         {
             // invoke our event if ui target if we are deselecting a ui target
             if (uiTarget != null)
                 uiTargetEvent.Invoke(null);
-
-			stickTime = 1f;
 			//cursor.transform.position = transform.position;
 			//cursor.gameObject.SetActive(false);
             if (furthestSelectable != null)
             {
                 selectableTargetEvent.Invoke(null);
-            }
-            furthestSelectable = null;
+				stickTime = 1f;
+			}
+
+			//Uncomment to revert to pre-stick
+			//furthestSelectable = null;
             uiTarget = null;
             return;
         }
@@ -191,6 +193,7 @@ public class LineCastSelector : MonoBehaviour
 	private void UpdateScale()
 	{
 		float distance = (cursor.position - transform.position).magnitude;
+		//Multiply distance by ArcTan(x), where x is default size of the cursor we want.
 		float y = distance * Mathf.Atan(2);
 
 		//cursor decreases at 1/(sizeDecreaseRate * x)
@@ -198,6 +201,7 @@ public class LineCastSelector : MonoBehaviour
 		//The bigger the startSize, the smaller it is. 1 = default size
 		float startSize = 2;
 
+		//The adjustment is used to slightly alter the scale of the cursor based on distance.
 		float adjustment = 1 / (sizeDecreaseRate * (distance / maxDistance) + startSize);
 		y *= adjustment;
 

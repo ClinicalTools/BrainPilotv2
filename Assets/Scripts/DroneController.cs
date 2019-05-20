@@ -69,6 +69,8 @@ public class DroneController : MonoBehaviour {
 	//Used without gaze
 	private int activeGoalIdx;
 
+	public GameObject buttons;
+
 	public float val = 100;
 
 
@@ -122,9 +124,6 @@ public class DroneController : MonoBehaviour {
 										transform.position,
 										goalLoc,
 										lerpVal * settings.maxSpeed);
-
-				//Update the text on the drone
-				UpdateText();
 			} else {
 				goalLoc = GetGoalOffset(activeGoalIdx);
 				if (isPositionStatic) {
@@ -142,9 +141,9 @@ public class DroneController : MonoBehaviour {
 					}
 				}
 				transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.position);
-
-				UpdateText();
 			}
+			UpdateText();
+			UpdateDroneButtons();
 		}
 	}
 
@@ -221,6 +220,21 @@ public class DroneController : MonoBehaviour {
 			textField.text = ((BrainElement)selection).description;
 		} else {
 			//Other uses
+		}
+	}
+
+	public void UpdateDroneButtons()
+	{
+		print(!ignoreSequence);
+		if (sequence != null) {
+			print(sequence.IsActive());
+		} else {
+			print("Sequence is null");
+		}
+		if (!ignoreSequence && sequence != null && sequence.IsActive()) {
+			buttons.SetActive(true);
+		} else {
+			buttons.SetActive(false);
 		}
 	}
 
