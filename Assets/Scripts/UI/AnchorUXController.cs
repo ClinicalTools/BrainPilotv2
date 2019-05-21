@@ -96,7 +96,10 @@ public class AnchorUXController : MonoBehaviour {
 		g.colorKeys = new[] { red, blue };
 		line.colorGradient = g;
 	}
-
+	void Start()
+	{
+		SetInputMethod(2);
+	}
 	public void EnableInput()
 	{
 		lockActive = false;
@@ -152,7 +155,7 @@ public class AnchorUXController : MonoBehaviour {
 	/// <summary>
 	/// Adjust the method of movement
 	/// </summary>
-	/// <param name="idx">0 for Orbit, 1 for Rotate</param>
+	/// <param name="idx">0 for Orbit, 1 for Rotate, 2 for Line</param>
 	public void SetInputMethod(int idx)
 	{
 		movementType = (MovementType)idx;
