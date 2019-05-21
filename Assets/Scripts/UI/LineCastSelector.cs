@@ -31,7 +31,7 @@ public class LineCastSelector : MonoBehaviour
     public float distance;
     public Vector3 direction = Vector3.forward;
 
-    public float maxDistance = 10f;
+    public float maxDistance = 20f;
 	//Used to be .25f
     public float inputEffectFactor = 10f;
 

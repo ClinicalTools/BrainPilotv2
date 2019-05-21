@@ -57,6 +57,7 @@ public class AnchorUXController : MonoBehaviour {
 					invertX = true;
 					break;
 				case MovementType.Line:
+					invertX = false;
 					break;
 			}
 			_movementType = value;
@@ -182,6 +183,7 @@ public class AnchorUXController : MonoBehaviour {
 					break;
 				case MovementType.Line:
 					HandleLineMovement(damper / dampDuration);
+					LineRotate(damper / dampDuration);
 					break;
 			}
 			yield return null;
@@ -191,7 +193,11 @@ public class AnchorUXController : MonoBehaviour {
 
 	private void HandleLineMovement(float val = 1)
 	{
-
+		float changeAmount = val * forwardSpeed * inputResource.Value.y * inputResource.Value.y;
+		changeAmount *= Time.deltaTime;
+		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
+		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
+		platform.position += direction * changeAmount;
 	}
 
 	private void DoOrbitAround(float val = 1)
@@ -217,4 +223,28 @@ public class AnchorUXController : MonoBehaviour {
         platform.position += direction * changeAmount;
 
     }
+
+	private void LineRotate(float val = 1)
+	{
+		float changeRotation = val * rotationSpeed;
+		
+		Quaternion facing = platform.rotation;
+		float xfacing = facing.eulerAngles.x;
+		float zfacing = facing.eulerAngles.z;
+		Vector3 Eulerfacing = new Vector3(xfacing, 0f, zfacing);
+		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
+		Vector3 XZdirection = new Vector3(direction.x, 0f, direction.z);
+		float measureAngle = Vector3.SignedAngle(Eulerfacing, XZdirection, Vector3.up);
+		
+		if (measureAngle < 0)
+		{
+			changeRotation *= -1*Time.deltaTime;
+		} else {
+			changeRotation *= Time.deltaTime;
+		}
+		if (measureAngle*measureAngle > 1)
+		{
+			platform.Rotate(Vector3.up, changeRotation);
+		}
+	}
 }
