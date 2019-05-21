@@ -187,7 +187,7 @@ public class AnchorUXController : MonoBehaviour {
 				case MovementType.Line:
 					HandleLineMovement(damper / dampDuration);
 					LineRotate(damper / dampDuration);
-					Debug.Log("Line Movement methods called.");
+					//Debug.Log("Line Movement methods called.");
 					break;
 			}
 			yield return null;
@@ -201,6 +201,7 @@ public class AnchorUXController : MonoBehaviour {
 		changeAmount *= Time.deltaTime;
 		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
 		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
+		LineRotate(val);
 		platform.position += direction * changeAmount;
 	}
 
@@ -242,16 +243,22 @@ public class AnchorUXController : MonoBehaviour {
 		
 		float measureAngle = Vector3.SignedAngle(vFacing, direction, Vector3.up);
 		Debug.Log("Measured Angle: " + measureAngle);
+		float magnitude = measureAngle*measureAngle;
 		
 		if (measureAngle < 0)
 		{
 			changeRotation *= -1*Time.deltaTime;
+			Debug.Log("Rotate Left");
 		} else {
 			changeRotation *= Time.deltaTime;
+			Debug.Log("Rotate Right");
 		}
-		if (measureAngle*measureAngle > 1)
+		if (magnitude > 1)
 		{
 			platform.Rotate(Vector3.up, changeRotation);
+			Debug.Log("Angle Magnitude: " + magnitude);
+			Debug.Log("Rotate Speed: " + changeRotation);
+
 		}
 	}
 }
