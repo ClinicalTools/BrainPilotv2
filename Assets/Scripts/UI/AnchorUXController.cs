@@ -187,6 +187,7 @@ public class AnchorUXController : MonoBehaviour {
 				case MovementType.Line:
 					HandleLineMovement(damper / dampDuration);
 					LineRotate(damper / dampDuration);
+					Debug.Log("Line Movement methods called.");
 					break;
 			}
 			yield return null;
@@ -230,14 +231,20 @@ public class AnchorUXController : MonoBehaviour {
 	private void LineRotate(float val = 1)
 	{
 		float changeRotation = val * rotationSpeed;
+		Debug.Log("changeRotation starts at: " + changeRotation);
 		
 		Quaternion facing = platform.rotation;
 		float xfacing = facing.eulerAngles.x;
 		float zfacing = facing.eulerAngles.z;
+		Debug.Log("X/Z vectors for Platform: " + xfacing + " / " + zfacing);
+
+		
 		Vector3 Eulerfacing = new Vector3(xfacing, 0f, zfacing);
 		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
 		Vector3 XZdirection = new Vector3(direction.x, 0f, direction.z);
+		Debug.Log("X/Z vectors for Controller: " + direction.x + " / " + direction.z);
 		float measureAngle = Vector3.SignedAngle(Eulerfacing, XZdirection, Vector3.up);
+		Debug.Log("Measured Angle: " + measureAngle);
 		
 		if (measureAngle < 0)
 		{
