@@ -246,13 +246,15 @@ public class AnchorUXController : MonoBehaviour {
 		Debug.Log("changeRotation starts at: " + changeRotation);
 		
 		Quaternion facing = platform.rotation;
-		Vector3 vFacing = facing.eulerAngles;
+		//Vector3 vFacing = facing.eulerAngles;
+		Vector3 vFacing = platform.forward;
 				
 		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
-		
+        direction.y = 0;
 		//Debug.Log("Y angle for Controller: " + direction.y);
 		
 		float measureAngle = Vector3.SignedAngle(vFacing, direction, Vector3.up);
+        Debug.Log("Non-signed angle: " + Vector3.Angle(vFacing, direction));
 		Debug.Log("Measured Angle: " + measureAngle);
 		float magnitude = measureAngle*measureAngle;
 		

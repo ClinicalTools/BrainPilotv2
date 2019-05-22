@@ -14,12 +14,12 @@ public class PulseTex : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_Renderer = GetComponent<Renderer> ();
-		m_Renderer.material.EnableKeyword("_NORMALMAP");
+		m_Renderer.sharedMaterial.EnableKeyword("_NORMALMAP");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		strength = Mathf.Lerp(lowDepth, highDepth, Mathf.Sin(Time.time*pulseSpeed));
-		m_Renderer.material.SetFloat("_BumpScale", strength);
+		m_Renderer.sharedMaterial.SetFloat("_BumpScale", strength);
 	}
 }
