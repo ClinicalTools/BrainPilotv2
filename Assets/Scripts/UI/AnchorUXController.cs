@@ -57,6 +57,7 @@ public class AnchorUXController : MonoBehaviour {
 					invertX = true;
 					break;
 				case MovementType.Line:
+					invertX = false;
 					break;
 			}
 			_movementType = value;
@@ -95,7 +96,10 @@ public class AnchorUXController : MonoBehaviour {
 		g.colorKeys = new[] { red, blue };
 		line.colorGradient = g;
 	}
-
+	void Start()
+	{
+		SetInputMethod(2);
+	}
 	public void EnableInput()
 	{
 		lockActive = false;
@@ -151,7 +155,7 @@ public class AnchorUXController : MonoBehaviour {
 	/// <summary>
 	/// Adjust the method of movement
 	/// </summary>
-	/// <param name="idx">0 for Orbit, 1 for Rotate</param>
+	/// <param name="idx">0 for Orbit, 1 for Rotate, 2 for Line</param>
 	public void SetInputMethod(int idx)
 	{
 		movementType = (MovementType)idx;
@@ -182,6 +186,8 @@ public class AnchorUXController : MonoBehaviour {
 					break;
 				case MovementType.Line:
 					HandleLineMovement(damper / dampDuration);
+					LineRotate(damper / dampDuration);
+					//Debug.Log("Line Movement methods called.");
 					break;
 			}
 			yield return null;
@@ -191,7 +197,12 @@ public class AnchorUXController : MonoBehaviour {
 
 	private void HandleLineMovement(float val = 1)
 	{
-
+		float changeAmount = val * forwardSpeed * inputResource.Value.y * inputResource.Value.y;
+		changeAmount *= Time.deltaTime;
+		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
+		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
+		LineRotate(val);
+		platform.position += direction * changeAmount;
 	}
 
 	private void DoOrbitAround(float val = 1)
@@ -217,4 +228,37 @@ public class AnchorUXController : MonoBehaviour {
         platform.position += direction * changeAmount;
 
     }
+
+	private void LineRotate(float val = 1)
+	{
+		float changeRotation = val * rotationSpeed;
+		Debug.Log("changeRotation starts at: " + changeRotation);
+		
+		Quaternion facing = platform.rotation;
+		Vector3 vFacing = facing.eulerAngles;
+				
+		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
+		
+		//Debug.Log("Y angle for Controller: " + direction.y);
+		
+		float measureAngle = Vector3.SignedAngle(vFacing, direction, Vector3.up);
+		Debug.Log("Measured Angle: " + measureAngle);
+		float magnitude = measureAngle*measureAngle;
+		
+		if (measureAngle < 0)
+		{
+			changeRotation *= -1*Time.deltaTime;
+			Debug.Log("Rotate Left");
+		} else {
+			changeRotation *= Time.deltaTime;
+			Debug.Log("Rotate Right");
+		}
+		if (magnitude > 1)
+		{
+			platform.Rotate(Vector3.up, changeRotation);
+			Debug.Log("Angle Magnitude: " + magnitude);
+			Debug.Log("Rotate Speed: " + changeRotation);
+
+		}
+	}
 }
