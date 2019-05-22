@@ -29,7 +29,6 @@ public class Sequence1 : MonoBehaviour {
 
 	public void AdvanceSequence()
 	{
-		Debug.Log("Advancing Sequence in sequence");
 		if (_stepIdx == steps.Length - 1) {
 			FinishSequence(false);
 		} else {
