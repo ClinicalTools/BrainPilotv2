@@ -40,9 +40,9 @@ public class AnchorUXController : MonoBehaviour {
 		Line
 	}
 
-	private MovementType _movementType;
-	public MovementType movementType
-	{// = MovementType.Orbit;
+	//private MovementType _movementType;
+	public MovementType movementType;
+	/*{
 		get
 		{
 			return _movementType;
@@ -62,7 +62,7 @@ public class AnchorUXController : MonoBehaviour {
 			}
 			_movementType = value;
 		}
-	}
+	}*/
 
     /// <summary>
     /// The target we are using to move to / from and orbit around
@@ -98,7 +98,7 @@ public class AnchorUXController : MonoBehaviour {
 	}
 	void Start()
 	{
-		SetInputMethod(2);
+		//SetInputMethod(0); //Handled in editor now
 	}
 	public void EnableInput()
 	{
@@ -159,6 +159,17 @@ public class AnchorUXController : MonoBehaviour {
 	public void SetInputMethod(int idx)
 	{
 		movementType = (MovementType)idx;
+		switch (movementType) {
+			case MovementType.Orbit:
+				invertX = false;
+				break;
+			case MovementType.Rotate:
+				invertX = true;
+				break;
+			case MovementType.Line:
+				invertX = false;
+				break;
+		}
 	}
 
     IEnumerator RunGetInput()
