@@ -225,7 +225,7 @@ public class DroneController : MonoBehaviour {
 				StartCoroutine(FadeMesh(0));
 				break;
 			case DisplayMethod.SelectedOnly:
-				if (!lockedSelection) {
+				if (!lockedSelection && !hasActiveSequence) {
 					StartCoroutine(FadeMesh(1));
 				} else {
 					StartCoroutine(FadeMesh(0));

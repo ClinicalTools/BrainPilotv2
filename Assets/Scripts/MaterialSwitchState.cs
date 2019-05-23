@@ -75,7 +75,8 @@ public class MaterialSwitchState : MonoBehaviour {
 		renderer.material.SetColor("_Color", emissionColor);
 		//renderer.material.SetTexture("_EmissionMap", renderer.sharedMaterial.mainTexture);
 		if (makeSolid) {
-			renderer.material.SetFloat("_DissolveGlobalControl", none);
+			//renderer.material.SetFloat("_DissolveGlobalControl", none);
+			renderer.material.SetFloat("_DissolveMaskCount", 0);
 			renderer.material.SetFloat("_DissolveMaskInvert", 0);
 		}
 		

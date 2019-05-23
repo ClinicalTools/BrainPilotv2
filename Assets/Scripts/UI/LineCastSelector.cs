@@ -48,7 +48,7 @@ public class LineCastSelector : MonoBehaviour
     public Transform cursor;
     protected Vector3 cursorSavedPosition;
     protected Quaternion cursorSavedRotation;
-
+	public float stickDuration = 1f;
 	private float stickTime = 0f;
 
     private void Start()
@@ -88,7 +88,7 @@ public class LineCastSelector : MonoBehaviour
         //cursorSavedRotation = cursor.rotation;
         isActive = !clickDown;
 		if (isActive) {
-			stickTime = 1f;
+			stickTime = stickDuration;
 		}
 		cursor.GetComponentInChildren<MeshRenderer>().enabled = isActive;
 	}
@@ -114,8 +114,8 @@ public class LineCastSelector : MonoBehaviour
 			//cursor.gameObject.SetActive(false);
             if (furthestSelectable != null && stickTime == 0)
             {
-                //selectableTargetEvent.Invoke(null);
-				stickTime = 1f;
+				//selectableTargetEvent.Invoke(null);
+				stickTime = stickDuration;
 			}
 
 			if (stickTime > 0) {
