@@ -1,22 +1,17 @@
 /************************************************************************************
+Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Licensed under the Oculus SDK License Version 3.4.1 (the "License");
-you may not use the Oculus SDK except in compliance with the License,
-which is provided at the time of installation or download, or which
-otherwise accompanies this software in either electronic or hard copy form.
+Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
+the Utilities SDK except in compliance with the License, which is provided at the time of installation
+or download, or which otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
+https://developer.oculus.com/licenses/utilities-1.31
 
-https://developer.oculus.com/licenses/sdk-3.4.1
-
-Unless required by applicable law or agreed to in writing, the Oculus SDK
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
+Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ANY KIND, either express or implied. See the License for the specific language governing
+permissions and limitations under the License.
 ************************************************************************************/
 
 using System;
@@ -151,9 +146,9 @@ public class OVRDisplay
 		UnityEngine.VR.InputTracking.Recenter();
 #endif
 
-		// The current poses are cached for the current frame and won't be updated immediately 
-		// after UnityEngine.VR.InputTracking.Recenter(). So we need to wait until next frame 
-		// to trigger the RecenteredPose delegate. The application could expect the correct pose 
+		// The current poses are cached for the current frame and won't be updated immediately
+		// after UnityEngine.VR.InputTracking.Recenter(). So we need to wait until next frame
+		// to trigger the RecenteredPose delegate. The application could expect the correct pose
 		// when the RecenteredPose delegate get called.
 		recenterRequested = true;
 		recenterRequestedFrameCount = Time.frameCount;
@@ -168,12 +163,14 @@ public class OVRDisplay
 	/// </summary>
 	public Vector3 acceleration
 	{
-		get {			
+		get {
 			if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-			return OVRNodeStateProperties.GetNodeStateProperty(Node.Head, NodeStatePropertyType.Acceleration, OVRPlugin.Node.Head, OVRPlugin.Step.Render);
-
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.Acceleration, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
 		}
 	}
 
@@ -187,7 +184,10 @@ public class OVRDisplay
             if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-			return OVRNodeStateProperties.GetNodeStateProperty(Node.Head, NodeStatePropertyType.AngularAcceleration, OVRPlugin.Node.Head, OVRPlugin.Step.Render);
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.AngularAcceleration, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
 
         }
     }
@@ -202,11 +202,13 @@ public class OVRDisplay
             if (!OVRManager.isHmdPresent)
                 return Vector3.zero;
 
-			return OVRNodeStateProperties.GetNodeStateProperty(Node.Head, NodeStatePropertyType.Velocity, OVRPlugin.Node.Head, OVRPlugin.Step.Render);
-
-        }
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.Velocity, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
+		}
     }
-	
+
 	/// <summary>
 	/// Gets the current angular velocity of the head in radians per second about each axis.
 	/// </summary>
@@ -216,8 +218,10 @@ public class OVRDisplay
 			if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-			return OVRNodeStateProperties.GetNodeStateProperty(Node.Head, NodeStatePropertyType.AngularVelocity, OVRPlugin.Node.Head, OVRPlugin.Step.Render);
-
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.AngularVelocity, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
 		}
 	}
 
@@ -253,7 +257,7 @@ public class OVRDisplay
             {
                 ret.render = float.Parse(match.Groups[1].Value);
                 ret.timeWarp = float.Parse(match.Groups[2].Value);
-                ret.postPresent = float.Parse(match.Groups[3].Value);     
+                ret.postPresent = float.Parse(match.Groups[3].Value);
             }
 
             return ret;
@@ -285,7 +289,7 @@ public class OVRDisplay
 
 			if (result == 1)
 				result = 0;
-			
+
 			return result;
 		}
 	}

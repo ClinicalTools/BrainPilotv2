@@ -1,23 +1,17 @@
 /************************************************************************************
+Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Licensed under the Oculus SDK License Version 3.4.1 (the "License");
-you may not use the Oculus SDK except in compliance with the License,
-which is provided at the time of installation or download, or which
-otherwise accompanies this software in either electronic or hard copy form.
+Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
+the Utilities SDK except in compliance with the License, which is provided at the time of installation
+or download, or which otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
+https://developer.oculus.com/licenses/utilities-1.31
 
-https://developer.oculus.com/licenses/sdk-3.4.1
-
-
-Unless required by applicable law or agreed to in writing, the Oculus SDK
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
+Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ANY KIND, either express or implied. See the License for the specific language governing
+permissions and limitations under the License.
 ************************************************************************************/
 
 using System;
@@ -33,20 +27,19 @@ namespace UnityEngine.EventSystems
         [Tooltip("Object which points with Z axis. E.g. CentreEyeAnchor from OVRCameraRig")]
         public Transform rayTransform;
 
+        public OVRCursor m_Cursor;
+
         [Tooltip("Gamepad button to act as gaze click")]
         public OVRInput.Button joyPadClickButton = OVRInput.Button.One;
 
         [Tooltip("Keyboard button to act as gaze click")]
-        public KeyCode gazeClickKey = KeyCode.Space; 
+        public KeyCode gazeClickKey = KeyCode.Space;
 
         [Header("Physics")]
         [Tooltip("Perform an sphere cast to determine correct depth for gaze pointer")]
         public bool performSphereCastForGazepointer;
 
-        [Tooltip("Match the gaze pointer normal to geometry normal for physics colliders")]
-        public bool matchNormalOnPhysicsColliders;
-
-        [Header("Gamepad Stick Scroll")]        
+        [Header("Gamepad Stick Scroll")]
         [Tooltip("Enable scrolling with the right stick on a gamepad")]
         public bool useRightStickScroll = true;
 
@@ -73,11 +66,12 @@ namespace UnityEngine.EventSystems
         [Tooltip("Minimum pointer movement in degrees to start dragging")]
         public float angleDragThreshold = 1;
 
-		[Header("Oculus Go Controller")]
-		[Tooltip("The tracking space of the player's camera")]
-		public Transform trackingSpace;
-        
+        [SerializeField]
+        private float m_SpherecastRadius = 1.0f;
 
+        [Header("Oculus Go")]
+        [Tooltip("GameObject representing the oculus go controller")]
+        public Transform trackingSpace;
 
 
 
@@ -86,7 +80,7 @@ namespace UnityEngine.EventSystems
         // because most of StandaloneInputModule is private so it isn't possible to easily derive from.
         // Future changes from Unity to StandaloneInputModule will make it possible for this class to
         // derive from StandaloneInputModule instead of PointerInput module.
-        // 
+        //
         // The following functions are not present in the following region since they have modified
         // versions in the next region:
         // Process
@@ -237,7 +231,7 @@ namespace UnityEngine.EventSystems
             ClearSelection();
         }
 
-        
+
 
         /// <summary>
         /// Process submit keys.
@@ -309,9 +303,9 @@ namespace UnityEngine.EventSystems
             return axisEventData.used;
         }
 
-        
 
-        
+
+
 
         private bool SendUpdateEventToSelectedObject()
         {
@@ -431,10 +425,10 @@ namespace UnityEngine.EventSystems
         }
 #endregion
         #region Modified StandaloneInputModule methods
-        
+
         /// <summary>
         /// Process all mouse events. This is the same as the StandaloneInputModule version except that
-        /// it takes MouseState as a parameter, allowing it to be used for both Gaze and Mouse 
+        /// it takes MouseState as a parameter, allowing it to be used for both Gaze and Mouse
         /// pointerss.
         /// </summary>
         private void ProcessMouseEvent(MouseState mouseData)
@@ -464,7 +458,7 @@ namespace UnityEngine.EventSystems
                 ExecuteEvents.ExecuteHierarchy(scrollHandler, leftButtonData.buttonData, ExecuteEvents.scrollHandler);
             }
         }
-        
+
         /// <summary>
         /// Process this InputModule. Same as the StandaloneInputModule version, except that it calls
         /// ProcessMouseEvent twice, once for gaze pointers, and once for mouse pointers.
@@ -500,7 +494,7 @@ namespace UnityEngine.EventSystems
         }
         #endregion
 
-        
+
         /// <summary>
         /// Convenience function for cloning PointerEventData
         /// </summary>
@@ -528,7 +522,7 @@ namespace UnityEngine.EventSystems
             @to.pointerCurrentRaycast = @from.pointerCurrentRaycast;
             @to.pointerEnter = @from.pointerEnter;
         }
-        
+
 
         // In the following region we extend the PointerEventData system implemented in PointerInputModule
         // We define an additional dictionary for ray(e.g. gaze) based pointers. Mouse pointers still use the dictionary
@@ -538,7 +532,7 @@ namespace UnityEngine.EventSystems
         // Pool for OVRRayPointerEventData for ray based pointers
         protected Dictionary<int, OVRPointerEventData> m_VRRayPointerData = new Dictionary<int, OVRPointerEventData>();
 
-        
+
         protected bool GetPointerData(int id, out OVRPointerEventData data, bool create)
         {
             if (!m_VRRayPointerData.TryGetValue(id, out data) && create)
@@ -589,13 +583,13 @@ namespace UnityEngine.EventSystems
             rectTransform.GetWorldCorners(corners);
             return Vector3.Cross(BottomEdge, LeftEdge).normalized;
         }
-       
+
         private readonly MouseState m_MouseState = new MouseState();
 
 
         // The following 2 functions are equivalent to PointerInputModule.GetMousePointerEventData but are customized to
         // get data for ray pointers and canvas mouse pointers.
-        
+
         /// <summary>
         /// State for a pointer controlled by a world space ray. E.g. gaze pointer
         /// </summary>
@@ -607,26 +601,30 @@ namespace UnityEngine.EventSystems
             GetPointerData(kMouseLeftId, out leftData, true );
             leftData.Reset();
 
-			//Now set the world space ray. This ray is what the user uses to point at UI elements
-			//leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
-			OVRInput.Controller controller = OVRInput.GetConnectedControllers() & (OVRInput.Controller.LTrackedRemote | OVRInput.Controller.RTrackedRemote);
-			if (trackingSpace != null && controller != OVRInput.Controller.None) {
-				controller = ((controller & OVRInput.Controller.LTrackedRemote) != OVRInput.Controller.None) ? OVRInput.Controller.LTrackedRemote : OVRInput.Controller.RTrackedRemote;
+            //Now set the world space ray. This ray is what the user uses to point at UI elements
+            //leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
+            OVRInput.Controller controller = OVRInput.GetConnectedControllers() & (OVRInput.Controller.LTrackedRemote | OVRInput.Controller.RTrackedRemote);
+            //If the controller is a tracked remote
+            if (trackingSpace != null && controller != OVRInput.Controller.None)
+            {
+                controller = ((controller & OVRInput.Controller.LTrackedRemote) != OVRInput.Controller.None) ? OVRInput.Controller.LTrackedRemote : OVRInput.Controller.RTrackedRemote;
 
-				Quaternion orientation = OVRInput.GetLocalControllerRotation(controller);
-				Vector3 localStartPoint = OVRInput.GetLocalControllerPosition(controller);
+                Quaternion orientation = OVRInput.GetLocalControllerRotation(controller);
+                Vector3 localStartPoint = OVRInput.GetLocalControllerPosition(controller);
 
-				Matrix4x4 localToWorld = trackingSpace.localToWorldMatrix;
-				Vector3 worldStartPoint = localToWorld.MultiplyPoint(localStartPoint);
-				Vector3 worldOrientation = localToWorld.MultiplyVector(orientation * Vector3.forward);
-				leftData.worldSpaceRay = new Ray(worldStartPoint, worldOrientation);
-			} else {
-				leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
-			}
+                Matrix4x4 localToWorld = trackingSpace.localToWorldMatrix;
+                Vector3 worldStartPoint = localToWorld.MultiplyPoint(localStartPoint);
+                Vector3 worldOrientation = localToWorld.MultiplyVector(orientation * Vector3.forward);
+                leftData.worldSpaceRay = new Ray(worldStartPoint, worldOrientation);
+            }
+            else
+            {
+                leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
+            }
 
-
-
-			leftData.scrollDelta = GetExtraScrollDelta();
+            //Now set the world space ray. This ray is what the user uses to point at UI elements
+            //leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
+            leftData.scrollDelta = GetExtraScrollDelta();
 
             //Populate some default values
             leftData.button = PointerEventData.InputButton.Left;
@@ -637,15 +635,16 @@ namespace UnityEngine.EventSystems
             leftData.pointerCurrentRaycast = raycast;
             m_RaycastResultCache.Clear();
 
+            m_Cursor.SetCursorRay(rayTransform);
+
             OVRRaycaster ovrRaycaster = raycast.module as OVRRaycaster;
             // We're only interested in intersections from OVRRaycasters
-            if (ovrRaycaster) 
+            if (ovrRaycaster)
             {
                 // The Unity UI system expects event data to have a screen position
                 // so even though this raycast came from a world space ray we must get a screen
                 // space position for the camera attached to this raycaster for compatability
                 leftData.position = ovrRaycaster.GetScreenPosition(raycast);
-                
 
                 // Find the world position and normal the Graphic the ray intersected
                 RectTransform graphicRect = raycast.gameObject.GetComponent<RectTransform>();
@@ -654,9 +653,7 @@ namespace UnityEngine.EventSystems
                     // Set are gaze indicator with this world position and normal
                     Vector3 worldPos = raycast.worldPosition;
                     Vector3 normal = GetRectTransformNormal(graphicRect);
-                    OVRGazePointer.instance.SetPosition(worldPos, normal);
-                    // Make sure it's being shown
-                    OVRGazePointer.instance.RequestShow();
+                    m_Cursor.SetCursorStartDest(rayTransform.position, worldPos, normal);
                 }
             }
 
@@ -671,7 +668,7 @@ namespace UnityEngine.EventSystems
                     // Here we cast a sphere into the scene rather than a ray. This gives a more accurate depth
                     // for positioning a circular gaze pointer
                     List<RaycastResult> results = new List<RaycastResult>();
-                    physicsRaycaster.Spherecast(leftData, results, OVRGazePointer.instance.GetCurrentRadius());
+                    physicsRaycaster.Spherecast(leftData, results, m_SpherecastRadius);
                     if (results.Count > 0 && results[0].distance < raycast.distance)
                     {
                         position = results[0].worldPosition;
@@ -679,21 +676,9 @@ namespace UnityEngine.EventSystems
                 }
 
                 leftData.position = physicsRaycaster.GetScreenPos(raycast.worldPosition);
-                
-                // Show the cursor while pointing at an interactable object
-                OVRGazePointer.instance.RequestShow();
-                if (matchNormalOnPhysicsColliders)
-                {
-                    OVRGazePointer.instance.SetPosition(position, raycast.worldNormal);
-                }
-                else
-                {
-                    OVRGazePointer.instance.SetPosition(position);
-                }
+
+                m_Cursor.SetCursorStartDest(rayTransform.position, position, raycast.worldNormal);
             }
-
-
-
 
             // Stick default data values in right and middle slots for compatability
 
@@ -725,7 +710,7 @@ namespace UnityEngine.EventSystems
             PointerEventData leftData;
             GetPointerData(kMouseLeftId, out leftData, true );
             leftData.Reset();
-            
+
             // Setup default values here. Set position to zero because we don't actually know the pointer
             // positions. Each canvas knows the position of its canvas pointer.
             leftData.position = Vector2.zero;
@@ -739,7 +724,7 @@ namespace UnityEngine.EventSystems
                 var raycast = FindFirstRaycast(m_RaycastResultCache);
                 leftData.pointerCurrentRaycast = raycast;
                 m_RaycastResultCache.Clear();
-                
+
                 OVRRaycaster ovrRaycaster = raycast.module as OVRRaycaster;
                 if (ovrRaycaster) // raycast may not actually contain a result
                 {
@@ -747,7 +732,7 @@ namespace UnityEngine.EventSystems
                     // so even though this raycast came from a world space ray we must get a screen
                     // space position for the camera attached to this raycaster for compatability
                     Vector2 position = ovrRaycaster.GetScreenPosition(raycast);
-                    
+
                     leftData.delta = position - leftData.position;
                     leftData.position = position;
                 }
@@ -773,7 +758,7 @@ namespace UnityEngine.EventSystems
         /// <summary>
         /// New version of ShouldStartDrag implemented first in PointerInputModule. This version differs in that
         /// for ray based pointers it makes a decision about whether a drag should start based on the angular change
-        /// the pointer has made so far, as seen from the camera. This also works when the world space ray is 
+        /// the pointer has made so far, as seen from the camera. This also works when the world space ray is
         /// translated rather than rotated, since the beginning and end of the movement are considered as angle from
         /// the same point.
         /// </summary>
@@ -806,10 +791,10 @@ namespace UnityEngine.EventSystems
 
         /// <summary>
         /// The purpose of this function is to allow us to switch between using the standard IsPointerMoving
-        /// method for mouse driven pointers, but to always return true when it's a ray based pointer. 
+        /// method for mouse driven pointers, but to always return true when it's a ray based pointer.
         /// All real-world ray-based input devices are always moving so for simplicity we just return true
-        /// for them. 
-        /// 
+        /// for them.
+        ///
         /// If PointerEventData.IsPointerMoving was virtual we could just override that in
         /// OVRRayPointerEventData.
         /// </summary>
@@ -845,7 +830,7 @@ namespace UnityEngine.EventSystems
         /// <summary>
         /// Exactly the same as the code from PointerInputModule, except that we call our own
         /// IsPointerMoving.
-        /// 
+        ///
         /// This would also not be necessary if PointerEventData.IsPointerMoving was virtual
         /// </summary>
         /// <param name="pointerEvent"></param>
@@ -887,19 +872,18 @@ namespace UnityEngine.EventSystems
                 ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.dragHandler);
             }
         }
-       
+
         /// <summary>
         /// Get state of button corresponding to gaze pointer
         /// </summary>
         /// <returns></returns>
         virtual protected PointerEventData.FramePressState GetGazeButtonState()
         {
-			var pressed = Input.GetKeyDown(gazeClickKey) || OVRInput.GetDown(joyPadClickButton, OVRInput.Controller.RTouch);
+            var pressed = Input.GetKeyDown(gazeClickKey) || OVRInput.GetDown(joyPadClickButton);
             var released = Input.GetKeyUp(gazeClickKey) || OVRInput.GetUp(joyPadClickButton);
-			
-			//Debug.Log(OVRInput.GetUp(joyPadClickButton) + "\n" + OVRInput.GetDown(joyPadClickButton));
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-            // On Gear VR the mouse button events correspond to touch pad events. We only use these as gaze pointer clicks 
+            // On Gear VR the mouse button events correspond to touch pad events. We only use these as gaze pointer clicks
             // on Gear VR because on PC the mouse clicks are used for actual mouse pointer interactions.
             pressed |= Input.GetMouseButtonDown(0);
             released |= Input.GetMouseButtonUp(0);
@@ -913,7 +897,7 @@ namespace UnityEngine.EventSystems
                 return PointerEventData.FramePressState.Released;
             return PointerEventData.FramePressState.NotChanged;
         }
-        
+
         /// <summary>
         /// Get extra scroll delta from gamepad
         /// </summary>
@@ -925,7 +909,7 @@ namespace UnityEngine.EventSystems
                 Vector2 s = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
                 if (Mathf.Abs(s.x) < rightStickDeadZone) s.x = 0;
                 if (Mathf.Abs(s.y) < rightStickDeadZone) s.y = 0;
-                scrollDelta = s;   
+                scrollDelta = s;
             }
             return scrollDelta;
         }
