@@ -245,11 +245,11 @@ public class AnchorUXController : MonoBehaviour {
 		float changeRotation = val * rotationSpeed;
 		Debug.Log("changeRotation starts at: " + changeRotation);
 		
-		Quaternion facing = platform.rotation;
+		//Quaternion facing = platform.rotation;
 		//Vector3 vFacing = facing.eulerAngles;
 		Vector3 vFacing = platform.forward;
 				
-		Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
+		Vector3 direction = (cursor.position - platform.position);
         direction.y = 0;
 		//Debug.Log("Y angle for Controller: " + direction.y);
 		
