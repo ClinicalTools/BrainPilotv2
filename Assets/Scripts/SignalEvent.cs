@@ -59,7 +59,7 @@ public class SignalEvent : MonoBehaviour
 	//other represents the particle system that sent the colliding particle
 	void OnParticleCollision (GameObject other)
 	{
-		//Debug.Log(gameObject.name + ": " + gameObject.layer + "\nSender: " + other.name, gameObject);
+		//Ensure the collision should happen
 		if (gameObject.layer != 10) {
 			return;
 		}
@@ -72,18 +72,6 @@ public class SignalEvent : MonoBehaviour
 		stopper = other.GetComponent<ParticleSystem>();
 		var mainstopper = stopper.main;
 		highlightColor = mainstopper.startColor.color;
-
-		
-		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[10];
-		int particlesAlive = stopper.GetParticles(particles);
-		if (particles != null) {
-			for (int i = 0; i < particlesAlive; i++) {
-				//particles[i].velocity = Vector3.zero;
-				particles[i].startLifetime = 1;
-				particles[i].remainingLifetime = .8f;
-			}
-			stopper.SetParticles(particles, particlesAlive);
-		}
 
 		//stopper.Stop();
 

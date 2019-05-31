@@ -38,6 +38,34 @@ public class SignalManager : MonoBehaviour {
 		active = true;
 	}
 
+	float timer;
+	ParticleSystem activeSystem;
+	private void Update()
+	{
+		if (active) {
+			if (timer < 0 && activeSystem != null) {
+				SendNextSignal(activeSystem);
+			} else {
+				timer -= Time.deltaTime;
+			}
+		}
+	}
+
+	public void ReduceParticleLifetime(ParticleSystem system)
+	{
+		//Reduce the lifetime of the particles which hit
+		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[10];
+		int particlesAlive = system.GetParticles(particles);
+		if (particles != null) {
+			for (int i = 0; i < particlesAlive; i++) {
+				//particles[i].velocity = Vector3.zero;
+				particles[i].startLifetime = 1;
+				particles[i].remainingLifetime = .8f;
+			}
+			system.SetParticles(particles, particlesAlive);
+		}
+	}
+
 	void OnEnable()
 	{
 		//RelayManager.Relay += NextSignal;
@@ -104,23 +132,34 @@ public class SignalManager : MonoBehaviour {
 			}*/
 		}
 	}
+
 	
 	public void SendNextSignal(ParticleSystem startingPoint)
 	{
+		//Reduce the remaining lifetime of the active particles
+		ReduceParticleLifetime(startingPoint);
+
+		//Find the next point
 		ParticleSystem nextPoint = FindNextSignal(startingPoint);
 		if (nextPoint == null) {
 			Debug.Log("NextPoint is null");
+			activeSystem = null;
 			return;
 		}
+
+		//Play the attached particlesystem
 		ps = nextPoint.GetComponent<ParticleSystem>();
-		
 		ps.Play();
-		//Debug.Log("Playing " + ps.name, ps.gameObject);
-		//Debug.Break();
+		
+		//Adjust the particle seek
 		if (ps.GetComponent<ParticleSeekOptimized>()) {
 			ps.GetComponent<ParticleSeekOptimized>().target.gameObject.layer = PARTICLE_COLLISION;
 			ps.trigger.SetCollider(0, ps.GetComponent<ParticleSeekOptimized>().target.GetComponent<Collider>());
 		}
+
+		//Set up the checks to make sure the particles hit
+		timer = ps.main.startLifetimeMultiplier;
+		activeSystem = ps;
 	}
 
 	/// <summary>
