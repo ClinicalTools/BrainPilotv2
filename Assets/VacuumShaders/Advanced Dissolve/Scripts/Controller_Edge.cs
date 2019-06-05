@@ -18,7 +18,7 @@ namespace AdvancedDissolve_Example
 
 
         [Range(0f, 1f), Space(10)]
-        public float width = 0.25f;         
+        public float width = 0.25f;
         public SHAPE shape;
         public Color color = Color.green;
         public float intensity;
@@ -26,7 +26,7 @@ namespace AdvancedDissolve_Example
 
         [Space(10)]
         public Texture texture;
-        public bool reverse;
+        public bool reverse;        
         [Range(-1f, 1f)]
         public float alphaOffset;
         public float phaseOffset;

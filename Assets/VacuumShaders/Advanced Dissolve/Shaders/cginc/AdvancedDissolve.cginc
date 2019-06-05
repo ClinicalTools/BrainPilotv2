@@ -1,65 +1,43 @@
-
-//SHADER_API_D3D11_9X limitations
-#if defined(SHADER_API_D3D11_9X) && (SHADER_TARGET < 25)
-	
-	#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-	#undef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-	#endif
-
-	#ifdef _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
-	#undef _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
-	#endif
-
-	#ifdef _DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS
-	#undef _DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS
-	#define _DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS
-	#endif
-
-	#if defined(_DISSOLVEMASK_BOX)
-		
-		#ifdef _DISSOLVEMASKCOUNT_FOUR
-		#undef _DISSOLVEMASKCOUNT_FOUR
-		#define _DISSOLVEMASKCOUNT_THREE
-		#endif	
-
-	#endif
-
-#endif
+#include "Variables.cginc"
 
 
 #define TIME _Time.x
 
+#ifdef DISSOLVE_LEGACY_MAINTEX
+	#define READ_MAINTEX(uv)               tex2D(_MainTex, (uv).xy)
+	#define READ_MAINTEX_LOD(uv,m)         tex2Dlod(_MainTex, float4((uv).xy, 0, m))
+#else
+	#ifdef DISSOLVE_SHADER_GRAPH
+		#define READ_MAINTEX(uv)			   SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (uv).xy)
+		#define READ_MAINTEX_LOD(uv,m)		   SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, (uv).xy, m)
+	#else
+		#define READ_MAINTEX(uv)			   SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, (uv).xy)
+		#define READ_MAINTEX_LOD(uv,m)		   SAMPLE_TEXTURE2D_LOD(_BaseMap, sampler_BaseMap, (uv).xy, m)
+	#endif
+#endif
 
-#include "Variables.cginc"
+
+#ifdef DISSOLVE_LEGACY_TEXTURE_SAMPLE
+	#define READ_TEXTURE_2D(t,s,uv,i)        saturate(tex2D(t, (uv).xy) + (1 - i).xxxx)
+	#define READ_TEXTURE_2D_LOD(t,s,uv,m)    tex2Dlod(t, float4((uv).xy, 0, m))
+#else
+	#define READ_TEXTURE_2D(t,s,uv,i)        saturate(SAMPLE_TEXTURE2D(t, s, (uv).xy) + (1 - i).xxxx)
+	#define READ_TEXTURE_2D_LOD(t,s,uv,m)    SAMPLE_TEXTURE2D_LOD(t, s, (uv).xy, m)
+#endif
 
 
-
-inline void DissolveVertex2Fragment(float4 oPos, float2 vertexUV0, float2 vertexUV1, inout float4 dissolveMapUV)
+inline void DissolveVertex2Fragment(float4 positionCS, float2 vertexUV0, float2 vertexUV1, inout float4 dissolveMapUV)
 {
 	dissolveMapUV = 0;
 
 	#if defined(_DISSOLVEMAPPINGTYPE_SCREEN_SPACE)
-		dissolveMapUV = ComputeScreenPos(oPos);
+		dissolveMapUV = ComputeScreenPos(positionCS);
 	#else
 
 		#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 			float2 texUV = VALUE_UVSET == 0 ? vertexUV0 : vertexUV1;
 
-			#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP)
-
-				dissolveMapUV.xy = texUV.xy * VALUE_MAP1_ST.xy + VALUE_MAP1_ST.zw + VALUE_MAP1_SCROLL.xy * TIME;
-
-			#elif defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS)
-
-				dissolveMapUV.xy = texUV.xy * VALUE_MAP1_ST.xy + VALUE_MAP1_ST.zw + VALUE_MAP1_SCROLL.xy * TIME;
-				dissolveMapUV.zw = texUV.xy * VALUE_MAP2_ST.xy + VALUE_MAP2_ST.zw + VALUE_MAP2_SCROLL.xy * TIME;
-
-			#else
-				
-				dissolveMapUV.xy = texUV;
-				dissolveMapUV.zw = texUV;
-
-			#endif
+			dissolveMapUV = float4(texUV.xy, 0, 0);
 		#endif
 	#endif
 }
@@ -84,7 +62,7 @@ inline float ReadMaskValue(float3 vertexPos, float noise)
 	#if defined(_DISSOLVEMASK_XYZ_AXIS)
 
 		if(VALUE_MASK_SPACE > 0.5)
-			vertexPos = mul(unity_WorldToObject, float4(vertexPos, 1));
+			vertexPos = mul(unity_WorldToObject, float4(vertexPos, 1)).xyz;
 	
 
 		cutout = (vertexPos - VALUE_MASK_OFFSET)[(int)VALUE_CUTOFF_AXIS] * VALUE_AXIS_INVERT;
@@ -835,7 +813,12 @@ inline float4 ReadDissolveAlpha(float2 mainTexUV, float4 dissolveMapUV, float3 v
 	#ifdef _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
 		float2 screenUV = dissolveMapUV.xy / dissolveMapUV.w;
 		screenUV.y *= _ScreenParams.y / _ScreenParams.x;
-		screenUV *= distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz) * 0.1;
+		
+		#ifdef DISSOLVE_LEGACY_RENDER_PIPELIN
+			screenUV *= distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz) * 0.1;			
+		#else
+			screenUV *= distance(GetCameraPositionWS(), TransformObjectToWorld(float3(0, 0, 0)).xyz) * 0.1;
+		#endif
 	#endif
 
 
@@ -844,9 +827,11 @@ inline float4 ReadDissolveAlpha(float2 mainTexUV, float4 dissolveMapUV, float3 v
 		#ifdef _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
 			screenUV = screenUV * VALUE_MAP1_ST.xy + VALUE_MAP1_ST.zw + VALUE_MAP1_SCROLL.xy * TIME;
 
-			alphaSource = saturate(tex2D(VALUE_MAP1, screenUV) + (1 - VALUE_MAP1_INTENSITY).xxxx);
+			alphaSource = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, screenUV, VALUE_MAP1_INTENSITY);
 		#else
-			alphaSource = saturate(tex2D(VALUE_MAP1, dissolveMapUV.xy) + (1 - VALUE_MAP1_INTENSITY).xxxx);
+			float2 uv1 = dissolveMapUV.xy * VALUE_MAP1_ST.xy + VALUE_MAP1_ST.zw + VALUE_MAP1_SCROLL.xy * TIME;
+
+			alphaSource = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, uv1, VALUE_MAP1_INTENSITY);			
 		#endif
 
 		alphaSource.a = alphaSource[VALUE_MAP1_CHANNEL];
@@ -857,11 +842,14 @@ inline float4 ReadDissolveAlpha(float2 mainTexUV, float4 dissolveMapUV, float3 v
 			float2 uv1 = screenUV * VALUE_MAP1_ST.xy + VALUE_MAP1_ST.zw + VALUE_MAP1_SCROLL.xy * TIME;
 			float2 uv2 = screenUV * VALUE_MAP2_ST.xy + VALUE_MAP2_ST.zw + VALUE_MAP2_SCROLL.xy * TIME;
 
-			float4 t1 = saturate(tex2D(VALUE_MAP1, uv1) + (1 - VALUE_MAP1_INTENSITY).xxxx);
-			float4 t2 = saturate(tex2D(VALUE_MAP2, uv2) + (1 - VALUE_MAP2_INTENSITY).xxxx);
+			float4 t1 = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, uv1, VALUE_MAP1_INTENSITY);
+			float4 t2 = READ_TEXTURE_2D(VALUE_MAP2, VALUE_MAP2_SAMPLER, uv2, VALUE_MAP2_INTENSITY);
 		#else
-			float4 t1 = saturate(tex2D(VALUE_MAP1, dissolveMapUV.xy) + (1 - VALUE_MAP1_INTENSITY).xxxx);
-			float4 t2 = saturate(tex2D(VALUE_MAP2, dissolveMapUV.zw) + (1 - VALUE_MAP2_INTENSITY).xxxx);
+			float2 uv1 = dissolveMapUV.xy * VALUE_MAP1_ST.xy + VALUE_MAP1_ST.zw + VALUE_MAP1_SCROLL.xy * TIME;
+			float2 uv2 = dissolveMapUV.xy * VALUE_MAP2_ST.xy + VALUE_MAP2_ST.zw + VALUE_MAP2_SCROLL.xy * TIME;
+
+			float4 t1 = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, uv1, VALUE_MAP1_INTENSITY);
+			float4 t2 = READ_TEXTURE_2D(VALUE_MAP2, VALUE_MAP2_SAMPLER, uv2, VALUE_MAP2_INTENSITY);
 		#endif
 
 		t1.a = t1[VALUE_MAP1_CHANNEL];
@@ -881,22 +869,22 @@ inline float4 ReadDissolveAlpha(float2 mainTexUV, float4 dissolveMapUV, float3 v
 			float2 uv3 = dissolveMapUV.xy * VALUE_MAP3_ST.xy + VALUE_MAP3_ST.zw + VALUE_MAP3_SCROLL.xy * TIME;
 		#endif
 
-		float4 t1 = saturate(tex2D(VALUE_MAP1, uv1) + (1 - VALUE_MAP1_INTENSITY).xxxx);
-		float4 t2 = saturate(tex2D(VALUE_MAP2, uv2) + (1 - VALUE_MAP2_INTENSITY).xxxx);
-		float4 t3 = saturate(tex2D(VALUE_MAP3, uv3) + (1 - VALUE_MAP3_INTENSITY).xxxx);
-		
+		float4 t1 = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, uv1, VALUE_MAP1_INTENSITY);
+		float4 t2 = READ_TEXTURE_2D(VALUE_MAP2, VALUE_MAP2_SAMPLER, uv2, VALUE_MAP2_INTENSITY);
+		float4 t3 = READ_TEXTURE_2D(VALUE_MAP3, VALUE_MAP3_SAMPLER, uv3, VALUE_MAP3_INTENSITY);
+
 		t1.a = t1[VALUE_MAP1_CHANNEL];
 		t2.a = t2[VALUE_MAP2_CHANNEL];
 		t3.a = t3[VALUE_MAP3_CHANNEL];
-
+		
 		alphaSource = lerp((t1 * t2 * t3), (t1 + t2 + t3) / 3.0, VALUE_ALPHATEXTUREBLEND);
 
 	#else
 
 		#ifdef _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
-			alphaSource = tex2D(_MainTex, screenUV * VALUE_MAIN_MAP_TILING);
+			alphaSource = READ_MAINTEX(screenUV * VALUE_MAIN_MAP_TILING);
 		#else
-			alphaSource = tex2D(_MainTex, mainTexUV * VALUE_MAIN_MAP_TILING);
+			alphaSource = READ_MAINTEX(mainTexUV * VALUE_MAIN_MAP_TILING);
 		#endif
 
 	#endif
@@ -918,55 +906,103 @@ inline float4 ReadDissolveAlpha(float2 mainTexUV, float4 dissolveMapUV, float3 v
 
 
 #ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-	inline float4 ReadTriplanarTexture(sampler2D _texture, float3 coords, float3 blend, float intensity)
+	#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
+		inline float4 ReadTriplanarTextureMap1(float3 coords, float3 blend)
+		{
+			coords = coords * VALUE_MAP1_ST.x * 0.1 + VALUE_MAP1_SCROLL.xyz * TIME;
+
+			float4 cx = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, coords.yz, VALUE_MAP1_INTENSITY);
+			float4 cy = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, coords.xz, VALUE_MAP1_INTENSITY);
+			float4 cz = READ_TEXTURE_2D(VALUE_MAP1, VALUE_MAP1_SAMPLER, coords.xy, VALUE_MAP1_INTENSITY);
+
+			cx.a = cx[VALUE_MAP1_CHANNEL];
+			cy.a = cy[VALUE_MAP1_CHANNEL];
+			cz.a = cz[VALUE_MAP1_CHANNEL];
+
+			return (cx * blend.x + cy * blend.y + cz * blend.z);
+		}
+	#endif
+
+	#if defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
+		inline float4 ReadTriplanarTextureMap2(float3 coords, float3 blend)
+		{
+			coords = coords * VALUE_MAP2_ST.x * 0.1 + VALUE_MAP2_SCROLL.xyz * TIME;
+
+			float4 cx = READ_TEXTURE_2D(VALUE_MAP2, VALUE_MAP2_SAMPLER, coords.yz, VALUE_MAP2_INTENSITY);
+			float4 cy = READ_TEXTURE_2D(VALUE_MAP2, VALUE_MAP2_SAMPLER, coords.xz, VALUE_MAP2_INTENSITY);
+			float4 cz = READ_TEXTURE_2D(VALUE_MAP2, VALUE_MAP2_SAMPLER, coords.xy, VALUE_MAP2_INTENSITY);
+
+			cx.a = cx[VALUE_MAP2_CHANNEL];
+			cy.a = cy[VALUE_MAP2_CHANNEL];
+			cz.a = cz[VALUE_MAP2_CHANNEL];
+
+			return (cx * blend.x + cy * blend.y + cz * blend.z);
+		}
+	#endif
+
+	#ifdef _DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS
+		inline float4 ReadTriplanarTextureMap3(float3 coords, float3 blend)
+		{
+			coords = coords * VALUE_MAP3_ST.x * 0.1 + VALUE_MAP3_SCROLL.xyz * TIME;
+
+			float4 cx = READ_TEXTURE_2D(VALUE_MAP3, VALUE_MAP3_SAMPLER, coords.yz, VALUE_MAP3_INTENSITY);
+			float4 cy = READ_TEXTURE_2D(VALUE_MAP3, VALUE_MAP3_SAMPLER, coords.xz, VALUE_MAP3_INTENSITY);
+			float4 cz = READ_TEXTURE_2D(VALUE_MAP3, VALUE_MAP3_SAMPLER, coords.xy, VALUE_MAP3_INTENSITY);
+
+			cx.a = cx[VALUE_MAP3_CHANNEL];
+			cy.a = cy[VALUE_MAP3_CHANNEL];
+			cz.a = cz[VALUE_MAP3_CHANNEL];
+
+			return (cx * blend.x + cy * blend.y + cz * blend.z);
+		}
+	#endif
+
+	inline float4 ReadTriplanarTextureMainMap(float3 coords, float3 blend)
 	{
-		fixed4 cx = saturate(tex2D(_texture, coords.yz) + intensity.xxxx);
-		fixed4 cy = saturate(tex2D(_texture, coords.xz) + intensity.xxxx);
-		fixed4 cz = saturate(tex2D(_texture, coords.xy) + intensity.xxxx);
+		float4 cx = READ_MAINTEX(coords.yz);
+		float4 cy = READ_MAINTEX(coords.xz);
+		float4 cz = READ_MAINTEX(coords.xy);
 
 		return (cx * blend.x + cy * blend.y + cz * blend.z);
 	}
 
-	inline float4 ReadDissolveAlpha_Triplanar(float3 coords, float3 normal, float3 vertexPos)
+	inline float4 ReadDissolveAlpha_Triplanar(float3 positionWS, float3 normalWS)
 	{	
-		coords = lerp(vertexPos, coords, VALUE_TRIPLANARMAPPINGSPACE);
+		float3 positionOS = mul(unity_WorldToObject, float4(positionWS, 1)).xyz;
+		float3 normalOS   = mul(unity_WorldToObject, float4(normalWS, 0)).xyz;
 
-
-		half3 blend = abs(normal);
+		float3 vertexPos  = lerp(positionWS, positionOS, VALUE_TRIPLANARMAPPINGSPACE);
+		float3 vertexNorm = lerp(normalWS, normalOS, VALUE_TRIPLANARMAPPINGSPACE);
+		
+		float3 blend = abs(vertexNorm);
 		blend /= dot(blend, 1.0);
+		
 
 		float4 alphaSource = 1;
 		#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP)
 
-			alphaSource = ReadTriplanarTexture(VALUE_MAP1, coords * VALUE_MAP1_ST.x * 0.1 + VALUE_MAP1_SCROLL.xyz * TIME, blend, 1 - VALUE_MAP1_INTENSITY);
-
-			alphaSource.a = alphaSource[VALUE_MAP1_CHANNEL];
+			alphaSource = ReadTriplanarTextureMap1(vertexPos, blend);
 
 		#elif defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS)
 
-			float4 t1 = ReadTriplanarTexture(VALUE_MAP1, coords * VALUE_MAP1_ST.x * 0.1 + VALUE_MAP1_SCROLL.xyz * TIME, blend, 1 - VALUE_MAP1_INTENSITY);
-			float4 t2 = ReadTriplanarTexture(VALUE_MAP2, coords * VALUE_MAP2_ST.x * 0.1 + VALUE_MAP2_SCROLL.xyz * TIME, blend, 1 - VALUE_MAP2_INTENSITY);
+			float4 t1 = ReadTriplanarTextureMap1(vertexPos, blend);
+			float4 t2 = ReadTriplanarTextureMap2(vertexPos, blend);
 
-			t1.a = t1[VALUE_MAP1_CHANNEL];
-			t2.a = t2[VALUE_MAP2_CHANNEL];
 
 			alphaSource = lerp((t1 * t2), (t1 + t2) * 0.5, VALUE_ALPHATEXTUREBLEND);
 
 		#elif defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 
-			float4 t1 = ReadTriplanarTexture(VALUE_MAP1, coords * VALUE_MAP1_ST.x * 0.1 + VALUE_MAP1_SCROLL.xyz * TIME, blend, 1 - VALUE_MAP1_INTENSITY);
-			float4 t2 = ReadTriplanarTexture(VALUE_MAP2, coords * VALUE_MAP2_ST.x * 0.1 + VALUE_MAP2_SCROLL.xyz * TIME, blend, 1 - VALUE_MAP2_INTENSITY);
-			float4 t3 = ReadTriplanarTexture(VALUE_MAP3, coords * VALUE_MAP3_ST.x * 0.1 + VALUE_MAP3_SCROLL.xyz * TIME, blend, 1 - VALUE_MAP3_INTENSITY);
+			float4 t1 = ReadTriplanarTextureMap1(vertexPos, blend);
+			float4 t2 = ReadTriplanarTextureMap2(vertexPos, blend);
+			float4 t3 = ReadTriplanarTextureMap3(vertexPos, blend);
 
-			t1.a = t1[VALUE_MAP1_CHANNEL];
-			t2.a = t2[VALUE_MAP2_CHANNEL];
-			t3.a = t3[VALUE_MAP3_CHANNEL];
 
 			alphaSource = lerp((t1 * t2 * t3), (t1 + t2 + t3) / 3.0, VALUE_ALPHATEXTUREBLEND);
 
 		#else		
 
-			alphaSource = ReadTriplanarTexture(_MainTex, coords * VALUE_MAIN_MAP_TILING * 0.1, blend, 0).a;
+			alphaSource = ReadTriplanarTextureMainMap(vertexPos * VALUE_MAIN_MAP_TILING * 0.1, blend).a;
 
 		#endif
 
@@ -995,7 +1031,7 @@ inline void DoDissolveClip(float4 alpha)
 }
 
 
-float DoDissolveAlbedoEmission(float4 alpha, inout float3 albedo, inout float3 emission, inout float2 uv)
+float DoDissolveAlbedoEmission(float4 alpha, inout float3 albedo, inout float3 emission, inout float2 uv, float3 masterNodeColor)
 {	
 	float retValue = 0;
 
@@ -1009,7 +1045,7 @@ float DoDissolveAlbedoEmission(float4 alpha, inout float3 albedo, inout float3 e
 
 
 	#if defined(_DISSOLVEMASK_XYZ_AXIS) || defined(_DISSOLVEMASK_PLANE) || defined(_DISSOLVEMASK_SPHERE) || defined(_DISSOLVEMASK_BOX)  || defined(_DISSOLVEMASK_CYLINDER) || defined(_DISSOLVEMASK_CONE)
-		
+		//Do nothing
 	#else
 	
 		dissolveEdgeSize *= VALUE_CUTOFF < 0.1 ? (VALUE_CUTOFF * 10) : 1;
@@ -1026,19 +1062,19 @@ float DoDissolveAlbedoEmission(float4 alpha, inout float3 albedo, inout float3 e
 
 
 		float invertGradient = 1 - edgeGradient;
-		uv += (lerp(alpha.rg, tex2D(_MainTex, uv).rg, VALUE_EDGE_DISTORTION_SOURCE) - 0.5) * VALUE_EDGE_DISTORTION * invertGradient * invertGradient;
-	
+		uv += (lerp(alpha.rg, READ_MAINTEX(uv).rg, VALUE_EDGE_DISTORTION_SOURCE) - 0.5) * VALUE_EDGE_DISTORTION * invertGradient * invertGradient;
+
 		float4 edgeColor = VALUE_EDGE_COLOR;
 
 
 		
 		float4 edgeTexture = 1;
 		#if defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP)
-			#if (SHADER_TARGET < 30)
-				edgeTexture = tex2D(_MainTex, uv);
-			#else
-				edgeTexture = tex2Dlod(_MainTex, float4(uv, 0, VALUE_EDGE_TEXTURE_MIPMAP));
-			#endif				
+			//#if (SHADER_TARGET < 30)
+			//	edgeTexture = READ_MAINTEX(uv);
+			//#else
+				edgeTexture = READ_MAINTEX_LOD(uv, VALUE_EDGE_TEXTURE_MIPMAP);
+			//#endif				
 
 			edgeTexture.a = saturate(edgeTexture.a + VALUE_EDGETEXTUREALPHAOFFSET);
 
@@ -1046,21 +1082,25 @@ float DoDissolveAlbedoEmission(float4 alpha, inout float3 albedo, inout float3 e
 
 			float u = lerp(edgeGradient, 1 - edgeGradient, VALUE_EDGE_TEXTURE_REVERSE) + VALUE_EDGE_TEXTURE_OFFSET;
 
-			edgeTexture = tex2D(VALUE_EDGE_TEXTURE, float2(lerp(u, VALUE_CUTOFF, VALUE_EDGE_TEXTURE_IS_DYNAMIC), 0.5));
+			edgeTexture = READ_TEXTURE_2D(VALUE_EDGE_TEXTURE, VALUE_EDGE_TEXTURE_SAMPLER, float2(lerp(u, VALUE_CUTOFF, VALUE_EDGE_TEXTURE_IS_DYNAMIC), 0.5), 1);
 
 			edgeTexture.a = saturate(edgeTexture.a + VALUE_EDGETEXTUREALPHAOFFSET);
 
 		#elif defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
-			#if (SHADER_TARGET < 30)
-				edgeTexture = tex2D(VALUE_EDGE_TEXTURE, uv);
-			#else
-				edgeTexture = tex2Dlod(VALUE_EDGE_TEXTURE, float4(uv, 0, VALUE_EDGE_TEXTURE_MIPMAP));
-			#endif
+			//#if (SHADER_TARGET < 30)
+			//	edgeTexture = READ_TEXTURE_2D(VALUE_EDGE_TEXTURE, VALUE_EDGE_TEXTURE_SAMPLER, uv, 1);
+			//#else
+				edgeTexture = READ_TEXTURE_2D_LOD(VALUE_EDGE_TEXTURE, VALUE_EDGE_TEXTURE_SAMPLER, uv, VALUE_EDGE_TEXTURE_MIPMAP);
+			//#endif
 
 			edgeTexture.a = saturate(edgeTexture.a + VALUE_EDGETEXTUREALPHAOFFSET);
 		#endif
 
 		edgeColor *= edgeTexture;
+
+		#ifdef DISSOLVE_SHADER_GRAPH
+			edgeColor.rgb *= lerp(1, masterNodeColor.rgb, VALUE_COMBINE_WITH_MASTER_NODE_COLOR);
+		#endif
 
 		//Box mask always has solid edge
 		#if !defined(_DISSOLVEMASK_BOX)
@@ -1098,14 +1138,14 @@ float DoDissolveAlbedoEmission(float4 alpha, inout float3 albedo, inout float3 e
 
 	#ifdef UNITY_PASS_META
 		if (alpha.a <= 0)
-			emission = const_zero;
+			emission = const_zero; 
 	#endif
 
 
 	return retValue;
 }
 
-
+#ifdef DISSOLVE_LEGACY_RENDER_PIPELIN
 half4 DoOutputForward(half4 output, half alphaFromSurface)
 {
 	#if defined(_ALPHABLEND_ON) || defined(_ALPHAPREMULTIPLY_ON)
@@ -1116,3 +1156,53 @@ half4 DoOutputForward(half4 output, half alphaFromSurface)
 
 	return output;
 }
+#endif
+
+
+
+
+#define ADVANCED_DISSOLVE_DATA(coord) float4 dissolveUV : TEXCOORD##coord;
+
+#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
+	#define ADVANCED_DISSOLVE_INIT_DATA(positionCS, texcoord0, texcoord1, output) output.dissolveUV = 0;
+#else
+	#define ADVANCED_DISSOLVE_INIT_DATA(positionCS, texcoord0, texcoord1, output) DissolveVertex2Fragment(positionCS, texcoord0.xy, texcoord1.xy, output.dissolveUV);
+#endif
+
+#ifdef DISSOLVE_SHADER_GRAPH
+	float4 AdvancedDissolveGetAlpha(float2 texcoord1, float2 texcoord2, float3 positionWS, float3 normalWS, float fragmentAlpha)
+	{
+		#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
+			float4 dissolveAlpha = ReadDissolveAlpha_Triplanar(positionWS, normalWS);
+		#else
+
+			#ifdef _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
+				float4 dissolveData = ComputeScreenPos(mul(GetWorldToHClipMatrix(), float4(positionWS.xyz, 1)), _ProjectionParams.x);  
+			#else
+				float4 dissolveData = VALUE_UVSET == 0 ? float4(texcoord1.xy, 0, 0) : float4(texcoord2.xy, 0, 0);			
+			#endif		
+
+			float4 dissolveAlpha = ReadDissolveAlpha(texcoord1, dissolveData, positionWS);		
+
+		#endif
+
+
+		#if defined(_DISSOLVEMASK_XYZ_AXIS) || defined(_DISSOLVEMASK_PLANE) || defined(_DISSOLVEMASK_SPHERE) || defined(_DISSOLVEMASK_BOX) || defined(_DISSOLVEMASK_CYLINDER) || defined(_DISSOLVEMASK_CONE)
+			dissolveAlpha.a -= lerp(0, fragmentAlpha, VALUE_COMBINE_WITH_MASTER_NODE_ALPHA);
+		#else
+			dissolveAlpha.a *= lerp(1, fragmentAlpha, VALUE_COMBINE_WITH_MASTER_NODE_ALPHA);
+		#endif
+		
+
+		return dissolveAlpha;
+	}
+#else
+	float4 AdvancedDissolveGetAlpha(float2 texcoord0, float3 positionWS, float3 normalWS, float4 dissolveUV)
+	{
+		#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
+			return ReadDissolveAlpha_Triplanar(positionWS, normalWS);
+		#else
+			return ReadDissolveAlpha(texcoord0, dissolveUV, positionWS);
+		#endif
+	}
+#endif

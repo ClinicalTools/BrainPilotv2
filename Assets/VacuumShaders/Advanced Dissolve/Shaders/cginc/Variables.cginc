@@ -1,4 +1,11 @@
 
+#ifdef DISSOLVE_LEGACY_TEXTURE_SAMPLE
+	#define DECLARE_TEXTURE_2D(t) sampler2D t; uniform sampler2D t##_Global;
+#else
+	#define DECLARE_TEXTURE_2D(t) TEXTURE2D(t); SAMPLER(sampler##t); uniform TEXTURE2D(t##_Global); SAMPLER(sampler##t##_Global);
+#endif
+
+
 float _DissolveCutoff;						uniform float _DissolveCutoff_Global;
 
 
@@ -18,12 +25,15 @@ float _DissolveEdgeDistortionStrength;		uniform float _DissolveEdgeDistortionStr
 
 float _DissolveMainMapTiling;				uniform float _DissolveMainMapTiling_Global;
 
-#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT) || defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP) || defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
+float _DissolveCombineWithMasterNodeAlpha;    uniform float _DissolveCombineWithMasterNodeAlpha_Global;
+float _DissolveCombineWithMasterNodeColor;    uniform float _DissolveCombineWithMasterNodeColor_Global;
 
-	sampler2D _DissolveEdgeTexture;				    uniform sampler2D _DissolveEdgeTexture_Global;
-	float _DissolveEdgeTextureReverse;			    uniform float _DissolveEdgeTextureReverse_Global;
-	float _DissolveEdgeTexturePhaseOffset;			uniform float _DissolveEdgeTexturePhaseOffset_Global;
-	float _DissolveEdgeTextureAlphaOffset;			uniform float _DissolveEdgeTextureAlphaOffset_Global;
+#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT) || defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP) || defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
+	DECLARE_TEXTURE_2D(_DissolveEdgeTexture)
+
+	float _DissolveEdgeTextureReverse;												uniform float _DissolveEdgeTextureReverse_Global;
+	float _DissolveEdgeTexturePhaseOffset;											uniform float _DissolveEdgeTexturePhaseOffset_Global;
+	float _DissolveEdgeTextureAlphaOffset;											uniform float _DissolveEdgeTextureAlphaOffset_Global;
 
 	#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT)
 		float _DissolveEdgeTextureIsDynamic;		uniform float _DissolveEdgeTextureIsDynamic_Global;
@@ -31,31 +41,34 @@ float _DissolveMainMapTiling;				uniform float _DissolveMainMapTiling_Global;
 		float _DissolveEdgeTextureMipmap;           uniform float _DissolveEdgeTextureMipmap_Global;
 	#endif
 #endif
-
+		 
 
 #if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
-	sampler2D _DissolveMap1;					uniform sampler2D _DissolveMap1_Global;
-	float4 _DissolveMap1_ST;					uniform float4 _DissolveMap1_ST_Global;
-	float3 _DissolveMap1_Scroll;				uniform float3 _DissolveMap1_Scroll_Global;
-	float  _DissolveMap1Intensity;				uniform float  _DissolveMap1Intensity_Global;
-	int    _DissolveMap1Channel;				uniform int    _DissolveMap1Channel_Global;
+	DECLARE_TEXTURE_2D(_DissolveMap1)		
+
+	float4 _DissolveMap1_ST;											uniform float4 _DissolveMap1_ST_Global;
+	float3 _DissolveMap1_Scroll;										uniform float3 _DissolveMap1_Scroll_Global;
+	float  _DissolveMap1Intensity;										uniform float  _DissolveMap1Intensity_Global;
+	int    _DissolveMap1Channel;					                    uniform int    _DissolveMap1Channel_Global;
 #endif
 	
 #if defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
-	sampler2D _DissolveMap2;					uniform sampler2D _DissolveMap2_Global;
-	float4 _DissolveMap2_ST;					uniform float4 _DissolveMap2_ST_Global;
-	float3 _DissolveMap2_Scroll;				uniform float3 _DissolveMap2_Scroll_Global;
-	float  _DissolveMap2Intensity;				uniform float  _DissolveMap2Intensity_Global;
-	int    _DissolveMap2Channel;				uniform int    _DissolveMap2Channel_Global;
+	DECLARE_TEXTURE_2D(_DissolveMap2)        
+
+	float4 _DissolveMap2_ST;											uniform float4 _DissolveMap2_ST_Global;
+	float3 _DissolveMap2_Scroll;										uniform float3 _DissolveMap2_Scroll_Global;
+	float  _DissolveMap2Intensity;										uniform float  _DissolveMap2Intensity_Global;
+	int    _DissolveMap2Channel;					                    uniform int    _DissolveMap2Channel_Global;
 #endif
 
 #if defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
-	sampler2D _DissolveMap3;					uniform sampler2D _DissolveMap3_Global;
-	float4 _DissolveMap3_ST;					uniform float4 _DissolveMap3_ST_Global;
-	float3 _DissolveMap3_Scroll;				uniform float3 _DissolveMap3_Scroll_Global;
-	float  _DissolveMap3Intensity;				uniform float  _DissolveMap3Intensity_Global;
-	int    _DissolveMap3Channel;				uniform int    _DissolveMap3Channel_Global;
-#endif
+	DECLARE_TEXTURE_2D(_DissolveMap3)   
+
+	float4 _DissolveMap3_ST;											uniform float4 _DissolveMap3_ST_Global;
+	float3 _DissolveMap3_Scroll;										uniform float3 _DissolveMap3_Scroll_Global;
+	float  _DissolveMap3Intensity;										uniform float  _DissolveMap3Intensity_Global;
+	int    _DissolveMap3Channel;					                    uniform int    _DissolveMap3Channel_Global;
+#endif  
 
 
 float _DissolveSourceAlphaTexturesBlend;		uniform float _DissolveSourceAlphaTexturesBlend_Global;
@@ -243,6 +256,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP1						_DissolveMap1
+		#define VALUE_MAP1_SAMPLER				sampler_DissolveMap1
 		#define VALUE_MAP1_ST					_DissolveMap1_ST
 		#define VALUE_MAP1_SCROLL				_DissolveMap1_Scroll
 		#define VALUE_MAP1_INTENSITY			_DissolveMap1Intensity
@@ -251,6 +265,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP2						_DissolveMap2
+		#define VALUE_MAP2_SAMPLER				sampler_DissolveMap2
 		#define VALUE_MAP2_ST					_DissolveMap2_ST
 		#define VALUE_MAP2_SCROLL				_DissolveMap2_Scroll
 		#define VALUE_MAP2_INTENSITY			_DissolveMap2Intensity
@@ -259,6 +274,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP3						_DissolveMap3
+		#define VALUE_MAP3_SAMPLER				sampler_DissolveMap3
 		#define VALUE_MAP3_ST					_DissolveMap3_ST
 		#define VALUE_MAP3_SCROLL				_DissolveMap3_Scroll
 		#define VALUE_MAP3_INTENSITY			_DissolveMap3Intensity
@@ -277,6 +293,7 @@ const float3 const_zero = float3(0, 0, 0);
 	#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT) || defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP) || defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
 
 		#define VALUE_EDGE_TEXTURE					_DissolveEdgeTexture
+		#define VALUE_EDGE_TEXTURE_SAMPLER          sampler_DissolveEdgeTexture
 		#define VALUE_EDGE_TEXTURE_REVERSE			_DissolveEdgeTextureReverse
 		#define VALUE_EDGE_TEXTURE_OFFSET			_DissolveEdgeTexturePhaseOffset
 		#define VALUE_EDGETEXTUREALPHAOFFSET		_DissolveEdgeTextureAlphaOffset
@@ -294,8 +311,11 @@ const float3 const_zero = float3(0, 0, 0);
 	#define VALUE_NOISE_STRENGTH			_DissolveNoiseStrength
 
 	#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-		#define VALUE_TRIPLANARMAPPINGSPACE     _DissolveTriplanarMappingSpace
+		#define VALUE_TRIPLANARMAPPINGSPACE          _DissolveTriplanarMappingSpace
 	#endif
+
+	#define VALUE_COMBINE_WITH_MASTER_NODE_ALPHA     _DissolveCombineWithMasterNodeAlpha
+	#define VALUE_COMBINE_WITH_MASTER_NODE_COLOR     _DissolveCombineWithMasterNodeColor
 
 #elif defined(_DISSOLVEGLOBALCONTROL_MASK_AND_EDGE)
 
@@ -390,6 +410,7 @@ const float3 const_zero = float3(0, 0, 0);
 	#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT) || defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP) || defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
 
 		#define VALUE_EDGE_TEXTURE					_DissolveEdgeTexture_Global
+		#define VALUE_EDGE_TEXTURE_SAMPLER          sampler_DissolveEdgeTexture_Global
 		#define VALUE_EDGE_TEXTURE_REVERSE			_DissolveEdgeTextureReverse_Global
 		#define VALUE_EDGE_TEXTURE_OFFSET			_DissolveEdgeTexturePhaseOffset_Global
 		#define VALUE_EDGETEXTUREALPHAOFFSET		_DissolveEdgeTextureAlphaOffset_Global
@@ -407,6 +428,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP1						_DissolveMap1
+		#define VALUE_MAP1_SAMPLER				sampler_DissolveMap1
 		#define VALUE_MAP1_ST					_DissolveMap1_ST
 		#define VALUE_MAP1_SCROLL				_DissolveMap1_Scroll
 		#define VALUE_MAP1_INTENSITY			_DissolveMap1Intensity
@@ -415,6 +437,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP2						_DissolveMap2
+		#define VALUE_MAP2_SAMPLER				sampler_DissolveMap2
 		#define VALUE_MAP2_ST					_DissolveMap2_ST
 		#define VALUE_MAP2_SCROLL				_DissolveMap2_Scroll
 		#define VALUE_MAP2_INTENSITY			_DissolveMap2Intensity
@@ -423,6 +446,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP3						_DissolveMap3
+		#define VALUE_MAP3_SAMPLER				sampler_DissolveMap3
 		#define VALUE_MAP3_ST					_DissolveMap3_ST
 		#define VALUE_MAP3_SCROLL				_DissolveMap3_Scroll
 		#define VALUE_MAP3_INTENSITY			_DissolveMap3Intensity
@@ -439,8 +463,11 @@ const float3 const_zero = float3(0, 0, 0);
 	#define VALUE_NOISE_STRENGTH			_DissolveNoiseStrength
 
 	#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-		#define VALUE_TRIPLANARMAPPINGSPACE     _DissolveTriplanarMappingSpace
+		#define VALUE_TRIPLANARMAPPINGSPACE          _DissolveTriplanarMappingSpace
 	#endif
+
+	#define VALUE_COMBINE_WITH_MASTER_NODE_ALPHA     _DissolveCombineWithMasterNodeAlpha
+	#define VALUE_COMBINE_WITH_MASTER_NODE_COLOR     _DissolveCombineWithMasterNodeColor
 
 #elif defined(_DISSOLVEGLOBALCONTROL_ALL)
 
@@ -463,6 +490,7 @@ const float3 const_zero = float3(0, 0, 0);
 	#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT) || defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP) || defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
 
 		#define VALUE_EDGE_TEXTURE					_DissolveEdgeTexture_Global
+		#define VALUE_EDGE_TEXTURE_SAMPLER          sampler_DissolveEdgeTexture_Global
 		#define VALUE_EDGE_TEXTURE_REVERSE			_DissolveEdgeTextureReverse_Global
 		#define VALUE_EDGE_TEXTURE_OFFSET			_DissolveEdgeTexturePhaseOffset_Global
 		#define VALUE_EDGETEXTUREALPHAOFFSET		_DissolveEdgeTextureAlphaOffset_Global
@@ -479,6 +507,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP1						_DissolveMap1_Global
+		#define VALUE_MAP1_SAMPLER				sampler_DissolveMap1_Global
 		#define VALUE_MAP1_ST					_DissolveMap1_ST_Global
 		#define VALUE_MAP1_SCROLL				_DissolveMap1_Scroll_Global
 		#define VALUE_MAP1_INTENSITY			_DissolveMap1Intensity_Global
@@ -487,6 +516,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP2						_DissolveMap2_Global
+		#define VALUE_MAP2_SAMPLER				sampler_DissolveMap2_Global
 		#define VALUE_MAP2_ST					_DissolveMap2_ST_Global
 		#define VALUE_MAP2_SCROLL				_DissolveMap2_Scroll_Global
 		#define VALUE_MAP2_INTENSITY			_DissolveMap2Intensity_Global
@@ -495,6 +525,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP3						_DissolveMap3_Global
+		#define VALUE_MAP3_SAMPLER				sampler_DissolveMap3_Global
 		#define VALUE_MAP3_ST					_DissolveMap3_ST_Global
 		#define VALUE_MAP3_SCROLL				_DissolveMap3_Scroll_Global
 		#define VALUE_MAP3_INTENSITY			_DissolveMap3Intensity_Global
@@ -581,9 +612,12 @@ const float3 const_zero = float3(0, 0, 0);
 
 
 	#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-		#define VALUE_TRIPLANARMAPPINGSPACE     _DissolveTriplanarMappingSpace_Global
+		#define VALUE_TRIPLANARMAPPINGSPACE          _DissolveTriplanarMappingSpace_Global
 	#endif
 
+	#define VALUE_COMBINE_WITH_MASTER_NODE_ALPHA     _DissolveCombineWithMasterNodeAlpha_Global
+	#define VALUE_COMBINE_WITH_MASTER_NODE_COLOR     _DissolveCombineWithMasterNodeColor_Global
+	
 #else
 
 	#define VALUE_CUTOFF					_DissolveCutoff
@@ -605,6 +639,7 @@ const float3 const_zero = float3(0, 0, 0);
 	#if defined(_DISSOLVEEDGETEXTURESOURCE_GRADIENT) || defined(_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP) || defined(_DISSOLVEEDGETEXTURESOURCE_CUSTOM)
 
 		#define VALUE_EDGE_TEXTURE					_DissolveEdgeTexture
+		#define VALUE_EDGE_TEXTURE_SAMPLER          sampler_DissolveEdgeTexture
 		#define VALUE_EDGE_TEXTURE_REVERSE			_DissolveEdgeTextureReverse
 		#define VALUE_EDGE_TEXTURE_OFFSET			_DissolveEdgeTexturePhaseOffset
 		#define VALUE_EDGETEXTUREALPHAOFFSET		_DissolveEdgeTextureAlphaOffset
@@ -621,6 +656,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_CUSTOM_MAP) || defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP1						_DissolveMap1
+		#define VALUE_MAP1_SAMPLER				sampler_DissolveMap1
 		#define VALUE_MAP1_ST					_DissolveMap1_ST
 		#define VALUE_MAP1_SCROLL				_DissolveMap1_Scroll
 		#define VALUE_MAP1_INTENSITY			_DissolveMap1Intensity
@@ -629,6 +665,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS) || defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP2						_DissolveMap2
+		#define VALUE_MAP2_SAMPLER				sampler_DissolveMap2
 		#define VALUE_MAP2_ST					_DissolveMap2_ST
 		#define VALUE_MAP2_SCROLL				_DissolveMap2_Scroll
 		#define VALUE_MAP2_INTENSITY			_DissolveMap2Intensity
@@ -637,6 +674,7 @@ const float3 const_zero = float3(0, 0, 0);
 
 	#if defined(_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS)
 		#define VALUE_MAP3						_DissolveMap3
+		#define VALUE_MAP3_SAMPLER				sampler_DissolveMap3
 		#define VALUE_MAP3_ST					_DissolveMap3_ST
 		#define VALUE_MAP3_SCROLL				_DissolveMap3_Scroll
 		#define VALUE_MAP3_INTENSITY			_DissolveMap3Intensity
@@ -722,7 +760,10 @@ const float3 const_zero = float3(0, 0, 0);
 	#endif
 
 	#ifdef _DISSOLVEMAPPINGTYPE_TRIPLANAR
-		#define VALUE_TRIPLANARMAPPINGSPACE     _DissolveTriplanarMappingSpace
+		#define VALUE_TRIPLANARMAPPINGSPACE          _DissolveTriplanarMappingSpace
 	#endif
+
+	#define VALUE_COMBINE_WITH_MASTER_NODE_ALPHA     _DissolveCombineWithMasterNodeAlpha
+	#define VALUE_COMBINE_WITH_MASTER_NODE_COLOR     _DissolveCombineWithMasterNodeColor
 
 #endif

@@ -25,7 +25,7 @@ namespace AdvancedDissolve_Example
         
 
         void Start()
-        {
+        { 
             get = this;
 
             UpdateMaskKeyword();
