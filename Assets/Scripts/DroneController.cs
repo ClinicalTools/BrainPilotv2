@@ -264,6 +264,8 @@ public class DroneController : MonoBehaviour {
 	/// <param name="endVal"></param>
 	private IEnumerator FadeMesh(float endVal, float duration = 2f)
 	{
+		if (mesh == null) Start();
+
 		float val = mesh[0].sharedMaterial.GetFloat("_DissolveCutoff");
 		if (val == endVal) {
 			yield break;
@@ -523,6 +525,8 @@ public class DroneController : MonoBehaviour {
 			if (info.scaleVal == platformScale.x) {
 				//info.scaleVal = 0;
 				scaleDone = true;
+			} else {
+				platform.GetComponent<TweenScaleByFactor>().TweenToScale(info.scaleVal, totalDuration);
 			}
 		} else {
 			scaleDone = true;
@@ -545,7 +549,7 @@ public class DroneController : MonoBehaviour {
 				}
 			}
 
-			if (!scaleDone) {
+			if (false && !scaleDone) {
 				if (info.scaleVal > 0) {
 					platform.localScale = Vector3.Lerp(platformScale, Vector3.one * info.scaleVal, lerpVal);
 					if (info.scaleVal == platformScale.x) {
