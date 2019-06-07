@@ -6596,22 +6596,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b40a3ee02c95c42aed4890b5602997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateGlobal: 1
-  materials:
-  - {fileID: 2100000, guid: a5f0df6ea8481fb4dae402b2efa8dee6, type: 2}
-  - {fileID: 2100000, guid: 416f82398b093494ea41b57534d52636, type: 2}
-  - {fileID: 2100000, guid: ea803b5034743284ba3d1dd7196139a5, type: 2}
-  width: 0.25
-  shape: 2
-  color: {r: 0, g: 1, b: 0.9568186, a: 1}
-  intensity: 0
-  texture: {fileID: 2800000, guid: e6b7413b19c8285458b59d27becdcd9a, type: 3}
-  reverse: 0
-  alphaOffset: 0
-  phaseOffset: 0
-  blur: 0
-  isDynamic: 0
-  GIMultyplier: 0
 --- !u!114 &231364625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6622,16 +6606,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 231364622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bac003d786c7dd4ca0c9ec9e79bd049, type: 3}
+  m_Script: {fileID: 11500000, guid: ecd75234735d39a46ba22799f293f665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateGlobal: 1
+  updateGlobal: 0
   materials: []
-  noise: 0.5
-  texture1: {fileID: 2800000, guid: e6b7413b19c8285458b59d27becdcd9a, type: 3}
-  texture1Tiling: {x: 0.2, y: 0.2}
+  noise: 0
+  texture1: {fileID: 0}
+  texture1Tiling: {x: 1, y: 1}
   texture1Offset: {x: 0, y: 0}
-  texture1Scroll: {x: 0.5, y: 0.5, z: 0}
+  texture1Scroll: {x: 0, y: 0, z: 0}
   texture1Channel: 3
   texture1Intensity: 1
   texture2: {fileID: 0}
@@ -6658,14 +6642,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 231364622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 905542b144b27d34ebc96e15826889fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d082fc1f857bf84fad8ff03eb273846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateGlobal: 1
+  updateGlobal: 0
   materials: []
-  cylinder1: {fileID: 0}
-  cylinder2: {fileID: 1262642059}
-  cylinder3: {fileID: 1664791284}
+  cylinder1: {fileID: 1262642059}
+  cylinder2: {fileID: 1664791284}
+  cylinder3: {fileID: 0}
   cylinder4: {fileID: 0}
   invert: 0
 --- !u!1 &232123879
