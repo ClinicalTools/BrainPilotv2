@@ -11,8 +11,8 @@ namespace VacuumShaders.AdvancedDissolve
         {
             base.OnGUI(materialEditor, properties);
 
-            VacuumShaders.AdvancedDissolve.MaterialProperties.Init(properties);
-            VacuumShaders.AdvancedDissolve.MaterialProperties.DrawDissolveOptions(materialEditor, false, false);
+            VacuumShaders.AdvancedDissolve.MaterialProperties.Init(materialEditor, properties);
+            VacuumShaders.AdvancedDissolve.MaterialProperties.DrawDissolveOptions(materialEditor, false);
         }
     }
 }

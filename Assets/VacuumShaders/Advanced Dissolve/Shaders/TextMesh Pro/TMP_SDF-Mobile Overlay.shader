@@ -3,7 +3,7 @@
 // - No Glow Option
 // - Softness is applied on both side of the outline
 
-Shader "VacuumShaders/Advanced Dissolve/Lightweight Render Pipeline/TextMeshPro/Mobile/Distance Field Overlay" {
+Shader "VacuumShaders/Advanced Dissolve/TextMeshPro/Mobile/Distance Field Overlay" {
 
 Properties {
 	_FaceColor			("Face Color", Color) = (1,1,1,1)
@@ -34,7 +34,6 @@ Properties {
 	_ScaleX				("Scale X", float) = 1
 	_ScaleY				("Scale Y", float) = 1
 	_PerspectiveFilter	("Perspective Correction", Range(0, 1)) = 0.875
-	_Sharpness			("Sharpness", Range(-1,1)) = 0
 
 	_VertexOffsetX		("Vertex OffsetX", float) = 0
 	_VertexOffsetY		("Vertex OffsetY", float) = 0
@@ -52,23 +51,22 @@ Properties {
 	_ColorMask			("Color Mask", Float) = 15
 
 
-
-		//Advanced Dissolve
-		_DissolveCutoff("Dissolve", Range(0,1)) = 0.25
+	//Advanced Dissolve
+	[HideInInspector] _DissolveCutoff("Dissolve", Range(0,1)) = 0.25
 		
-		//Mask
-		[HideInInspector][KeywordEnum(None, XYZ Axis, Plane, Sphere, Box, Cylinder, Cone)]  _DissolveMask("Mak", Float) = 0
-		[HideInInspector][Enum(X,0,Y,1,Z,2)]                                                _DissolveMaskAxis("Axis", Float) = 0
-		[HideInInspector][Enum(World,0,Local,1)]                                            _DissolveMaskSpace("Space", Float) = 0	 
-		[HideInInspector]																   _DissolveMaskOffset("Offset", Float) = 0
-		[HideInInspector]																   _DissolveMaskInvert("Invert", Float) = 1		
-		[HideInInspector][KeywordEnum(One, Two, Three, Four)]							   _DissolveMaskCount("Count", Float) = 0		
+	//Mask
+	[HideInInspector][KeywordEnum(None, XYZ Axis, Plane, Sphere, Box, Cylinder, Cone)]  _DissolveMask("Mak", Float) = 0
+	[HideInInspector][Enum(X,0,Y,1,Z,2)]                                                _DissolveMaskAxis("Axis", Float) = 0
+[HideInInspector][Enum(World,0,Local,1)]                                            _DissolveMaskSpace("Space", Float) = 0	 
+	[HideInInspector]																   _DissolveMaskOffset("Offset", Float) = 0
+	[HideInInspector]																   _DissolveMaskInvert("Invert", Float) = 1		
+	[HideInInspector][KeywordEnum(One, Two, Three, Four)]							   _DissolveMaskCount("Count", Float) = 0		
 	
-		[HideInInspector]  _DissolveMaskPosition("", Vector) = (0,0,0,0)
-		[HideInInspector]  _DissolveMaskNormal("", Vector) = (1,0,0,0)
-		[HideInInspector]  _DissolveMaskRadius("", Float) = 1
+	[HideInInspector]  _DissolveMaskPosition("", Vector) = (0,0,0,0)
+    [HideInInspector]  _DissolveMaskNormal("", Vector) = (1,0,0,0)
+    [HideInInspector]  _DissolveMaskRadius("", Float) = 1
 
-		//Alpha Source
+	//Alpha Source
 		[HideInInspector] [KeywordEnum(Main Map Alpha, Custom Map, Two Custom Maps, Three Custom Maps)] _DissolveAlphaSource("Alpha Source", Float) = 0
 		[HideInInspector] _DissolveMap1("", 2D) = "white" { }
 		[HideInInspector] [UVScroll] _DissolveMap1_Scroll("", Vector) = (0,0,0,0)
@@ -83,45 +81,39 @@ Properties {
 		[HideInInspector] _DissolveMap3Intensity("", Range(0, 1)) = 1
 	    [HideInInspector] [Enum(Red, 0, Green, 1, Blue, 2, Alpha, 3)] _DissolveMap3Channel("", INT) = 3
 
+	[HideInInspector][Enum(Multiply, 0, Add, 1)]  _DissolveSourceAlphaTexturesBlend("Texture Blend", Float) = 0
+	[HideInInspector]							  _DissolveNoiseStrength("Noise", Float) = 0.1
+	[HideInInspector][Enum(UV0,0,UV1,1)]          _DissolveAlphaSourceTexturesUVSet("UV Set", Float) = 0
 
-		[HideInInspector] [Enum(Multiply, 0, Add, 1)] _DissolveSourceAlphaTexturesBlend("Texture Blend", Float) = 0
-		[HideInInspector] _DissolveNoiseStrength("Noise", Float) = 0.1
-		[HideInInspector] [Enum(UV0, 0, UV1, 1)] _DissolveAlphaSourceTexturesUVSet("UV Set", Float) = 0
-		[HideInInspector] [Toggle] 			     _DissolveCombineWithMasterNodeAlpha("", Float) = 0
+	[HideInInspector][KeywordEnum(Normal, Triplanar, Screen Space)] _DissolveMappingType("Triplanar", Float) = 0
+	[HideInInspector][Enum(World,0,Local,1)]                        _DissolveTriplanarMappingSpace("Mapping", Float) = 0	
+	[HideInInspector]                                               _DissolveMainMapTiling("", FLOAT) = 1	
 
+	//Edge
+	[HideInInspector]                                       _DissolveEdgeWidth("Edge Size", Range(0,1)) = 0.25
+	[HideInInspector][Enum(Cutout Source,0,Main Map,1)]     _DissolveEdgeDistortionSource("Distortion Source", Float) = 0
+	[HideInInspector]                                       _DissolveEdgeDistortionStrength("Distortion Strength", Range(0, 2)) = 0
 
-		[HideInInspector] [KeywordEnum(Normal, Triplanar, Screen Space)] _DissolveMappingType("Triplanar", Float) = 0
-		[HideInInspector] [Enum(World, 0, Local, 1)] _DissolveTriplanarMappingSpace("Mapping", Float) = 0
-		[HideInInspector] _DissolveMainMapTiling("", FLOAT) = 1
+	//Color
+	[HideInInspector]                _DissolveEdgeColor("Edge Color", Color) = (0,1,0,1)
+	[HideInInspector][PositiveFloat] _DissolveEdgeColorIntensity("Intensity", FLOAT) = 0
+	[HideInInspector][Enum(Solid,0,Smooth,1, Smooth Squared,2)]      _DissolveEdgeShape("Shape", INT) = 0
 
+	[HideInInspector][KeywordEnum(None, Gradient, Main Map, Custom)] _DissolveEdgeTextureSource("", Float) = 0
+	[HideInInspector][NoScaleOffset]								 _DissolveEdgeTexture("Edge Texture", 2D) = "white" { }
+	[HideInInspector][Toggle]										 _DissolveEdgeTextureReverse("Reverse", FLOAT) = 0
+	[HideInInspector]												 _DissolveEdgeTexturePhaseOffset("Offset", FLOAT) = 0
+	[HideInInspector]												 _DissolveEdgeTextureAlphaOffset("Offset", Range(-1, 1)) = 0	
+	[HideInInspector]												 _DissolveEdgeTextureMipmap("", Range(0, 10)) = 1		
+	[HideInInspector][Toggle]										 _DissolveEdgeTextureIsDynamic("", Float) = 0
 
-		//Edge
-		[HideInInspector] _DissolveEdgeWidth("Edge Size", Range(0,1)) = 0.15
-		[HideInInspector] [Enum(Cutout Source, 0, Main Map, 1)] _DissolveEdgeDistortionSource("Distortion Source", Float) = 0
-		[HideInInspector] _DissolveEdgeDistortionStrength("Distortion Strength", Range(0, 2)) = 0
-
-
-		//Color
-		[HideInInspector] _DissolveEdgeColor("Edge Color", Color) = (0,1,0,1)
-		[HideInInspector] [PositiveFloat] _DissolveEdgeColorIntensity("Intensity", FLOAT) = 0
-		[HideInInspector] [Enum(Solid, 0, Smooth, 1, Smooth Squared, 2)] _DissolveEdgeShape("Shape", INT) = 0
-		[HideInInspector] [Toggle] 			                             _DissolveCombineWithMasterNodeColor("", Float) = 0
-
-		[HideInInspector][KeywordEnum(None, Gradient, Main Map, Custom)] _DissolveEdgeTextureSource("", Float) = 0
-		[HideInInspector][NoScaleOffset]								 _DissolveEdgeTexture("Edge Texture", 2D) = "white" { }
-		[HideInInspector][Toggle]										 _DissolveEdgeTextureReverse("Reverse", FLOAT) = 0
-		[HideInInspector]												 _DissolveEdgeTexturePhaseOffset("Offset", FLOAT) = 0
-		[HideInInspector]												 _DissolveEdgeTextureAlphaOffset("Offset", Range(-1, 1)) = 0
-		[HideInInspector]												 _DissolveEdgeTextureMipmap("", Range(0, 10)) = 1		
-		[HideInInspector][Toggle]										 _DissolveEdgeTextureIsDynamic("", Float) = 0
-
-		[HideInInspector][PositiveFloat] _DissolveGIMultiplier("GI Strength", Float) = 1	
+	[HideInInspector][PositiveFloat] _DissolveGIMultiplier("GI Strength", Float) = 1	
 		
-		//Global
-		[HideInInspector][KeywordEnum(None, Mask Only, Mask And Edge, All)] _DissolveGlobalControl("Global Controll", Float) = 0
+	//Global
+	[HideInInspector][KeywordEnum(None, Mask Only, Mask And Edge, All)] _DissolveGlobalControl("Global Controll", Float) = 0
 
-		//Meta
-		[HideInInspector] _Dissolve_ObjectWorldPos("", Vector) = (0,0,0,0)	
+	//Meta
+    [HideInInspector] _Dissolve_ObjectWorldPos("", Vector) = (0,0,0,0)		
 }
 
 SubShader {
@@ -160,28 +152,32 @@ SubShader {
 		#pragma multi_compile __ UNITY_UI_CLIP_RECT
 		#pragma multi_compile __ UNITY_UI_ALPHACLIP
 
+#pragma target 3.0
+
 		#include "UnityCG.cginc"
 		#include "UnityUI.cginc"
 		#include "TMPro_Properties.cginc"
 
 
+		float4 _MainTex_ST;
+fixed _Cutoff;
 
-		// -------------------------------------
-		// Advnaced Dissolve keywords
-		#pragma shader_feature _ _DISSOLVEGLOBALCONTROL_MASK_ONLY _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEGLOBALCONTROL_ALL
-		#pragma shader_feature _ _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
-		#pragma shader_feature _ _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS _DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS
-		#pragma shader_feature _ _DISSOLVEMASK_XYZ_AXIS _DISSOLVEMASK_PLANE _DISSOLVEMASK_SPHERE _DISSOLVEMASK_BOX _DISSOLVEMASK_CYLINDER _DISSOLVEMASK_CONE
-		#pragma shader_feature _ _DISSOLVEEDGETEXTURESOURCE_GRADIENT _DISSOLVEEDGETEXTURESOURCE_MAIN_MAP _DISSOLVEEDGETEXTURESOURCE_CUSTOM
-		#pragma shader_feature _ _DISSOLVEMASKCOUNT_TWO _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASKCOUNT_FOUR
 
-		#define DISSOLVE_LEGACY_TEXTURE_SAMPLE
-		#define DISSOLVE_LEGACY_MAINTEX
+#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON
 
-		#ifndef UNITY_UI_ALPHACLIP
-		#define UNITY_UI_ALPHACLIP 1
-		#endif
-		#include "../cginc/AdvancedDissolve.cginc"
+#pragma shader_feature _ _DISSOLVEGLOBALCONTROL_MASK_ONLY _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEGLOBALCONTROL_ALL
+#pragma shader_feature _ _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMAPPINGTYPE_SCREEN_SPACE
+#pragma shader_feature _ _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS _DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS
+#pragma shader_feature _ _DISSOLVEMASK_XYZ_AXIS _DISSOLVEMASK_PLANE _DISSOLVEMASK_SPHERE _DISSOLVEMASK_BOX _DISSOLVEMASK_CYLINDER _DISSOLVEMASK_CONE
+#pragma shader_feature _ _DISSOLVEEDGETEXTURESOURCE_GRADIENT _DISSOLVEEDGETEXTURESOURCE_MAIN_MAP _DISSOLVEEDGETEXTURESOURCE_CUSTOM
+#pragma shader_feature _ _DISSOLVEMASKCOUNT_TWO _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASKCOUNT_FOUR
+
+#define DISSOLVE_LEGACY_RENDER_PIPELIN
+#define DISSOLVE_LEGACY_MAINTEX
+#define DISSOLVE_LEGACY_TEXTURE_SAMPLE
+
+
+#include "../cginc/AdvancedDissolve.cginc"
 
 
 
@@ -205,11 +201,10 @@ SubShader {
 			half2	underlayParam	: TEXCOORD4;			// Scale(x), Bias(y)
 		#endif
 
+			float3 worldPos : TEXCOORD6;
+			float3 normalWS : TEXCOORD7;
+			ADVANCED_DISSOLVE_DATA(8)
 
-			float3 positionWS    : TEXCOORD5;
-            float3 normalWS      : TEXCOORD6;
-
-            ADVANCED_DISSOLVE_DATA(7)
 		};
 
 
@@ -226,7 +221,7 @@ SubShader {
 			pixelSize /= float2(_ScaleX, _ScaleY) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
 			
 			float scale = rsqrt(dot(pixelSize, pixelSize));
-			scale *= abs(input.texcoord1.y) * _GradientScale * (_Sharpness + 1);
+			scale *= abs(input.texcoord1.y) * _GradientScale * 1.5;
 			if(UNITY_MATRIX_P[3][3] == 0) scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale, abs(dot(UnityObjectToWorldNormal(input.normal.xyz), normalize(WorldSpaceViewDir(vert)))));
 
 			float weight = lerp(_WeightNormal, _WeightBold, bold) / 4.0;
@@ -267,25 +262,29 @@ SubShader {
 
 
 
-			pixel_t output;
-
-			output.vertex       = vPosition;
-			output.faceColor    = faceColor;
-			output.outlineColor	= outlineColor;
-			output.texcoord0	= float4(input.texcoord0.x, input.texcoord0.y, maskUV.x, maskUV.y);
-			output.param		= half4(scale, bias - outline, bias + outline, bias);
-			output.mask			= half4(vert.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + pixelSize.xy));
-		#if (UNDERLAY_ON | UNDERLAY_INNER)
-			output.texcoord1	 = float4(input.texcoord0 + layerOffset, input.color.a, 0);
-			output.underlayParam = half2(layerScale, layerBias);
-		#endif
+			//VacuumShaders 
+			pixel_t tempOUT;
+			ADVANCED_DISSOLVE_INIT_DATA(vPosition, input.texcoord0, input.texcoord1, tempOUT);
 
 
-			output.positionWS = mul(unity_ObjectToWorld, float4(input.vertex.xyz, 1)).xyz;
-            output.normalWS = UnityObjectToWorldNormal(input.normal);
+			// Structure for pixel shader
+			pixel_t output = {
+				vPosition,
+				faceColor,
+				outlineColor,
+				float4(input.texcoord0.x, input.texcoord0.y, maskUV.x, maskUV.y),
+				half4(scale, bias - outline, bias + outline, bias),
+				half4(vert.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + pixelSize.xy)),
+			#if (UNDERLAY_ON | UNDERLAY_INNER)
+				float4(input.texcoord0 + layerOffset, input.color.a, 0),
+				half2(layerScale, layerBias),
+			#endif
 
-			ADVANCED_DISSOLVE_INIT_DATA(vPosition, input.texcoord0.xy, input.texcoord1.xy, output);
+				mul(unity_ObjectToWorld, float4(input.vertex.xyz, 1)).xyz,
+				UnityObjectToWorldNormal(input.normal),
+				tempOUT.dissolveUV,
 
+			};
 
 			return output;
 		}
@@ -295,12 +294,16 @@ SubShader {
 		fixed4 PixShader(pixel_t input) : SV_Target
 		{
 
-			float4 dissolaveAlpha = AdvancedDissolveGetAlpha(input.texcoord0.xy, input.positionWS.xyz, input.normalWS, input.dissolveUV);
-            DoDissolveClip(dissolaveAlpha); 
+		float4 alpha = AdvancedDissolveGetAlpha(input.texcoord0.xy, input.worldPos, input.normalWS, input.dissolveUV);		
+		DoDissolveClip(alpha);
 
-            float3 dissolveAlbedo = 0;
-            float3 dissolveEmission = 0;
-            float dissolveBlend = DoDissolveAlbedoEmission(dissolaveAlpha, dissolveAlbedo, dissolveEmission, input.texcoord0.xy, 1);
+
+
+		float3 dissolveAlbedo = 0;
+		float3 dissolveEmission = 0;
+		float dissolveBlend = DoDissolveAlbedoEmission(alpha, dissolveAlbedo, dissolveEmission, input.texcoord0.xy, 0);
+
+
 
 
 
@@ -344,13 +347,12 @@ SubShader {
 			//Emission
 			c.rgb += dissolveEmission * dissolveBlend;
 
-			
+
 			return c;
 		}
 		ENDCG
 	}
 }
 
-Fallback "TextMeshPro/Mobile/Distance Field Overlay"
 CustomEditor "TMPro.EditorUtilities.AdvancedDisolve_TMP_SDFShaderGUI"
 }

@@ -8,15 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Zone_Material01
-  m_Shader: {fileID: 4800000, guid: e8e4d5175b39e6f4dbbbc1907cf4276a, type: 3}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMASK_CYLINDER
-    _EMISSION _SPECULARHIGHLIGHTS_OFF
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMASK_CYLINDER _EMISSION
+    _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3050
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - SHADOWCASTER
   m_SavedProperties:
@@ -125,12 +124,13 @@ Material:
     - _DissolveNoiseStrength: 0.1
     - _DissolveSourceAlphaTexturesBlend: 0
     - _DissolveTriplanarMappingSpace: 0
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.375
     - _GlossyReflections: 0
     - _Metallic: 0.123
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
@@ -142,7 +142,7 @@ Material:
     - _Surface: 1
     - _UVSec: 0
     - _WorkflowMode: 1
-    - _ZWrite: 0
+    - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.4339623, g: 0.29895288, b: 0.2763439, a: 0.3372549}

@@ -8,16 +8,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DUPE Main_Material 1
-  m_Shader: {fileID: 4800000, guid: e8e4d5175b39e6f4dbbbc1907cf4276a, type: 3}
-  m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEMAPPINGTYPE_TRIPLANAR
-    _DISSOLVEMASKCOUNT_THREE _DISSOLVEMASK_CYLINDER _EMISSION _METALLICSPECGLOSSMAP
-    _NORMALMAP _OCCLUSIONMAP
+  m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
+  m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEEDGETEXTURESOURCE_NONE
+    _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMASKCOUNT_THREE
+    _DISSOLVEMASK_CYLINDER _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP
+    _OCCLUSIONMAP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2050
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Opaque
+    RenderType: AdvancedDissolveCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -87,7 +88,7 @@ Material:
     - _Blend: 0
     - _BumpScale: 0.57
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0
     - _DetailNormalMapScale: 1
     - _DissolveAlphaSource: 1
     - _DissolveAlphaSourceTexturesUVSet: 0
@@ -131,6 +132,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
+    - _Mode: 0
     - _OcclusionStrength: 0.785
     - _Parallax: 0.02
     - _QueueOffset: 0

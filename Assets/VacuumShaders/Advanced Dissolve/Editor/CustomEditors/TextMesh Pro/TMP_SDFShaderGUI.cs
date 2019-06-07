@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-
 namespace TMPro.EditorUtilities
 {
     public class AdvancedDisolve_TMP_SDFShaderGUI : TMP_BaseShaderGUI
@@ -448,8 +447,9 @@ namespace TMPro.EditorUtilities
 
 
 
-            VacuumShaders.AdvancedDissolve.MaterialProperties.Init(properties);
-            VacuumShaders.AdvancedDissolve.MaterialProperties.DrawDissolveOptions(materialEditor, false, false);
+            VacuumShaders.AdvancedDissolve.MaterialProperties.Init(materialEditor, properties);
+            VacuumShaders.AdvancedDissolve.MaterialProperties.DrawDissolveOptions(materialEditor, false);
         }
+
     }
 }

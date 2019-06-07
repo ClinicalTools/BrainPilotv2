@@ -56,7 +56,7 @@ namespace TMPro.EditorUtilities
                     EditorGUILayout.Space();
                     DoFloat("_Padding", "Padding");
                 }
-                
+
                 EditorGUILayout.Space();
                 DoFloat("_VertexOffsetX", "Offset X");
                 DoFloat("_VertexOffsetY", "Offset Y");
@@ -89,8 +89,9 @@ namespace TMPro.EditorUtilities
 
 
 
-            VacuumShaders.AdvancedDissolve.MaterialProperties.Init(properties);
-            VacuumShaders.AdvancedDissolve.MaterialProperties.DrawDissolveOptions(materialEditor, false, false);
+            VacuumShaders.AdvancedDissolve.MaterialProperties.Init(materialEditor, properties);
+            VacuumShaders.AdvancedDissolve.MaterialProperties.DrawDissolveOptions(materialEditor, false);
         }
+
     }
 }

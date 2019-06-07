@@ -3,8 +3,6 @@ using System.Linq;
 
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.EditorTools;
-using UnityEngine.Internal;
 
 using VacuumShaders;
 
@@ -14,12 +12,19 @@ namespace VacuumShaders.AdvancedDissolve
     {
         static string prefName_AdvancedDissolve = "AD_EditorPrefName_Advancedissolve";
         static public string prefName_SurfaceInputs = "AD_EditorPrefName_SurfaceInputs";
+        static public string prefName_SurfaceOptions = "AD_EditorPrefName_SurfaceOptions";
         static string prefName_Mask = "AD_EditorPrefName_Mask";
         static string prefName_AlphaSource = "AD_EditorPrefName_AlphaSource";
         static string prefName_Edge = "AD_EditorPrefName_Edge";
         static string prefName_MainUVDistortion = "AD_EditorPrefName_MainUVDistortion";
         static string prefName_Global = "AD_EditorPrefName_Global";
-        static string prefName_UnityDefaultOptions = "AD_EditorPrefName_UnityDefaultOptions";
+
+        public enum BlendMode
+        {
+            Opaque,
+            Cutout,
+            Fade   // Old school alpha-blending mode, fresnel does not affect amount of transparency
+        }
 
 
         static MaterialProperty _DissolveCutoff;
@@ -64,26 +69,26 @@ namespace VacuumShaders.AdvancedDissolve
         static MaterialProperty _DissolveMappingType;
         static MaterialProperty _DissolveMainMapTiling;
         static MaterialProperty _DissolveTriplanarMappingSpace;
-        static MaterialProperty _DissolveCombineWithMasterNodeAlpha;
-        static MaterialProperty _DissolveCombineWithMasterNodeColor;
 
         static MaterialProperty _DissolveGlobalControl;
 
-        static MaterialProperty emissionColorProp;
+        static MaterialProperty _Mode;
+        static MaterialProperty _Cull;
 
+        
 
         static GUIStyle guiStyleTitle;
         static GUIStyle guiStyleFoldout;
         static public bool foldoutAdvancedDissolve;
+        static public bool foldoutSurfaceOptions;
         static public bool foldoutSurfaceInputs;
         static public bool foldoutMask;
         static public bool foldoutAlphaSource;
         static public bool foldoutEdge;
         static public bool foldoutMainUVDistortion;
         static public bool foldoutGlobal;
-        static public bool foldoutUnityDefaultOptions;
 
-        static public void Init(MaterialProperty[] props)
+        static public void Init(MaterialEditor _editor, MaterialProperty[] props)
         {
             _DissolveCutoff = FindProperty("_DissolveCutoff", props);
 
@@ -129,13 +134,12 @@ namespace VacuumShaders.AdvancedDissolve
             _DissolveMappingType = FindProperty("_DissolveMappingType", props);
             _DissolveMainMapTiling = FindProperty("_DissolveMainMapTiling", props);
             _DissolveTriplanarMappingSpace = FindProperty("_DissolveTriplanarMappingSpace", props);
-            _DissolveCombineWithMasterNodeAlpha = FindProperty("_DissolveCombineWithMasterNodeAlpha", props);
-            _DissolveCombineWithMasterNodeColor = FindProperty("_DissolveCombineWithMasterNodeColor", props);
 
             _DissolveGlobalControl = FindProperty("_DissolveGlobalControl", props);
 
 
-            emissionColorProp = FindProperty("_EmissionColor", props, false);
+            _Mode = FindProperty("_Mode", props, false);
+            _Cull = FindProperty("_Cull", props, false);
 
 
             if (guiStyleTitle == null)
@@ -152,13 +156,13 @@ namespace VacuumShaders.AdvancedDissolve
 
 
             foldoutAdvancedDissolve = EditorPrefs.GetBool(prefName_AdvancedDissolve, true);
+            foldoutSurfaceOptions = EditorPrefs.GetBool(prefName_SurfaceOptions, true);
             foldoutSurfaceInputs = EditorPrefs.GetBool(prefName_SurfaceInputs, true);
             foldoutMask = EditorPrefs.GetBool(prefName_Mask, true);
             foldoutAlphaSource = EditorPrefs.GetBool(prefName_AlphaSource, true);
             foldoutEdge = EditorPrefs.GetBool(prefName_Edge, true);
             foldoutMainUVDistortion = EditorPrefs.GetBool(prefName_MainUVDistortion, true);
             foldoutGlobal = EditorPrefs.GetBool(prefName_Global, true);
-            foldoutUnityDefaultOptions = EditorPrefs.GetBool(prefName_UnityDefaultOptions, true);
         }
 
         static MaterialProperty FindProperty(string propertyName, MaterialProperty[] properties, bool mandatory = true)
@@ -175,19 +179,20 @@ namespace VacuumShaders.AdvancedDissolve
                 return null;
         }
 
-        static public void DrawDissolveOptions(MaterialEditor m_MaterialEditor, bool drawEmission, bool isShaderGraphShader)
+        static public void DrawDissolveOptions(MaterialEditor m_MaterialEditor, bool drawEmission)
         {
-            if (m_MaterialEditor == null || m_MaterialEditor.target == null)
-                return;
+            EditorGUIUtility.labelWidth = 0f;
 
             Material material = m_MaterialEditor.target as Material;
-            if (material == null)
-                return;
-
+            
 
             float defaultFieldWidth = EditorGUIUtility.fieldWidth;
             float defaultLabelWidth = EditorGUIUtility.labelWidth;
 
+
+            //Unity Standard shader has some limitations
+            bool isStandard = material.shader.name.Contains("Standard");
+            bool isSM4 = material.shader.name.Contains("SM4");
 
 
             bool globalControll_Mask = material.shaderKeywords.Contains("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
@@ -208,11 +213,11 @@ namespace VacuumShaders.AdvancedDissolve
                 EditorPrefs.SetBool(prefName_AdvancedDissolve, foldoutAdvancedDissolve);
 
 
-
             if (foldoutAdvancedDissolve)
             {
                 using (new VacuumEditorGUIUtility.EditorGUIIndentLevel(1))
                 {
+
                     EditorGUI.BeginChangeCheck();
                     foldoutMask = EditorGUILayout.Foldout(foldoutMask, " Mask", guiStyleFoldout);
                     if (EditorGUI.EndChangeCheck())
@@ -277,13 +282,23 @@ namespace VacuumShaders.AdvancedDissolve
                         {
                             m_MaterialEditor.ShaderProperty(_DissolveAlphaSource, "Source");
 
+
                             m_MaterialEditor.ShaderProperty(_DissolveMappingType, "Mapping");
                             bool isTriplanar = _DissolveMappingType.floatValue > 0.5f && _DissolveMappingType.floatValue < 1.5f;
                             bool isScreen = _DissolveMappingType.floatValue > 1.5f && _DissolveMappingType.floatValue < 2.5f;
 
+                            if (isStandard && isSM4 == false && isTriplanar)
+                            {
+                                EditorGUILayout.HelpBox("Shader Model 4.0 is required for Standard shader to use Triplanar mapping.", MessageType.Warning);
+                            }
+
 
                             using (new VacuumEditorGUIUtility.GUIEnabled(!(globalControll_All)))
                             {
+                                if (isStandard && isSM4 == false)
+                                    isTriplanar = false;
+
+
                                 if (isTriplanar)
                                     m_MaterialEditor.ShaderProperty(_DissolveTriplanarMappingSpace, new GUIContent("UV Space", "If disabled calculation is done in World Space"));
 
@@ -293,16 +308,13 @@ namespace VacuumShaders.AdvancedDissolve
 
                                 if (_DissolveAlphaSource.floatValue < .5f)
                                 {
-                                    if (material.HasProperty("_MainTex"))
+                                    if (material.mainTexture == null)
                                     {
-                                        if (material.GetTexture("_MainTex") == null)
-                                        {
-                                            EditorGUILayout.HelpBox("Main Map (Albedo) is not assinged", MessageType.Warning);
-                                        }
-                                        else
-                                        {
-                                            m_MaterialEditor.ShaderProperty(_DissolveMainMapTiling, "Tiling");
-                                        }
+                                        EditorGUILayout.HelpBox("Main Map (Albedo) is not assinged", MessageType.Warning);
+                                    }
+                                    else
+                                    {
+                                        m_MaterialEditor.ShaderProperty(_DissolveMainMapTiling, "Tiling");
                                     }
                                 }
                                 if (_DissolveAlphaSource.floatValue >= .5f)
@@ -360,12 +372,6 @@ namespace VacuumShaders.AdvancedDissolve
 
                                 if (_DissolveAlphaSource.floatValue >= 1.5f)
                                     m_MaterialEditor.ShaderProperty(_DissolveSourceAlphaTexturesBlend, "Texture Blend");
-
-                                if (isShaderGraphShader)
-                                {
-                                    GUILayout.Space(5);
-                                    m_MaterialEditor.ShaderProperty(_DissolveCombineWithMasterNodeAlpha, new GUIContent("Master Node Alpha", "Combines cutout source value with Master Node's Alpha from Shader Graph"));
-                                }
                             }
                         }
 
@@ -398,11 +404,6 @@ namespace VacuumShaders.AdvancedDissolve
                                 m_MaterialEditor.ShaderProperty(_DissolveEdgeColor, "Color (RGB) Trans (A)");
                                 EditorGUIUtility.fieldWidth = defaultFieldWidth;
                                 EditorGUIUtility.labelWidth = defaultLabelWidth;
-
-                                if (isShaderGraphShader)
-                                {
-                                    m_MaterialEditor.ShaderProperty(_DissolveCombineWithMasterNodeColor, new GUIContent("Master Node Color", "Combines cutout source value with Master Node's Color from Shader Graph"));
-                                }
 
                                 m_MaterialEditor.ShaderProperty(_DissolveEdgeColorIntensity, "Intensity");
                             }
@@ -473,7 +474,7 @@ namespace VacuumShaders.AdvancedDissolve
                             }
 
 
-                            if (drawEmission)
+                            if(drawEmission)
                             {
                                 if (_DissolveEdgeTextureSource.floatValue > 0.5f)
                                     GUILayout.Space(5);
@@ -486,17 +487,6 @@ namespace VacuumShaders.AdvancedDissolve
                                         m_MaterialEditor.ShaderProperty(_DissolveGIMultiplier, new GUIContent("GI Multiplier", "Global Illumination multiplier used in the Meta pass"));
                                         EditorGUIUtility.fieldWidth = defaultFieldWidth;
                                         EditorGUIUtility.labelWidth = defaultLabelWidth;
-                                    }
-                                }
-
-                                //Make emission color non-black
-                                if (_DissolveGIMultiplier.floatValue > 0.001f)
-                                {
-                                    if (emissionColorProp != null)
-                                    {
-                                        float brightness = emissionColorProp.colorValue.maxColorComponent;
-                                        if (brightness <= 0)
-                                            emissionColorProp.colorValue = new Color(0.004f, 0.004f, 0.004f, 1);
                                     }
                                 }
                             }
@@ -549,8 +539,28 @@ namespace VacuumShaders.AdvancedDissolve
                     }
                 }
             }
+            EditorGUILayout.EndFoldoutHeaderGroup();
+        }
 
+        static public void DrawSurfaceOptions(MaterialEditor m_MaterialEditor, bool drawBlendModes, bool drawCull)
+        {
+            //Anchor
+            GUILayout.Space(5);
+            EditorGUI.BeginChangeCheck();
+            using (new VacuumEditorGUIUtility.GUIBackgroundColor(Color.gray))
+            {
+                foldoutSurfaceOptions = EditorGUILayout.BeginFoldoutHeaderGroup(foldoutSurfaceOptions, "Surface Options");
+            }
+            if (EditorGUI.EndChangeCheck())
+                EditorPrefs.SetBool(prefName_SurfaceOptions, foldoutSurfaceOptions);
 
+            if(foldoutSurfaceOptions)
+            {
+                if (drawBlendModes)
+                    BlendModePopup(m_MaterialEditor);
+                if (drawCull)
+                    m_MaterialEditor.ShaderProperty(_Cull, "Render Face");
+            }
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
@@ -569,6 +579,78 @@ namespace VacuumShaders.AdvancedDissolve
             return foldoutSurfaceInputs;
         }
 
+        static public void BlendModePopup(MaterialEditor m_MaterialEditor)
+        {
+            EditorGUI.showMixedValue = _Mode.hasMixedValue;
+            var mode = (BlendMode)_Mode.floatValue;
+
+            EditorGUI.BeginChangeCheck();
+            mode = (BlendMode)EditorGUILayout.Popup("Rendering Mode", (int)mode, new string[] { "Opaque", "Cutout", "Fade (Transparent)" });
+            if (EditorGUI.EndChangeCheck())
+            {
+                m_MaterialEditor.RegisterPropertyChangeUndo("Rendering Mode");
+                _Mode.floatValue = (float)mode;
+
+
+                foreach (var obj in _Mode.targets)
+                    SetupMaterialWithBlendMode((Material)obj, mode);
+            }
+
+            EditorGUI.showMixedValue = false;
+        }
+
+        public static void SetupMaterialWithBlendMode(Material material, BlendMode blendMode)
+        {
+            switch (blendMode)
+            {
+                case BlendMode.Opaque:
+                    //material.SetOverrideTag("RenderType", "");
+                    material.SetOverrideTag("RenderType", "AdvancedDissolveCutout"); //Need cutout for Advanced Dissolve
+
+                    material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                    material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                    material.SetInt("_ZWrite", 1);
+                    material.DisableKeyword("_ALPHATEST_ON");
+                    material.DisableKeyword("_ALPHABLEND_ON");
+                    material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    material.renderQueue = -1;
+
+                    if (material.shader.name.Contains("Standard"))
+                        material.SetFloat("_Cutoff", 0);
+
+                    break;
+                case BlendMode.Cutout:
+                    material.SetOverrideTag("RenderType", "AdvancedDissolveCutout");
+                    material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                    material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                    material.SetInt("_ZWrite", 1);
+                    material.EnableKeyword("_ALPHATEST_ON");
+                    material.DisableKeyword("_ALPHABLEND_ON");
+                    material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.AlphaTest;
+                    break;
+                case BlendMode.Fade:
+                    material.SetOverrideTag("RenderType", "Transparent");
+                    material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    material.SetInt("_ZWrite", 0);
+                    material.DisableKeyword("_ALPHATEST_ON");
+                    material.EnableKeyword("_ALPHABLEND_ON");
+                    material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+                    break;
+                    //case BlendMode.Transparent:
+                    //    material.SetOverrideTag("RenderType", "Transparent");
+                    //    material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                    //    material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    //    material.SetInt("_ZWrite", 0);
+                    //    material.DisableKeyword("_ALPHATEST_ON");
+                    //    material.DisableKeyword("_ALPHABLEND_ON");
+                    //    material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+                    //    material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+                    //    break;
+            }
+        }
 
 
         static void DrawTextureTriplanarTiling(MaterialProperty _tiling, MaterialProperty _scroll)
@@ -596,149 +678,6 @@ namespace VacuumShaders.AdvancedDissolve
             {
                 _tiling.textureScaleAndOffset = new Vector4(tiling, _tiling.textureScaleAndOffset.y, _tiling.textureScaleAndOffset.z, _tiling.textureScaleAndOffset.w);
                 _scroll.vectorValue = scroll;
-            }
-        }
-
-
-        static public void MaterialChanged(Material material)
-        {
-            // Mask -------------------------------------------------------------------------------------
-            material.DisableKeyword("_DISSOLVEMASK_XYZ_AXIS");
-            material.DisableKeyword("_DISSOLVEMASK_PLANE");
-            material.DisableKeyword("_DISSOLVEMASK_SPHERE");
-            material.DisableKeyword("_DISSOLVEMASK_BOX");
-            material.DisableKeyword("_DISSOLVEMASK_CYLINDER");
-            material.DisableKeyword("_DISSOLVEMASK_CONE");
-
-            switch ((int)_DissolveMask.floatValue)
-            {
-                case 1:
-                    material.EnableKeyword("_DISSOLVEMASK_XYZ_AXIS");
-                    break;
-
-                case 2:
-                    material.EnableKeyword("_DISSOLVEMASK_PLANE");
-                    break;
-
-                case 3:
-                    material.EnableKeyword("_DISSOLVEMASK_SPHERE");
-                    break;
-
-                case 4:
-                    material.EnableKeyword("_DISSOLVEMASK_BOX");
-                    break;
-
-                case 5:
-                    material.EnableKeyword("_DISSOLVEMASK_CYLINDER");
-                    break;
-
-                case 6:
-                    material.EnableKeyword("_DISSOLVEMASK_CONE");
-                    break;
-            }
-
-
-
-            // Mask count ------------------------------------------------------------------------------
-            material.DisableKeyword("_DISSOLVEMASKCOUNT_TWO");
-            material.DisableKeyword("_DISSOLVEMASKCOUNT_THREE");
-            material.DisableKeyword("_DISSOLVEMASKCOUNT_FOUR");
-
-            switch ((int)_DissolveMaskCount.floatValue)
-            {
-                case 1:
-                    material.EnableKeyword("_DISSOLVEMASKCOUNT_TWO");
-                    break;
-
-                case 2:
-                    material.EnableKeyword("_DISSOLVEMASKCOUNT_THREE");
-                    break;
-
-                case 3:
-                    material.EnableKeyword("_DISSOLVEMASKCOUNT_FOUR");
-                    break;
-            }
-
-
-
-            // Cutout source ----------------------------------------------------------------------------
-            material.DisableKeyword("_DISSOLVEALPHASOURCE_CUSTOM_MAP");
-            material.DisableKeyword("_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS");
-            material.DisableKeyword("_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS");
-
-            switch ((int)_DissolveAlphaSource.floatValue)
-            {
-                case 1:
-                    material.EnableKeyword("_DISSOLVEALPHASOURCE_CUSTOM_MAP");
-                    break;
-
-                case 2:
-                    material.EnableKeyword("_DISSOLVEALPHASOURCE_TWO_CUSTOM_MAPS");
-                    break;
-
-                case 3:
-                    material.EnableKeyword("_DISSOLVEALPHASOURCE_THREE_CUSTOM_MAPS");
-                    break;
-            }
-
-
-            // Cutout source mapping -----------------------------------------------------------------------
-            material.DisableKeyword("_DISSOLVEMAPPINGTYPE_TRIPLANAR");
-            material.DisableKeyword("_DISSOLVEMAPPINGTYPE_SCREEN_SPACE");
-
-            switch ((int)_DissolveMappingType.floatValue)
-            {
-                case 1:
-                    material.EnableKeyword("_DISSOLVEMAPPINGTYPE_TRIPLANAR");
-                    break;
-
-                case 2:
-                    material.EnableKeyword("_DISSOLVEMAPPINGTYPE_SCREEN_SPACE");
-                    break;
-            }
-
-
-
-            // Edge Texture Type-------------------------------------------------------------------------
-            material.DisableKeyword("_DISSOLVEEDGETEXTURESOURCE_GRADIENT");
-            material.DisableKeyword("_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP");
-            material.DisableKeyword("_DISSOLVEEDGETEXTURESOURCE_CUSTOM");
-
-            switch ((int)_DissolveEdgeTextureSource.floatValue)
-            {
-                case 1:
-                    material.EnableKeyword("_DISSOLVEEDGETEXTURESOURCE_GRADIENT");
-                    break;
-
-                case 2:
-                    material.EnableKeyword("_DISSOLVEEDGETEXTURESOURCE_MAIN_MAP");
-                    break;
-
-                case 3:
-                    material.EnableKeyword("_DISSOLVEEDGETEXTURESOURCE_CUSTOM");
-                    break;
-            }
-
-
-
-            // Global Control -------------------------------------------------------------------------
-            material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
-            material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_AND_EDGE");
-            material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
-
-            switch ((int)_DissolveGlobalControl.floatValue)
-            {
-                case 1:
-                    material.EnableKeyword("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
-                    break;
-
-                case 2:
-                    material.EnableKeyword("_DISSOLVEGLOBALCONTROL_MASK_AND_EDGE");
-                    break;
-
-                case 3:
-                    material.EnableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
-                    break;
             }
         }
     }
