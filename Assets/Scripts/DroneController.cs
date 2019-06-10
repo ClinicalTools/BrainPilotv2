@@ -211,8 +211,9 @@ public class DroneController : MonoBehaviour {
 			lockedSelection = false;
 		}
 		StopAllCoroutines();
+		Debug.Log(show + ", " + hasActiveSequence);
 		if (_display == DisplayMethod.SelectedOnly) {
-			StartCoroutine(FadeMesh(show ? 0f : 1f));
+			StartCoroutine(FadeMesh(show | hasActiveSequence ? 0f : 1f));
 		}
 	}
 

@@ -41,7 +41,6 @@ public class SettingsManager : MonoBehaviour {
 			}
 
 			//Check the value saved in player prefs
-			Debug.Log(GetPrefsString(element.type, element.settingKey));
 			if (!allSettings[element.type].ContainsKey(element.settingKey)) {
 				isEnabled = CheckValue(element.type, element.settingKey);
 				allSettings[element.type].Add(element.settingKey, isEnabled);

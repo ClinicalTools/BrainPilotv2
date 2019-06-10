@@ -7,12 +7,21 @@ using UnityEngine.UI;
 RequireComponent(typeof(Button))]
 public class SettingsElement : MonoBehaviour {
 
+	[Header("Settings Identifiers")]
 	public SettingsManager.SettingType type;
 	public string settingKey;
+
+	[Header("Element Options")]
 	[Tooltip("Whether or not only one menu setting can be enabled at a time")]
 	public bool isRadio = true;
+	[Tooltip("Whether or not the setting should remain selected")]
 	public bool isPersistant = true;
+	[Tooltip("Whether or not the menu page should return upon selection")]
+	public bool returnOnSelect = false;
+
+	[Header("Scene Variables")]
 	public SettingsManager manager;
+	public MenuPageElement menuPage;
 	public UnityEngine.Events.UnityEvent onActivate;
 
 	private Button b;
@@ -26,17 +35,23 @@ public class SettingsElement : MonoBehaviour {
 		if (manager == null) {
 			manager = FindObjectOfType<SettingsManager>();
 		}
+		if (menuPage == null) {
+			menuPage = GetComponentInParent<MenuPageElement>();
+		}
 	}
 
 	public void OnClick()
 	{
 		Invoke();
+		CheckOptions();
 		UpdateManager();
 	}
 
 	public void Invoke()
 	{
 		onActivate.Invoke();
+		isChosen = true;
+
 		if (b == null) {
 			b = GetComponent<Button>();
 		}
@@ -46,17 +61,29 @@ public class SettingsElement : MonoBehaviour {
 			c.normalColor = SELECTED_COLOR;
 			b.colors = c;
 		}
+	}
+
+	public void CheckOptions()
+	{
+		if (b == null) {
+			b = GetComponent<Button>();
+		}
 
 		if (isRadio) {
 			SettingsElement[] ses = transform.parent.GetComponentsInChildren<SettingsElement>();
-			foreach(SettingsElement se in ses) {
+			foreach (SettingsElement se in ses) {
 				if (se.GetIsChosen() && !se.settingKey.Equals(settingKey)) {
 					se.Deselect();
 				}
 			}
 		}
 
-		isChosen = true;
+		if (returnOnSelect) {
+			if (menuPage == null) {
+				menuPage = GetComponentInParent<MenuPageElement>();
+			}
+			menuPage.GoBack();
+		}
 	}
 
 	private bool GetIsChosen()

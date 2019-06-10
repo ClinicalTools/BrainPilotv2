@@ -11,11 +11,24 @@ public class OculusAxis2DToResource : MonoBehaviour
 
     public OVRInput.Controller controller;
 
+	bool update;
+
     private void Update()
     {
+		update = (controller == OVRInput.GetActiveController());
+		if (!update) {
+			OVRInput.Controller c = OVRInput.GetActiveController();
+			if (c == OVRInput.Controller.Touch && controller == (OVRInput.Controller.RTouch | OVRInput.Controller.LTouch)) {
+				controller = c;
+				update = true;
+			} else if (c == (OVRInput.Controller.RTouch | OVRInput.Controller.LTouch) && controller == OVRInput.Controller.Touch) {
+				controller = c;
+				update = true;
+			}
+		}
 
-        //OVRInput.Update();
-		if (controller == OVRInput.GetActiveController()) {
+		//OVRInput.Update();
+		if (update) {
 			resource.Value = OVRInput.Get(axis, controller);
 		}
         
