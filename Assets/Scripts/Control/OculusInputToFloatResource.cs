@@ -9,11 +9,32 @@ public class OculusInputToFloatResource : MonoBehaviour
 
     public OVRInput.Controller controller;
     public OVRInput.Axis1D axis;
+	bool update;
 
-    private void Update()
+	private void Start()
+	{
+#if UNITY_EDITOR
+		controller = OVRInput.Controller.RTouch;
+#endif
+	}
+
+	private void Update()
     {
+		update = (controller == OVRInput.GetActiveController());
+		if (!update) {
+			OVRInput.Controller c = OVRInput.GetActiveController();
+			if (c == OVRInput.Controller.Touch && controller == (OVRInput.Controller.RTouch | OVRInput.Controller.LTouch)) {
+				controller = c;
+				update = true;
+			} else if (c == (OVRInput.Controller.RTouch | OVRInput.Controller.LTouch) && controller == OVRInput.Controller.Touch) {
+				controller = c;
+				update = true;
+			}
+		}
+		//Debug.Log(controller + "\n" + OVRInput.Get(axis, controller));
+
 		//OVRInput.Update();
-		if (controller == OVRInput.GetActiveController()) {
+		if (update) {
 			resource.Value = OVRInput.Get(axis, controller);
 		}
     }

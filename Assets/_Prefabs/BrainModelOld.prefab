@@ -1421,7 +1421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4023960906845312}
   m_Layer: 0
-  m_Name: BrainModel
+  m_Name: BrainModelOld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
