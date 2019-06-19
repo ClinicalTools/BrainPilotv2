@@ -149,11 +149,13 @@ namespace VacuumShaders.AdvancedDissolve
             // Do this before any GUI code has been issued to prevent layout issues in subsequent GUILayout statements (case 780071)
             if (m_FirstTimeApply)
             {
-                MaterialChanged(material, m_WorkflowMode);
+				int renderQueue = material.renderQueue;
+				MaterialChanged(material, m_WorkflowMode);
+				material.renderQueue = renderQueue;
                 m_FirstTimeApply = false;
             }
 
-            DrawAdditionlaOptions(material);
+			DrawAdditionlaOptions(material);
 
             if (VacuumShaders.AdvancedDissolve.MaterialProperties.DrawSurfaceInputs(materialEditor))
             {
@@ -244,7 +246,7 @@ namespace VacuumShaders.AdvancedDissolve
                     m_MaterialEditor.ShaderProperty(highlights, Styles.highlightsText);
                 if (reflections != null)
                     m_MaterialEditor.ShaderProperty(reflections, Styles.reflectionsText);
-            }
+			}
             if (EditorGUI.EndChangeCheck())
             {
                 foreach (var obj in blendMode.targets)
@@ -257,7 +259,8 @@ namespace VacuumShaders.AdvancedDissolve
             GUILayout.Label(Styles.advancedText, EditorStyles.boldLabel);
             m_MaterialEditor.EnableInstancingField();
             m_MaterialEditor.DoubleSidedGIField();
-        }
+			m_MaterialEditor.RenderQueueField();
+		}
 
         internal void DetermineWorkflow(MaterialProperty[] props)
         {
