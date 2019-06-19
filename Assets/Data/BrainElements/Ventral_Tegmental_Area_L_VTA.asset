@@ -15,4 +15,6 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates: []
   activeStates: []
-  description: Info Relay
+  elementName: Ventral Tegmental Area (L)
+  summary: Excitation, motivation, pleasure
+  description: Excitation, motivation, and mesolimbic pleasure pathway. Makes dopamine.

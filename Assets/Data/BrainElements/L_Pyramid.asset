@@ -11,4 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
   m_Name: L_Pyramid
   m_EditorClassIdentifier: 
-  description: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  elementName: Pyramid (L)
+  summary: Conducts motor information
+  description: Passes motor fibers between medulla oblongata, spinal cord, and brain

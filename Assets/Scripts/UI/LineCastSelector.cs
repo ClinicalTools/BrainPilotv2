@@ -31,8 +31,9 @@ public class LineCastSelector : MonoBehaviour
     public float distance;
     public Vector3 direction = Vector3.forward;
 
-    public float maxDistance = 10f;
-    public float inputEffectFactor = 1f;
+    public float maxDistance = 20f;
+	//Used to be .25f
+    public float inputEffectFactor = 10f;
 
     public bool isActive;
 
@@ -47,6 +48,8 @@ public class LineCastSelector : MonoBehaviour
     public Transform cursor;
     protected Vector3 cursorSavedPosition;
     protected Quaternion cursorSavedRotation;
+	public float stickDuration = 1f;
+	private float stickTime = 0f;
 
     private void Start()
     {
@@ -62,8 +65,10 @@ public class LineCastSelector : MonoBehaviour
         {
             UpdatePositions();
             UpdateLine();
-            UpdateSelection();
-            
+			//UpdateScale();
+			UpdateSelection();
+
+			
         }
         else
         {
@@ -73,7 +78,8 @@ public class LineCastSelector : MonoBehaviour
 			cursor.GetComponentInChildren<MeshRenderer>().enabled = false;
             //cursor.rotation = cursorSavedRotation;
         }
-        cursor.LookAt(transform);
+		UpdateScale();
+		cursor.LookAt(transform);
     }
 
     public void GetClickDown(bool clickDown)
@@ -81,7 +87,9 @@ public class LineCastSelector : MonoBehaviour
         cursorSavedPosition = cursor.position;
         //cursorSavedRotation = cursor.rotation;
         isActive = !clickDown;
-
+		if (isActive) {
+			stickTime = stickDuration;
+		}
 		cursor.GetComponentInChildren<MeshRenderer>().enabled = isActive;
 	}
 
@@ -97,22 +105,35 @@ public class LineCastSelector : MonoBehaviour
 
         // do our raycast & convert to a list
         RaycastHit[] hits = Physics.RaycastAll(originPosition, targetDirection, distance);
-        if (hits.Length == 0)
+		if (hits.Length == 0)
         {
             // invoke our event if ui target if we are deselecting a ui target
             if (uiTarget != null)
                 uiTargetEvent.Invoke(null);
-
-            cursor.transform.position = transform.position;
-			cursor.gameObject.SetActive(false);
-            if (furthestSelectable != null)
+			//cursor.transform.position = transform.position;
+			//cursor.gameObject.SetActive(false);
+            if (furthestSelectable != null && stickTime == 0)
             {
-                selectableTargetEvent.Invoke(null);
-            }
-            furthestSelectable = null;
-            uiTarget = null;
+				//selectableTargetEvent.Invoke(null);
+				stickTime = stickDuration;
+			}
+
+			if (stickTime > 0) {
+				stickTime -= Time.deltaTime;
+			} else if (stickTime != -1) {
+				selectableTargetEvent.Invoke(null);
+				cursor.transform.position = transform.position;
+				cursor.gameObject.SetActive(false);
+				furthestSelectable = null;
+				stickTime = -1;
+			}
+
+			//Uncomment to revert to pre-stick
+			//furthestSelectable = null;
+			uiTarget = null;
             return;
         }
+		stickTime = 0;
 		cursor.gameObject.SetActive(true);
             
         List<RaycastHit> hitList = new List<RaycastHit>(hits);
@@ -120,8 +141,9 @@ public class LineCastSelector : MonoBehaviour
         // select out the hits with Selectables on them
         var hitListSelectables = hitList.FindAll(hit => hit.collider.GetComponent<SelectableElement>());
 
-        if (hitListSelectables.Count == 0)
-            return;
+		if (hitListSelectables.Count == 0) {
+			return;
+		}
 
         // sort our hitlist by distance
         var sortedPoints = hitListSelectables.OrderByDescending(hit => Vector3.SqrMagnitude(hit.point - originPosition)).ToList();
@@ -173,6 +195,24 @@ public class LineCastSelector : MonoBehaviour
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
     }
 
+	private void UpdateScale()
+	{
+		float distance = (cursor.position - transform.position).magnitude;
+		//Multiply distance by ArcTan(x), where x is default size of the cursor we want.
+		float y = distance * Mathf.Atan(2);
+
+		//cursor decreases at 1/(sizeDecreaseRate * x)
+		float sizeDecreaseRate = 3;
+		//The bigger the startSize, the smaller it is. 1 = default size
+		float startSize = 2;
+
+		//The adjustment is used to slightly alter the scale of the cursor based on distance.
+		float adjustment = 1 / (sizeDecreaseRate * (distance / maxDistance) + startSize);
+		y *= adjustment;
+
+		cursor.localScale = Vector3.one * y;
+	}
+
     /// <summary>
     /// Update the positions of the line renderer
     /// </summary>
@@ -188,7 +228,9 @@ public class LineCastSelector : MonoBehaviour
     /// </summary>
     private void UpdatePositions()
     {
-        float changeInDistance = inputAxis.Value.y * inputEffectFactor;
+        float changeInDistance = inputAxis.Value.y * inputAxis.Value.y * (inputAxis.Value.y > 0 ? 1 : -1);
+		changeInDistance *= inputEffectFactor;
+		changeInDistance *= Time.deltaTime;
         distance += changeInDistance;
         distance = Mathf.Clamp(distance, 0f, maxDistance);
 

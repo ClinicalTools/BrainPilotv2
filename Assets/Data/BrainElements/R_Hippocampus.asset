@@ -15,4 +15,6 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates: []
   activeStates: []
-  description: Memory
+  elementName: Hippocampus (R)
+  summary: Memory
+  description: Memory formation and consolidation of new long-term memories

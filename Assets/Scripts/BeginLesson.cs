@@ -6,16 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class BeginLesson : MonoBehaviour {
 
-	/*
-	 * Unity doesn't provide an inspector slot for Scene without a custom editor.
-	 * A custom editor will be the end solution, but for now, use strings
-	 * as a prototype
-	 */
 	public SceneField mainScene = null;
 
 	//public List<string> scenesToLoad;
 	public BrainSceneReferences scenesToLoad;
 	public static bool loadingScenes = false;
+
 
 	[ContextMenu("Switch Scenes")]
 	public void SwitchScenes()

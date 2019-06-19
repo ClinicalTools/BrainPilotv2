@@ -15,4 +15,6 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates: []
   activeStates: []
-  description: Liking and Wanting
+  elementName: Nucleus Accumbens (L)
+  summary: Motivation, aversion, reward, reinforcement
+  description: Processing of motivation, aversion, reward, reinforcement learning

@@ -11,4 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
   m_Name: L_Hypothalamus
   m_EditorClassIdentifier: 
-  description: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  elementName: Hypothalamus (L)
+  summary: Metabolism, homeostasis, hunger, more
+  description: Metabolism, homeostasis, hunger, thirst, circadian rhythms, sleep,
+    more

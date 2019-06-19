@@ -23,25 +23,25 @@ MonoBehaviour:
     pathIncludesFilters: []
     componentIgnoresFilters: []
     lookInScenes: 1
-    lookInAssets: 1
-    lookInProjectSettings: 1
-    scenesSelection: 0
+    lookInAssets: 0
+    lookInProjectSettings: 0
+    scenesSelection: 2
     scanGameObjects: 1
     touchInactiveGameObjects: 1
     touchDisabledComponents: 1
-    scanGameObjectsFoldout: 0
-    gameObjectsFoldout: 1
+    scanGameObjectsFoldout: 1
+    gameObjectsFoldout: 0
     commonFoldout: 0
     neatnessFoldout: 0
-    projectSettingsFoldout: 1
-    missingReferences: 1
-    missingComponents: 1
-    missingPrefabs: 1
-    duplicateComponents: 1
-    inconsistentTerrainData: 1
-    unnamedLayers: 1
-    hugePositions: 1
-    duplicateLayers: 1
+    projectSettingsFoldout: 0
+    missingReferences: 0
+    missingComponents: 0
+    missingPrefabs: 0
+    duplicateComponents: 0
+    inconsistentTerrainData: 0
+    unnamedLayers: 0
+    hugePositions: 0
+    duplicateLayers: 0
   projectCleanerSettings:
     pathIgnores: []
     sceneIgnores: []

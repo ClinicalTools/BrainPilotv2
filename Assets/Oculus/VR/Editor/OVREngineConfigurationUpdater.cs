@@ -29,7 +29,7 @@ using System.IO;
 class OVREngineConfigurationUpdater
 {
 	private const string prefName = "OVREngineConfigurationUpdater_Enabled";
-	private const string menuItemName = "Tools/Oculus/Use Required Project Settings";
+	private const string menuItemName = "Oculus/Tools/Use Required Project Settings";
 	private const string androidAssetsPath = "Assets/Plugins/Android/assets";
 	private const string androidManifestPath = "Assets/Plugins/Android/AndroidManifest.xml";
 	static bool setPrefsForUtilities;
@@ -106,7 +106,7 @@ class OVREngineConfigurationUpdater
 		if (!setPrefsForUtilities)
 			return;
 
-		OVRPlugin.SendEvent("build_target", EditorUserBuildSettings.activeBuildTarget.ToString());
+		OVRPlugin.AddCustomMetadata("build_target", EditorUserBuildSettings.activeBuildTarget.ToString());
 		EnforceAndroidSettings();
 		EnforceInputManagerBindings();
 #if UNITY_ANDROID
@@ -171,9 +171,8 @@ class OVREngineConfigurationUpdater
 		{
 			if (mgrs [i].isActiveAndEnabled)
 			{
-				//Debug.Log ("Enabling Unity VR support");
-                if (!Application.isPlaying)
-				    PlayerSettings.virtualRealitySupported = true;
+				Debug.Log ("Enabling Unity VR support");
+				PlayerSettings.virtualRealitySupported = true;
 
 				bool oculusFound = false;
 #if UNITY_2017_2_OR_NEWER

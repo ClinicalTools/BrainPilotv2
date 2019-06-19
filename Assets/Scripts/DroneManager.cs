@@ -11,6 +11,7 @@ public class DroneManager : SubSceneListener {
 	public SignalManagerManager signalManager;
 	private int activeScene => subSceneManager.activeScene;
 	private bool started = false;
+	public bool tutorial = true;
 
 	// Use this for initialization
 	void Start () {
@@ -27,24 +28,53 @@ public class DroneManager : SubSceneListener {
 
 	public void GrabActiveSequence()
 	{
-		GrabSequenceAt(activeScene);
+		GetSceneSequences(activeScene);
 	}
 
 	public void GrabNextSequence()
 	{
-		GrabSequenceAt(activeScene + 1);
+		if (sequenceManager.isAtEnd) {
+			if (tutorial) {
+				tutorial = false;
+				drone.PauseSequence();
+			} else {
+				GetSceneSequences(activeScene + 1);
+			}
+		} else {
+			if (tutorial) {
+				tutorial = false;
+				drone.PauseSequence();
+			} else {
+				sequenceManager.AdvanceSequence();
+				LoadLesson();
+			}
+		}
 	}
 
 	public void GrabPreviousSequence()
 	{
-		GrabSequenceAt(activeScene - 1);
+		if (sequenceManager.isAtBeginning) {
+			GetSceneSequences(activeScene - 1);
+		} else {
+			sequenceManager.ReceedSequence();
+			LoadLesson();
+		}
 	}
 
+	public void GrabSequenceAt(int i)
+	{
+		for(int a = 0; a<i; a++) {
+			if (a + sequenceManager.count < i) {
+				a += sequenceManager.count - 1;
+				GetSceneSequences(activeScene + 1);
+			} else {
+				sequenceManager.AdvanceSequence();
+			}
+		}
+		LoadLesson();
+	}
 
-
-
-
-	public void GrabSequenceAt(int sceneIdx)
+	public void GetSceneSequences(int sceneIdx)
 	{
 		if (!started || sceneIdx != subSceneManager.activeScene) {
 			signalManager?.StopAll();
@@ -58,13 +88,19 @@ public class DroneManager : SubSceneListener {
 	private void LoadLesson()
 	{
 		if (activeScene >= SceneManager.sceneCount) {
-			HideDrone();
+			drone.ClearSequence();
+			//HideDrone();
 			return;
 		} else if (activeScene <= 0) {
 			subSceneManager.activeScene = 1;
 		}
 		drone.ResumeSequence(sequenceManager.GetSequence());
-		
+		if (!tutorial) {
+			GameObject.FindObjectOfType<AnchorUXController>().DisableInput();
+		} else {
+			GameObject.FindObjectOfType<AnchorUXController>().EnableInput();
+		}
+
 		//Handled from Invoke
 		/*
 		//Parse through the scene's game objects looking for what we want
@@ -78,7 +114,9 @@ public class DroneManager : SubSceneListener {
 
 	private void LoadSignals()
 	{
-		signalManager.PlayAll();
+		if (signalManager != null && signalManager.startOnAwake) {
+			signalManager.PlayAll(false);
+		}
 	}
 
 	public void HideDrone()

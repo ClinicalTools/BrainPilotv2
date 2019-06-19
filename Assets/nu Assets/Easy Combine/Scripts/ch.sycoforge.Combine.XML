@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ch.sycoforge.Combine</name>
+    </assembly>
+    <members>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.CombineInstatiate(System.Collections.Generic.IList{UnityEngine.GameObject},UnityEngine.Transform,ch.sycoforge.Combine.SplitMode,ch.sycoforge.Combine.UV2Mode,System.Boolean,System.Boolean)">
+            <summary>
+            Combines all meshes found in the specified list and generates a new game object holding the combined meshes and materials.
+            </summary>
+            <param name="gameObjects">The game objects to combine.</param>
+            <param name="parent">The parent of the game objects or <c>null</c> if the game object are located in the scene's root.</param>
+            <param name="splitMode">The mode used for splitting the meshes.</param>
+            <param name="uv2Mode">The mode used for processing the UV2 channel. <c>UV2Mode.Generate</c> doesn't work at runtime.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.CombineInstatiate(System.Collections.Generic.IList{UnityEngine.GameObject},UnityEngine.Transform,ch.sycoforge.Combine.UV2Mode,System.Boolean,System.Boolean)">
+            <summary>
+            Combines all meshes found in the specified list and generates a new game object holding the combined meshes and materials.
+            </summary>
+            <param name="gameObjects">The game objects to combine.</param>
+            <param name="parent">The parent of the game objects or <c>null</c> if the game object are located in the scene's root.</param>
+            <param name="uv2Mode">The mode used for processing the UV2 channel. <c>UV2Mode.Generate</c> doesn't work at runtime.</param>
+            <param name="optimize">Should the resulting mesh be optimized using Unity's mesh optimizer?</param>
+            <param name="uv2Mode">Should the normals of the resulting mesh be recalculated?</param>
+            <returns></returns>
+        </member>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.Revert(ch.sycoforge.Combine.CombineShadow,System.Boolean,System.Boolean)">
+            <summary>
+            Reverts the specified combine shadow.
+            </summary>
+            <param name="shadow">The combine shadow to revert.</param>
+            <param name="delete">Specifies whether the combined object should be deleted after reverting.</param>
+        </member>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.Finalize(ch.sycoforge.Combine.CombineShadow)">
+            <summary>
+            Finalizes the specified combine shadow and delete all associated originals.
+            </summary>
+            <param name="shadow">The combine shadow to finalize.</param>
+        </member>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.GetMaterialMeshes(System.Collections.Generic.IList{UnityEngine.GameObject},System.Int32@)">
+            <summary>
+            Returns all meshes the share one unique material found in the specified list.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.GetProperties``1(System.Collections.Generic.IList{UnityEngine.GameObject},ch.sycoforge.Combine.EasyCombine.RendererPropertySelector{``0})">
+            <summary>
+            Returns all unique renderer properties found in the specified list. No duplicates contained.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ch.sycoforge.Combine.EasyCombine.GetChildObjects(System.Collections.Generic.IList{UnityEngine.GameObject})">
+            <summary>
+            Returns all active child object and their parents.
+            </summary>
+            <param name="gameObjects"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

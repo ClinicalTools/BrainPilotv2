@@ -23,13 +23,15 @@ public class SequenceElement1 : MonoBehaviour {
 		public float scaleVal;
 	}
 
+	[TextArea]
+	public string textToDisplay;
 
 	[SerializeField]
 	private PlatformInformation platformInformation;
 
-	public string textToDisplay;
-
 	public MaterialSwitchState[] brainPiecesToHighlight;
+
+	public Color optMaterialColor;
 	
 	public UnityEvent OnEventBegin;
 	public UnityEvent OnEventEnd;
@@ -57,6 +59,14 @@ public class SequenceElement1 : MonoBehaviour {
 		}
 		platformInformation.waypointLocation = cam.position;
 	}
+
+	[ContextMenu("Clear Platform Info")]
+	public void ClearPlatformInfo()
+	{
+		platformInformation.lookAtPoint = null;
+		platformInformation.scaleVal = 0;
+		platformInformation.waypointLocation = Vector3.zero;
+	}
 #endif
 	public void Activate()
 	{
@@ -74,7 +84,11 @@ public class SequenceElement1 : MonoBehaviour {
 	public void HighlightBrainPieces()
 	{
 		foreach (MaterialSwitchState element in brainPiecesToHighlight) {
-			element?.Activate();
+			if (optMaterialColor != Color.black) {
+				element?.ActivateWithColor(optMaterialColor);
+			} else {
+				element?.Activate();
+			}
 		}
 	}
 

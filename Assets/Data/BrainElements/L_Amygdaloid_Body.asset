@@ -15,4 +15,6 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates: []
   activeStates: []
-  description: Emotions
+  elementName: Amygdala (L)
+  summary: Emotions
+  description: Emotional processing, especially fear

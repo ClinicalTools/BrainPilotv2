@@ -14,4 +14,6 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  description: 
+  elementName: Cingulate Gyrus (L)
+  summary: Motivation, attention, and behavior regulation
+  description: Processes emotions, motivation, attention, autonomic motor function.

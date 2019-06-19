@@ -14,4 +14,6 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  description: 
+  elementName: Corpus Callosum
+  summary: Connects brain hemispheres
+  description: Connects the left and right hemispheres

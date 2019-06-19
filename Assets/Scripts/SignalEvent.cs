@@ -32,42 +32,55 @@ public class SignalEvent : MonoBehaviour
 				}
 			}
 		}
+		if (block == null) {
+			block = new MaterialPropertyBlock();
+		}
 	}
 
-	void Start () 
+	void Start ()
 	{
 		//Fetching the Renderer from the Object
 		Renderer rend = GetComponent<Renderer>();
 		if (GetComponent<MaterialSwitchState>()) {
-			_material = GetComponent<MaterialSwitchState>().renderer.material;
+			startColor = GetComponent<MaterialSwitchState>().renderer.sharedMaterial.GetColor("_EmissionColor");
+			//_material = GetComponent<MaterialSwitchState>().renderer.material;
 		} else {
-			_material = rend.material;
+			startColor = rend.sharedMaterial.GetColor("_EmissionColor");
+			//_material = rend.material;
 		}
-		startColor = _material.GetColor("_EmissionColor");
+		//startColor = _material.GetColor("_EmissionColor");
 		//Fetching the Particle System
-		particle = GetComponentInChildren<ParticleSystem>();
+		if (particle == null) {
+			particle = GetComponentInChildren<ParticleSystem>();
+		}
 		collisionEvents = new List<ParticleCollisionEvent>();
 		timer = 1f;
 	}
-
 	//other represents the particle system that sent the colliding particle
 	void OnParticleCollision (GameObject other)
 	{
+		//Ensure the collision should happen
+		if (gameObject.layer != 10) {
+			return;
+		}
 		gameObject.layer = 0;
 		if (!signalManager.active) {
 			return;
 		}
-		Debug.Log("Particle Collision Triggered");
-		_material.SetColor("_EmissionColor", highlightColor);
+		
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
 		var mainstopper = stopper.main;
 		highlightColor = mainstopper.startColor.color;
-		stopper.Stop();
+
+		//stopper.Stop();
+
+		//This kills all particles and deletes their trails as well
+		//stopper.SetParticles(new ParticleSystem.Particle[] { }, 0);
 		
-		Debug.Log(stopper.gameObject.name + " was stopped.");
+		//Debug.Log(stopper.gameObject.name + " was stopped.", stopper.gameObject);
 		StartCoroutine(DelayCall(.5f, stopper));
-		signalManager.SendNextSignal(stopper);
+		//signalManager.SendNextSignal(stopper);
 	}
 
 	private IEnumerator DelayCall(float time, ParticleSystem system)
@@ -75,14 +88,26 @@ public class SignalEvent : MonoBehaviour
 		yield return new WaitForSecondsRealtime(time);
 		signalManager.SendNextSignal(system);
 	}
-	
+
+	MaterialPropertyBlock block;
+	public bool activated;
 	// Update is called once per frame
 	void Update () {
 		if (timer < duration) {
+			activated = true;
 			timer += Time.deltaTime;
-			_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
+			block.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer / duration));
+
+			if (GetComponent<MaterialSwitchState>()) {
+				GetComponent<MaterialSwitchState>().renderer.SetPropertyBlock(block);
+			} else {
+				GetComponent<Renderer>().SetPropertyBlock(block);
+			}
+			//GetComponent<Renderer>().SetPropertyBlock(block);
+			//_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
 		} else {
 			timer = duration;
+			activated = false;
 		}
 		
 	}

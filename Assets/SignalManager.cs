@@ -11,6 +11,7 @@ public class SignalManager : MonoBehaviour {
 	private ParticleSystem signalEmitter;
 	private ParticleSystem ps;
 	public bool active;
+	public bool loop = true;
 
 	private const int DEFAULT = 0;
 	private const int PARTICLE_COLLISION = 10;
@@ -22,16 +23,47 @@ public class SignalManager : MonoBehaviour {
 	public void StopAll()
 	{
 		foreach(ParticleSystem sys in relayChain) {
-			sys.Stop();
+			sys?.Stop();
 		}
 		active = false;
 	}
 
 	public void Play()
 	{
+		if (relayChain.Length == 0) {
+			return;
+		}
 		relayChain[0].Play();
 		relayChain[0].GetComponent<ParticleSeekOptimized>().target.gameObject.layer = PARTICLE_COLLISION;
 		active = true;
+	}
+
+	float timer;
+	ParticleSystem activeSystem;
+	private void Update()
+	{
+		if (active) {
+			if (timer < 0 && activeSystem != null) {
+				SendNextSignal(activeSystem);
+			} else {
+				timer -= Time.deltaTime;
+			}
+		}
+	}
+
+	public void ReduceParticleLifetime(ParticleSystem system)
+	{
+		//Reduce the lifetime of the particles which hit
+		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[10];
+		int particlesAlive = system.GetParticles(particles);
+		if (particles != null) {
+			for (int i = 0; i < particlesAlive; i++) {
+				//particles[i].velocity = Vector3.zero;
+				particles[i].startLifetime = 1;
+				particles[i].remainingLifetime = .8f;
+			}
+			system.SetParticles(particles, particlesAlive);
+		}
 	}
 
 	void OnEnable()
@@ -49,33 +81,85 @@ public class SignalManager : MonoBehaviour {
 	{
 		destination = null;
 		int index = -1;
-		foreach(ParticleSystem part in relayChain)
-		{
-			index++;
-			if(part == startingPoint)
-			{
-				if (relayChain.Length == (index + 1))
-				{
-					destination = relayChain[0];
-				} else 
-				{
-					destination = relayChain[index+1];
-				}
+
+		for(int i = 0; i < relayChain.Length; i++) {
+			if (relayChain[i] == startingPoint) {
+				//Match
+				index = i + 1;
 				break;
 			}
 		}
-		if (destination != null)
+		if (index == -1) {
+			//No match
+			return null;
+		} else if (index == relayChain.Length) {
+			//End of list
+			if (loop) {
+				return relayChain[0];
+			} else {
+				return null;
+			}
+		} else {
+			//Middle of list
+			return relayChain[index];
+		}
 		{
-			return destination;
-		} else return relayChain[0];
+			/*
+			//CAN'T HANDLE A LIST OF JUST ONE ELEMENT
+			foreach(ParticleSystem part in relayChain)
+			{
+				index++;
+				if(part == startingPoint)
+				{
+					if (relayChain.Length == (index + 1))
+					{
+						if (loop) {
+							destination = relayChain[0];
+						}
+					} else 
+					{
+						destination = relayChain[index+1];
+					}
+					break;
+				}
+			}
+			if (destination != null) {
+				return destination;
+			} else if (loop) {
+				return relayChain[0];
+			} else {
+				return null;
+			}*/
+		}
 	}
+
 	
 	public void SendNextSignal(ParticleSystem startingPoint)
 	{
+		//Reduce the remaining lifetime of the active particles
+		ReduceParticleLifetime(startingPoint);
+
+		//Find the next point
 		ParticleSystem nextPoint = FindNextSignal(startingPoint);
+		if (nextPoint == null) {
+			Debug.Log("NextPoint is null");
+			activeSystem = null;
+			return;
+		}
+
+		//Play the attached particlesystem
 		ps = nextPoint.GetComponent<ParticleSystem>();
 		ps.Play();
-		ps.GetComponent<ParticleSeekOptimized>().target.gameObject.layer = PARTICLE_COLLISION;
+		
+		//Adjust the particle seek
+		if (ps.GetComponent<ParticleSeekOptimized>()) {
+			ps.GetComponent<ParticleSeekOptimized>().target.gameObject.layer = PARTICLE_COLLISION;
+			ps.trigger.SetCollider(0, ps.GetComponent<ParticleSeekOptimized>().target.GetComponent<Collider>());
+		}
+
+		//Set up the checks to make sure the particles hit
+		timer = ps.main.startLifetimeMultiplier;
+		activeSystem = ps;
 	}
 
 	/// <summary>
@@ -97,11 +181,7 @@ public class SignalManager : MonoBehaviour {
 		}
 		return false;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 #if UNITY_EDITOR
 	[CustomEditor(typeof(SignalManager))]
 	public class SignalManagerEditor : Editor

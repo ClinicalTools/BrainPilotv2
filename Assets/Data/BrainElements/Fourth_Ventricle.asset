@@ -15,4 +15,6 @@ MonoBehaviour:
   - {fileID: 0}
   loadedStates: []
   activeStates: []
-  description: 
+  elementName: Fourth Ventricle
+  summary: Ventricle
+  description: Filled with cerebrospinal fluid, carries in nutrients and removes waste

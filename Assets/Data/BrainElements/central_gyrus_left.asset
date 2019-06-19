@@ -14,4 +14,8 @@ MonoBehaviour:
   listeners: []
   loadedStates: []
   activeStates: []
-  description: 
+  elementName: Pre-Central Gyrus & Post-Central Gyrus (L)
+  summary: Primary motor function and senses
+  description: 'Primary Motor Cortex (anterior)
+
+    Primary Somatosensory Cortex (posterior)'

@@ -11,4 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faef23b06b960244811e01bd557781b, type: 3}
   m_Name: L_B_intermedius_Nerve
   m_EditorClassIdentifier: 
-  description: 
+  listeners: []
+  loadedStates: []
+  activeStates: []
+  elementName: Intermediate nerve (L)
+  summary: Facial sensory and parasympathetic fibers
+  description: Part of Facial Nerve (VII). Sensory and parasympathetic fibers

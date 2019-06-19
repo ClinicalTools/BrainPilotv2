@@ -14,7 +14,7 @@ public class GenerateBrainSubScene {
 	const string savePath = "Assets/Scenes/Layered Scenes";
 	const string brainLocation = "Assets/_Prefabs/BrainModel.prefab";
 	const string sequenceLocation = "Assets/_Prefabs/SequenceManager.prefab";
-	const string particleManagerLocation = "Assets/_Prefabs/ParticleManager.prefab";
+	const string particleManagerLocation = "Assets/_Prefabs/SignalManager.prefab";
 
 	private static Dictionary<System.Type, GameObject> references;// = new Dictionary<System.Type, GameObject>();
 
@@ -23,7 +23,6 @@ public class GenerateBrainSubScene {
 	[MenuItem("Brain Scene/" + menuText)]
 	public static void GenerateScene()
 	{
-		Scene temp = SceneManager.GetActiveScene();
 		Scene s = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
 		SceneManager.SetActiveScene(s);
 		references = new Dictionary<System.Type, GameObject>();
@@ -52,7 +51,7 @@ public class GenerateBrainSubScene {
 			obj.name = "ParticleManager";
 			//references.Add(typeof(ParticleManager), obj);
 		} catch (System.ArgumentException) {
-			Debug.LogError("No sequence manager found at path: " + sequenceLocation);
+			Debug.LogError("No sequence manager found at path: " + particleManagerLocation);
 		}		
 	}
 
@@ -154,7 +153,6 @@ public class GenerateBrainSubScene {
 				SceneManager.SetActiveScene(previouslyActive);
 				return;
 			}
-			Debug.Log((activeSceneList == null) + ", " + (activeSceneList[0] == null) + ", " + activeSceneList[0].path);
 			EditorSceneManager.OpenScene(activeSceneList[0].path, OpenSceneMode.Single);
 			StartLightmap(activeSceneList[0]); 
 			activeSceneList.RemoveAt(0);

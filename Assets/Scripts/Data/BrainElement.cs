@@ -6,7 +6,13 @@ using UnityEngine;
 public class BrainElement : Selectable
 {
 
-    [TextArea]
+	public string elementName;
+
+	public string summary;
+
+	[TextArea]
     public string description;
+
+
 
 }
