@@ -82,6 +82,21 @@ public class LineCastSelector : MonoBehaviour
 		cursor.LookAt(transform);
     }
 
+	public void Enable()
+	{
+		SetActive(true);
+	}
+
+	public void Disable()
+	{
+		SetActive(false);
+	}
+
+	private void SetActive(bool active)
+	{
+		line.enabled = active;
+	}
+
     public void GetClickDown(bool clickDown)
     {
         cursorSavedPosition = cursor.position;

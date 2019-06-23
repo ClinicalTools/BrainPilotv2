@@ -92,7 +92,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DissolveAlphaSource: 0
     - _DissolveAlphaSourceTexturesUVSet: 0
-    - _DissolveCutoff: 0.25
+    - _DissolveCutoff: 0
     - _DissolveEdgeColorIntensity: 0
     - _DissolveEdgeDistortionSource: 0
     - _DissolveEdgeDistortionStrength: 0
