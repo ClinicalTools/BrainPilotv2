@@ -312,6 +312,9 @@ public class DroneController : MonoBehaviour {
 	{
 		if (hasActiveSequence) {
 			buttons.SetActive(true);
+
+			//Disable the previous button if on the first step
+			buttons.transform.GetChild(0).gameObject.SetActive(sequence.GetActiveIndex() != 0);
 		} else {
 			buttons.SetActive(false);
 		}
@@ -384,6 +387,9 @@ public class DroneController : MonoBehaviour {
 	{
 		if (s == null) {
 			Debug.LogWarning("Sequence is null!");
+			return;
+		} else if (s.steps.Length == 0) {
+			Debug.LogWarning("Sequence has no elements!");
 			return;
 		}
 		ignoreSequence = false;

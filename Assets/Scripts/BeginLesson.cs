@@ -106,5 +106,18 @@ public class BeginLesson : MonoBehaviour {
 		EditorBuildSettings.scenes = buildScenes.ToArray();
 		return newScene;
 	}
+
+	[CustomEditor(typeof(BeginLesson))]
+	private class BeginLessonEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+
+			if (GUILayout.Button("Load Lesson")) {
+				((BeginLesson)target).SwitchScenes();
+			}
+		}
+	}
 #endif
 }

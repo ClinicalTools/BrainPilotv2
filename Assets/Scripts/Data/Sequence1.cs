@@ -14,6 +14,9 @@ public class Sequence1 : MonoBehaviour {
 
 	public SequenceElement1 GetActiveStep()
 	{
+		if (steps.Length == 0) {
+			return null;
+		}
 		return steps[_stepIdx];
 	}
 
@@ -90,6 +93,11 @@ public class Sequence1 : MonoBehaviour {
 	public void ResetSequence()
 	{
 		_stepIdx = 0;
+	}
+
+	public int GetActiveIndex()
+	{
+		return _stepIdx;
 	}
 
 	public bool IsActive()

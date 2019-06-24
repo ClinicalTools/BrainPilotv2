@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SettingsManager : MonoBehaviour {
 
+	public LineCastSelector selector;
+	
 	//Use player prefs
 	//Manage settings and their names
 
@@ -29,6 +31,9 @@ public class SettingsManager : MonoBehaviour {
 	{
 		if (allSettings == null) {
 			allSettings = new Dictionary<SettingType, Dictionary<string, bool>>();
+		}
+		if (selector == null) {
+			selector = FindObjectOfType<LineCastSelector>();
 		}
 		
 		//We want to initialize our dataset based on existing settings
@@ -127,5 +132,17 @@ public class SettingsManager : MonoBehaviour {
 		}
 
 		SetSingleValue(type, name, value);
+	}
+
+	public void CloseMenu()
+	{
+		selector.Enable();
+		gameObject.SetActive(false);
+	}
+
+	public void OpenMenu()
+	{
+		selector.Disable();
+		gameObject.SetActive(true);
 	}
 }

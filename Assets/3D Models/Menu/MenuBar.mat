@@ -8,13 +8,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MenuBar
-  m_Shader: {fileID: 4800000, guid: 3e2235b7f61227c42a1444e0d79334ec, type: 3}
-  m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+  m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
+  m_ShaderKeywords: _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_NONE
+    _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_ONE
+    _DISSOLVEMASK_NONE _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP
+    _OCCLUSIONMAP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap: {}
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: AdvancedDissolveCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -80,11 +84,11 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0
     - _DetailNormalMapScale: 1
     - _DissolveAlphaSource: 0
     - _DissolveAlphaSourceTexturesUVSet: 0
-    - _DissolveCutoff: 1
+    - _DissolveCutoff: 0
     - _DissolveEdgeColorIntensity: 0
     - _DissolveEdgeDistortionSource: 0
     - _DissolveEdgeDistortionStrength: 0
@@ -99,6 +103,12 @@ Material:
     - _DissolveGIMultiplier: 1
     - _DissolveGlobalControl: 0
     - _DissolveMainMapTiling: 1
+    - _DissolveMap1Channel: 3
+    - _DissolveMap1Intensity: 1
+    - _DissolveMap2Channel: 3
+    - _DissolveMap2Intensity: 1
+    - _DissolveMap3Channel: 3
+    - _DissolveMap3Intensity: 1
     - _DissolveMappingType: 0
     - _DissolveMask: 0
     - _DissolveMaskAxis: 0
@@ -115,6 +125,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0

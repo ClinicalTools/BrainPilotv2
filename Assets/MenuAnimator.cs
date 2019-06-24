@@ -19,7 +19,6 @@ public class MenuAnimator : MonoBehaviour {
 	public void Start()
 	{
 		ani = GetComponent<Animator>();
-		ani2 = GetComponent<Animation>();
 	}
 
 	public void SetActive()
@@ -43,20 +42,12 @@ public class MenuAnimator : MonoBehaviour {
 		if (enabling) {
 			gameObject.SetActive(true);
 			if (animate) {
-				if (useAnimation) {
-					PlayAnimation("Entering");
-				} else {
-					ani.SetTrigger(AnimationActions.FadeInRight.ToString());
-				}
+				ani.SetTrigger(AnimationActions.FadeInRight.ToString());
 			}
 		} else {
 			if (animate) {
-				if (useAnimation) {
-					PlayAnimation("Selected");
-				} else {
-					ani.SetTrigger(AnimationActions.FadeOutLeft.ToString());
-					StartCoroutine(DisableWhenAniDone());
-				}
+				ani.SetTrigger(AnimationActions.FadeOutLeft.ToString());
+				StartCoroutine(DisableWhenAniDone());
 			} else {
 				gameObject.SetActive(false);
 			}
@@ -71,64 +62,28 @@ public class MenuAnimator : MonoBehaviour {
 		if (enabling) {
 			gameObject.SetActive(true);
 			if (animate) {
-				if (useAnimation) {
-					PlayAnimation("Selected", true);
-				} else {
-					ani.SetTrigger(AnimationActions.FadeInLeft.ToString());
-				}
+				ani.SetTrigger(AnimationActions.FadeInLeft.ToString());
 			}
 		} else {
 			if (animate) {
-				if (useAnimation) {
-					PlayAnimation("Entering", true);
-					StartCoroutine(DisableWhenAniDone());
-				} else {
-					ani.SetTrigger(AnimationActions.FadeOutRight.ToString());
-					StartCoroutine(DisableWhenAniDone());
-				}
+				ani.SetTrigger(AnimationActions.FadeOutRight.ToString());
+				StartCoroutine(DisableWhenAniDone());
 			} else {
 				gameObject.SetActive(false);
 			}
 		}
 	}
 
-	public void PlayAnimation(string name, bool reverse = false)
-	{
-		if (reverse)
-			PlayAnimation(name, -1f, true);
-		else
-			PlayAnimation(name, 1, false);
-	}
-
-	public void PlayAnimation(string name, float speed, bool playFromEnd)
-	{
-		if (ani2 == null) {
-			Start();
-		}
-		foreach(AnimationState state in ani2) {
-			state.clip.legacy = true;
-		}
-		ani2[name].speed = speed;
-		if (playFromEnd) {
-			ani2[name].time = ani2[name].length;
-		} else {
-			ani2[name].time = 0;
-		}
-		ani2.Stop();
-		ani2.clip = ani2[name].clip;
-		ani2.Play(name);
-	}
-
 	private IEnumerator DisableWhenAniDone()
 	{
-		if (useAnimation) {
-			while (ani2.isPlaying) {
-				yield return null;
+		int loopProtection = 0;
+		while (!ani.GetCurrentAnimatorStateInfo(0).IsName("Done")) {
+			loopProtection++;
+			if (loopProtection >= 30) {
+				loopProtection = 0;
+				break;
 			}
-		} else {
-			while (!ani.GetCurrentAnimatorStateInfo(0).IsName("Done")) {
-				yield return null;
-			}
+			yield return null;
 		}
 		gameObject.SetActive(false);
 	}

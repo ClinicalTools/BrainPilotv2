@@ -16,13 +16,30 @@ public class SignalManager : MonoBehaviour {
 	private const int DEFAULT = 0;
 	private const int PARTICLE_COLLISION = 10;
 
-	void Start () {
+	void Awake () {
+		if (relayChain == null) {
+			relayChain = new ParticleSystem[0];
+		}
 		//StopAll();
+		Debug.Log(relayChain.Length);
+		List<ParticleSystem> psList = new List<ParticleSystem>(relayChain);
+		for(int i = 0; i < psList.Count; i++) {
+			if (psList[i] == null) {
+				psList.RemoveAt(i);
+				i--;
+			}
+		}
+		relayChain = psList.ToArray();
+		Debug.Log(relayChain.Length);
+
 	}
 
 	public void StopAll()
 	{
 		foreach(ParticleSystem sys in relayChain) {
+			if (sys == null) {
+				continue;
+			}
 			sys?.Stop();
 		}
 		active = false;
@@ -81,6 +98,10 @@ public class SignalManager : MonoBehaviour {
 	{
 		destination = null;
 		int index = -1;
+
+		if (relayChain.Length == 0) {
+			return null;
+		}
 
 		for(int i = 0; i < relayChain.Length; i++) {
 			if (relayChain[i] == startingPoint) {
