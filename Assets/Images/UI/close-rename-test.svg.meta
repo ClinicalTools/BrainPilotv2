@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: d2d91e34674f88948b2f85b5802aeb61
 ScriptedImporter:
-  fileIDToRecycleName:
-    2800000: tex
-    21300000: sprite
+  internalIDToNameTable:
+  - first:
+      28: 2800000
+    second: tex
+  - first:
+      213: 21300000
+    second: sprite
   externalObjects: {}
+  serializedVersion: 2
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -49,4 +54,5 @@ ScriptedImporter:
         width: 0
         height: 0
       spriteID: da25991227eed8343b46aa906f005bd4
+      internalID: 0
     PhysicsOutlines: []

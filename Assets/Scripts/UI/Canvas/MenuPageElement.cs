@@ -51,7 +51,7 @@ public class MenuPageElement : MonoBehaviour {
 			for (int i = 0; i < transform.parent.childCount; i++) {
 				child = transform.parent.GetChild(i);
 				if (child.gameObject.activeInHierarchy) {
-					if (child.GetComponent<MenuAnimator>() != null) {
+					if (child.GetComponent<MenuAnimator>() == null) {
 						child.gameObject.SetActive(false);
 					} else {
 						child.GetComponent<MenuAnimator>().Transition(false);
