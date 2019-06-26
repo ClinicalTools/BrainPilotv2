@@ -13,7 +13,9 @@ public class MenuPageElement : MonoBehaviour {
 
 	public void Activate()
 	{
-		Activate(false);
+		if (!gameObject.activeSelf) {
+			Activate(false);
+		}
 	}
 
 	public void GoBack()
