@@ -136,12 +136,18 @@ public class SettingsManager : MonoBehaviour {
 
 	public void CloseMenu()
 	{
+		if (selector == null) {
+			selector = FindObjectOfType<LineCastSelector>();
+		}
 		selector.Enable();
 		gameObject.SetActive(false);
 	}
 
 	public void OpenMenu()
 	{
+		if (selector == null) {
+			selector = FindObjectOfType<LineCastSelector>();
+		}
 		selector.Disable();
 		gameObject.SetActive(true);
 	}

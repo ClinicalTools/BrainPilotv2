@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class testing : MonoBehaviour {
+public class ImageAlphaHitChange : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
