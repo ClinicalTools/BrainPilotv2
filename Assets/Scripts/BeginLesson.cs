@@ -43,7 +43,8 @@ public class BeginLesson : MonoBehaviour {
 						}
 					}
 #endif
-					SceneManager.LoadScene(s.SceneName, LoadSceneMode.Additive);
+					//SceneManager.LoadScene(s.SceneName, LoadSceneMode.Additive);
+					SceneManager.LoadSceneAsync(s.SceneName, LoadSceneMode.Additive).allowSceneActivation = true;
 					//#endif
 				}
 			}

@@ -22,6 +22,7 @@ public class DroneManager : SubSceneListener {
 			RetrieveSubSceneManager();
 		}
 		subSceneManager.RegisterListener(this);
+		UnityEngine.Application.quitting += delegate { subSceneManager.UnregisterListener(this); };
 		subSceneManager.activeScene = 1;
 		Invoke("GrabActiveSequence", 2f);
 	}

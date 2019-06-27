@@ -13,7 +13,9 @@ public class MenuPageElement : MonoBehaviour {
 
 	public void Activate()
 	{
-		Activate(false);
+		if (!gameObject.activeSelf) {
+			Activate(false);
+		}
 	}
 
 	public void GoBack()
@@ -51,7 +53,7 @@ public class MenuPageElement : MonoBehaviour {
 			for (int i = 0; i < transform.parent.childCount; i++) {
 				child = transform.parent.GetChild(i);
 				if (child.gameObject.activeInHierarchy) {
-					if (child.GetComponent<MenuAnimator>() != null) {
+					if (child.GetComponent<MenuAnimator>() == null) {
 						child.gameObject.SetActive(false);
 					} else {
 						child.GetComponent<MenuAnimator>().Transition(false);

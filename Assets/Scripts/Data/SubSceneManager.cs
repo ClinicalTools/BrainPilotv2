@@ -51,8 +51,13 @@ public class SubSceneManager : ScriptableObject {
 			}
 		}
 
-		foreach(SubSceneListener listener in listeners) {
-			listener.Invoke();
+		for(int i = 0; i < listeners.Count; i++) {
+			if (listeners[i] == null) {
+				listeners.RemoveAt(i);
+				i--;
+			} else {
+				listeners[i].Invoke();
+			}
 		}
 	}
 

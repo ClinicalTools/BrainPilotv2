@@ -14,33 +14,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/Main Scene2 - Copy.unity
     guid: 6f065e2d052416c42b364e0f85b46cdd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Layered Scenes/Main Scene.unity
     guid: 652620de51b674c4a9d26cb666949561
-  - enabled: 0
-    path: Assets/Scenes/Layered Scenes/New Scene.unity
-    guid: 587e776fadf71f046a324f2e427b8a0d
-  - enabled: 0
-    path: Assets/Scenes/Layered Scenes/New Scene 1.unity
-    guid: 5d2761e95e216ac49bb1f4c241f5777e
-  - enabled: 0
-    path: Assets/Scenes/Layered Scenes/New Scene 2.unity
-    guid: d9321339859b961489e209b93be7c8f0
-  - enabled: 0
-    path: Assets/Scenes/Layered Scenes/GO TEST.unity
-    guid: 61fb96c24dcdf17419b6f1f9400bdbf8
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/InnerBrain.unity
     guid: 4ae1c38a8d1866048bca2fd0050e8bf2
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/OuterBrain.unity
     guid: 4042ced2e13a728458cfd2cee52e47be
-  - enabled: 0
-    path: Assets/Scenes/Layered Scenes/Transparency Test.unity
-    guid: 889b17ce1f3964d46a2aaaa05dea2378
-  - enabled: 0
-    path: 
-    guid: 8c9870d2fc7e7644dbef1b99c0a48f77
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/FreeExplore.unity
     guid: 5128f58e6e6e2b94f8bbdfed97bdf9c5
