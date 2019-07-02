@@ -109,6 +109,8 @@ public class DroneController : MonoBehaviour {
 			//mainCamera = transform.parent;
 			mainCamera = GameObject.Find("new_platform01").transform;
 		}
+
+		GetComponent<DroneListener>().data.selection = null;
 	}
 
 	/**

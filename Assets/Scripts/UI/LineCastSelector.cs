@@ -84,12 +84,22 @@ public class LineCastSelector : MonoBehaviour
 
 	public void Enable()
 	{
-		SetActive(true);
+		isActive = true;
+		line.enabled = true;
+		//SetActive(true);
 	}
 
 	public void Disable()
 	{
-		SetActive(false);
+		isActive = false;
+		float tempDist = distance;
+		distance = 0;
+		//Setting sticktime to less than 0 (and not -1) to trigger the unstick code
+		stickTime = -10;
+		UpdateSelection();
+		distance = tempDist;
+		line.enabled = false;
+		//SetActive(false);
 	}
 
 	private void SetActive(bool active)

@@ -47,16 +47,19 @@ public class MaterialSwitchState : MonoBehaviour {
 		emissionColor = temp;
 	}
 
-	Material matTemp;
-	public /*override*/ void Activate()
-    {
-		//base.Activate();
+	public void Brighten()
+	{
+		Debug.Log("Brighten " + name);
 		if (active) {
 			return;
 		}
-		active = true;
-		//renderer.enabled = true;
-		if (renderer.HasPropertyBlock()) {
+		if (savedMaterial != null) {
+			renderer.sharedMaterial = savedMaterial;
+		} else {
+			savedMaterial = renderer.sharedMaterial;
+		}
+
+		/*if (renderer.HasPropertyBlock()) {
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
 			renderer.GetPropertyBlock(block);
 			renderer.SetPropertyBlock(null);
@@ -64,7 +67,40 @@ public class MaterialSwitchState : MonoBehaviour {
 			renderer.SetPropertyBlock(block);
 		} else {
 			savedMaterial = renderer.sharedMaterial;
+		}*/
+
+		renderer.material.SetColor("_Color", Color.white);
+	}
+
+	public void Darken()
+	{
+		print("Darken " + name);
+		Deactivate();
+	}
+
+	Material matTemp;
+	public /*override*/ void Activate()
+	{
+		//base.Activate();
+		if (active) {
+			return;
 		}
+		if (savedMaterial != null) {
+			renderer.sharedMaterial = savedMaterial;
+		} else {
+			savedMaterial = renderer.sharedMaterial;
+		}
+		active = true;
+		//renderer.enabled = true;
+		/*if (renderer.HasPropertyBlock()) {
+			MaterialPropertyBlock block = new MaterialPropertyBlock();
+			renderer.GetPropertyBlock(block);
+			renderer.SetPropertyBlock(null);
+			savedMaterial = renderer.sharedMaterial;
+			renderer.SetPropertyBlock(block);
+		} else {
+			savedMaterial = renderer.sharedMaterial;
+		}*/
 
 		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
 		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
@@ -100,8 +136,10 @@ public class MaterialSwitchState : MonoBehaviour {
     public /*override*/ void Deactivate()
     {
 		//base.Deactivate();
-
-		renderer.sharedMaterial = savedMaterial;
+		if (savedMaterial != null) {
+			renderer.sharedMaterial = savedMaterial;
+			savedMaterial = null;
+		}
 		active = false;
 		//renderer.enabled = false;
 		//renderer.SetPropertyBlock(null);

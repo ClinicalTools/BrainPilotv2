@@ -39,6 +39,24 @@ public class DroneData : ScriptableObject {
 		foreach(DroneListener listener in list) {
 			listener.Invoke(true);
 		}
+		BrightenHovered(selection);
+	}
+
+	Selectable currentBright;
+	public void BrightenHovered(Selectable s)
+	{
+		if (currentBright != null) {
+			foreach (SelectableListener l in currentBright.listeners) {
+				l?.GetComponent<MaterialSwitchState>()?.Darken();
+			}
+		}
+		currentBright = s;
+		if (currentBright == null) {
+			return;
+		}
+		foreach (SelectableListener l in currentBright.listeners) {
+			l?.GetComponent<MaterialSwitchState>()?.Brighten();
+		}
 	}
 
 	public void HighlightSelected(Selectable selected)
