@@ -13,9 +13,30 @@ public class OculusAxis2DToResource : MonoBehaviour
 
 	bool update;
 
-    private void Update()
+	private void Awake()
+	{
+		//Quest and Rift S use Touch
+		controller = OVRInput.Controller.Touch;
+	}
+
+	private void Update()
     {
+		/**
+		 * Accessed as Touch, all inputs are separated
+		 * Accessed individually (r or ltouch), they are mapped as the same
+		 * We want them accessed the same way, but to call them indipendently.
+		 */
+		
+		//Need to account for one controller or both active
+		//r/ltouch and touch
+		//Which is active while touch is the controller type?
+		//Do we need the input check? Yes, because we 
+		
+
+
+		controller = OVRInput.GetActiveController();
 		update = (controller == OVRInput.GetActiveController());
+		/*
 		if (!update) {
 			OVRInput.Controller c = OVRInput.GetActiveController();
 			if (c == OVRInput.Controller.Touch && controller == (OVRInput.Controller.RTouch | OVRInput.Controller.LTouch)) {
@@ -25,12 +46,16 @@ public class OculusAxis2DToResource : MonoBehaviour
 				controller = c;
 				update = true;
 			}
+		}*/
+
+		if (update) {
+			//Doing this, the left controller is marked as primary, so the right doesn't work.
+			//Need to check the value of multiple controllers then most likely
+			resource.Value = OVRInput.Get(axis);
+		} else {
+			print(OVRInput.GetActiveController());
 		}
 
-		//OVRInput.Update();
-		if (update) {
-			resource.Value = OVRInput.Get(axis, controller);
-		}
         
     }
 
