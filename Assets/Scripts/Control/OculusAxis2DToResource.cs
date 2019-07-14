@@ -26,17 +26,19 @@ public class OculusAxis2DToResource : MonoBehaviour
 		 * Accessed individually (r or ltouch), they are mapped as the same
 		 * We want them accessed the same way, but to call them indipendently.
 		 */
-		
+
 		//Need to account for one controller or both active
 		//r/ltouch and touch
 		//Which is active while touch is the controller type?
 		//Do we need the input check? Yes, because we 
-		
 
+		//The active controller is decided in ActiveHandAnchor
+		resource.Value = OVRInput.Get(axis, ActiveHandAnchor.active);
 
+		/*
 		controller = OVRInput.GetActiveController();
 		update = (controller == OVRInput.GetActiveController());
-		/*
+		
 		if (!update) {
 			OVRInput.Controller c = OVRInput.GetActiveController();
 			if (c == OVRInput.Controller.Touch && controller == (OVRInput.Controller.RTouch | OVRInput.Controller.LTouch)) {
@@ -46,7 +48,7 @@ public class OculusAxis2DToResource : MonoBehaviour
 				controller = c;
 				update = true;
 			}
-		}*/
+		}
 
 		if (update) {
 			//Doing this, the left controller is marked as primary, so the right doesn't work.
@@ -54,10 +56,10 @@ public class OculusAxis2DToResource : MonoBehaviour
 			resource.Value = OVRInput.Get(axis);
 		} else {
 			print(OVRInput.GetActiveController());
-		}
+		}*/
 
-        
-    }
+
+	}
 
 
 }
