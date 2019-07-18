@@ -301,7 +301,7 @@ public class DroneController : MonoBehaviour {
 	private void UpdateText()
 	{
 		if (hasActiveSequence) {
-			textField.text = sequence.GetActiveStep().textToDisplay;
+			textField.text = sequence.GetActiveStep()?.textToDisplay;
 		} else if (selection != null && selection is BrainElement) {
 			//Update with a description of the selected brain piece
 			textField.text = ((BrainElement)selection).description;
@@ -496,7 +496,10 @@ public class DroneController : MonoBehaviour {
 
 	private IEnumerator MovePlatform()
 	{
-		info = sequence.GetActiveStep().GetPlatformInfo();
+		info = sequence.GetActiveStep()?.GetPlatformInfo();
+		if (info == null) {
+			yield break;
+		}
 		float totalDuration = 5f;
 		float _time = 0f;
 		float lerpVal;

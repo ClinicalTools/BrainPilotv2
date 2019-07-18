@@ -55,16 +55,20 @@ public class LineCastSelector : MonoBehaviour
     {
         origin = origin ?? transform;
         line = line ?? GetComponent<LineRenderer>();
-
+		bLine = bLine ?? GetComponent<BezierLineRenderer>();
 
     }
+
+	public BezierLineRenderer bLine;
 
     private void Update()
     {
         if (isActive)
         {
             UpdatePositions();
-            UpdateLine();
+			if (!bLine.isActive) {
+				UpdateLine();
+			}
 			//UpdateScale();
 			UpdateSelection();
 

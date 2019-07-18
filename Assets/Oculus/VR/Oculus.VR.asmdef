@@ -1,8 +1,15 @@
 {
     "name": "Oculus.VR",
-    "references": [],
+    "references": [
+        "GUID:0014a66256eea4345a2bf193610d5546"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
 }

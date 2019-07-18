@@ -237,7 +237,6 @@ public class AnchorUXController : MonoBehaviour {
 		changeAmount *= inputResource.Value.y > 0 ? 1 : -1;
         Vector3 direction = (line.GetPosition(1) - line.GetPosition(0)).normalized;
         platform.position += direction * changeAmount;
-
     }
 
 	private void LineRotate(float val = 1)

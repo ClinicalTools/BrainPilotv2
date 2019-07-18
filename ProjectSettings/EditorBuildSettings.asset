@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Reconstruct.unity
+    path: Assets/Scenes/Old, possibly delete/Reconstruct.unity
     guid: 95797a823e9a9064c9a9a52afc97cc06
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/Hub Scene.unity
@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Layered Scenes/Main Scene2 - Copy.unity
     guid: 6f065e2d052416c42b364e0f85b46cdd
   - enabled: 0
-    path: Assets/Scenes/Layered Scenes/Main Scene.unity
+    path: Assets/Scenes/Layered Scenes/OLDMain Scene.unity
     guid: 652620de51b674c4a9d26cb666949561
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/InnerBrain.unity
@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Layered Scenes/FreeExplore.unity
     guid: 5128f58e6e6e2b94f8bbdfed97bdf9c5
+  - enabled: 1
+    path: Assets/Scenes/Layered Scenes/TestScene.unity
+    guid: 8ddff0f0f5f16244aaafbf54f3ddd907
   m_configObjects: {}
