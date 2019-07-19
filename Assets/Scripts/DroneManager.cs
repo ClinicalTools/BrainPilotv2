@@ -96,7 +96,8 @@ public class DroneManager : SubSceneListener {
 			subSceneManager.activeScene = 1;
 		}
 		drone.ResumeSequence(sequenceManager.GetSequence());
-		if (!tutorial) {
+		//if (!tutorial) {
+		if (activeScene != 0) {
 			GameObject.FindObjectOfType<AnchorUXController>().DisableInput();
 		} else {
 			GameObject.FindObjectOfType<AnchorUXController>().EnableInput();

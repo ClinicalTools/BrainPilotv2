@@ -302,6 +302,9 @@ public class DroneController : MonoBehaviour {
 	{
 		if (hasActiveSequence) {
 			textField.text = sequence.GetActiveStep()?.textToDisplay;
+
+			//Display highlight name?
+			//sequence.GetActiveStep()?.brainPiecesToHighlight
 		} else if (selection != null && selection is BrainElement) {
 			//Update with a description of the selected brain piece
 			textField.text = ((BrainElement)selection).description;
@@ -341,6 +344,7 @@ public class DroneController : MonoBehaviour {
 		}
 		UpdateText();
 		UpdateDroneButtons();
+		UpdateHighlightedNames();
 		StopMovingPlatform(IsPlatformInfoEmpty());
 		movePlatformCoroutine = StartCoroutine(MovePlatform());
 	}
@@ -451,6 +455,50 @@ public class DroneController : MonoBehaviour {
 				SetActive(false);*/
 			} else {
 				UpdatePlatform();
+			}
+		}
+	}
+
+	GameObject[] displayTexts;
+	public bool showHighlightedNames;
+	public TMPro.TextMeshPro highlightText;
+	private void UpdateHighlightedNames()
+	{
+		if (!showHighlightedNames) {
+			return;
+		}
+
+		if (highlightText != null) {
+			MaterialSwitchState[] s = sequence.GetActiveStep()?.brainPiecesToHighlight;
+			string text = "Highlighted:\n";
+			if (s.Length == 0) {
+				text = "";
+			} else {
+				for (int i = 0; i < s.Length; i++) {
+					text += ((BrainElement)(s[i].GetComponent<SelectableElement>().selectable)).elementName + "\n";
+				}
+			}
+			highlightText.text = text;
+		} else {
+			MaterialSwitchState[] s = sequence.GetActiveStep()?.brainPiecesToHighlight;
+			//Remove the old highlighted pieces' names
+			if (displayTexts != null) {
+				for (int i = 0; i < displayTexts.Length; i++) {
+					Destroy(displayTexts[i]);
+				}
+			}
+
+			displayTexts = new GameObject[s.Length];
+			for (int i = 0; i < s.Length; i++) {
+				//Instantiate the display text
+				displayTexts[i] = Instantiate(Resources.Load("Display Text")) as GameObject;
+
+				//Set the name
+				string name = ((BrainElement)(s[i].GetComponent<SelectableElement>().selectable)).elementName;
+				displayTexts[i].GetComponentInChildren<TMPro.TextMeshPro>().text = name;
+
+				//Set the position
+				displayTexts[i].transform.position = s[i].transform.position;
 			}
 		}
 	}

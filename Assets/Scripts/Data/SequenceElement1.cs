@@ -89,6 +89,10 @@ public class SequenceElement1 : MonoBehaviour {
 			} else {
 				element?.Activate();
 			}
+
+			//Display name
+			//Spawn prefab?
+			//Default scale: .1, .1, .1
 		}
 	}
 

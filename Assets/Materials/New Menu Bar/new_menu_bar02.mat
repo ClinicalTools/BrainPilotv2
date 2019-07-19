@@ -94,7 +94,7 @@ Material:
     - _DissolveAlphaSourceTexturesUVSet: 0
     - _DissolveCombineWithMasterNodeAlpha: 0
     - _DissolveCombineWithMasterNodeColor: 0
-    - _DissolveCutoff: 0.025555423
+    - _DissolveCutoff: 0
     - _DissolveEdgeColorIntensity: 0
     - _DissolveEdgeDistortionSource: 0
     - _DissolveEdgeDistortionStrength: 0

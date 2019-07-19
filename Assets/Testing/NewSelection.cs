@@ -18,6 +18,7 @@ public class NewSelection : MonoBehaviour
     void Start()
     {
 		line = GetComponent<LineRenderer>();
+		line.startWidth = .1f;
 		lineArray = new Vector3[2];
 		line.useWorldSpace = true;
     }
