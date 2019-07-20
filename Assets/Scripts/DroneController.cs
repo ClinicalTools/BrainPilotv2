@@ -512,18 +512,19 @@ public class DroneController : MonoBehaviour {
 				Destroy(displayText);
 			}
 
+			if (sequence.IsActive()) {
+				MaterialSwitchState[] s = sequence.GetActiveStep()?.brainPiecesToHighlight;
+				//Don't do anything if there's no text to display
+				if (sequence.GetActiveStep()?.highlightedText.Length > 0) {
+					//Instantiate the display text
+					displayText = Instantiate(Resources.Load("Display Text"), s[0].transform.position, transform.rotation) as GameObject;
 
-			MaterialSwitchState[] s = sequence.GetActiveStep()?.brainPiecesToHighlight;
-			//Don't do anything if there's no text to display
-			if (sequence.GetActiveStep()?.highlightedText.Length > 0) {
-				//Instantiate the display text
-				displayText = Instantiate(Resources.Load("Display Text"), s[0].transform.position, transform.rotation) as GameObject;
+					//Set the name
+					displayText.GetComponentInChildren<TMPro.TextMeshPro>().text = sequence.GetActiveStep()?.highlightedText;
 
-				//Set the name
-				displayText.GetComponentInChildren<TMPro.TextMeshPro>().text = sequence.GetActiveStep()?.highlightedText;
-
-				//Set the position
-				displayText.transform.position = s[0].transform.position;
+					//Set the position
+					displayText.transform.position = s[0].transform.position;
+				}
 			}
 
 			/*

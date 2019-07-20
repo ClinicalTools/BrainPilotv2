@@ -34,7 +34,7 @@ public class TweenScaleByFactor : MonoBehaviour
 		lastResourceValue = targetTransform.localScale.x;
 
 		selector = GetComponentInChildren<LineCastSelector>();
-		ovrCursor = GetComponentInChildren<OVRGazePointer>().transform.parent;
+		ovrCursor = GetComponentInChildren<OVRGazePointer>()?.transform.parent;
 
 		//if (runOnUpdateValue)
 		//resource.OnValueChanged.AddListener(UpdateFromResource);
