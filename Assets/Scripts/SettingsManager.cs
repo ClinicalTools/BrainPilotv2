@@ -140,7 +140,7 @@ public class SettingsManager : MonoBehaviour {
 			selector = FindObjectOfType<LineCastSelector>();
 		}
 		selector.Enable();
-		gameObject.SetActive(false);
+		transform.GetChild(1).gameObject.SetActive(false);
 	}
 
 	public void OpenMenu()
@@ -149,6 +149,6 @@ public class SettingsManager : MonoBehaviour {
 			selector = FindObjectOfType<LineCastSelector>();
 		}
 		selector.Disable();
-		gameObject.SetActive(true);
+		transform.GetChild(1).gameObject.SetActive(true); 
 	}
 }

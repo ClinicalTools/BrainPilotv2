@@ -239,10 +239,12 @@ public class AnchorUXController : MonoBehaviour {
         platform.position += direction * changeAmount;
     }
 
+	private bool debug = false;
 	private void LineRotate(float val = 1)
 	{
 		float changeRotation = val * rotationSpeed;
-		Debug.Log("changeRotation starts at: " + changeRotation);
+		if (debug)
+			Debug.Log("changeRotation starts at: " + changeRotation);
 		
 		//Quaternion facing = platform.rotation;
 		//Vector3 vFacing = facing.eulerAngles;
@@ -253,23 +255,29 @@ public class AnchorUXController : MonoBehaviour {
 		//Debug.Log("Y angle for Controller: " + direction.y);
 		
 		float measureAngle = Vector3.SignedAngle(vFacing, direction, Vector3.up);
-        Debug.Log("Non-signed angle: " + Vector3.Angle(vFacing, direction));
-		Debug.Log("Measured Angle: " + measureAngle);
+		if (debug) {
+			Debug.Log("Non-signed angle: " + Vector3.Angle(vFacing, direction));
+			Debug.Log("Measured Angle: " + measureAngle);
+		}
 		float magnitude = measureAngle*measureAngle;
 		
 		if (measureAngle < 0)
 		{
 			changeRotation *= -1*Time.deltaTime;
-			Debug.Log("Rotate Left");
+			if (debug)
+				Debug.Log("Rotate Left");
 		} else {
 			changeRotation *= Time.deltaTime;
-			Debug.Log("Rotate Right");
+			if (debug)
+				Debug.Log("Rotate Right");
 		}
 		if (magnitude > 1)
 		{
 			platform.Rotate(Vector3.up, changeRotation);
-			Debug.Log("Angle Magnitude: " + magnitude);
-			Debug.Log("Rotate Speed: " + changeRotation);
+			if (debug) {
+				Debug.Log("Angle Magnitude: " + magnitude);
+				Debug.Log("Rotate Speed: " + changeRotation);
+			}
 
 		}
 	}

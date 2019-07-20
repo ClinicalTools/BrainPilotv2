@@ -95,6 +95,9 @@ public class DroneController : MonoBehaviour {
 	public DisplayMethod _display = DisplayMethod.AlwaysOn;
 
 	public int displayIdx;
+
+	private Coroutine fadeMesh;
+
 	// Use this for initialization
 	void Start () {
 		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;
@@ -181,15 +184,18 @@ public class DroneController : MonoBehaviour {
 		}
 
 		GetComponentInChildren<TweenItemScaleBetweenVec3Resources>().SetActiveState(active);
-		StopAllCoroutines();
+		//StopAllCoroutines();
+		if (fadeMesh != null)
+			StopCoroutine(fadeMesh);
+
 		//inactive sequence &(off or selection w/o piece) = off
 		//active sequence or on or selection w/ piece = on
 		if (!hasActiveSequence && 
 			(_display == DisplayMethod.Off || 
 			(_display == DisplayMethod.SelectedOnly && !lockedSelection))) {
-			StartCoroutine(FadeMesh(1));
+			fadeMesh = StartCoroutine(FadeMesh(1));
 		} else {
-			StartCoroutine(FadeMesh(_active ? 0f : 1f));
+			fadeMesh = StartCoroutine(FadeMesh(_active ? 0f : 1f));
 		}
 
 		/*if (!active) {
@@ -205,6 +211,38 @@ public class DroneController : MonoBehaviour {
 		}
 	}
 
+	public void ChangeDisplayMethod(int idx)
+	{
+		_display = (DisplayMethod)idx;
+		HandleDisplay();
+	}
+
+	//Sets the display to the accurate setting
+	public void HandleDisplay()
+	{
+		//StopAllCoroutines();
+		if (fadeMesh != null)
+			StopCoroutine(fadeMesh);
+		switch (_display) {
+			case DisplayMethod.AlwaysOn:
+				fadeMesh = StartCoroutine(FadeMesh(0));
+				break;
+			case DisplayMethod.SelectedOnly:
+				if (!lockedSelection && !hasActiveSequence) {
+					fadeMesh = StartCoroutine(FadeMesh(1));
+				} else {
+					fadeMesh = StartCoroutine(FadeMesh(0));
+				}
+				break;
+			case DisplayMethod.Off:
+				if (!hasActiveSequence) {
+					fadeMesh = StartCoroutine(FadeMesh(1));
+				}
+				break;
+		}
+	}
+
+	//Ask the drone to show or hide
 	public void HandleDisplay(bool show)
 	{
 		if (selection != null && show) {
@@ -212,33 +250,11 @@ public class DroneController : MonoBehaviour {
 		} else {
 			lockedSelection = false;
 		}
-		StopAllCoroutines();
-		Debug.Log(show + ", " + hasActiveSequence);
+		//StopAllCoroutines();
+		if (fadeMesh != null)
+			StopCoroutine(fadeMesh);
 		if (_display == DisplayMethod.SelectedOnly) {
-			StartCoroutine(FadeMesh(show | hasActiveSequence ? 0f : 1f));
-		}
-	}
-
-	public void ChangeDisplayMethod(int idx)
-	{
-		_display = (DisplayMethod)idx;
-		StopAllCoroutines();
-		switch(_display) {
-			case DisplayMethod.AlwaysOn:
-				StartCoroutine(FadeMesh(0));
-				break;
-			case DisplayMethod.SelectedOnly:
-				if (!lockedSelection && !hasActiveSequence) {
-					StartCoroutine(FadeMesh(1));
-				} else {
-					StartCoroutine(FadeMesh(0));
-				}
-				break;
-			case DisplayMethod.Off:
-				if (!hasActiveSequence) {
-					StartCoroutine(FadeMesh(1));
-				}
-				break;
+			fadeMesh = StartCoroutine(FadeMesh(show | hasActiveSequence ? 0f : 1f));
 		}
 	}
 
@@ -267,7 +283,7 @@ public class DroneController : MonoBehaviour {
 	/// <param name="endVal"></param>
 	private IEnumerator FadeMesh(float endVal, float duration = 2f)
 	{
-		if (mesh == null) Start();
+		if (mesh == null) mesh = GetComponentsInChildren<MeshRenderer>();
 
 		float val = mesh[0].sharedMaterial.GetFloat("_DissolveCutoff");
 		if (val == endVal) {
@@ -297,6 +313,7 @@ public class DroneController : MonoBehaviour {
 	}
 
 #region TextDisplay
+	string displayString;
 	//This should be put into a listener or something I guess.
 	private void UpdateText()
 	{
@@ -307,7 +324,10 @@ public class DroneController : MonoBehaviour {
 			//sequence.GetActiveStep()?.brainPiecesToHighlight
 		} else if (selection != null && selection is BrainElement) {
 			//Update with a description of the selected brain piece
-			textField.text = ((BrainElement)selection).description;
+			displayString = "<size=60%><b><line-height=80%><color=#00FFFF>";
+			displayString += ((BrainElement)selection).elementName;
+			displayString += "</color></line-height></b>:</size>\n";
+			textField.text = displayString + ((BrainElement)selection).description;
 		} else {
 			//Other uses
 		}
@@ -336,11 +356,13 @@ public class DroneController : MonoBehaviour {
 			if (!_active) {
 				SetActive(true);
 			} else {
-				StartCoroutine(FadeMesh(0));
+				fadeMesh = StartCoroutine(FadeMesh(0));
 			}
 		} else if (_display == DisplayMethod.Off) {
-			StopAllCoroutines();
-			StartCoroutine(FadeMesh(1));
+			//StopAllCoroutines();
+			if (fadeMesh != null)
+				StopCoroutine(fadeMesh);
+			fadeMesh = StartCoroutine(FadeMesh(1));
 		}
 		UpdateText();
 		UpdateDroneButtons();
@@ -431,11 +453,14 @@ public class DroneController : MonoBehaviour {
 
 
 				GameObject.FindObjectOfType<AnchorUXController>().EnableInput();
+				//To hide the buttons
 				UpdateDroneButtons();
-				if (_display == DisplayMethod.Off) {
-					StopAllCoroutines();
-					StartCoroutine(FadeMesh(1));
-				}
+
+				//To check how the drone should be displayed now
+				HandleDisplay();
+				
+				//To clear out any leftover names/text
+				UpdateHighlightedNames();
 
 
 				//BIG SPACE TO GET MY ATTENTION
@@ -449,8 +474,8 @@ public class DroneController : MonoBehaviour {
 
 
 
-
-				GetComponentInParent<DroneManager>().GrabNextSequence();
+				//Since we're manually starting sequences now, we'll disable this
+				//GetComponentInParent<DroneManager>().GrabNextSequence();
 				/*sequence = null;
 				SetActive(false);*/
 			} else {
@@ -460,6 +485,7 @@ public class DroneController : MonoBehaviour {
 	}
 
 	GameObject[] displayTexts;
+	GameObject displayText;
 	public bool showHighlightedNames;
 	public TMPro.TextMeshPro highlightText;
 	private void UpdateHighlightedNames()
@@ -480,6 +506,28 @@ public class DroneController : MonoBehaviour {
 			}
 			highlightText.text = text;
 		} else {
+			//Spawning only a predetermined name under one piece
+			//Remove the old highlighted pieces' display
+			if (displayText != null) {
+				Destroy(displayText);
+			}
+
+
+			MaterialSwitchState[] s = sequence.GetActiveStep()?.brainPiecesToHighlight;
+			//Don't do anything if there's no text to display
+			if (sequence.GetActiveStep()?.highlightedText.Length > 0) {
+				//Instantiate the display text
+				displayText = Instantiate(Resources.Load("Display Text"), s[0].transform.position, transform.rotation) as GameObject;
+
+				//Set the name
+				displayText.GetComponentInChildren<TMPro.TextMeshPro>().text = sequence.GetActiveStep()?.highlightedText;
+
+				//Set the position
+				displayText.transform.position = s[0].transform.position;
+			}
+
+			/*
+			//For spawning the name under each piece
 			MaterialSwitchState[] s = sequence.GetActiveStep()?.brainPiecesToHighlight;
 			//Remove the old highlighted pieces' names
 			if (displayTexts != null) {
@@ -500,6 +548,7 @@ public class DroneController : MonoBehaviour {
 				//Set the position
 				displayTexts[i].transform.position = s[i].transform.position;
 			}
+			*/
 		}
 	}
 
@@ -597,6 +646,7 @@ public class DroneController : MonoBehaviour {
 		//Lerp to match the values over totalDuration
 		moving = true;
 		while (moving && _time < totalDuration && !(posDone && rotDone && scaleDone)) {
+			print("I'm moving");
 			_time += Time.deltaTime;
 			lerpVal = _time / totalDuration;
 

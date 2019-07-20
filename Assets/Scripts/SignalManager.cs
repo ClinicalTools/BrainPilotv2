@@ -21,7 +21,7 @@ public class SignalManager : MonoBehaviour {
 			relayChain = new ParticleSystem[0];
 		}
 		//StopAll();
-		Debug.Log(relayChain.Length);
+		//Debug.Log(relayChain.Length);
 		List<ParticleSystem> psList = new List<ParticleSystem>(relayChain);
 		for(int i = 0; i < psList.Count; i++) {
 			if (psList[i] == null) {

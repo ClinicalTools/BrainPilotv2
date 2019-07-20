@@ -47,9 +47,10 @@ public class MaterialSwitchState : MonoBehaviour {
 		emissionColor = temp;
 	}
 
+	bool bright;
 	public void Brighten()
 	{
-		Debug.Log("Brighten " + name);
+		//Debug.Log("Brighten " + name);
 		if (active) {
 			return;
 		}
@@ -69,12 +70,16 @@ public class MaterialSwitchState : MonoBehaviour {
 			savedMaterial = renderer.sharedMaterial;
 		}*/
 
-		renderer.material.SetColor("_Color", Color.white);
+		renderer.material.SetColor("_Color", brightenColor);
+		bright = true;
 	}
+
+	Color brightenColor = new Color(.8f, .8f, .8f, 1f);
 
 	public void Darken()
 	{
-		print("Darken " + name);
+		//print("Darken " + name);
+		bright = false;
 		Deactivate();
 	}
 
@@ -136,11 +141,15 @@ public class MaterialSwitchState : MonoBehaviour {
     public /*override*/ void Deactivate()
     {
 		//base.Deactivate();
-		if (savedMaterial != null) {
-			renderer.sharedMaterial = savedMaterial;
-			savedMaterial = null;
-		}
 		active = false;
+		if (bright) {
+			Brighten();
+		} else {
+			if (savedMaterial != null) {
+				renderer.sharedMaterial = savedMaterial;
+				savedMaterial = null;
+			}
+		}
 		//renderer.enabled = false;
 		//renderer.SetPropertyBlock(null);
 	}

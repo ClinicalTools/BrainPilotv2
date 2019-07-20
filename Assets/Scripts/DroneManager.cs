@@ -32,6 +32,7 @@ public class DroneManager : SubSceneListener {
 		GetSceneSequences(activeScene);
 	}
 
+	//Drone controller.Advance used to call this
 	public void GrabNextSequence()
 	{
 		if (sequenceManager.isAtEnd) {
@@ -96,11 +97,12 @@ public class DroneManager : SubSceneListener {
 			subSceneManager.activeScene = 1;
 		}
 		drone.ResumeSequence(sequenceManager.GetSequence());
-		//if (!tutorial) {
-		if (activeScene != 0) {
+		if (!tutorial) {
+		//if (activeScene != 0) {
 			GameObject.FindObjectOfType<AnchorUXController>().DisableInput();
 		} else {
 			GameObject.FindObjectOfType<AnchorUXController>().EnableInput();
+			tutorial = false;
 		}
 
 		//Handled from Invoke

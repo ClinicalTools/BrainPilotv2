@@ -31,6 +31,8 @@ public class SequenceElement1 : MonoBehaviour {
 
 	public MaterialSwitchState[] brainPiecesToHighlight;
 
+	public string highlightedText;
+
 	public Color optMaterialColor;
 	
 	public UnityEvent OnEventBegin;
