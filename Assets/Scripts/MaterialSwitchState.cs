@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Used to extend SelectableStateAction but undesirable destroy effects are making me change that
-[ExecuteInEditMode]
+[ExecuteInEditMode, UnityEditor.CanEditMultipleObjects]
 public class MaterialSwitchState : MonoBehaviour {
 
 	//public Material material;

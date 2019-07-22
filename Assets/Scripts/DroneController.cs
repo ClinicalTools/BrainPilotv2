@@ -29,6 +29,10 @@ public class DroneControllerEditor : Editor
 		if (GUILayout.Button("Update Drone Display Settings")) {
 			controller.ChangeDisplayMethod(controller.displayIdx);
 		}
+
+		if (GUILayout.Button("Start lesson")) {
+			controller.BeginSequenceAt(1);
+		}
 	}
 }
 #endif
