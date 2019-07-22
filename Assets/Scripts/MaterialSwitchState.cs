@@ -50,7 +50,6 @@ public class MaterialSwitchState : MonoBehaviour {
 	bool bright;
 	public void Brighten()
 	{
-		//Debug.Log("Brighten " + name);
 		if (active) {
 			return;
 		}
@@ -60,25 +59,18 @@ public class MaterialSwitchState : MonoBehaviour {
 			savedMaterial = renderer.sharedMaterial;
 		}
 
-		/*if (renderer.HasPropertyBlock()) {
-			MaterialPropertyBlock block = new MaterialPropertyBlock();
-			renderer.GetPropertyBlock(block);
-			renderer.SetPropertyBlock(null);
-			savedMaterial = renderer.sharedMaterial;
-			renderer.SetPropertyBlock(block);
-		} else {
-			savedMaterial = renderer.sharedMaterial;
-		}*/
-
 		renderer.material.SetColor("_Color", brightenColor);
 		bright = true;
+
+		if (makeSolid) {
+			MakeSolid();
+		}
 	}
 
 	Color brightenColor = new Color(.8f, .8f, .8f, 1f);
 
 	public void Darken()
 	{
-		//print("Darken " + name);
 		bright = false;
 		Deactivate();
 	}
@@ -96,6 +88,46 @@ public class MaterialSwitchState : MonoBehaviour {
 			savedMaterial = renderer.sharedMaterial;
 		}
 		active = true;
+		
+		renderer.material.EnableKeyword("_EmissionColor");
+		renderer.material.SetColor("_Color", emissionColor);
+		//renderer.material.SetTexture("_EmissionMap", renderer.sharedMaterial.mainTexture);
+
+		if (makeSolid) {
+			MakeSolid();
+		}
+	}
+
+	private void MakeSolid()
+	{
+		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
+		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
+		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_AND_EDGE");
+		//renderer.sharedMaterial.EnableKeyword("_DissolveMaskInvert");
+
+		//renderer.material.SetFloat("_DissolveGlobalControl", none);
+		renderer.material.SetFloat("_DissolveMaskCount", 0);
+		renderer.material.SetFloat("_DissolveMaskInvert", 0);
+	}
+
+	public /*override*/ void Deactivate()
+	{
+		//base.Deactivate();
+		active = false;
+		if (bright) {
+			Brighten();
+		} else {
+			if (savedMaterial != null) {
+				renderer.sharedMaterial = savedMaterial;
+				savedMaterial = null;
+			}
+		}
+		//renderer.enabled = false;
+		//renderer.SetPropertyBlock(null);
+	}
+
+	private void OldActivateCode()
+	{
 		//renderer.enabled = true;
 		/*if (renderer.HasPropertyBlock()) {
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
@@ -107,20 +139,7 @@ public class MaterialSwitchState : MonoBehaviour {
 			savedMaterial = renderer.sharedMaterial;
 		}*/
 
-		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
-		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_ONLY");
-		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_MASK_AND_EDGE");
-		renderer.material.EnableKeyword("_EmissionColor");
-		//renderer.sharedMaterial.EnableKeyword("_DissolveMaskInvert");
-
-		renderer.material.SetColor("_Color", emissionColor);
-		//renderer.material.SetTexture("_EmissionMap", renderer.sharedMaterial.mainTexture);
-		if (makeSolid) {
-			//renderer.material.SetFloat("_DissolveGlobalControl", none);
-			renderer.material.SetFloat("_DissolveMaskCount", 0);
-			renderer.material.SetFloat("_DissolveMaskInvert", 0);
-		}
-		
+		//Changing renderer keywords
 
 		/*
 		MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
@@ -138,21 +157,6 @@ public class MaterialSwitchState : MonoBehaviour {
 		*/
 	}
 
-    public /*override*/ void Deactivate()
-    {
-		//base.Deactivate();
-		active = false;
-		if (bright) {
-			Brighten();
-		} else {
-			if (savedMaterial != null) {
-				renderer.sharedMaterial = savedMaterial;
-				savedMaterial = null;
-			}
-		}
-		//renderer.enabled = false;
-		//renderer.SetPropertyBlock(null);
-	}
 	/*
 	public void HighlightBlip(Color c)
 	{

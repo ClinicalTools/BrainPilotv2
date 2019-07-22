@@ -86,7 +86,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _BumpScale: 0.7680867
+    - _BumpScale: 0.7807049
     - _Cull: 2
     - _Cutoff: 0
     - _DetailNormalMapScale: 1

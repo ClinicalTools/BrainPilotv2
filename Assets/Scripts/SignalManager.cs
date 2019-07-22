@@ -163,7 +163,7 @@ public class SignalManager : MonoBehaviour {
 		//Find the next point
 		ParticleSystem nextPoint = FindNextSignal(startingPoint);
 		if (nextPoint == null) {
-			Debug.Log("NextPoint is null");
+			Debug.Log("NextPoint is null.\nStarting point: " + startingPoint.name + "\nThis manager: " + name);
 			activeSystem = null;
 			return;
 		}
