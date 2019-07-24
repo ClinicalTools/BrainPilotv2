@@ -72,7 +72,9 @@ public class NewSelection : MonoBehaviour
 				if (elementList == null) {
 					elementList = new List<SelectableElement>();
 				}
-				elementList.Add(el);
+				if (!elementList.Contains(el)) {
+					elementList.Add(el);
+				}
 			}
 		}
 	}

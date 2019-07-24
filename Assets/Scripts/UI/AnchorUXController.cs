@@ -138,8 +138,9 @@ public class AnchorUXController : MonoBehaviour {
     public void StopGetInput()
     {
         isActive = false;
-        StopAllCoroutines();
         StopCustomMovement.Invoke();
+        
+		//StopAllCoroutines();
     }
 
     /// <summary>
@@ -148,8 +149,13 @@ public class AnchorUXController : MonoBehaviour {
     public void StartGetInput()
     {
         isActive = true;
-        StopAllCoroutines();
-        StartCoroutine(RunGetInput());
+		damper = 0;
+		dampDuration = .75f;
+		StartCustomMovement.Invoke();
+
+
+		//StopAllCoroutines();
+        //StartCoroutine(RunGetInput());
     }
 
 	/// <summary>
@@ -172,7 +178,37 @@ public class AnchorUXController : MonoBehaviour {
 		}
 	}
 
-    IEnumerator RunGetInput()
+	float damper = 0;
+	float dampDuration = .75f;
+	private void Update()
+	{
+		if (isActive) {
+			if (inputResource.Value.sqrMagnitude < deadzoneRadius * deadzoneRadius) {
+				damper = 0;
+			} else if (damper < dampDuration) {
+				damper += Time.deltaTime;
+				damper = Mathf.Min(damper, dampDuration);
+			}
+
+			switch (movementType) {
+				case MovementType.Orbit:
+					DoForwardMovement(damper / dampDuration);
+					DoOrbitAround(damper / dampDuration);
+					break;
+				case MovementType.Rotate:
+					DoForwardMovement(damper / dampDuration);
+					DoRotate(damper / dampDuration);
+					break;
+				case MovementType.Line:
+					HandleLineMovement(damper / dampDuration);
+					LineRotate(damper / dampDuration);
+					//Debug.Log("Line Movement methods called.");
+					break;
+			}
+		}
+	}
+
+	IEnumerator RunGetInput()
     {
         StartCustomMovement.Invoke();
 		float damper = 0;
