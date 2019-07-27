@@ -4,9 +4,11 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(LineRenderer)),
+	RequireComponent(typeof(QuickSelectAnimation))]
 public class NewSelection : MonoBehaviour
 {
+	QuickSelectAnimation qsa;
 	LineRenderer line;
 	Vector3 startPos;
 	Vector3 endPos;
@@ -18,6 +20,7 @@ public class NewSelection : MonoBehaviour
     void Start()
     {
 		line = GetComponent<LineRenderer>();
+		qsa = GetComponent<QuickSelectAnimation>();
 		line.startWidth = .1f;
 		lineArray = new Vector3[2];
 		line.useWorldSpace = true;
@@ -33,6 +36,7 @@ public class NewSelection : MonoBehaviour
 			startPos = selector.cursor.position;
 			active = true;
 			LoadNearbySelections();
+			ActivateAnimation();
 			DebugSelections();
 		} else if (OVRInput.GetUp(OVRInput.Button.One)) {
 			//New Selection
@@ -77,6 +81,14 @@ public class NewSelection : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private void ActivateAnimation()
+	{
+		//Update buttons
+
+		//Activate animation
+		qsa.Activate(elementList.Count);
 	}
 
 	private class MeshData : IComparer

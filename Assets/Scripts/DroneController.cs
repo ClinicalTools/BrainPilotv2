@@ -70,7 +70,7 @@ public class DroneController : MonoBehaviour {
 	[SerializeField]
 	private Selectable selection;
 	[SerializeField]
-	private Sequence1 sequence;
+	private Sequence sequence;
 	private bool ignoreSequence = false;
 
 	public bool gazeBased;
@@ -227,21 +227,23 @@ public class DroneController : MonoBehaviour {
 		//StopAllCoroutines();
 		if (fadeMesh != null)
 			StopCoroutine(fadeMesh);
+		if (hasActiveSequence) {
+			fadeMesh = StartCoroutine(FadeMesh(0));
+			return;
+		}
 		switch (_display) {
 			case DisplayMethod.AlwaysOn:
 				fadeMesh = StartCoroutine(FadeMesh(0));
 				break;
 			case DisplayMethod.SelectedOnly:
-				if (!lockedSelection && !hasActiveSequence) {
+				if (!lockedSelection) {
 					fadeMesh = StartCoroutine(FadeMesh(1));
 				} else {
 					fadeMesh = StartCoroutine(FadeMesh(0));
 				}
 				break;
 			case DisplayMethod.Off:
-				if (!hasActiveSequence) {
-					fadeMesh = StartCoroutine(FadeMesh(1));
-				}
+				fadeMesh = StartCoroutine(FadeMesh(1));
 				break;
 		}
 	}
@@ -359,7 +361,8 @@ public class DroneController : MonoBehaviour {
 		if (hasActiveSequence) {
 			if (!_active) {
 				SetActive(true);
-			} else {
+			}
+		}/* else {
 				fadeMesh = StartCoroutine(FadeMesh(0));
 			}
 		} else if (_display == DisplayMethod.Off) {
@@ -367,7 +370,8 @@ public class DroneController : MonoBehaviour {
 			if (fadeMesh != null)
 				StopCoroutine(fadeMesh);
 			fadeMesh = StartCoroutine(FadeMesh(1));
-		}
+		}*/
+		HandleDisplay();
 		UpdateText();
 		UpdateDroneButtons();
 		UpdateHighlightedNames();
@@ -389,7 +393,7 @@ public class DroneController : MonoBehaviour {
 	/// Loads a sequence from the start
 	/// </summary>
 	/// <param name="s"></param>
-	public void BeginSequence(Sequence1 s)
+	public void BeginSequence(Sequence s)
 	{
 		ignoreSequence = false;
 		sequence = s;
@@ -401,7 +405,7 @@ public class DroneController : MonoBehaviour {
 
 	public void BeginSequenceAt(int i)
 	{
-		GetComponentInParent<DroneManager>().GrabSequenceAt(1);
+		GetComponentInParent<DroneManager>().GetSequenceAt(1);
 	}
 
 	public void ResumeSequence()
@@ -415,7 +419,7 @@ public class DroneController : MonoBehaviour {
 	/// Loads a sequence and resumes it.
 	/// </summary>
 	/// <param name="s">The sequence to run</param>
-	public void ResumeSequence(Sequence1 s)
+	public void ResumeSequence(Sequence s)
 	{
 		if (s == null) {
 			Debug.LogWarning("Sequence is null!");
@@ -494,7 +498,7 @@ public class DroneController : MonoBehaviour {
 	public TMPro.TextMeshPro highlightText;
 	private void UpdateHighlightedNames()
 	{
-		if (!showHighlightedNames) {
+		if (!showHighlightedNames || !hasActiveSequence) {
 			return;
 		}
 
@@ -573,7 +577,7 @@ public class DroneController : MonoBehaviour {
 			if (sequence.RecedeSequence()) {
 				UpdatePlatform();
 			} else {
-				GetComponentInParent<DroneManager>().GrabPreviousSequence();
+				GetComponentInParent<DroneManager>().PreviousSequence();
 
 			}
 		}
@@ -582,6 +586,7 @@ public class DroneController : MonoBehaviour {
 	public void ClearSequence()
 	{
 		sequence = null;
+		UpdatePlatform();
 	}
 
 	public void ClearSelectable()
@@ -593,11 +598,14 @@ public class DroneController : MonoBehaviour {
 
 #region Movement
 
-	SequenceElement1.PlatformInformation info;
+	SequenceElement.PlatformInformation info;
 	bool moving = false;
 
 	private IEnumerator MovePlatform()
 	{
+		if (!hasActiveSequence) {
+			yield break;
+		}
 		info = sequence.GetActiveStep()?.GetPlatformInfo();
 		if (info == null) {
 			yield break;
@@ -651,10 +659,10 @@ public class DroneController : MonoBehaviour {
 		//Lerp to match the values over totalDuration
 		moving = true;
 		while (moving && _time < totalDuration && !(posDone && rotDone && scaleDone)) {
-			print("I'm moving");
 			_time += Time.deltaTime;
 			lerpVal = _time / totalDuration;
 
+			//Position
 			if (!posDone) {
 				if (info.waypointLocation != Vector3.zero) {
 					platform.position = Vector3.Lerp(platformLoc, info.waypointLocation, lerpVal);
@@ -664,15 +672,9 @@ public class DroneController : MonoBehaviour {
 				}
 			}
 
-			if (false && !scaleDone) {
-				if (info.scaleVal > 0) {
-					platform.localScale = Vector3.Lerp(platformScale, Vector3.one * info.scaleVal, lerpVal);
-					if (info.scaleVal == platformScale.x) {
-						scaleDone = true;
-					}
-				}
-			}
+			//Scale is handled by TweenScaleByFactor, called above
 
+			//Rotation
 			if (!rotDone) {
 				if (info.lookAtPoint != null) {
 					pos = platform.position;

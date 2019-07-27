@@ -6,7 +6,6 @@ using UnityEngine;
 public class DroneData : ScriptableObject {
 
 	public Selectable selection;
-	public Sequence sequence;
 
 	public List<DroneListener> list;
 

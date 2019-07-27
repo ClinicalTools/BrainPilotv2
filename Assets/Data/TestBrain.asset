@@ -17,3 +17,7 @@ MonoBehaviour:
   sceneReferences:
   - m_SceneAsset: {fileID: 102900000, guid: 8ddff0f0f5f16244aaafbf54f3ddd907, type: 3}
     m_SceneName: TestScene
+  - m_SceneAsset: {fileID: 102900000, guid: a8441069e9473714b896fdf9d857ce55, type: 3}
+    m_SceneName: TestScene 1
+  - m_SceneAsset: {fileID: 102900000, guid: dfeb9a164fbf9124b9d5a2216d36f073, type: 3}
+    m_SceneName: TestScene 2

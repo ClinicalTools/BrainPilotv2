@@ -8,10 +8,18 @@ public class QuickSelectAnimation : MonoBehaviour {
 	private bool active;
 	private bool isEnabled;
 
-	private const float ROT_AMOUNT = 36f;
+	public bool connectButtons = true;
+
+	private float ROT_AMOUNT = 36f;
 	public float aniSpeed = 10;
 	public bool testRotate;
 	public AnimationCurve curve;
+
+	public int buttonCount = 4;
+	private const int MAX_BUTTONS = 8;
+	private const float MIN_ROT_AMOUNT = 36f;
+	private const float MAX_ROT_AMOUNT = 16f;
+	private const float TOTAL_DEGREES = 324f;
 
 	int i;
 	Vector3 eulers;
@@ -32,7 +40,7 @@ public class QuickSelectAnimation : MonoBehaviour {
 		if (active) {
 			progress += aniDirection * Time.deltaTime / aniSpeed;
 			lerpVal = curve.Evaluate(progress);
-			for (i = 0; i < transform.childCount; i++) {
+			for (i = 0; i < buttonCount; i++) {
 				eulers = transform.GetChild(i).localEulerAngles;
 				eulers.z = lerpVal * ROT_AMOUNT * (i + 1);
 				//eulers.z += Time.deltaTime / aniSpeed * aniDirection * ROT_AMOUNT * (i + 1);
@@ -79,16 +87,30 @@ public class QuickSelectAnimation : MonoBehaviour {
 			aniDirection = 1;
 			progress = 0;
 			isEnabled = true;
+			if (connectButtons) {
+				ROT_AMOUNT = MIN_ROT_AMOUNT;
+			} else {
+				ROT_AMOUNT = TOTAL_DEGREES / buttonCount;
+			}
 		}
 		active = true;
 		lerpVal = 0;
+		ActivateChildren();
 	}
 
-	public void Activate()
+	public void Activate(int n)
 	{
+		if (n < 0) {
+			n = 0;
+		}
+		if (n > transform.childCount) {
+			n = transform.childCount - 1;
+		}
+		buttonCount = n;
 		aniDirection = 1;
 		active = true;
 		isEnabled = true;
+		ActivateChildren();
 	}
 
 	public void Deactivate()
@@ -96,5 +118,18 @@ public class QuickSelectAnimation : MonoBehaviour {
 		aniDirection = -1;
 		active = true;
 		isEnabled = false;
+	}
+
+	public void ActivateChildren()
+	{
+		if (buttonCount < 0) {
+			buttonCount = 0;
+		}
+		if (buttonCount > transform.childCount) {
+			buttonCount = transform.childCount;
+		}
+		for (int i = 0; i < transform.childCount; i++) {
+			transform.GetChild(i).gameObject.SetActive(i < buttonCount ? true : false);
+		}
 	}
 }

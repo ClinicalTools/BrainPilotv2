@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Sequences/Sequence")]
-public class Sequence : ScriptableObject {
+[ExecuteInEditMode]
+public class Sequence : MonoBehaviour {
 	public string sequenceTitle;
+	public bool startOnLoad;
 	public SequenceElement[] steps;
 
 	[SerializeField]
@@ -14,14 +15,26 @@ public class Sequence : ScriptableObject {
 
 	public SequenceElement GetActiveStep()
 	{
+		if (steps.Length == 0) {
+			return null;
+		}
 		return steps[_stepIdx];
+	}
+
+	[ContextMenu("Load elements")]
+	public void LoadElements()
+	{
+		steps = new SequenceElement[transform.childCount];
+		for(int i = 0; i < transform.childCount; i++) {
+			steps[i] = transform.GetChild(i).GetComponent<SequenceElement>();
+		}
+		
 	}
 
 	public void AdvanceSequence()
 	{
-		Debug.Log("Advancing Sequence in sequence");
 		if (_stepIdx == steps.Length - 1) {
-			FinishSequence();
+			FinishSequence(false);
 		} else {
 			steps[_stepIdx].Deactivate();
 			_stepIdx++;
@@ -29,14 +42,19 @@ public class Sequence : ScriptableObject {
 		}
 	}
 
-	public void RecedeSequence()
+	/// <summary>
+	/// Receeds the sequence
+	/// </summary>
+	/// <returns>true if successful, false if not</returns>
+	public bool RecedeSequence()
 	{
 		if (_stepIdx == 0) {
-			return;
+			return false;
 		} else {
 			steps[_stepIdx].Deactivate();
 			_stepIdx--;
 			steps[_stepIdx].Activate();
+			return true;
 		}
 	}
 
@@ -48,7 +66,7 @@ public class Sequence : ScriptableObject {
 			_active = false;
 			return;
 		}
-		steps[_stepIdx].Activate();
+		steps[_stepIdx]?.Activate();
 		_active = true;
 	}
 
@@ -58,16 +76,29 @@ public class Sequence : ScriptableObject {
 		_active = false;
 	}
 
-	public void FinishSequence()
+	public void ResumeSequence()
 	{
-		steps[_stepIdx].Deactivate();
+		steps[_stepIdx].Activate();
+		_active = true;
+	}
+
+	public void FinishSequence(bool reset)
+	{
+		steps[_stepIdx]?.Deactivate();
 		_active = false;
-		ResetSequence();
+		if (reset) {
+			ResetSequence();
+		}
 	}
 
 	public void ResetSequence()
 	{
 		_stepIdx = 0;
+	}
+
+	public int GetActiveIndex()
+	{
+		return _stepIdx;
 	}
 
 	public bool IsActive()
