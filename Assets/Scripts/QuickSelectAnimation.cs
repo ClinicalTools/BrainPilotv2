@@ -8,17 +8,20 @@ public class QuickSelectAnimation : MonoBehaviour {
 	private bool active;
 	private bool isEnabled;
 
-	public bool connectButtons = true;
+	[SerializeField]
+	private bool connectButtons = true;
+
+	[SerializeField]
+	private bool setIdx = false;
+	public int buttonCount = 4;
 
 	private float ROT_AMOUNT = 36f;
 	public float aniSpeed = 10;
-	public bool testRotate;
 	public AnimationCurve curve;
 
-	public int buttonCount = 4;
-	private const int MAX_BUTTONS = 8;
+	private const int MAX_BUTTONS = 9;
 	private const float MIN_ROT_AMOUNT = 36f;
-	private const float MAX_ROT_AMOUNT = 16f;
+	private const float MAX_ROT_AMOUNT = 162f;
 	private const float TOTAL_DEGREES = 324f;
 
 	int i;
@@ -51,31 +54,27 @@ public class QuickSelectAnimation : MonoBehaviour {
 			if (progress >= 1) {
 				progress = 1;
 				active = false;
-			} else if (progress <= 0) {
+			} else if (progress <= .02 && aniDirection < 0) {
 				progress = 0;
 				active = false;
 				gameObject.SetActive(false);
-			}
-		} else if (testRotate) {
-			aniDirection = 1;
-			//progress += aniDirection * Time.deltaTime / aniSpeed;
-			progress += aniDirection * Time.deltaTime / aniSpeed;
-			float lerpVal = curve.Evaluate(progress);
-			for (i = 0; i < transform.childCount; i++) {
-				eulers = transform.GetChild(i).localEulerAngles;
-				eulers.z = lerpVal * aniDirection * ROT_AMOUNT * (i + 1);
-				//eulers.z += Time.deltaTime / aniSpeed * aniDirection * ROT_AMOUNT * (i + 1);
-				transform.GetChild(i).localEulerAngles = eulers;
-			}
-
-			if (progress >= 1 || progress <= 0) {
-				progress = 0;
 			}
 		}
 	}
 
 	public void ToggleActive()
 	{
+		gameObject.SetActive(true);
+		if (isEnabled) {
+			Deactivate();
+		} else {
+			Activate(buttonCount);
+		}
+		active = true;
+		ActivateChildren();
+		return;
+
+
 		gameObject.SetActive(true);
 		if (isEnabled) {
 			//Deactivate
@@ -85,7 +84,7 @@ public class QuickSelectAnimation : MonoBehaviour {
 		} else {
 			//Activate
 			aniDirection = 1;
-			progress = 0;
+			progress = 0 + .02f;
 			isEnabled = true;
 			if (connectButtons) {
 				ROT_AMOUNT = MIN_ROT_AMOUNT;
@@ -94,7 +93,6 @@ public class QuickSelectAnimation : MonoBehaviour {
 			}
 		}
 		active = true;
-		lerpVal = 0;
 		ActivateChildren();
 	}
 
@@ -106,16 +104,27 @@ public class QuickSelectAnimation : MonoBehaviour {
 		if (n > transform.childCount) {
 			n = transform.childCount - 1;
 		}
-		buttonCount = n;
+		buttonCount = Mathf.Min(n, MAX_BUTTONS);
+
 		aniDirection = 1;
+		//progress = 0 + .02f;
 		active = true;
 		isEnabled = true;
+
+		if (connectButtons) {
+			ROT_AMOUNT = MIN_ROT_AMOUNT;
+		} else {
+			ROT_AMOUNT = TOTAL_DEGREES / buttonCount;
+		}
 		ActivateChildren();
+
+		gameObject.SetActive(true);
 	}
 
 	public void Deactivate()
 	{
 		aniDirection = -1;
+		//progress = 1;
 		active = true;
 		isEnabled = false;
 	}
@@ -129,7 +138,15 @@ public class QuickSelectAnimation : MonoBehaviour {
 			buttonCount = transform.childCount;
 		}
 		for (int i = 0; i < transform.childCount; i++) {
-			transform.GetChild(i).gameObject.SetActive(i < buttonCount ? true : false);
+			if (i < buttonCount) {
+				transform.GetChild(i).gameObject.SetActive(true);
+				if (setIdx) {
+					transform.GetChild(i).GetComponentInChildren<TMPro.TextMeshProUGUI>().text = i.ToString();
+				}
+			} else {
+				transform.GetChild(i).gameObject.SetActive(false);
+			}
+
 		}
 	}
 }

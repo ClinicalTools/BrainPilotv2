@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(LineRenderer)),
-	RequireComponent(typeof(QuickSelectAnimation))]
+[RequireComponent(typeof(LineRenderer))]
 public class NewSelection : MonoBehaviour
 {
-	QuickSelectAnimation qsa;
+	public QuickSelectAnimation qsa;
 	LineRenderer line;
 	Vector3 startPos;
 	Vector3 endPos;
@@ -20,7 +20,7 @@ public class NewSelection : MonoBehaviour
     void Start()
     {
 		line = GetComponent<LineRenderer>();
-		qsa = GetComponent<QuickSelectAnimation>();
+		qsa = GetComponentInChildren<QuickSelectAnimation>(true);
 		line.startWidth = .1f;
 		lineArray = new Vector3[2];
 		line.useWorldSpace = true;
@@ -34,31 +34,35 @@ public class NewSelection : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.One)) {
 			//Activate
 			startPos = selector.cursor.position;
+			transform.position = startPos;
 			active = true;
 			LoadNearbySelections();
 			ActivateAnimation();
 			DebugSelections();
 		} else if (OVRInput.GetUp(OVRInput.Button.One)) {
 			//New Selection
-			//Figure out which 
+			//Figure out which
 			active = false;
 			line.positionCount = 0;
 			line.SetPositions(new Vector3[0]);
+
+			DeactivateAnimation();
 		}
 		if (active) {
+			/*
 			lineArray[0] = startPos;
 			//endPos = selector.direction * selector.distance + selector.transform.position;
 			endPos = selector.line.GetPosition(1);
 			lineArray[1] = endPos;
 			line.positionCount = 2;
 			line.SetPositions(lineArray);
-
+			*/
 			DrawElements();
 		}
     }
 
 	public float sphereRadius;
-	List<SelectableElement> elementList;
+	List<SelectableElement> elementList = new List<SelectableElement>();
 	private void LoadNearbySelections()
 	{
 		//Sphere cast from startPos;
@@ -81,14 +85,66 @@ public class NewSelection : MonoBehaviour
 				}
 			}
 		}
+		Debug.Log(elementList.Count);
 	}
 
 	private void ActivateAnimation()
 	{
 		//Update buttons
+		UnityEngine.UI.Button b;
+		EventTrigger trigger = null; ;
+		int Z_TOP = 9;
+		int DEFAULT = 0;
+
+		//Adjust the button functionality
+		for(int i = 0; i < elementList.Count && i < qsa.transform.childCount; i++) {
+			b = qsa.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
+
+			//Add button hover events
+			if ((trigger = b.GetComponent<EventTrigger>()) == null) {
+				trigger = b.gameObject.AddComponent<EventTrigger>();
+			}
+			EventTrigger.Entry entry = new EventTrigger.Entry();
+			entry.eventID = EventTriggerType.PointerEnter;
+			entry.callback.AddListener(
+				delegate 
+				{
+					Debug.Log("I WAS ENTERED");
+					elementList[i].GetComponent<MaterialSwitchState>().Brighten();
+					elementList[i].gameObject.layer = Z_TOP;
+				});
+			trigger.triggers.Add(entry);
+			EventTrigger.Entry exit = new EventTrigger.Entry();
+			exit.eventID = EventTriggerType.PointerExit;
+			exit.callback.AddListener(
+				delegate
+				{
+					Debug.Log("I WAS left");
+					elementList[i].GetComponent<MaterialSwitchState>().Darken();
+					elementList[i].gameObject.layer = DEFAULT;
+				});
+			trigger.triggers.Add(exit);
+			//Add click event
+			b.onClick.AddListener(
+				delegate
+				{
+					//Adjust to make the cursor go to the collision point?
+					//Need custom data class to maintain this collision point maybe?
+					//Or calculate it from the center --> closest point on edge?
+
+					//selector.cursor.position = elementList[i].transform.position;
+					selector.SelectNew(elementList[i], elementList[i].transform.position);
+					//selector.SetSavedCursorPos(elementList[i].transform.position);
+				});
+		}
 
 		//Activate animation
 		qsa.Activate(elementList.Count);
+	}
+
+	private void DeactivateAnimation()
+	{
+		qsa.Deactivate();
 	}
 
 	private class MeshData : IComparer

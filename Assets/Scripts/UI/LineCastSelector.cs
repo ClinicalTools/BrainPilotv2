@@ -122,6 +122,11 @@ public class LineCastSelector : MonoBehaviour
 		cursor.GetComponentInChildren<MeshRenderer>().enabled = isActive;
 	}
 
+	public void SetSavedCursorPos(Vector3 newPos)
+	{
+		cursorSavedPosition = newPos;
+	}
+
     /// <summary>
     /// Raycasts out and gathers all Selectable Elements we find
     /// Collates those into a SelectionGroup and positions our cursor at the farthest selectable we have
@@ -223,6 +228,41 @@ public class LineCastSelector : MonoBehaviour
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
     }
+
+	public void SelectNew(SelectableElement s)
+	{
+		// invoke our event if ui target if we are deselecting a ui target
+		if (uiTarget != null) {
+			//UI to brain
+			uiTargetEvent.Invoke(null);
+		}
+
+		//cursor.transform.position = sortedPoints[0].point;
+		if (uiTarget != null || furthestSelectable != s.selectable) {
+			furthestSelectable = s.selectable;
+			//Brain to Brain
+			selectableTargetEvent.Invoke(furthestSelectable);
+		}
+		uiTarget = null;
+
+		// add or remove selectables from our selection
+		//THIS MAINTAINS A LIST OF RAYCASTED SELECTABLES, KEPS IN SELECTIONGROUP LineSelect
+		//CALLING THIS METHOD WILL NOT UPDATE THIS LIST, AS IT IS NOT NEEDED
+		//IF NEEDED IN THE FUTURE, UNCOMMENT THIS CODE AND FIX ANY ERRORS
+		/*var selectablesToRegister = selectionHitList.Except(selection.selectables).ToList();
+		var selectablesToUnregister = selection.selectables.Except(selectionHitList).ToList();
+
+		selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
+		selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
+		*/
+	}
+
+	public void SelectNew(SelectableElement s, Vector3 cursorPosition)
+	{
+		cursor.transform.position = cursorPosition;
+		cursorSavedPosition = cursorPosition;
+		SelectNew(s);
+	}
 
 	private void UpdateScale()
 	{
