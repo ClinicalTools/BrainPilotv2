@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class QuickSelectAnimation : MonoBehaviour {
 
@@ -98,6 +100,7 @@ public class QuickSelectAnimation : MonoBehaviour {
 
 	public void Activate(int n)
 	{
+		GetComponentInParent<OVRRaycaster>().enabled = true;
 		if (n < 0) {
 			n = 0;
 		}
@@ -123,6 +126,7 @@ public class QuickSelectAnimation : MonoBehaviour {
 
 	public void Deactivate()
 	{
+		GetComponentInParent<OVRRaycaster>().enabled = false;
 		aniDirection = -1;
 		//progress = 1;
 		active = true;
@@ -148,5 +152,15 @@ public class QuickSelectAnimation : MonoBehaviour {
 			}
 
 		}
+	}
+
+	public void CheckForButtonClick(Button b)
+	{
+		if (b == null) {
+			return;
+		}
+		OVRPointerEventData data = new OVRPointerEventData(EventSystem.current);
+		b.OnPointerClick(data);
+		
 	}
 }

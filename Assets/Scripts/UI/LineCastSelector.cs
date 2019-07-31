@@ -86,23 +86,27 @@ public class LineCastSelector : MonoBehaviour
 		cursor.LookAt(transform);
     }
 
-	public void Enable()
+	public void Enable(bool isActive = true)
 	{
-		isActive = true;
+
+		this.isActive = isActive;
 		line.enabled = true;
+		cursor.gameObject.SetActive(true);
+		//UpdateSelection();
 		//SetActive(true);
 	}
 
 	public void Disable()
 	{
-		isActive = false;
+		
 		float tempDist = distance;
 		distance = 0;
 		//Setting sticktime to less than 0 (and not -1) to trigger the unstick code
 		stickTime = -10;
-		UpdateSelection();
+		UpdateSelection(); //To clear the selection
 		distance = tempDist;
 		line.enabled = false;
+		isActive = false;
 		//SetActive(false);
 	}
 
@@ -133,7 +137,13 @@ public class LineCastSelector : MonoBehaviour
     /// </summary>
     private void UpdateSelection()
     {
-        Vector3 targetDirection = targetPosition - originPosition;
+		if (!isActive) {
+			//Set cursor true
+			
+			//return;
+		}
+
+		Vector3 targetDirection = targetPosition - originPosition;
         targetDirection.Normalize();
 
 
@@ -157,6 +167,7 @@ public class LineCastSelector : MonoBehaviour
 			} else if (stickTime != -1) {
 				selectableTargetEvent.Invoke(null);
 				cursor.transform.position = transform.position;
+				Debug.Log("Turning off cursor");
 				cursor.gameObject.SetActive(false);
 				furthestSelectable = null;
 				stickTime = -1;
@@ -236,11 +247,12 @@ public class LineCastSelector : MonoBehaviour
 			//UI to brain
 			uiTargetEvent.Invoke(null);
 		}
-
+		
 		//cursor.transform.position = sortedPoints[0].point;
 		if (uiTarget != null || furthestSelectable != s.selectable) {
 			furthestSelectable = s.selectable;
 			//Brain to Brain
+			print("INVOKING THING");
 			selectableTargetEvent.Invoke(furthestSelectable);
 		}
 		uiTarget = null;

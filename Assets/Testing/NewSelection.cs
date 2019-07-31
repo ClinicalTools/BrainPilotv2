@@ -31,21 +31,34 @@ public class NewSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One)) {
-			//Activate
-			startPos = selector.cursor.position;
-			transform.position = startPos;
-			active = true;
-			LoadNearbySelections();
-			ActivateAnimation();
-			DebugSelections();
-		} else if (OVRInput.GetUp(OVRInput.Button.One)) {
-			//New Selection
-			//Figure out which
-			active = false;
-			line.positionCount = 0;
-			line.SetPositions(new Vector3[0]);
+		if (!selector.isActive) {
+			if (OVRInput.GetDown(OVRInput.Button.One)) {
+				//Activate
+				startPos = selector.cursor.position;
+				transform.position = startPos;
+				active = true;
+				LoadNearbySelections();
+				ActivateAnimation();
+				DebugSelections();
+			} else if (OVRInput.GetUp(OVRInput.Button.One)) {
+				//New Selection
+				//Figure out which button to select
+				active = false;
+				line.positionCount = 0;
+				line.SetPositions(new Vector3[0]);
 
+				//Find out if over a button
+				/*UnityEngine.UI.Button b = qsa.transform.GetChild(0).GetComponent<UnityEngine.UI.Button>();
+				PointerEventData data = new PointerEventData(EventSystem.current);
+				b.OnPointerClick(data);*/
+				DeactivateAnimation();
+				qsa.CheckForButtonClick(activeButton);
+			}
+
+			if (active) {
+				transform.LookAt(selector.transform);
+			}
+		} else if (animationActive) {
 			DeactivateAnimation();
 		}
 		if (active) {
@@ -57,7 +70,6 @@ public class NewSelection : MonoBehaviour
 			line.positionCount = 2;
 			line.SetPositions(lineArray);
 			*/
-			DrawElements();
 		}
     }
 
@@ -67,7 +79,7 @@ public class NewSelection : MonoBehaviour
 	{
 		//Sphere cast from startPos;
 		Collider[] c = Physics.OverlapSphere(startPos, sphereRadius);
-		Debug.Log(c.Length);
+		//Debug.Log(c.Length);
 		List<Collider> collisionList = new List<Collider>(c);
 		SelectableElement el;
 		for(int i = 0; i < collisionList.Count; i++) {
@@ -88,30 +100,34 @@ public class NewSelection : MonoBehaviour
 		Debug.Log(elementList.Count);
 	}
 
+	private UnityEngine.UI.Button activeButton;
+	private bool animationActive;
 	private void ActivateAnimation()
 	{
 		//Update buttons
-		UnityEngine.UI.Button b;
-		EventTrigger trigger = null; ;
+		EventTrigger trigger = null;
 		int Z_TOP = 9;
 		int DEFAULT = 0;
 
 		//Adjust the button functionality
 		for(int i = 0; i < elementList.Count && i < qsa.transform.childCount; i++) {
-			b = qsa.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
-
+			UnityEngine.UI.Button b = qsa.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
+			SelectableElement element = elementList[i];
 			//Add button hover events
 			if ((trigger = b.GetComponent<EventTrigger>()) == null) {
 				trigger = b.gameObject.AddComponent<EventTrigger>();
 			}
+			trigger.triggers.Clear();
+
 			EventTrigger.Entry entry = new EventTrigger.Entry();
 			entry.eventID = EventTriggerType.PointerEnter;
 			entry.callback.AddListener(
 				delegate 
 				{
-					Debug.Log("I WAS ENTERED");
-					elementList[i].GetComponent<MaterialSwitchState>().Brighten();
-					elementList[i].gameObject.layer = Z_TOP;
+					element.GetComponent<MaterialSwitchState>()?.Brighten();
+					element.gameObject.layer = Z_TOP;
+					activeButton = b;
+					SetCanvasCursorName(((BrainElement)element.selectable).elementName);
 				});
 			trigger.triggers.Add(entry);
 			EventTrigger.Entry exit = new EventTrigger.Entry();
@@ -119,31 +135,48 @@ public class NewSelection : MonoBehaviour
 			exit.callback.AddListener(
 				delegate
 				{
-					Debug.Log("I WAS left");
-					elementList[i].GetComponent<MaterialSwitchState>().Darken();
-					elementList[i].gameObject.layer = DEFAULT;
+					element.GetComponent<MaterialSwitchState>()?.Darken();
+					element.gameObject.layer = DEFAULT;
+					if (activeButton == b) {
+						activeButton = null;
+					}
+					SetCanvasCursorName("");
 				});
 			trigger.triggers.Add(exit);
+
+			b.onClick.RemoveAllListeners();
 			//Add click event
-			b.onClick.AddListener(
-				delegate
+			b.onClick.AddListener(() =>
+				
 				{
 					//Adjust to make the cursor go to the collision point?
 					//Need custom data class to maintain this collision point maybe?
 					//Or calculate it from the center --> closest point on edge?
-
+					Debug.Log("Clicked " + b.name + ", Element: " + element.name);
 					//selector.cursor.position = elementList[i].transform.position;
-					selector.SelectNew(elementList[i], elementList[i].transform.position);
+					Vector3 newPos = element.GetComponent<Collider>().ClosestPoint(selector.cursor.position);
+					print(newPos);
+					selector.cursor.gameObject.SetActive(true);
+					FindObjectOfType<OVRCursor>().GetComponent<MeshRenderer>().enabled = false;
+					selector.SelectNew(element, newPos);
+					activeButton = null;
 					//selector.SetSavedCursorPos(elementList[i].transform.position);
 				});
 		}
 
+		animationActive = true;
 		//Activate animation
 		qsa.Activate(elementList.Count);
 	}
 
+	private void SetCanvasCursorName(string name)
+	{
+		FindObjectOfType<OVRInputModule>().m_Cursor.GetComponentInChildren<TMPro.TextMeshPro>().text = name;
+	}
+
 	private void DeactivateAnimation()
 	{
+		animationActive = false;
 		qsa.Deactivate();
 	}
 
@@ -182,12 +215,6 @@ public class NewSelection : MonoBehaviour
 				}
 			}
 		}
-	}
-
-	private void DrawElements()
-	{
-		//Each element will have text and will highlight the piece when hovered over
-		
 	}
 
 	[ExecuteInEditMode,ContextMenu("Get mesh levels")]

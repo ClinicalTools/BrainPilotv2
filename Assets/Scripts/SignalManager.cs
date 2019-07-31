@@ -30,7 +30,7 @@ public class SignalManager : MonoBehaviour {
 			}
 		}
 		relayChain = psList.ToArray();
-		Debug.Log(relayChain.Length);
+		//Debug.Log(relayChain.Length);
 
 	}
 

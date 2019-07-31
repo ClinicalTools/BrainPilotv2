@@ -492,7 +492,6 @@ public class DroneController : MonoBehaviour {
 		}
 	}
 
-	GameObject[] displayTexts;
 	GameObject displayText;
 	public bool showHighlightedNames;
 	public TMPro.TextMeshPro highlightText;

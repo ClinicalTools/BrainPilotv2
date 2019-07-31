@@ -1971,7 +1971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &119949070
@@ -2406,7 +2406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &149058288
@@ -2718,7 +2718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &150465683
@@ -6954,7 +6954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &455107818
@@ -6969,7 +6969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &455107819
@@ -10618,7 +10618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &789944593
@@ -54714,7 +54714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!23 &1133299767
@@ -54815,7 +54815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &1135168107
@@ -61933,7 +61933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &1321507070
@@ -68861,7 +68861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &1501679942
@@ -68876,7 +68876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &1501679943
@@ -77913,7 +77913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!23 &1758602883
@@ -79466,7 +79466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &1827279294
@@ -80198,7 +80198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5029c82e33529d84693aa9d945c16975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signalManager: {fileID: 0}
+  signalManager: {fileID: 855135600}
   particle: {fileID: 0}
   activated: 0
 --- !u!114 &1880314944
