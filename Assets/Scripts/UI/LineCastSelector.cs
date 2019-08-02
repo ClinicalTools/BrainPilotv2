@@ -98,7 +98,6 @@ public class LineCastSelector : MonoBehaviour
 
 	public void Disable()
 	{
-		
 		float tempDist = distance;
 		distance = 0;
 		//Setting sticktime to less than 0 (and not -1) to trigger the unstick code
@@ -139,7 +138,9 @@ public class LineCastSelector : MonoBehaviour
     {
 		if (!isActive) {
 			//Set cursor true
-			
+			//Only reaches here if called from disable while over a canvas
+			//We want to retain the selection if reselecting, clear if not??
+			//How do we handle up presses if over canvas?
 			//return;
 		}
 
@@ -252,7 +253,7 @@ public class LineCastSelector : MonoBehaviour
 		if (uiTarget != null || furthestSelectable != s.selectable) {
 			furthestSelectable = s.selectable;
 			//Brain to Brain
-			print("INVOKING THING");
+			print("SET SELECTABLE TO " + s.selectable.name);
 			selectableTargetEvent.Invoke(furthestSelectable);
 		}
 		uiTarget = null;
