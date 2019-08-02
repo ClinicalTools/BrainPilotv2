@@ -43,7 +43,6 @@ public class AnimationController : MonoBehaviour {
 	public void HandleNewSelection(Selectable s)
 	{
 
-		print("Animation. " + ((BrainElement)s)?.elementName);
 		if (s == null) {
 			StopAnimation();
 		} else {

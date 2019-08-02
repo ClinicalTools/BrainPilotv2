@@ -17,11 +17,13 @@ public class ScaleUpdater : MonoBehaviour
 	//Controls the furthest point where the object will no longer increase in size
 	public float maxDistance = 10f;
 
+	private float sizeAdjustment;
 	private void Awake()
 	{
 		if (player == null) {
 			player = Camera.main.transform;
 		}
+		sizeAdjustment = 1 / startSize;
 	}
 
 	private void Update()
@@ -29,14 +31,14 @@ public class ScaleUpdater : MonoBehaviour
 		UpdateScale();
 	}
 
-	private void UpdateScale()
+	private void UpdateScale() 
 	{
 		float distance = (transform.position - player.position).magnitude;
 		//Multiply distance by ArcTan(x), where x is default size of the cursor we want.
 		float y = distance * Mathf.Atan(2);
 
 		//The adjustment is used to slightly alter the scale of the cursor based on distance.
-		float adjustment = 1 / (sizeDecreaseRate * (distance / maxDistance) + startSize);
+		float adjustment = 1 / (sizeDecreaseRate * (distance / maxDistance) + sizeAdjustment);
 		y *= adjustment;
 
 		transform.localScale = Vector3.one * y;

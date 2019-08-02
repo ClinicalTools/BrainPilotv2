@@ -24,6 +24,7 @@ public class CursorController : MonoBehaviour
 				}
 
 				activeState = selectorCursor.isActive;
+				print("Setting active state to " + activeState);
 				selectorCursor.Disable();
 				onCanvas = true;
 
@@ -34,15 +35,21 @@ public class CursorController : MonoBehaviour
 				}
 			}
 		} else if (onCanvas) {
-			selectorCursor.Enable(selectorCursor.isActive);
+			bool activatingWith = selectorCursor.isActive;
+			//bool activatingWith = true;
+			//bool activatingWith = activeState;
+			print("Enabling with " + activatingWith);
+			selectorCursor.Enable(activatingWith);
 			onCanvas = false;
 		}
     }
 
 	public void CanceledClick(bool click)
 	{
-		if (onCanvas & !click) {
+		if (onCanvas) {
+			print("Click cancled");
 			selectorCursor.GetClickDown(false);
+			activeState = true;
 		}
 	}
 }

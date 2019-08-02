@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  startSize: 15
+  startSize: 0.06666667
   sizeDecreaseRate: 3
   maxDistance: 10
 --- !u!114 &7679960013911507565
