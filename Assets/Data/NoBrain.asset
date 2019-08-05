@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -14,9 +15,9 @@ MonoBehaviour:
   title: No Brain
   description: Loads random shapes
   sceneReferences:
-  - m_SceneAsset: {fileID: 102900000, guid: 587e776fadf71f046a324f2e427b8a0d, type: 3}
+  - m_SceneAsset: {fileID: 0}
     m_SceneName: New Scene
-  - m_SceneAsset: {fileID: 102900000, guid: 5d2761e95e216ac49bb1f4c241f5777e, type: 3}
+  - m_SceneAsset: {fileID: 0}
     m_SceneName: New Scene 1
-  - m_SceneAsset: {fileID: 102900000, guid: d9321339859b961489e209b93be7c8f0, type: 3}
+  - m_SceneAsset: {fileID: 0}
     m_SceneName: New Scene 2

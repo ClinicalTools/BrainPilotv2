@@ -7162,9 +7162,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 231364622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b40a3ee02c95c42aed4890b5602997, type: 3}
+  m_Script: {fileID: 11500000, guid: fd2441fa57f5b7a49bd402830b724185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  updateGlobal: 0
+  materials: []
+  width: 0.25
+  shape: 0
+  color: {r: 0, g: 1, b: 0, a: 1}
+  intensity: 0
+  texture: {fileID: 0}
+  reverse: 0
+  alphaOffset: 0
+  phaseOffset: 0
+  blur: 0
+  isDynamic: 0
+  GIMultyplier: 0
 --- !u!114 &231364625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7175,9 +7188,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 231364622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bac003d786c7dd4ca0c9ec9e79bd049, type: 3}
+  m_Script: {fileID: 11500000, guid: ecd75234735d39a46ba22799f293f665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  updateGlobal: 0
+  materials: []
+  noise: 0
+  texture1: {fileID: 0}
+  texture1Tiling: {x: 1, y: 1}
+  texture1Offset: {x: 0, y: 0}
+  texture1Scroll: {x: 0, y: 0, z: 0}
+  texture1Channel: 3
+  texture1Intensity: 1
+  texture2: {fileID: 0}
+  texture2Tiling: {x: 1, y: 1}
+  texture2Offset: {x: 0, y: 0}
+  texture2Scroll: {x: 0, y: 0, z: 0}
+  texture2Channel: 3
+  texture2Intensity: 1
+  texture3: {fileID: 0}
+  texture3Tiling: {x: 1, y: 1}
+  texture3Offset: {x: 0, y: 0}
+  texture3Scroll: {x: 0, y: 0, z: 0}
+  texture3Channel: 3
+  texture3Intensity: 1
+  uvSet: 0
+  textureBlend: 0
 --- !u!114 &231364626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7188,9 +7224,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 231364622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 905542b144b27d34ebc96e15826889fe, type: 3}
+  m_Script: {fileID: 11500000, guid: d5e89bedcdcec254ab16c85099d39120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  updateGlobal: 0
+  materials: []
+  spotLight1: {fileID: 0}
+  spotLight2: {fileID: 0}
+  spotLight3: {fileID: 0}
+  spotLight4: {fileID: 0}
+  invert: 0
 --- !u!1 &232123879
 GameObject:
   m_ObjectHideFlags: 0
@@ -11988,6 +12031,7 @@ MonoBehaviour:
   isActive: 1
   cursor: {fileID: 232123880}
   stickDuration: 1
+  bLine: {fileID: 0}
 --- !u!114 &333519561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13663,6 +13707,7 @@ MonoBehaviour:
   rightHandController: {fileID: 1029809944}
   leftHandController: {fileID: 553555967}
   defaultController: 2
+  staticActive: 0
   debug: 0
 --- !u!1 &421313658
 GameObject:
@@ -20091,6 +20136,7 @@ MonoBehaviour:
   isActive: 1
   cursor: {fileID: 232123880}
   stickDuration: 1
+  bLine: {fileID: 0}
 --- !u!114 &571345770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31544,6 +31590,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9491b620dc33af2438eab432bb0bbadc, type: 3}
+--- !u!1 &1172089039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1388801131875136, guid: 9491b620dc33af2438eab432bb0bbadc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1172089038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1172089040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172089039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91920ad7a737aae47bfc9ac56eddb4e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 11400000, guid: 78d64cf3b0e12d248a4d8cfb8d2a723b, type: 2}
+  controller: 2
+  button: 1
 --- !u!1 &1172622739
 GameObject:
   m_ObjectHideFlags: 0
