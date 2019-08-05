@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SequenceManager : MonoBehaviour {
 
-	private List<Sequence1> sequences;
+	private List<Sequence> sequences;
 	private int activeIdx = 0;
 	public bool isAtEnd
 	{
 		get
 		{
-			return activeIdx == sequences.Count - 1;
+			return sequences.Count == 0 | activeIdx == sequences.Count - 1;
 		}
 	}
 
@@ -32,15 +32,15 @@ public class SequenceManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		sequences = new List<Sequence1>(GetComponentsInChildren<Sequence1>());
+		sequences = new List<Sequence>(GetComponentsInChildren<Sequence>());
 	}
 
-	public Sequence1 GetSequence()
+	public Sequence GetSequence()
 	{
 		return sequences[activeIdx];
 	}
 
-	public Sequence1 GetSequenceAt(int idx)
+	public Sequence GetSequenceAt(int idx)
 	{
 		return sequences[idx];
 	}
@@ -49,7 +49,7 @@ public class SequenceManager : MonoBehaviour {
 	/// Advances the active sequence and returns the new active sequence.
 	/// </summary>
 	/// <returns>The active sequence (or the last sequence available)</returns>
-	public Sequence1 AdvanceSequence()
+	public Sequence AdvanceSequence()
 	{
 		if (!isAtEnd) {
 			activeIdx++;
@@ -61,7 +61,7 @@ public class SequenceManager : MonoBehaviour {
 	/// Receeds the sequence and returns the new active sequence. Returns the first sequence if it cannot receed further.
 	/// </summary>
 	/// <returns>The previous sequence</returns>
-	public Sequence1 ReceedSequence()
+	public Sequence ReceedSequence()
 	{
 		if (!isAtBeginning) {
 			activeIdx--;

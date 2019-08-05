@@ -63,10 +63,13 @@ public class Waypointer : MonoBehaviour {
         platformLoc = platform.position;
         platformScale = platform.localScale;
         platformRotQ = platform.rotation;
+
+		FindObjectOfType<TweenScaleByFactor>().TweenToScale(platformInformation.scaleVal, totalTime);
 		while (time < totalTime) {
             LerpMovement(time / totalTime);
 			LerpRotation(time / totalTime);
-			LerpScale(time / totalTime);
+			//Scale needs to be handled by TweenScaleByFactor on the platform
+			//LerpScale(time / totalTime);
 			time += Time.deltaTime;
 			yield return null;
 		}

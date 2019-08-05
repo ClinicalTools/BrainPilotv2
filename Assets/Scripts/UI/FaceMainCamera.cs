@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class FaceMainCamera : MonoBehaviour {
 
-    bool runInUpdate = true;
+    public bool runInUpdate = true;
+	public Transform player;
 
     private void Start()
     {
-        transform.LookAt(Camera.main.transform);
+		player = Camera.main.transform;
+        transform.LookAt(player);
     }
 
     private void Update()
     {
         if (runInUpdate)
-            transform.LookAt(Camera.main.transform);
+            transform.LookAt(player);
     }
 
 }

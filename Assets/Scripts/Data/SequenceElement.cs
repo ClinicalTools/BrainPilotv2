@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Sequences/SequenceElement")]
-public class SequenceElement : ScriptableObject {
+public class SequenceElement : MonoBehaviour {
 
 	/**
 	 * Possible data which would be needed by an event
@@ -12,50 +11,120 @@ public class SequenceElement : ScriptableObject {
 	 * This could include waypoint/location data, scale,
 	 * events to call, etc.
 	 */
+	[System.Serializable]
+	public class PlatformInformation
+	{
+		public Vector3 waypointLocation;
+		//public Transform waypointLocation;
 
-	public Vector3 waypointLocation;
-	//public Transform waypointLocation;
+		public Transform lookAtPoint;
+		//public Vector3 lookAtDirection;
 
-	public Transform lookAtPoint;
-	//public Vector3 lookAtDirection;
+		public float scaleVal;
+	}
 
-	public float scaleVal;
+	[TextArea]
+	public string textToDisplay;
 
-	public SelectableElement[] piecesToActivate;
-	public BrainElement[] piecesToActivate2;
+	[SerializeField]
+	private PlatformInformation platformInformation;
+
+	public MaterialSwitchState[] brainPiecesToHighlight;
+
+	public string highlightedText;
+
+	public Color optMaterialColor;
 	
 	public UnityEvent OnEventBegin;
 	public UnityEvent OnEventEnd;
 
-	public string stepDisplayInfo;
-	
 	//This could help with pages of strings. We'd have control of the content
 	//per page. Difficult to include images/other though
 	//public string[] infoPages;
 
+	private void OnEnable()
+	{
+		//Check to see if the loaded element is in the active part
+		if (gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene()) {
+			//Set the sequence as the drone's chosen sequence
+		}
+	}
+
+#if UNITY_EDITOR
+	[ContextMenu("Input Camera Position")]
+	public void InputCameraPos()
+	{
+		Transform cam = UnityEditor.SceneView.lastActiveSceneView.camera.transform;
+		if (cam == null) {
+			Debug.LogWarning("Scene camera not found!");
+			return;
+		}
+		platformInformation.waypointLocation = cam.position;
+	}
+
+	[ContextMenu("Clear Platform Info")]
+	public void ClearPlatformInfo()
+	{
+		platformInformation.lookAtPoint = null;
+		platformInformation.scaleVal = 0;
+		platformInformation.waypointLocation = Vector3.zero;
+	}
+#endif
 	public void Activate()
 	{
 		OnEventBegin.Invoke();
-		foreach(SelectableElement element in piecesToActivate) {
-			element?.GetComponent<MaterialSwitchState>()?.Activate();
-		}
-		foreach(BrainElement element in piecesToActivate2) {
-			foreach(SelectableListener obj in element.listeners) {
-				obj?.GetComponent<MaterialSwitchState>()?.Activate();
-			}
-		}
+		HighlightBrainPieces();
+		HandlePlatformMovement();
 	}
 
 	public void Deactivate()
 	{
 		OnEventEnd.Invoke();
-		foreach (SelectableElement element in piecesToActivate) {
-			element?.GetComponent<MaterialSwitchState>()?.Deactivate();
-		}
-		foreach (BrainElement element in piecesToActivate2) {
-			foreach (SelectableListener obj in element.listeners) {
-				obj?.GetComponent<MaterialSwitchState>()?.Deactivate();
+		UnhighlightBrainPieces();
+	}
+
+	public void HighlightBrainPieces()
+	{
+		foreach (MaterialSwitchState element in brainPiecesToHighlight) {
+			if (optMaterialColor != Color.black) {
+				element?.ActivateWithColor(optMaterialColor);
+			} else {
+				element?.Activate();
 			}
+
+			//Display name
+			//Spawn prefab?
+			//Default scale: .1, .1, .1
 		}
+	}
+
+	public void UnhighlightBrainPieces()
+	{
+		foreach (MaterialSwitchState element in brainPiecesToHighlight) {
+			element?.Deactivate();
+		}
+	}
+
+	public void HandlePlatformMovement()
+	{
+		StartCoroutine(IterateMovement());
+	}
+
+	private IEnumerator IterateMovement()
+	{
+		float time = 0;
+		float totalTime = 3f;
+		while (time < totalTime) {
+			/*LerpMovement();
+			LerpRotation();
+			LerpScale(); */
+			time += Time.deltaTime;
+			yield return null;
+		}
+	}
+
+	public PlatformInformation GetPlatformInfo()
+	{
+		return platformInformation;
 	}
 }

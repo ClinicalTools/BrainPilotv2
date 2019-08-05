@@ -21,7 +21,7 @@ public class SignalManager : MonoBehaviour {
 			relayChain = new ParticleSystem[0];
 		}
 		//StopAll();
-		Debug.Log(relayChain.Length);
+		//Debug.Log(relayChain.Length);
 		List<ParticleSystem> psList = new List<ParticleSystem>(relayChain);
 		for(int i = 0; i < psList.Count; i++) {
 			if (psList[i] == null) {
@@ -30,7 +30,7 @@ public class SignalManager : MonoBehaviour {
 			}
 		}
 		relayChain = psList.ToArray();
-		Debug.Log(relayChain.Length);
+		//Debug.Log(relayChain.Length);
 
 	}
 
@@ -163,7 +163,7 @@ public class SignalManager : MonoBehaviour {
 		//Find the next point
 		ParticleSystem nextPoint = FindNextSignal(startingPoint);
 		if (nextPoint == null) {
-			Debug.Log("NextPoint is null");
+			Debug.Log("NextPoint is null.\nStarting point: " + startingPoint.name + "\nThis manager: " + name);
 			activeSystem = null;
 			return;
 		}

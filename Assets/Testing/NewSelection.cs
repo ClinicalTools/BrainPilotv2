@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(LineRenderer))]
 public class NewSelection : MonoBehaviour
 {
+	public QuickSelectAnimation qsa;
 	LineRenderer line;
 	Vector3 startPos;
 	Vector3 endPos;
@@ -18,62 +20,256 @@ public class NewSelection : MonoBehaviour
     void Start()
     {
 		line = GetComponent<LineRenderer>();
+		qsa = GetComponentInChildren<QuickSelectAnimation>(true);
+		line.startWidth = .1f;
 		lineArray = new Vector3[2];
 		line.useWorldSpace = true;
     }
 
-	bool active;
+	public bool active;
 
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One)) {
-			//Activate
-			startPos = selector.cursor.position;
-			active = true;
-			LoadNearbySelections();
-			DebugSelections();
-		} else if (OVRInput.GetUp(OVRInput.Button.One)) {
-			//New Selection
-			//Figure out which 
-			active = false;
-			line.positionCount = 0;
-			line.SetPositions(new Vector3[0]);
+		if (!selector.isActive) {
+			if (OVRInput.GetDown(OVRInput.Button.One)) {
+				//Activate
+				Activate();
+			} else if (OVRInput.GetUp(OVRInput.Button.One)) {
+				//New Selection
+				//Figure out which button to select
+				Deactivate();
+			}
+
+			if (active) {
+				transform.LookAt(selector.transform);
+			}
+		} else if (animationActive) {
+			DeactivateAnimation();
 		}
 		if (active) {
+			/*
 			lineArray[0] = startPos;
 			//endPos = selector.direction * selector.distance + selector.transform.position;
 			endPos = selector.line.GetPosition(1);
 			lineArray[1] = endPos;
 			line.positionCount = 2;
 			line.SetPositions(lineArray);
-
-			DrawElements();
+			*/
 		}
     }
 
+	private void Activate()
+	{
+		startPos = selector.cursor.position;
+		transform.position = startPos;
+		active = true;
+		LoadNearbySelections();
+		ActivateAnimation();
+		DebugSelections();
+	}
+
+	private void Deactivate()
+	{
+		active = false;
+		line.positionCount = 0;
+		line.SetPositions(new Vector3[0]);
+
+		//Find out if over a button
+		/*UnityEngine.UI.Button b = qsa.transform.GetChild(0).GetComponent<UnityEngine.UI.Button>();
+		PointerEventData data = new PointerEventData(EventSystem.current);
+		b.OnPointerClick(data);*/
+		DeactivateAnimation();
+		qsa.CheckForButtonClick(activeButton);
+	}
+
+	public void CanceledClick(bool click)
+	{
+		if (active && !click) {
+			Deactivate();
+		}
+	}
+
+	private int CompareColliderDistance(Collider x, Collider y)
+	{
+		//Try to disable warnings about convex mesh colliders, fail completely
+		#pragma warning disable 1234
+		float xDist = (x.ClosestPoint(startPos) - startPos).sqrMagnitude;
+		float yDist = (y.ClosestPoint(startPos) - startPos).sqrMagnitude;
+		#pragma warning restore 1234
+
+		if (xDist == yDist) {
+			//print(x.name + ", " + y.name + ": 0");
+			return 0;
+		}
+
+		if (xDist == 0) {
+			//Collider is same as currently selected OR
+			//Collider.ClosestPoint() didn't work (Not convex mesh)
+			//print(x.name + ", " + y.name + ": 1");
+			return 1;
+		}
+		if (yDist == 0) {
+			//print(x.name + ", " + y.name + ": -1");
+			return -1;
+		}
+		//print("----" + x.name + ", " + y.name + ": " + xDist.CompareTo(yDist));
+		return xDist.CompareTo(yDist);
+	}
+
 	public float sphereRadius;
-	List<SelectableElement> elementList;
+	List<SelectableElement> elementList = new List<SelectableElement>();
 	private void LoadNearbySelections()
 	{
 		//Sphere cast from startPos;
 		Collider[] c = Physics.OverlapSphere(startPos, sphereRadius);
-		Debug.Log(c.Length);
+
+		//Sort by distance
 		List<Collider> collisionList = new List<Collider>(c);
+		collisionList.RemoveAll(
+			(Collider x) =>
+				x.GetComponent<SelectableElement>() != null && 
+				x.GetComponent<SelectableElement>().selectable.Equals(selector.furthestSelectable));
+		collisionList.Sort(CompareColliderDistance);
+		
+		/*
+		// Debug
+		foreach (Collider col in collisionList) {
+			print(col.name + ": " + (col.ClosestPoint(startPos) - startPos).sqrMagnitude);
+		}
+		collisionList.Sort(CompareColliderDistance);
+		foreach (Collider col in collisionList) {
+			print(col.name + ": " + (col.ClosestPoint(startPos) - startPos).sqrMagnitude);
+		}*/
+
+		//Assign to elementList, removing unnecessary elements
 		SelectableElement el;
+		elementList.Clear();
 		for(int i = 0; i < collisionList.Count; i++) {
 			el = collisionList[i].GetComponent<SelectableElement>();
-			if (el == null) {
-				Debug.Log("removed " + collisionList[i].name);
+			if (el == null || el.selectable.Equals(selector.furthestSelectable)) {
+				//Debug.Log("removed " + collisionList[i].name);
 				collisionList.RemoveAt(i);
 				i--;
 			} else {
 				if (elementList == null) {
 					elementList = new List<SelectableElement>();
 				}
-				elementList.Add(el);
+				if (!elementList.Contains(el)) {
+					if (el.selectable != null && el.selectable is BrainElement) {
+						//print("Adding " + ((BrainElement)el.selectable).elementName);
+						elementList.Add(el);
+					} else {
+						//Debug.Log("Removed " + collisionList[i].name + ", because selectable is " + el.selectable?.ToString());
+						collisionList.RemoveAt(i);
+						i--;
+					}
+				}
 			}
 		}
+		Debug.Log("Total elements: " + elementList.Count);
+	}
+
+	private UnityEngine.UI.Button activeButton;
+	private bool animationActive;
+	private void ActivateAnimation()
+	{
+		//Update buttons
+		EventTrigger trigger = null;
+		int Z_TOP = 9;
+		int DEFAULT = 0;
+
+		//Adjust the button functionality
+		for(int i = 0; i < elementList.Count && i < qsa.transform.childCount; i++) {
+			UnityEngine.UI.Button b = qsa.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
+			SelectableElement element = elementList[i];
+			//Add button hover events
+			if ((trigger = b.GetComponent<EventTrigger>()) == null) {
+				trigger = b.gameObject.AddComponent<EventTrigger>();
+			}
+			trigger.triggers.Clear();
+
+			EventTrigger.Entry entry = new EventTrigger.Entry();
+			entry.eventID = EventTriggerType.PointerEnter;
+			entry.callback.AddListener(
+				delegate 
+				{
+					element.GetComponent<MaterialSwitchState>()?.Brighten();
+					element.gameObject.layer = Z_TOP;
+					activeButton = b;
+					if (element.selectable is BrainElement) {
+						SetCanvasCursorName(((BrainElement)element.selectable).elementName);
+					} else {
+						SetCanvasCursorName("");
+					}
+				});
+			trigger.triggers.Add(entry);
+			EventTrigger.Entry exit = new EventTrigger.Entry();
+			exit.eventID = EventTriggerType.PointerExit;
+			exit.callback.AddListener(
+				delegate
+				{
+					element.GetComponent<MaterialSwitchState>()?.Darken();
+					element.gameObject.layer = DEFAULT;
+					if (activeButton == b) {
+						activeButton = null;
+					}
+					SetCanvasCursorName("");
+				});
+			trigger.triggers.Add(exit);
+
+			b.onClick.RemoveAllListeners();
+			//Add click event
+			b.onClick.AddListener(() =>
+				
+				{
+					//Adjust to make the cursor go to the collision point?
+					//Need custom data class to maintain this collision point maybe?
+					//Or calculate it from the center --> closest point on edge?
+					Debug.Log("Clicked " + b.name + ", Element: " + element.name);
+					//selector.cursor.position = elementList[i].transform.position;
+					Vector3 newPos = element.GetComponent<Collider>().ClosestPoint(selector.cursor.position);
+					if (newPos.Equals(selector.cursor.position) && !partsList.Contains(element.name)) {
+						partsList.Add(element.name);
+					}
+					selector.cursor.gameObject.SetActive(true);
+					FindObjectOfType<OVRCursor>().GetComponent<MeshRenderer>().enabled = false;
+					selector.SelectNew(element, newPos);
+					activeButton = null;
+					//selector.SetSavedCursorPos(elementList[i].transform.position);
+				});
+		}
+
+		animationActive = true;
+		//Activate animation
+		qsa.Activate(elementList.Count);
+	}
+
+	List<string> partsList = new List<string>();
+	[ContextMenu("Print parts list")]
+	private void PrintPartsList()
+	{
+		PrintList(partsList);
+	}
+
+	private void PrintList<T>(List<T> list)
+	{
+		string stuff = "";
+		foreach (T obj in list) {
+			stuff += obj.ToString() + "\n";
+		}
+		print(stuff);
+	}
+
+	private void SetCanvasCursorName(string name)
+	{
+		FindObjectOfType<OVRInputModule>().m_Cursor.GetComponentInChildren<TMPro.TextMeshPro>().text = name;
+	}
+
+	private void DeactivateAnimation()
+	{
+		animationActive = false;
+		qsa.Deactivate();
 	}
 
 	private class MeshData : IComparer
@@ -111,12 +307,6 @@ public class NewSelection : MonoBehaviour
 				}
 			}
 		}
-	}
-
-	private void DrawElements()
-	{
-		//Each element will have text and will highlight the piece when hovered over
-		
 	}
 
 	[ExecuteInEditMode,ContextMenu("Get mesh levels")]

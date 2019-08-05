@@ -42,6 +42,7 @@ public class AnimationController : MonoBehaviour {
 
 	public void HandleNewSelection(Selectable s)
 	{
+
 		if (s == null) {
 			StopAnimation();
 		} else {

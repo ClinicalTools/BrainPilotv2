@@ -32,15 +32,22 @@ public class SubSceneManager : ScriptableObject {
 		listeners.Remove(listener);
 	}
 	
-	public void LoadSequence(int sceneIdx)
+	/// <summary>
+	/// Loads the first sequence of the given scene.
+	/// Simply returns if the sceneIdx is invalid
+	/// </summary>
+	/// <param name="sceneIdx"></param>
+	public bool LoadSequence(int sceneIdx)
 	{
 		if (sceneIdx >= SceneManager.sceneCount) {
-			return;
+			return false;
 		} else if (sceneIdx <= 0) {
 			sceneIdx = 1;
 			activeScene = 1;
 		}
 		GameObject[] objs = SceneManager.GetSceneAt(sceneIdx).GetRootGameObjects();
+		sequenceManager = null;
+		signalManager = null;
 
 		//Parse through the scene's game objects looking for what we want
 		foreach (GameObject obj in objs) {
@@ -59,12 +66,18 @@ public class SubSceneManager : ScriptableObject {
 				listeners[i].Invoke();
 			}
 		}
+		return true;
 	}
 
-	public void UpdateSelectedScene(int i)
+	/// <summary>
+	/// Updates the saved active scene. Loads the managers
+	/// </summary>
+	/// <param name="i"></param>
+	/// <returns>False if there is no scene at idx i</returns>
+	public bool UpdateSelectedScene(int i)
 	{
 		activeScene = i;
-		LoadSequence(activeScene);
+		return LoadSequence(activeScene);
 	}
 
 #if UNITY_EDITOR

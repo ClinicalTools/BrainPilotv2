@@ -86,23 +86,26 @@ public class LineCastSelector : MonoBehaviour
 		cursor.LookAt(transform);
     }
 
-	public void Enable()
+	public void Enable(bool isActive = true)
 	{
-		isActive = true;
+
+		this.isActive = isActive;
 		line.enabled = true;
+		cursor.gameObject.SetActive(true);
+		//UpdateSelection();
 		//SetActive(true);
 	}
 
 	public void Disable()
 	{
-		isActive = false;
 		float tempDist = distance;
 		distance = 0;
 		//Setting sticktime to less than 0 (and not -1) to trigger the unstick code
 		stickTime = -10;
-		UpdateSelection();
+		UpdateSelection(); //To clear the selection
 		distance = tempDist;
 		line.enabled = false;
+		isActive = false;
 		//SetActive(false);
 	}
 
@@ -122,13 +125,26 @@ public class LineCastSelector : MonoBehaviour
 		cursor.GetComponentInChildren<MeshRenderer>().enabled = isActive;
 	}
 
+	public void SetSavedCursorPos(Vector3 newPos)
+	{
+		cursorSavedPosition = newPos;
+	}
+
     /// <summary>
     /// Raycasts out and gathers all Selectable Elements we find
     /// Collates those into a SelectionGroup and positions our cursor at the farthest selectable we have
     /// </summary>
     private void UpdateSelection()
     {
-        Vector3 targetDirection = targetPosition - originPosition;
+		if (!isActive) {
+			//Set cursor true
+			//Only reaches here if called from disable while over a canvas
+			//We want to retain the selection if reselecting, clear if not??
+			//How do we handle up presses if over canvas?
+			//return;
+		}
+
+		Vector3 targetDirection = targetPosition - originPosition;
         targetDirection.Normalize();
 
 
@@ -152,6 +168,7 @@ public class LineCastSelector : MonoBehaviour
 			} else if (stickTime != -1) {
 				selectableTargetEvent.Invoke(null);
 				cursor.transform.position = transform.position;
+				Debug.Log("Turning off cursor");
 				cursor.gameObject.SetActive(false);
 				furthestSelectable = null;
 				stickTime = -1;
@@ -223,6 +240,42 @@ public class LineCastSelector : MonoBehaviour
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
     }
+
+	public void SelectNew(SelectableElement s)
+	{
+		// invoke our event if ui target if we are deselecting a ui target
+		if (uiTarget != null) {
+			//UI to brain
+			uiTargetEvent.Invoke(null);
+		}
+		
+		//cursor.transform.position = sortedPoints[0].point;
+		if (uiTarget != null || furthestSelectable != s.selectable) {
+			furthestSelectable = s.selectable;
+			//Brain to Brain
+			print("SET SELECTABLE TO " + s.selectable.name);
+			selectableTargetEvent.Invoke(furthestSelectable);
+		}
+		uiTarget = null;
+
+		// add or remove selectables from our selection
+		//THIS MAINTAINS A LIST OF RAYCASTED SELECTABLES, KEPS IN SELECTIONGROUP LineSelect
+		//CALLING THIS METHOD WILL NOT UPDATE THIS LIST, AS IT IS NOT NEEDED
+		//IF NEEDED IN THE FUTURE, UNCOMMENT THIS CODE AND FIX ANY ERRORS
+		/*var selectablesToRegister = selectionHitList.Except(selection.selectables).ToList();
+		var selectablesToUnregister = selection.selectables.Except(selectionHitList).ToList();
+
+		selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
+		selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
+		*/
+	}
+
+	public void SelectNew(SelectableElement s, Vector3 cursorPosition)
+	{
+		cursor.transform.position = cursorPosition;
+		cursorSavedPosition = cursorPosition;
+		SelectNew(s);
+	}
 
 	private void UpdateScale()
 	{

@@ -34,7 +34,7 @@ public class TweenScaleByFactor : MonoBehaviour
 		lastResourceValue = targetTransform.localScale.x;
 
 		selector = GetComponentInChildren<LineCastSelector>();
-		ovrCursor = GetComponentInChildren<OVRGazePointer>().transform.parent;
+		ovrCursor = GetComponentInChildren<OVRGazePointer>()?.transform.parent;
 
 		//if (runOnUpdateValue)
 		//resource.OnValueChanged.AddListener(UpdateFromResource);
@@ -110,8 +110,13 @@ public class TweenScaleByFactor : MonoBehaviour
 		scaling = false;
 	}
 
+	/// <summary>
+	/// Scales other objects that the platform needs adjusted
+	/// </summary>
+	/// <param name="ratio">The x scale over max scale</param>
 	private void ScaleOtherObjects(float ratio)
 	{
+		//Ratio values:
 		//50 = 1
 		//5 = .1
 		//.5 = .01
@@ -148,5 +153,12 @@ public class TweenScaleByFactor : MonoBehaviour
 		} else {
 			controller.forwardSpeed = (ratio * maxScale) / 5f;
 		}
+
+		//Adjust comfort plane's sensitivity
+		//1.5 @ 50
+		//1 @ 5
+		//.5 @ .5
+		TweenAlphaByVelocity comfortAlpha = GetComponentInChildren<TweenAlphaByVelocity>();
+		comfortAlpha.scale = controller.forwardSpeed / 5;
 	}
 }
