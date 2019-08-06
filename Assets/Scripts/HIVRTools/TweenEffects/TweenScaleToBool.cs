@@ -31,13 +31,21 @@ public class TweenScaleToBool : MonoBehaviour {
 
         if (status)
         {
-            StartCoroutine(TweenScaleTo(scaleFactor * startingScale));
+			if (target.gameObject.activeInHierarchy) {
+				StartCoroutine(TweenScaleTo(scaleFactor * startingScale));
+			} else {
+				target.localScale = scaleFactor * startingScale;
+			}
             
         }
         else
         {
-            StartCoroutine(TweenScaleTo(startingScale));
-        }
+			if (target.gameObject.activeInHierarchy) {
+				StartCoroutine(TweenScaleTo(startingScale));
+			} else {
+				target.localScale = startingScale;
+			}
+		}
 
         isActive = status;
     }

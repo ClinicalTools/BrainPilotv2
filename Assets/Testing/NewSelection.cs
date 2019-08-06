@@ -21,7 +21,7 @@ public class NewSelection : MonoBehaviour
     {
 		line = GetComponent<LineRenderer>();
 		qsa = GetComponentInChildren<QuickSelectAnimation>(true);
-		line.startWidth = .1f;
+		//line.startWidth = .05f;
 		lineArray = new Vector3[2];
 		line.useWorldSpace = true;
     }
@@ -32,10 +32,10 @@ public class NewSelection : MonoBehaviour
     void Update()
     {
 		if (!selector.isActive) {
-			if (OVRInput.GetDown(OVRInput.Button.One)) {
+			if (OVRInput.GetDown(OVRInput.Button.Two)) {
 				//Activate
 				Activate();
-			} else if (OVRInput.GetUp(OVRInput.Button.One)) {
+			} else if (OVRInput.GetUp(OVRInput.Button.Two)) {
 				//New Selection
 				//Figure out which button to select
 				Deactivate();
@@ -72,7 +72,7 @@ public class NewSelection : MonoBehaviour
 	private void Deactivate()
 	{
 		active = false;
-		line.positionCount = 0;
+		//line.positionCount = 0;
 		line.SetPositions(new Vector3[0]);
 
 		//Find out if over a button
@@ -95,7 +95,13 @@ public class NewSelection : MonoBehaviour
 		//Try to disable warnings about convex mesh colliders, fail completely
 		#pragma warning disable 1234
 		float xDist = (x.ClosestPoint(startPos) - startPos).sqrMagnitude;
+		if (xDist == 0) {
+			Debug.Log(x.name, x.gameObject);
+		}
 		float yDist = (y.ClosestPoint(startPos) - startPos).sqrMagnitude;
+		if (yDist == 0) {
+			Debug.Log(y.name, y.gameObject);
+		}
 		#pragma warning restore 1234
 
 		if (xDist == yDist) {
@@ -175,7 +181,6 @@ public class NewSelection : MonoBehaviour
 	private void ActivateAnimation()
 	{
 		//Update buttons
-		EventTrigger trigger = null;
 		int Z_TOP = 9;
 		int DEFAULT = 0;
 
@@ -184,6 +189,7 @@ public class NewSelection : MonoBehaviour
 			UnityEngine.UI.Button b = qsa.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
 			SelectableElement element = elementList[i];
 			//Add button hover events
+			EventTrigger trigger;
 			if ((trigger = b.GetComponent<EventTrigger>()) == null) {
 				trigger = b.gameObject.AddComponent<EventTrigger>();
 			}
@@ -202,6 +208,12 @@ public class NewSelection : MonoBehaviour
 					} else {
 						SetCanvasCursorName("");
 					}
+
+					Vector3 targetPos = element.GetComponent<Collider>().ClosestPoint(selector.cursor.position);
+					if (targetPos == selector.cursor.position) {
+						targetPos = element.transform.position;
+					}
+					SetLine(transform.position, targetPos);
 				});
 			trigger.triggers.Add(entry);
 			EventTrigger.Entry exit = new EventTrigger.Entry();
@@ -209,12 +221,18 @@ public class NewSelection : MonoBehaviour
 			exit.callback.AddListener(
 				delegate
 				{
-					element.GetComponent<MaterialSwitchState>()?.Darken();
+					if (activeButton != null) {
+						//Active button is only null here when OnClick has been called
+						//We don't want to now darken the selected piece
+						element.GetComponent<MaterialSwitchState>()?.Darken();
+					}
+
 					element.gameObject.layer = DEFAULT;
 					if (activeButton == b) {
 						activeButton = null;
 					}
 					SetCanvasCursorName("");
+					DisableLine();
 				});
 			trigger.triggers.Add(exit);
 
@@ -229,13 +247,15 @@ public class NewSelection : MonoBehaviour
 					Debug.Log("Clicked " + b.name + ", Element: " + element.name);
 					//selector.cursor.position = elementList[i].transform.position;
 					Vector3 newPos = element.GetComponent<Collider>().ClosestPoint(selector.cursor.position);
-					if (newPos.Equals(selector.cursor.position) && !partsList.Contains(element.name)) {
-						partsList.Add(element.name);
+					if (newPos.Equals(selector.cursor.position)) {
+						newPos = element.transform.position;
 					}
 					selector.cursor.gameObject.SetActive(true);
 					FindObjectOfType<OVRCursor>().GetComponent<MeshRenderer>().enabled = false;
 					selector.SelectNew(element, newPos);
+					element.GetComponent<MaterialSwitchState>().Activate();
 					activeButton = null;
+					DisableLine();
 					//selector.SetSavedCursorPos(elementList[i].transform.position);
 				});
 		}
@@ -243,6 +263,18 @@ public class NewSelection : MonoBehaviour
 		animationActive = true;
 		//Activate animation
 		qsa.Activate(elementList.Count);
+	}
+
+	private void DisableLine()
+	{
+		line.enabled = false;
+	}
+
+	private void SetLine(Vector3 startPos, Vector3 endPos)
+	{
+		line.enabled = true;
+		Vector3[] points = new Vector3[] { startPos, endPos };
+		line.SetPositions(points);
 	}
 
 	List<string> partsList = new List<string>();
@@ -335,6 +367,26 @@ public class NewSelection : MonoBehaviour
 			}
 		}
 		File.WriteAllText("C:\\Users\\Will\\Desktop\\MeshSizes.txt", data.ToString());
+	}
+
+	[ContextMenu("List Non convex mesh colliders")]
+	private void ListNonConvexMeshes()
+	{
+		MeshCollider[] colliders = FindObjectsOfType<MeshCollider>();
+		List<MeshCollider> badColliders = new List<MeshCollider>();
+		foreach(MeshCollider mc in colliders) {
+			if (!mc.convex) {
+				badColliders.Add(mc);
+			}
+		}
+
+		string s = "";
+		foreach(MeshCollider mc in badColliders) {
+			Debug.Log(mc.name, mc.gameObject);
+			s += mc.name + "\n";
+		}
+
+		print(s);
 	}
 
 	private void DebugSelections()

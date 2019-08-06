@@ -11,7 +11,7 @@ public class CursorController : MonoBehaviour
 	public MeshRenderer canvasCursor;
 
 	private bool onCanvas = false;
-	private bool activeState = true;
+	//private bool activeState = true;
 	Selectable sel;
     // Update is called once per frame
     void Update()
@@ -23,8 +23,8 @@ public class CursorController : MonoBehaviour
 					sel = selectorCursor.furthestSelectable;
 				}
 
-				activeState = selectorCursor.isActive;
-				print("Setting active state to " + activeState);
+				//activeState = selectorCursor.isActive;
+				//print("Setting active state to " + activeState);
 				selectorCursor.Disable();
 				onCanvas = true;
 
@@ -35,21 +35,29 @@ public class CursorController : MonoBehaviour
 				}
 			}
 		} else if (onCanvas) {
-			bool activatingWith = selectorCursor.isActive;
+			//bool activatingWith = selectorCursor.isActive;
 			//bool activatingWith = true;
 			//bool activatingWith = activeState;
+			bool activatingWith = (selectorCursor.furthestSelectable == null);
+
 			print("Enabling with " + activatingWith);
 			selectorCursor.Enable(activatingWith);
 			onCanvas = false;
 		}
     }
 
-	public void CanceledClick(bool click)
+	public void CanceledClickCheck(bool click)
 	{
-		if (onCanvas) {
+		if (onCanvas && !click) {
 			print("Click cancled");
-			selectorCursor.GetClickDown(false);
-			activeState = true;
+			selectorCursor.Disable();
+			FindObjectOfType<NewSelection>().CanceledClick(false);
+			return;
+			selectorCursor.TurnOffCursor();
+			selectorCursor.isActive = false;
+			//selectorCursor.Enable(true);
+			//onCanvas = false;
+			//activeState = true;
 		}
 	}
 }

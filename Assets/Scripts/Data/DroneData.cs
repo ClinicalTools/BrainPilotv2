@@ -44,6 +44,8 @@ public class DroneData : ScriptableObject {
 	Selectable currentBright;
 	public void BrightenHovered(Selectable s)
 	{
+		//Needed? Will it help?
+		if (currentBright == s) return;
 		if (currentBright != null) {
 			foreach (SelectableListener l in currentBright.listeners) {
 				l?.GetComponent<MaterialSwitchState>()?.Darken();

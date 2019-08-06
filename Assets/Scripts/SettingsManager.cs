@@ -139,6 +139,7 @@ public class SettingsManager : MonoBehaviour {
 		if (selector == null) {
 			selector = FindObjectOfType<LineCastSelector>();
 		}
+		FindObjectOfType<OVRCursor>().GetComponent<MeshRenderer>().enabled = false;
 		selector.Enable();
 		transform.GetChild(1).gameObject.SetActive(false);
 	}
