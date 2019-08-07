@@ -51,11 +51,15 @@ public class LineCastSelector : MonoBehaviour
 	public float stickDuration = 1f;
 	private float stickTime = 0f;
 
+	//Dissolve Mask Controller for Spotlight Cones
+	AdvancedDissolve_Example.Controller_Mask_Cone maskController;
+
     private void Start()
     {
         origin = origin ?? transform;
         line = line ?? GetComponent<LineRenderer>();
 		bLine = bLine ?? GetComponent<BezierLineRenderer>();
+		maskController = GetComponent<AdvancedDissolve_Example.Controller_Mask_Cone>();
 
     }
 
@@ -315,6 +319,7 @@ public class LineCastSelector : MonoBehaviour
 		changeInDistance *= Time.deltaTime;
         distance += changeInDistance;
         distance = Mathf.Clamp(distance, 0f, maxDistance);
+
 
         originPosition = origin.position;
         targetPosition = originPosition + (origin.rotation * direction.normalized * distance);
