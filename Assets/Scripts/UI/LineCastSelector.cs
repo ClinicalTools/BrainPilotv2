@@ -53,6 +53,8 @@ public class LineCastSelector : MonoBehaviour
 
 	//Dissolve Mask Controller for Spotlight Cones
 	AdvancedDissolve_Example.Controller_Mask_Cone maskController;
+	private Vector3 spotLight3position;
+	
 
     private void Start()
     {
@@ -60,6 +62,7 @@ public class LineCastSelector : MonoBehaviour
         line = line ?? GetComponent<LineRenderer>();
 		bLine = bLine ?? GetComponent<BezierLineRenderer>();
 		maskController = GetComponent<AdvancedDissolve_Example.Controller_Mask_Cone>();
+		spotLight3position = maskController.spotLight3.transform.localPosition;
 
     }
 
@@ -302,6 +305,11 @@ public class LineCastSelector : MonoBehaviour
 		float adjustment = 1 / (sizeDecreaseRate * (distance / maxDistance) + startSize);
 		y *= adjustment;
 
+		//move the x-ray cones based on the length of the line.
+		maskController.spotLight2.range = distance/2;
+		maskController.spotLight3.range = distance/2;
+		maskController.spotLight3.transform.localPosition = new Vector3(spotLight3position.x, spotLight3position.y, (spotLight3position.z + distance));
+		
 		cursor.localScale = Vector3.one * y;
 	}
 
