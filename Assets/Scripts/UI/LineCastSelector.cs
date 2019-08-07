@@ -92,10 +92,11 @@ public class LineCastSelector : MonoBehaviour
 
 	public void Enable(bool isActive = true)
 	{
-
 		this.isActive = isActive;
 		line.enabled = true;
-		cursor.gameObject.SetActive(true);
+		if (furthestSelectable != null) {
+			cursor.gameObject.SetActive(true);
+		}
 		//UpdateSelection();
 		//SetActive(true);
 	}
@@ -170,12 +171,7 @@ public class LineCastSelector : MonoBehaviour
 			if (stickTime > 0) {
 				stickTime -= Time.deltaTime;
 			} else if (stickTime != -1) {
-				selectableTargetEvent.Invoke(null);
-				cursor.transform.position = transform.position;
-				Debug.Log("Turning off cursor");
-				cursor.gameObject.SetActive(false);
-				furthestSelectable = null;
-				stickTime = -1;
+				TurnOffCursor();
 			}
 
 			//Uncomment to revert to pre-stick
@@ -244,6 +240,16 @@ public class LineCastSelector : MonoBehaviour
         selectablesToRegister.ForEach(selectable => selection.RegisterSelectable(selectable));
         selectablesToUnregister.ForEach(selectable => selection.DeregisterSelecable(selectable));
     }
+
+	public void TurnOffCursor()
+	{
+		Debug.Log("Turning off cursor");
+		selectableTargetEvent.Invoke(null);
+		cursor.transform.position = transform.position;
+		cursor.gameObject.SetActive(false);
+		furthestSelectable = null;
+		stickTime = -1;
+	}
 
 	public void SelectNew(SelectableElement s)
 	{

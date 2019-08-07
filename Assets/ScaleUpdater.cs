@@ -23,7 +23,6 @@ public class ScaleUpdater : MonoBehaviour
 		if (player == null) {
 			player = Camera.main.transform;
 		}
-		sizeAdjustment = 1 / startSize;
 	}
 
 	private void Update()
@@ -33,6 +32,7 @@ public class ScaleUpdater : MonoBehaviour
 
 	private void UpdateScale() 
 	{
+		sizeAdjustment = 1 / startSize;
 		float distance = (transform.position - player.position).magnitude;
 		//Multiply distance by ArcTan(x), where x is default size of the cursor we want.
 		float y = distance * Mathf.Atan(2);

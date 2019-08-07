@@ -8,12 +8,13 @@ public class MaterialSwitchState : MonoBehaviour {
 
 	//public Material material;
 	protected Material savedMaterial;
-	private bool active;
+	public bool active;
 
 	new public MeshRenderer renderer;
 
 	[SerializeField]
-	protected Color emissionColor = new Color(63/255f, 63/255f, 63/255f);
+	private Color emissionColor = new Color(63/255f, 63/255f, 63/255f);
+	public Color brightenColor = new Color(.8f, .8f, .8f, 1f);
 
 	private readonly float none = 0;
 	//private float cylinder = 6;
@@ -47,14 +48,15 @@ public class MaterialSwitchState : MonoBehaviour {
 		emissionColor = temp;
 	}
 
-	bool bright;
+	public bool bright;
 	public void Brighten()
 	{
 		if (active) {
+			print("Already active");
 			return;
 		}
 		if (savedMaterial != null) {
-			renderer.sharedMaterial = savedMaterial;
+			//renderer.sharedMaterial = savedMaterial;
 		} else {
 			savedMaterial = renderer.sharedMaterial;
 		}
@@ -67,7 +69,6 @@ public class MaterialSwitchState : MonoBehaviour {
 		}
 	}
 
-	Color brightenColor = new Color(.8f, .8f, .8f, 1f);
 
 	public void Darken()
 	{
@@ -83,7 +84,7 @@ public class MaterialSwitchState : MonoBehaviour {
 			return;
 		}
 		if (savedMaterial != null) {
-			renderer.sharedMaterial = savedMaterial;
+			//renderer.sharedMaterial = savedMaterial;
 		} else {
 			savedMaterial = renderer.sharedMaterial;
 		}

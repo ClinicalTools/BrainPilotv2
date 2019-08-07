@@ -174,6 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1388437906}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &13062655
 MeshCollider:
@@ -363,6 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 48295197}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &48295190
 MonoBehaviour:
@@ -378,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 48295197}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &48295191
 MonoBehaviour:
@@ -568,6 +571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 58810193}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &58810187
 MonoBehaviour:
@@ -833,6 +837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 68786369}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &68786363
 MonoBehaviour:
@@ -1112,6 +1117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 81324968}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &81324962
 MonoBehaviour:
@@ -1300,6 +1306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 87083348}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &87083342
 MonoBehaviour:
@@ -1490,6 +1497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2009125049}
   emissionColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &87378468
 MonoBehaviour:
@@ -1692,6 +1700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 108454949}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &108454943
 MonoBehaviour:
@@ -1988,6 +1997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1705953298}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &119949071
 MonoBehaviour:
@@ -2424,6 +2434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1758602883}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &149058289
 MeshCollider:
@@ -2706,6 +2717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 150465688}
   emissionColor: {r: 0.735849, g: 0.5566927, b: 0.5241189, a: 0.6862745}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &150465682
 MonoBehaviour:
@@ -2911,6 +2923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 153616819}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &153616813
 MeshCollider:
@@ -3143,6 +3156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2116310942}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &179795039
 MeshCollider:
@@ -3504,6 +3518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 209244213}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &209244207
 MonoBehaviour:
@@ -3783,6 +3798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 226083898}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &226083892
 MeshCollider:
@@ -4243,6 +4259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1944328293}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &247180920
 MeshCollider:
@@ -4431,6 +4448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 258722226}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &258722220
 MonoBehaviour:
@@ -4879,6 +4897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1015162190}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &290985806
 MonoBehaviour:
@@ -5145,6 +5164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1929921558}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &301256830
 MeshCollider:
@@ -5567,6 +5587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 322351082}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &322351076
 MonoBehaviour:
@@ -5755,6 +5776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 342910717}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &342910711
 MeshCollider:
@@ -6205,6 +6227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 150213584}
   emissionColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &397765350
 MonoBehaviour:
@@ -6498,6 +6521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 440153615}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &440153609
 MonoBehaviour:
@@ -6764,6 +6788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 918487748}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &454293455
 MeshCollider:
@@ -6987,6 +7012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 816357668}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &455107820
 MonoBehaviour:
@@ -7394,6 +7420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 482113341}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &482113335
 MeshCollider:
@@ -7953,6 +7980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1551901498}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &554542433
 MonoBehaviour:
@@ -8544,6 +8572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 647941185}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &647941179
 MonoBehaviour:
@@ -8732,6 +8761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 649220193}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &649220187
 MonoBehaviour:
@@ -9077,6 +9107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 707484670}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &707484664
 MonoBehaviour:
@@ -9265,6 +9296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 715345019}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &715345013
 MonoBehaviour:
@@ -9453,6 +9485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 715884643}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &715884637
 MonoBehaviour:
@@ -9733,6 +9766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1915451519}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &724600657
 MonoBehaviour:
@@ -9922,6 +9956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 138178671}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &749154896
 MonoBehaviour:
@@ -10606,6 +10641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 789944599}
   emissionColor: {r: 1, g: 1, b: 0, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &789944592
 MonoBehaviour:
@@ -15997,6 +16033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 804796116}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &804796110
 MeshCollider:
@@ -16186,6 +16223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1140683162}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &811121224
 MeshCollider:
@@ -31330,6 +31368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1553948861}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &857775103
 MeshCollider:
@@ -31806,6 +31845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 908828719}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &908828713
 MeshCollider:
@@ -32072,6 +32112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 445097052}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &929723585
 MeshCollider:
@@ -37203,6 +37244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 959830821}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &959830815
 MonoBehaviour:
@@ -37469,6 +37511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 576552184}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &965576711
 MeshCollider:
@@ -37657,6 +37700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 979721464}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &979721458
 MonoBehaviour:
@@ -43033,6 +43077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1025776709}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1025776703
 MonoBehaviour:
@@ -43222,6 +43267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1780643490}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1053535941
 MonoBehaviour:
@@ -43425,6 +43471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1059067038}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1059067032
 MeshCollider:
@@ -48557,6 +48604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 299816496}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1075499614
 MeshCollider:
@@ -48745,6 +48793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1081666487}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1081666481
 MeshCollider:
@@ -53877,6 +53926,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 384018194}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1113841537
 MeshCollider:
@@ -54066,6 +54116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 994498498}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1118493529
 MeshCollider:
@@ -54345,6 +54396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1127159256}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1127159250
 MeshCollider:
@@ -54534,6 +54586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 763648465}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1132351020
 MonoBehaviour:
@@ -54833,6 +54886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1411595777}
   emissionColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1135168108
 MonoBehaviour:
@@ -55021,6 +55075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1139490679}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1139490673
 MeshCollider:
@@ -55348,6 +55403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 804371299}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1178605151
 MeshCollider:
@@ -60479,6 +60535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1198889556}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1198889550
 MonoBehaviour:
@@ -60782,6 +60839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 798040796}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1239859134
 MeshCollider:
@@ -60970,6 +61028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1241771767}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1241771761
 MonoBehaviour:
@@ -61258,6 +61317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1606508587}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1258952542
 MonoBehaviour:
@@ -61793,6 +61853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1306894410}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1306894404
 MeshCollider:
@@ -61984,6 +62045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1321507076}
   emissionColor: {r: 1, g: 1, b: 0, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1321507069
 MonoBehaviour:
@@ -67467,6 +67529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 634922299}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1389360224
 MeshCollider:
@@ -68006,6 +68069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 963763303}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1441549292
 MonoBehaviour:
@@ -68272,6 +68336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 129166953}
   emissionColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1472869856
 MonoBehaviour:
@@ -68461,6 +68526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 276972442}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1474463914
 MonoBehaviour:
@@ -68957,6 +69023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2037426077}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1501679944
 MonoBehaviour:
@@ -69146,6 +69213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1211300172}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1502719564
 MonoBehaviour:
@@ -69335,6 +69403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 67350824}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1517563675
 MonoBehaviour:
@@ -69524,6 +69593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1275852694}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1525532047
 MonoBehaviour:
@@ -69866,6 +69936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1557902614}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1557902608
 MonoBehaviour:
@@ -70091,6 +70162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1566668664}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1566668658
 MeshCollider:
@@ -70280,6 +70352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1831342065}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1569795530
 MonoBehaviour:
@@ -70468,6 +70541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1574367572}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1574367566
 MonoBehaviour:
@@ -70748,6 +70822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 565923265}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1587526495
 MeshCollider:
@@ -71093,6 +71168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1597593253}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1597593247
 MeshCollider:
@@ -71282,6 +71358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1471749651}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1599701069
 MonoBehaviour:
@@ -71810,6 +71887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1645232693}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1645232687
 MonoBehaviour:
@@ -72090,6 +72168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2062477608}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1657790971
 MeshCollider:
@@ -72355,6 +72434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1682463423}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1682463417
 MonoBehaviour:
@@ -77608,6 +77688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1730816105}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1730816099
 MonoBehaviour:
@@ -77796,6 +77877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1738812292}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1738812286
 MonoBehaviour:
@@ -78079,6 +78161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2038813902}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1764876328
 MeshCollider:
@@ -78268,6 +78351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1298589614}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1764876871
 MeshCollider:
@@ -78488,6 +78572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1778782884}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1778782878
 MeshCollider:
@@ -78718,7 +78803,6 @@ GameObject:
   - component: {fileID: 1791268600}
   - component: {fileID: 1791268599}
   - component: {fileID: 1791268598}
-  - component: {fileID: 1791268597}
   m_Layer: 0
   m_Name: R_Lateral_Ventricle_transparent
   m_TagString: Untagged
@@ -78741,18 +78825,6 @@ Transform:
   m_Father: {fileID: 1564135272}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1791268597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791268595}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f683423adcf9204583b00972d0a1153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1791268598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78767,6 +78839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 345968148}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1791268599
 MeshCollider:
@@ -79047,6 +79120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 512094719}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1819873765
 MeshCollider:
@@ -79236,6 +79310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1660327050}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1826430854
 MonoBehaviour:
@@ -79547,6 +79622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1133299767}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 0
 --- !u!64 &1827279295
 MeshCollider:
@@ -79903,6 +79979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1852236323}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1852236317
 MonoBehaviour:
@@ -80249,6 +80326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1880314949}
   emissionColor: {r: 0.735849, g: 0.5566927, b: 0.5241189, a: 0.6862745}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1880314943
 MonoBehaviour:
@@ -80452,6 +80530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1883802577}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &1883802571
 MonoBehaviour:
@@ -85843,6 +85922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1934397010}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1934397004
 MeshCollider:
@@ -86031,6 +86111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1938598305}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1938598299
 MeshCollider:
@@ -91239,6 +91320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1972747463}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &1972747457
 MeshCollider:
@@ -96370,6 +96452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2001976606}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!64 &2001976600
 MeshCollider:
@@ -96742,6 +96825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2030873976}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &2030873970
 MonoBehaviour:
@@ -97253,6 +97337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 1369925603}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &2064767464
 MonoBehaviour:
@@ -97610,6 +97695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2108040511}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &2108040505
 MonoBehaviour:
@@ -98189,6 +98275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 2130130099}
   emissionColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  brightenColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   makeSolid: 1
 --- !u!114 &2130130093
 MonoBehaviour:
