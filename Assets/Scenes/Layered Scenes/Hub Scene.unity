@@ -11810,6 +11810,7 @@ GameObject:
   - component: {fileID: 333519563}
   - component: {fileID: 333519564}
   - component: {fileID: 333519561}
+  - component: {fileID: 333519569}
   m_Layer: 0
   m_Name: SelectionCaster
   m_TagString: Untagged
@@ -12184,6 +12185,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333519558}
   m_Mesh: {fileID: 4300000, guid: 37ba10a26a648144fa2390c8adfb2c8a, type: 3}
+--- !u!114 &333519569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333519558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e89bedcdcec254ab16c85099d39120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateGlobal: 0
+  materials: []
+  spotLight1: {fileID: 774103858}
+  spotLight2: {fileID: 1271779268}
+  spotLight3: {fileID: 1727138503}
+  spotLight4: {fileID: 0}
+  invert: 0
 --- !u!1 &346613831
 GameObject:
   m_ObjectHideFlags: 0

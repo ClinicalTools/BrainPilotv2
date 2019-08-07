@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 26666ed61e16c4749bfe5ebac4decd8e, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEEDGETEXTURESOURCE_NONE
     _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMASKCOUNT_FOUR
-    _DISSOLVEMASK_CYLINDER _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+    _DISSOLVEMASK_CONE _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
     _PARALLAXMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -116,7 +116,7 @@ Material:
     - _DissolveMap3Channel: 3
     - _DissolveMap3Intensity: 1
     - _DissolveMappingType: 1
-    - _DissolveMask: 5
+    - _DissolveMask: 6
     - _DissolveMaskAxis: 0
     - _DissolveMaskCount: 3
     - _DissolveMaskInvert: 1

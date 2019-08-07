@@ -160,5 +160,13 @@ public class TweenScaleByFactor : MonoBehaviour
 		//.5 @ .5
 		TweenAlphaByVelocity comfortAlpha = GetComponentInChildren<TweenAlphaByVelocity>();
 		comfortAlpha.scale = controller.forwardSpeed / 5;
+
+		//Platform Cone
+		//10 @ 50
+		//1 @ 5
+		//.1 @ 5
+		Light cone = GetComponentInChildren<AdvancedDissolve_Example.Controller_Mask_Cone>().spotLight1;
+		cone.range = ratio * 10; 
+
 	}
 }

@@ -200,8 +200,15 @@ public class NewSelection : MonoBehaviour
 			entry.callback.AddListener(
 				delegate 
 				{
-					element.GetComponent<MaterialSwitchState>()?.Brighten();
-					element.gameObject.layer = Z_TOP;
+					MaterialSwitchState mSwitch = element.GetComponent<MaterialSwitchState>();
+					if (mSwitch != null) {
+						mSwitch.Brighten();
+						mSwitch.renderer.gameObject.layer = Z_TOP;
+					} else {
+
+						element.gameObject.layer = Z_TOP;
+					}
+
 					activeButton = b;
 					if (element.selectable is BrainElement) {
 						SetCanvasCursorName(((BrainElement)element.selectable).elementName);
@@ -225,6 +232,14 @@ public class NewSelection : MonoBehaviour
 						//Active button is only null here when OnClick has been called
 						//We don't want to now darken the selected piece
 						element.GetComponent<MaterialSwitchState>()?.Darken();
+					}
+
+					MaterialSwitchState mSwitch = element.GetComponent<MaterialSwitchState>();
+					if (mSwitch != null) {
+						mSwitch.renderer.gameObject.layer = DEFAULT;
+					} else {
+
+						element.gameObject.layer = DEFAULT;
 					}
 
 					element.gameObject.layer = DEFAULT;
