@@ -498,6 +498,9 @@ public class DroneController : MonoBehaviour {
 	private void UpdateHighlightedNames()
 	{
 		if (!showHighlightedNames || !hasActiveSequence) {
+			if (displayText != null) {
+				Destroy(displayText);
+			}
 			return;
 		}
 
