@@ -97,10 +97,12 @@ public class NewSelection : MonoBehaviour
 		float xDist = (x.ClosestPoint(startPos) - startPos).sqrMagnitude;
 		if (xDist == 0) {
 			Debug.Log(x.name, x.gameObject);
+			xDist = (x.transform.position - startPos).sqrMagnitude;
 		}
 		float yDist = (y.ClosestPoint(startPos) - startPos).sqrMagnitude;
 		if (yDist == 0) {
 			Debug.Log(y.name, y.gameObject);
+			yDist = (y.transform.position - startPos).sqrMagnitude;
 		}
 		#pragma warning restore 1234
 
@@ -253,7 +255,7 @@ public class NewSelection : MonoBehaviour
 					selector.cursor.gameObject.SetActive(true);
 					FindObjectOfType<OVRCursor>().GetComponent<MeshRenderer>().enabled = false;
 					selector.SelectNew(element, newPos);
-					element.GetComponent<MaterialSwitchState>().Activate();
+					element.GetComponent<MaterialSwitchState>()?.Activate();
 					activeButton = null;
 					DisableLine();
 					//selector.SetSavedCursorPos(elementList[i].transform.position);
