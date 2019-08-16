@@ -144,14 +144,22 @@ public class TweenScaleByFactor : MonoBehaviour
 
 
 		//Adjust movement speed
-		//10 @ 50
-		//5 @ 5
-		//2.5 @ .5
+		//10 @ 50 : 1
+		//5 @ 5 : .1
+		//2.5 @ .5 : .01
 		AnchorUXController controller = GetComponentInChildren<AnchorUXController>();
 		if (ratio * maxScale < 5) {
-			controller.forwardSpeed = (3.5f / 4.5f) * (ratio * maxScale - .5f) + 1.5f;
+			//Scaling when below 5
+			//250/9*ratio
+			//2.5/4.5*ratio*maxscale
+			//controller.forwardSpeed = (3.5f / 4.5f) * (ratio * maxScale - .5f) + 1.5f;
+			controller.forwardSpeed = (5f * (ratio * maxScale) + 20f) / 9f; //For 2.5
+			controller.forwardSpeed = (2f/3f) * (ratio * maxScale) + (5f/3f); //For 2
+
 		} else {
-			controller.forwardSpeed = (ratio * maxScale) / 5f;
+			//Scaling when above 5
+			//controller.forwardSpeed = (ratio * maxScale) / 5f;
+			controller.forwardSpeed = ((ratio * maxScale) + 40) / 9f;
 		}
 
 		//Adjust comfort plane's sensitivity
@@ -166,7 +174,29 @@ public class TweenScaleByFactor : MonoBehaviour
 		//1 @ 5
 		//.1 @ 5
 		Light cone = GetComponentInChildren<AdvancedDissolve_Example.Controller_Mask_Cone>().spotLight1;
-		cone.range = ratio * 10; 
+		cone.range = ratio * 10;
 
+		//Adjust the drone's target position
+		//pos = -1.5, .45, 2 @ 5
+		//pos *= 10
+		//pos *= 1
+		//pos *= .1
+		//Scale by 50*ratio
+		DroneController drone = FindObjectOfType<DroneController>();
+		Vector3 pos = new Vector3(-1.5f, .45f, 2);
+		pos *= ratio * 10;
+		drone.UpdateGoals(new Vector3[] { pos } );
+
+		//Adjust the drone's scale
+		// 2f  @ 50
+		// .2f @ 5
+		// .02f @ .5
+		drone.transform.localScale = Vector3.one * (2f * ratio);
+
+		//Adjust the holo glow on the minimap
+		//.1
+		//.01 @ 5
+		//.001
+		transform.Find("Brain/Holo Brain/Holo Brainn/GameObject/Cube").GetComponent<Light>().range = ratio * .1f;
 	}
 }

@@ -8,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Zone_Material01
-  m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
+  m_Shader: {fileID: 4800000, guid: 26666ed61e16c4749bfe5ebac4decd8e, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_NONE
-    _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_ONE
-    _DISSOLVEMASK_CYLINDER _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
+    _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_THREE
+    _DISSOLVEMASK_CONE _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -107,7 +107,7 @@ Material:
     - _DissolveEdgeTextureSource: 0
     - _DissolveEdgeWidth: 0.25
     - _DissolveGIMultiplier: 1
-    - _DissolveGlobalControl: 2
+    - _DissolveGlobalControl: 3
     - _DissolveMainMapTiling: 1
     - _DissolveMap1Channel: 3
     - _DissolveMap1Intensity: 1
@@ -116,9 +116,9 @@ Material:
     - _DissolveMap3Channel: 3
     - _DissolveMap3Intensity: 1
     - _DissolveMappingType: 0
-    - _DissolveMask: 5
+    - _DissolveMask: 6
     - _DissolveMaskAxis: 0
-    - _DissolveMaskCount: 0
+    - _DissolveMaskCount: 2
     - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 0
     - _DissolveMaskRadius: 2

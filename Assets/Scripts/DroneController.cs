@@ -282,6 +282,11 @@ public class DroneController : MonoBehaviour {
 		}
 	}
 
+	public void UpdateGoals(Vector3[] newGoals)
+	{
+		potentialGoals = new List<Vector3>(newGoals);
+	}
+
 	/// <summary>
 	/// Fades the Disolve shader in or out.
 	/// 1 = invisible

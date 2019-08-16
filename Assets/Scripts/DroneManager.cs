@@ -98,6 +98,10 @@ public class DroneManager : SubSceneListener {
 			}
 		}
 
+		if (managers.Count == 0 || managers[0].sequence == null) {
+			FindObjectOfType<SettingsManager>().transform.Find("Main Menu/Background/LessonsMenu").gameObject.SetActive(false);
+		}
+
 		//Move this to a separate start function? this should be only called once
 		//Could change this depending on if we want signals to start without sequences
 		if (managers[activeSequenceIdx].sequence.startOnLoad) {

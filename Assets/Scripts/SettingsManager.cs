@@ -152,4 +152,9 @@ public class SettingsManager : MonoBehaviour {
 		selector.Disable();
 		transform.GetChild(1).gameObject.SetActive(true); 
 	}
+
+	public void QuitGame()
+	{
+		Application.Quit();
+	}
 }
