@@ -2,37 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AdvancedDissolve_Example {
     public class DissolveSwitch : MonoBehaviour
     {
-        Controller_Mask_Cone maskController;
-        bool xray;
-        //Renderer m_BrainRenderer;
-        //public Material[] materials;
+        public GameObject tool;
+        // XrayCone object assigned
+        public GameObject offBox;
+        // XrayHolder object assigned
+        public GameObject HandAnchor;
+        // ActiveHandAnchor object assigned
+        private bool xray;
+
     // Start is called before the first frame update
         void Start()
         {
             xray = true;
-            maskController = GetComponent<Controller_Mask_Cone>();
-
-            maskController.spotLight2.gameObject.SetActive(true);
-            maskController.spotLight2.gameObject.SetActive(true);
-            maskController.spotLight3.gameObject.SetActive(true);
-            //maskController.spotLight4.gameObject.SetActive(false);
         }
 
         void Toggle_Xray()
         {
             if (xray == true) {
-                maskController.spotLight2.gameObject.SetActive(false);
-                maskController.spotLight3.gameObject.SetActive(false);
                 xray = false;
+                tool.transform.SetParent(offBox.transform);
             } else {
-                maskController.spotLight2.gameObject.SetActive(true);
-                maskController.spotLight3.gameObject.SetActive(true);
                 xray = true;
+                tool.transform.SetParent(HandAnchor.transform);
             }
-
         }
 
     // Update is called once per frame
@@ -42,5 +36,4 @@ namespace AdvancedDissolve_Example {
                 Toggle_Xray();
             }
         }
-}
 }
