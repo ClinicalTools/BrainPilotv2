@@ -22,10 +22,10 @@ using UnityEngine;
         {
             if (xray == true) {
                 xray = false;
-                tool.transform.SetParent(offBox.transform);
+                tool.transform.SetParent(offBox.transform, false);
             } else {
                 xray = true;
-                tool.transform.SetParent(HandAnchor.transform);
+                tool.transform.SetParent(HandAnchor.transform, false);
             }
         }
 
