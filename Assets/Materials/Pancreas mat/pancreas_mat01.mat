@@ -23,8 +23,8 @@ Material:
   m_Name: pancreas_mat01
   m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_NONE
-    _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASK_CONE _METALLICGLOSSMAP
-    _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+    _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_THREE
+    _DISSOLVEMASK_CONE _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -117,7 +117,7 @@ Material:
     - _DissolveEdgeTextureSource: 0
     - _DissolveEdgeWidth: 0.25
     - _DissolveGIMultiplier: 1
-    - _DissolveGlobalControl: 3
+    - _DissolveGlobalControl: 2
     - _DissolveMainMapTiling: 1
     - _DissolveMap1Channel: 3
     - _DissolveMap1Intensity: 1
@@ -128,7 +128,7 @@ Material:
     - _DissolveMappingType: 0
     - _DissolveMask: 6
     - _DissolveMaskAxis: 0
-    - _DissolveMaskCount: 0
+    - _DissolveMaskCount: 2
     - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 0
     - _DissolveMaskRadius: 0.22169466
