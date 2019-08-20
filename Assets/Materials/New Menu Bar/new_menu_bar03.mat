@@ -16,8 +16,9 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: AdvancedDissolveCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -93,7 +94,7 @@ Material:
     - _DissolveAlphaSourceTexturesUVSet: 0
     - _DissolveCombineWithMasterNodeAlpha: 0
     - _DissolveCombineWithMasterNodeColor: 0
-    - _DissolveCutoff: 1
+    - _DissolveCutoff: 0
     - _DissolveEdgeColorIntensity: 0
     - _DissolveEdgeDistortionSource: 0
     - _DissolveEdgeDistortionStrength: 0

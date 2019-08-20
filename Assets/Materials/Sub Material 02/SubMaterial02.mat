@@ -10,9 +10,8 @@ Material:
   m_Name: SubMaterial02
   m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEEDGETEXTURESOURCE_NONE
-    _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMASKCOUNT_THREE
-    _DISSOLVEMASK_CONE _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP
-    _OCCLUSIONMAP _PARALLAXMAP
+    _DISSOLVEGLOBALCONTROL_ALL _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMASK_CONE _EMISSION
+    _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP _PARALLAXMAP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -118,10 +117,10 @@ Material:
     - _DissolveMappingType: 1
     - _DissolveMask: 6
     - _DissolveMaskAxis: 0
-    - _DissolveMaskCount: 2
-    - _DissolveMaskInvert: 1
+    - _DissolveMaskCount: 0
+    - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 0
-    - _DissolveMaskRadius: 1
+    - _DissolveMaskRadius: 0.22169466
     - _DissolveMaskSpace: 0
     - _DissolveNoiseStrength: 0.1
     - _DissolveSourceAlphaTexturesBlend: 0
@@ -156,8 +155,8 @@ Material:
     - _DissolveMap1_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap2_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap3_Scroll: {r: 0, g: 0, b: 0, a: 0}
-    - _DissolveMaskNormal: {r: 1, g: 0, b: 0, a: 0}
-    - _DissolveMaskPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _DissolveMaskNormal: {r: 0, g: 1.0000001, b: -0.00000011920929, a: 0}
+    - _DissolveMaskPosition: {r: -0.09, g: -0.12885004, b: 22.58, a: 0}
     - _Dissolve_ObjectWorldPos: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.004, g: 0.004, b: 0.004, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
