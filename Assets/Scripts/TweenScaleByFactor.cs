@@ -199,4 +199,53 @@ public class TweenScaleByFactor : MonoBehaviour
 		//.001
 		transform.Find("Brain/Holo Brain/Holo Brainn/GameObject/Cube").GetComponent<Light>().range = ratio * .1f;
 	}
+
+	void Update(){
+		if(OVRInput.GetDown(OVRInput.Button.Two)) 
+		{
+            switch (scale)
+			{
+				case .01f:
+					break;
+				case .1f:
+					UpdateByFactor(.01f);
+					break;
+				case 1f:
+					UpdateByFactor(.1f);
+					break;
+				case 10f:
+					UpdateByFactor(1f);
+					break;
+				case 100f:
+					UpdateByFactor(10f);
+					break;
+				default:
+					Debug.Log("Shrink Failed: Scale Unknown");
+					break;
+			}
+        }
+		if(OVRInput.GetDown(OVRInput.Button.Four))
+		{
+            switch (scale)
+			{
+				case .01f:
+					UpdateByFactor(.1f);
+					break;
+				case .1f:
+					UpdateByFactor(1f);
+					break;
+				case 1f:
+					UpdateByFactor(10f);
+					break;
+				case 10f:
+					UpdateByFactor(100f);
+					break;
+				case 100f:
+					break;
+				default:
+					Debug.Log("Growth Failed: Scale Unknown");
+					break;
+			}
+		}
+	}
 }
