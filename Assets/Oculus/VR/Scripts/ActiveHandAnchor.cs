@@ -56,9 +56,6 @@ public class ActiveHandAnchor : MonoBehaviour
 				active = OppositeController(defaultController);
 			}
 		}
-
-
-
 	}
 
 	// Update is called once per frame
