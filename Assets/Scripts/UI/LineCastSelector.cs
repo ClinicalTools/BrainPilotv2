@@ -61,7 +61,7 @@ public class LineCastSelector : MonoBehaviour
         origin = origin ?? transform;
         line = line ?? GetComponent<LineRenderer>();
 		bLine = bLine ?? GetComponent<BezierLineRenderer>();
-		maskController = GetComponent<AdvancedDissolve_Example.Controller_Mask_Cone>();
+		maskController = GetComponent<AdvancedDissolve_Example.Controller_Mask_Cone>(); 
 		spotLight3position = maskController.spotLight3.transform.localPosition;
 
     }

@@ -56,7 +56,7 @@ public class Waypointer : MonoBehaviour {
 		StartCoroutine(IterateMovement());
 	}
 
-		private IEnumerator IterateMovement()
+	private IEnumerator IterateMovement()
 	{
 		float time = 0;
 		float totalTime = 3f;
@@ -64,11 +64,12 @@ public class Waypointer : MonoBehaviour {
         platformScale = platform.localScale;
         platformRotQ = platform.rotation;
 
-		FindObjectOfType<TweenScaleByFactor>().TweenToScale(platformInformation.scaleVal, totalTime);
+		//platform.GetComponent<TweenScaleByFactor>().TweenToScale(platformInformation.scaleVal, totalTime);
 		while (time < totalTime) {
             LerpMovement(time / totalTime);
 			LerpRotation(time / totalTime);
 			//Scale needs to be handled by TweenScaleByFactor on the platform
+			//Do we even need to scale things?
 			//LerpScale(time / totalTime);
 			time += Time.deltaTime;
 			yield return null;

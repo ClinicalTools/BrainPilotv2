@@ -42,6 +42,7 @@ public class CursorController : MonoBehaviour
 
 			print("Enabling with " + activatingWith);
 			selectorCursor.Enable(activatingWith);
+			selectorCursor.selectableTargetEvent.Invoke(selectorCursor.furthestSelectable);
 			onCanvas = false;
 		}
     }

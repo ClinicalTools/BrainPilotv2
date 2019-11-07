@@ -52,7 +52,7 @@ public class MenuPageElement : MonoBehaviour {
 		} else {
 			for (int i = 0; i < transform.parent.childCount; i++) {
 				child = transform.parent.GetChild(i);
-				if (child.gameObject.activeInHierarchy) {
+				if (child.GetComponent<MenuPageElement>() && child.gameObject.activeInHierarchy) {
 					if (child.GetComponent<MenuAnimator>() == null) {
 						child.gameObject.SetActive(false);
 					} else {
