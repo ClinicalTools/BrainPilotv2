@@ -35,4 +35,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 *.spp
+*.bc
 Assets/Data/Sequences/SequenceElements.meta
