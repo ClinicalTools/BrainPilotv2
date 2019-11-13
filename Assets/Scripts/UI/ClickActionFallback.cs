@@ -18,8 +18,26 @@ public class ClickActionFallback : ClickAction {
 
     public override bool ReleaseClickAction(bool status)
     {
-        clickEvent.Invoke(status);
-        return true;
+		if (toggleClick) {
+			if (status) {
+				if (!toggleVal) {
+					toggleVal = true;
+					clickEvent.Invoke(status);
+				} else {
+					toggleVal = false;
+				}
+			} else if (!toggleVal) {
+				clickEvent.Invoke(status);
+			}
+			return true;
+		} else {
+			clickEvent.Invoke(status);
+			return true;
+		}
     }
 
+	public void SetToggle(bool b)
+	{
+		toggleClick = b;
+	}
 }

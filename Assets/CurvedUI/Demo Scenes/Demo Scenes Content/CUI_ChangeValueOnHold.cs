@@ -11,7 +11,8 @@ namespace CurvedUI
         bool pressed = false;
         bool selected = false;
 
-        [SerializeField]
+#pragma warning disable 0649
+		[SerializeField]
         Image bg;
         [SerializeField]
         Color SelectedColor;
@@ -22,11 +23,12 @@ namespace CurvedUI
         CanvasGroup IntroCG;
         [SerializeField]
         CanvasGroup MenuCG;
+#pragma warning restore 0649
 
 
 
-        // Update is called once per frame
-        void Update()
+		// Update is called once per frame
+		void Update()
         {
 
             pressed = Input.GetKey(KeyCode.Space) || Input.GetButton("Fire1");

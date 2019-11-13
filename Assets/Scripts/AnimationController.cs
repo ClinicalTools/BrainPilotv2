@@ -40,6 +40,20 @@ public class AnimationController : MonoBehaviour {
 		}
 	}
 
+	public void MoveText(bool expand)
+	{
+		AnimationState slide = animation["SlideOver"];
+		if (expand) {
+			slide.speed = 1;
+			slide.time = 0;
+		} else {
+			slide.speed = -1;
+			slide.time = slide.length;
+		}
+		slide.layer = 1;
+		animation.Play("SlideOver", PlayMode.StopSameLayer);
+	}
+
 	public void HandleNewSelection(Selectable s)
 	{
 

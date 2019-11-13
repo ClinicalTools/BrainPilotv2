@@ -104,7 +104,7 @@ public class DroneManager : SubSceneListener {
 
 		//Move this to a separate start function? this should be only called once
 		//Could change this depending on if we want signals to start without sequences
-		if (managers[activeSequenceIdx].sequence.startOnLoad) {
+		if (managers.Count > 0 && managers[activeSequenceIdx].sequence.startOnLoad) {
 			ActivateSequence(managers[activeSequenceIdx]);
 		}
 	}

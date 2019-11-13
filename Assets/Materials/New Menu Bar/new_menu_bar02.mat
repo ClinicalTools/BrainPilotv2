@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: new_menu_bar02
-  m_Shader: {fileID: 4800000, guid: 26666ed61e16c4749bfe5ebac4decd8e, type: 3}
+  m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEEDGETEXTURESOURCE_NONE
     _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_ONE
     _DISSOLVEMASK_NONE _EMISSION _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP _METALLICSPECGLOSSMAP
@@ -155,5 +155,5 @@ Material:
     - _DissolveMaskNormal: {r: 1, g: 0, b: 0, a: 0}
     - _DissolveMaskPosition: {r: 0, g: 0, b: 0, a: 0}
     - _Dissolve_ObjectWorldPos: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1.1486983, g: 1.1486983, b: 1.1486983, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

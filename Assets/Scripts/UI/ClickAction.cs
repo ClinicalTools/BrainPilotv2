@@ -7,13 +7,16 @@ using UnityEngine;
 /// </summary>
 public class ClickAction : MonoBehaviour, IClickAction
 {
-    /// <summary>
-    /// Answers a Click on a Selectable (could be null). Should return true if this ClickAction wants take that click. Default class returns false;
-    /// </summary>
-    /// <param name="clickstatus">Click == Down</param>
-    /// <param name="selectable">Selectable Element We are passed</param>
-    /// <returns></returns>
-    public virtual bool AnswerNewClick(bool clickstatus, ISelectable selectable)
+	public bool toggleClick;
+	protected bool toggleVal;
+
+	/// <summary>
+	/// Answers a Click on a Selectable (could be null). Should return true if this ClickAction wants take that click. Default class returns false;
+	/// </summary>
+	/// <param name="clickstatus">Click == Down</param>
+	/// <param name="selectable">Selectable Element We are passed</param>
+	/// <returns></returns>
+	public virtual bool AnswerNewClick(bool clickstatus, ISelectable selectable)
     {
         return false;
     }

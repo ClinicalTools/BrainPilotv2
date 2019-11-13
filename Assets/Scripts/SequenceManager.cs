@@ -37,6 +37,9 @@ public class SequenceManager : MonoBehaviour {
 
 	public Sequence GetSequence()
 	{
+		if (sequences.Count == 0) {
+			return null;
+		}
 		return sequences[activeIdx];
 	}
 

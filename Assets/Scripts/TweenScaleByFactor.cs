@@ -121,11 +121,13 @@ public class TweenScaleByFactor : MonoBehaviour
 		//5 = .1
 		//.5 = .01
 		
+		//Adjust the selector's line width
 		//.2 @ 50
 		//.02 @ 5
 		//.002 @ .5
 		selector.line.startWidth = .2f * ratio;
 
+		//Adjust the canvas cursor's size. 3D cursor is independent
 		//.1 @ 50
 		//1 @ 5
 		//10 @ .5
@@ -191,12 +193,62 @@ public class TweenScaleByFactor : MonoBehaviour
 		// 2f  @ 50
 		// .2f @ 5
 		// .02f @ .5
-		drone.transform.localScale = Vector3.one * (2f * ratio);
+		float defaultScale = 2.5f;
+		drone.transform.localScale = Vector3.one * (defaultScale * ratio);
 
 		//Adjust the holo glow on the minimap
 		//.1
 		//.01 @ 5
 		//.001
 		transform.Find("Brain/Holo Brain/Holo Brainn/GameObject/Cube").GetComponent<Light>().range = ratio * .1f;
+	}
+
+	void Update(){
+		if(OVRInput.GetDown(OVRInput.Button.Two)) 
+		{
+            switch (scale)
+			{
+				case .01f:
+					break;
+				case .1f:
+					UpdateByFactor(.01f);
+					break;
+				case 1f:
+					UpdateByFactor(.1f);
+					break;
+				case 10f:
+					UpdateByFactor(1f);
+					break;
+				case 100f:
+					UpdateByFactor(10f);
+					break;
+				default:
+					Debug.Log("Shrink Failed: Scale Unknown");
+					break;
+			}
+        }
+		if(OVRInput.GetDown(OVRInput.Button.Four))
+		{
+            switch (scale)
+			{
+				case .01f:
+					UpdateByFactor(.1f);
+					break;
+				case .1f:
+					UpdateByFactor(1f);
+					break;
+				case 1f:
+					UpdateByFactor(10f);
+					break;
+				case 10f:
+					UpdateByFactor(100f);
+					break;
+				case 100f:
+					break;
+				default:
+					Debug.Log("Growth Failed: Scale Unknown");
+					break;
+			}
+		}
 	}
 }

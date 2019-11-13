@@ -63,7 +63,7 @@ public class DroneController : MonoBehaviour {
 	public TMPro.TextMeshPro textField;
 	public bool isPositionStatic;
 
-	private bool _active = false;
+	private bool _active = true;
 	private float distance;
 	private Vector3 goalLoc;
 	private MeshRenderer[] mesh;
@@ -101,6 +101,11 @@ public class DroneController : MonoBehaviour {
 	public int displayIdx;
 
 	private Coroutine fadeMesh;
+
+	private void Awake()
+	{
+		
+	}
 
 	// Use this for initialization
 	void Start () {

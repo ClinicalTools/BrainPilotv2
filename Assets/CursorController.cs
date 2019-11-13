@@ -42,6 +42,7 @@ public class CursorController : MonoBehaviour
 
 			print("Enabling with " + activatingWith);
 			selectorCursor.Enable(activatingWith);
+			selectorCursor.selectableTargetEvent.Invoke(selectorCursor.furthestSelectable);
 			onCanvas = false;
 		}
     }
@@ -52,12 +53,13 @@ public class CursorController : MonoBehaviour
 			print("Click cancled");
 			selectorCursor.Disable();
 			FindObjectOfType<NewSelection>().CanceledClick(false);
-			return;
+			/*
 			selectorCursor.TurnOffCursor();
 			selectorCursor.isActive = false;
 			//selectorCursor.Enable(true);
 			//onCanvas = false;
 			//activeState = true;
+			*/
 		}
 	}
 }

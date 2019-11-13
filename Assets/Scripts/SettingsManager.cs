@@ -19,18 +19,29 @@ public class SettingsManager : MonoBehaviour {
 		drone_persistance,
 		movement_style,
 		lesson,
+		toggle_click,
 		sound_master,
 		sound_ambient,
 		sound_narration
 	}
 
-	private Dictionary<SettingType, Dictionary<string, bool>> allSettings;
+	[System.Serializable]
+	public struct DefaultValue
+	{
+		public SettingType settingType;
+		public string key;
+		public bool value;
+	}
+
+	public List<DefaultValue> defaultValues;
+
+	private Dictionary<SettingType, HashSet<string>> allSettings;
 
 	// Use this for initialization
 	void Start()
 	{
 		if (allSettings == null) {
-			allSettings = new Dictionary<SettingType, Dictionary<string, bool>>();
+			allSettings = new Dictionary<SettingType, HashSet<string>>();
 		}
 		if (selector == null) {
 			selector = FindObjectOfType<LineCastSelector>();
@@ -38,22 +49,31 @@ public class SettingsManager : MonoBehaviour {
 		
 		//We want to initialize our dataset based on existing settings
 		List<SettingsElement> a = new List<SettingsElement>(GetComponentsInChildren<SettingsElement>(true));
-		bool isEnabled = false;
 		foreach (SettingsElement element in a) {
-			//Add the setting element if it doesn't already exist
 			if (!allSettings.ContainsKey(element.type)) {
-				allSettings.Add(element.type, new Dictionary<string, bool>());
+				allSettings.Add(element.type, new HashSet<string>() { element.settingKey });
+			} else {
+				allSettings[element.type].Add(element.settingKey);
 			}
+			
 
-			//Check the value saved in player prefs
-			if (!allSettings[element.type].ContainsKey(element.settingKey)) {
-				isEnabled = CheckValue(element.type, element.settingKey);
-				allSettings[element.type].Add(element.settingKey, isEnabled);
-				if (isEnabled) {
-					Debug.Log(GetPrefsString(element.type, element.settingKey) + " has been enabled");
-					element.Invoke();
-				}
+			int value = GetValue(element.type, element.settingKey);
+
+			if (value != NOT_FOUND) {
+				Debug.Log("Attempting to resolve " + GetPrefsString(element.type, element.settingKey));
+				defaultValues.RemoveAll(x =>
+					x.settingType == element.type &&
+					x.key.Equals(element.settingKey));
 			}
+			if (value == ENABLED) {
+				Debug.Log(GetPrefsString(element.type, element.settingKey) + " has been enabled");
+				element.Invoke();
+			}
+		}
+
+		foreach(DefaultValue val in defaultValues) {
+			Debug.Log("Setting default value " + GetPrefsString(val.settingType, val.key) + " to " + val.value);
+			SetSingleValue(val.settingType, val.key, val.value);
 		}
 	}
 
@@ -83,14 +103,11 @@ public class SettingsManager : MonoBehaviour {
 			return false;
 		}
 		return true;
+	}
 
-		try {
-			return allSettings[type][name];
-		} catch (KeyNotFoundException) {
-			Debug.LogWarning("Key " + type.ToString() + ":" + name + " not found!\n"
-				+ (allSettings.ContainsKey(type) ? "Type not found." : "Element not found."));
-			return false;
-		}
+	public int GetValue(SettingType type, string name)
+	{
+		return PlayerPrefs.GetInt(GetPrefsString(type, name), NOT_FOUND);
 	}
 
 	private string GetPrefsString(SettingType type, string name)
@@ -101,14 +118,10 @@ public class SettingsManager : MonoBehaviour {
 	private void SetSingleValue(SettingType type, string name, bool enabled)
 	{
 		if (!allSettings.ContainsKey(type)) {
-			allSettings.Add(type, new Dictionary<string, bool>());
+			allSettings.Add(type, new HashSet<string>());
 		}
+		allSettings[type].Add(name);
 
-		if (!allSettings[type].ContainsKey(name)) {
-			allSettings[type].Add(name, enabled);
-		} else {
-			allSettings[type][name] = enabled;
-		}
 		PlayerPrefs.SetInt(GetPrefsString(type, name), enabled ? 1 : 0);
 		PlayerPrefs.Save();
 		Debug.Log("Saved entry: " + GetPrefsString(type, name) + " = " + (enabled ? 1 : 0));
@@ -118,17 +131,16 @@ public class SettingsManager : MonoBehaviour {
 	private void SetValue(SettingType type, string name, bool value, bool disableOtherOfType = false)
 	{
 		if (disableOtherOfType) {
-			//Find others with the same type and disable them
 			if (!allSettings.ContainsKey(type)) {
-				allSettings.Add(type, new Dictionary<string, bool>());
+				allSettings.Add(type, new HashSet<string>() { name });
 			}
-			string[] keys = new string[allSettings[type].Count];
-			allSettings[type].Keys.CopyTo(keys,0);
-			foreach (string key in keys) {
-				if (CheckValue(type, key)) {
-					SetSingleValue(type, key, false);
+			string[] keys2 = new string[allSettings[type].Count];
+			var enumerator = allSettings[type].GetEnumerator();
+			do {
+				if (CheckValue(type, enumerator.Current)) {
+					SetSingleValue(type, enumerator.Current, false);
 				}
-			}
+			} while (enumerator.MoveNext());
 		}
 
 		SetSingleValue(type, name, value);

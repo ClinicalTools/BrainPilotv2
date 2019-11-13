@@ -37,10 +37,11 @@ public class TweenItemScaleBetweenVec3Resources : MonoBehaviour {
                 SetActiveState(value);
         }
     }
+#pragma warning disable 0649
     [SerializeField]
     private bool activeState;
-
-    public void SetActiveState(bool newActiveState)
+#pragma warning restore 0649
+	public void SetActiveState(bool newActiveState)
     {
         StopAllCoroutines();
 

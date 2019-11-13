@@ -74,10 +74,8 @@ public class QuickSelectAnimation : MonoBehaviour {
 		}
 		active = true;
 		ActivateChildren();
-		return;
 
-
-		gameObject.SetActive(true);
+		/*gameObject.SetActive(true);
 		if (isEnabled) {
 			//Deactivate
 			aniDirection = -1;
@@ -96,11 +94,13 @@ public class QuickSelectAnimation : MonoBehaviour {
 		}
 		active = true;
 		ActivateChildren();
+		*/
 	}
 
 	public void Activate(int n)
 	{
-		GetComponentInParent<OVRRaycaster>().enabled = true;
+		//GetComponentInParent<OVRRaycaster>().enabled = true;
+		GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
 		if (n < 0) {
 			n = 0;
 		}
@@ -126,7 +126,8 @@ public class QuickSelectAnimation : MonoBehaviour {
 
 	public void Deactivate()
 	{
-		GetComponentInParent<OVRRaycaster>().enabled = false;
+		//GetComponentInParent<OVRRaycaster>().enabled = false;
+		GetComponentInParent<CanvasGroup>().blocksRaycasts = false;
 		aniDirection = -1;
 		//progress = 1;
 		active = true;

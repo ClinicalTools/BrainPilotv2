@@ -10,8 +10,8 @@ Material:
   m_Name: CactusPack
   m_Shader: {fileID: 4800000, guid: 0eb4419a161c539409c94325c8e86336, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEEDGECOLORISSOLID_ON _DISSOLVEEDGEDISTORTIONSOURCE_CUTOUT_SOURCE
-    _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMASKCOUNT_ONE
-    _DISSOLVEMASK_CONE _NORMALMAP
+    _DISSOLVEEDGETEXTURESOURCE_CUSTOM _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_TRIPLANAR
+    _DISSOLVEMASKCOUNT_ONE _DISSOLVEMASK_CONE _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -100,7 +100,7 @@ Material:
     - _DissolveEdgeTextureMipmap: 0
     - _DissolveEdgeTexturePhaseOffset: 0
     - _DissolveEdgeTextureReverse: 0
-    - _DissolveEdgeTextureSource: 0
+    - _DissolveEdgeTextureSource: 3
     - _DissolveEdgeWidth: 0.2
     - _DissolveGIMultiplier: 0
     - _DissolveGlobalControl: 0

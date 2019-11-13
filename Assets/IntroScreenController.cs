@@ -19,6 +19,7 @@ public class IntroScreenController : MonoBehaviour
 			//Just disable objects since we don't want to play the animation
 			mainMenu.gameObject.SetActive(true);
 			gameObject.SetActive(false);
+			mainMenu.GetComponent<CanvasGroup>().interactable = true;
 		}
     }
 
