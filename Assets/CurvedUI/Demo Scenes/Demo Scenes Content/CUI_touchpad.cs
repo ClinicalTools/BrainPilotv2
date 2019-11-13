@@ -5,7 +5,9 @@ using CurvedUI;
 public class CUI_touchpad : MonoBehaviour {
 
     RectTransform container;
-    [SerializeField] RectTransform dot;
+#pragma warning disable 0649
+	[SerializeField] RectTransform dot;
+#pragma warning restore 0649
  
 #if CURVEDUI_STEAMVR_LEGACY
 	CurvedUIViveController controller;

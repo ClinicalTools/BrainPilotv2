@@ -138,6 +138,23 @@ public class LineCastSelector : MonoBehaviour
 		cursorSavedPosition = newPos;
 	}
 
+	public void ToggleLineColor(bool b)
+	{
+		Color inactive = new Color(1,1,1,1);
+		Color active = new Color(.9f,1,1,1);
+		Gradient g = line.colorGradient;
+		GradientColorKey[] colors = g.colorKeys;
+		if (b) {
+			colors[0].color = active;
+			colors[1].color = active;
+		} else {
+			colors[0].color = inactive;
+			colors[1].color = inactive;
+		}
+		g.colorKeys = colors;
+		line.colorGradient = g;
+	}
+
     /// <summary>
     /// Raycasts out and gathers all Selectable Elements we find
     /// Collates those into a SelectionGroup and positions our cursor at the farthest selectable we have

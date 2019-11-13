@@ -16,7 +16,7 @@ public class ObjectFinder : MonoBehaviour
 	public bool debug;
 	
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(ObjectFinder))]
 public class ObjectFinderEditor : Editor
 {
@@ -139,3 +139,4 @@ public class ObjectFinderEditor : Editor
 		}
 	}
 }
+#endif

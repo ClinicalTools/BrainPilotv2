@@ -53,12 +53,13 @@ public class CursorController : MonoBehaviour
 			print("Click cancled");
 			selectorCursor.Disable();
 			FindObjectOfType<NewSelection>().CanceledClick(false);
-			return;
+			/*
 			selectorCursor.TurnOffCursor();
 			selectorCursor.isActive = false;
 			//selectorCursor.Enable(true);
 			//onCanvas = false;
 			//activeState = true;
+			*/
 		}
 	}
 }

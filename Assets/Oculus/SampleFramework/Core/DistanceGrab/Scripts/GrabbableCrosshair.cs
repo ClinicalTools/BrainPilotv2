@@ -19,11 +19,12 @@ namespace OculusSampleFramework
 
         CrosshairState m_state = CrosshairState.Disabled;
         Transform m_centerEyeAnchor;
-
-        [SerializeField]
+#pragma warning disable 0649
+		[SerializeField]
         GameObject m_targetedCrosshair;
         [SerializeField]
         GameObject m_enabledCrosshair;
+#pragma warning restore 0649
 
         private void Start()
         {

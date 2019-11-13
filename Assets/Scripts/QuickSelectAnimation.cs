@@ -74,10 +74,8 @@ public class QuickSelectAnimation : MonoBehaviour {
 		}
 		active = true;
 		ActivateChildren();
-		return;
 
-
-		gameObject.SetActive(true);
+		/*gameObject.SetActive(true);
 		if (isEnabled) {
 			//Deactivate
 			aniDirection = -1;
@@ -96,6 +94,7 @@ public class QuickSelectAnimation : MonoBehaviour {
 		}
 		active = true;
 		ActivateChildren();
+		*/
 	}
 
 	public void Activate(int n)

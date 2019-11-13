@@ -193,7 +193,8 @@ public class TweenScaleByFactor : MonoBehaviour
 		// 2f  @ 50
 		// .2f @ 5
 		// .02f @ .5
-		drone.transform.localScale = Vector3.one * (2f * ratio);
+		float defaultScale = 2.5f;
+		drone.transform.localScale = Vector3.one * (defaultScale * ratio);
 
 		//Adjust the holo glow on the minimap
 		//.1

@@ -102,6 +102,11 @@ public class DroneController : MonoBehaviour {
 
 	private Coroutine fadeMesh;
 
+	private void Awake()
+	{
+		
+	}
+
 	// Use this for initialization
 	void Start () {
 		OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSMedium;

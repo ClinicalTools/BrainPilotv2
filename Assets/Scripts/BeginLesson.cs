@@ -11,7 +11,10 @@ public class BeginLesson : MonoBehaviour {
 	//public List<string> scenesToLoad;
 	public BrainSceneReferences scenesToLoad;
 	public static bool loadingScenes = false;
-
+	public bool useLoadingScreen = false;
+	public OVRScreenFade fade;
+	public Camera loadingScreenCamera;
+	public CanvasGroup loadingScreen;
 
 	[ContextMenu("Switch Scenes")]
 	public void SwitchScenes()
@@ -21,6 +24,10 @@ public class BeginLesson : MonoBehaviour {
 		}
 		if (mainScene == null || mainScene.SceneName.Length == 0) {
 			Debug.LogError("You must specify the base scene to load first!");
+			return;
+		}
+		if (useLoadingScreen) {
+			StartCoroutine(SwitchScenesCoroutine());
 			return;
 		}
 		loadingScenes = true;
@@ -54,6 +61,94 @@ public class BeginLesson : MonoBehaviour {
 			loadingScenes = false;
 			return;
 		}
+	}
+
+	/// <summary>
+	/// Used in conjunction with a loading screen
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator SwitchScenesCoroutine()
+	{
+		loadingScenes = true;
+		//Fade screen
+		fade.fadeTime = 1f;
+		fade.FadeOut();
+		int count = 0;
+		while (fade.currentAlpha < 1) {
+			count++;
+			if (count > 200) {
+				yield break;
+			}
+			yield return null;
+		}
+		FindObjectOfType<OVRManager>().gameObject.SetActive(false);
+		loadingScreenCamera.gameObject.SetActive(true);
+		Application.backgroundLoadingPriority = ThreadPriority.Low;
+		AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(mainScene.SceneName, LoadSceneMode.Single);
+		asyncLoad.allowSceneActivation = false;
+		StartCoroutine(FadeLoadingScreen(asyncLoad));
+		if (scenesToLoad != null) {
+			foreach (SceneField s in scenesToLoad.sceneReferences) {
+				if (s == null) {
+					Debug.LogWarning("Scene is null!");
+					continue;
+				}
+				AsyncOperation async = SceneManager.LoadSceneAsync(s.SceneName, LoadSceneMode.Additive);
+				async.allowSceneActivation = true;
+				yield return new WaitForSeconds(1.5f);
+			}
+		}
+		loadingScenes = false;
+		loadingScreenCamera.GetComponent<OVRScreenFade>()?.FadeOut();
+		//asyncLoad.allowSceneActivation = true;
+	}
+
+	private IEnumerator FadeLoadingScreen(AsyncOperation asyncLoad)
+	{
+		float minAlpha = .2f;
+		/*IEnumerator FadeIn() {
+			while (loadingScreen.alpha < 1) {
+				loadingScreen.alpha += Time.deltaTime;
+				yield return null;
+			}
+			loadingScreen.alpha = 1f;
+		};
+		IEnumerator FadeToMin() {
+			while (loadingScreen.alpha > minAlpha) {
+				yield return null;
+				loadingScreen.alpha -= Time.deltaTime;
+			}
+			loadingScreen.alpha = minAlpha;
+		}
+		IEnumerator FadeOut()
+		{
+			while (loadingScreen.alpha > 0) {
+				yield return null;
+				loadingScreen.alpha -= Time.deltaTime;
+			}
+			loadingScreen.alpha = 0;
+		}
+		*/
+		while (loadingScenes) {
+			//Fade in loading screen
+			while (loadingScreen.alpha < 1) {
+				loadingScreen.alpha += Time.deltaTime;
+				yield return null;
+			}
+
+			//Fade out loading screen
+			while (loadingScreen.alpha > minAlpha) {
+				yield return null;
+				loadingScreen.alpha -= Time.deltaTime;
+			}
+			loadingScreen.alpha = minAlpha;
+		}
+		while (loadingScreen.alpha > 0) {
+			yield return null;
+			loadingScreen.alpha -= Time.deltaTime;
+		}
+		loadingScreen.alpha = 0;
+		asyncLoad.allowSceneActivation = true;
 	}
 
 	public void SetSceneGroup(BrainSceneReferences scenes)
