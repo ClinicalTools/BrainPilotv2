@@ -180,7 +180,7 @@ public class AnchorUXController : MonoBehaviour {
 
 	float damper = 0;
 	float dampDuration = .75f;
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (isActive) {
 			if (inputResource.Value.sqrMagnitude < deadzoneRadius * deadzoneRadius) {

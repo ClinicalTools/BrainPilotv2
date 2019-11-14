@@ -1008,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.0004, y: 0.0525}
+  m_AnchoredPosition: {x: 0.0004, y: 0.0665}
   m_SizeDelta: {x: 960, y: 540}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44290865
@@ -3111,7 +3111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0.2, y: -60.5}
+  m_AnchoredPosition: {x: -0.2000122, y: -60.5}
   m_SizeDelta: {x: -172.1, y: 383.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &97287251
@@ -11957,7 +11957,6 @@ GameObject:
   - component: {fileID: 333519559}
   - component: {fileID: 333519568}
   - component: {fileID: 333519567}
-  - component: {fileID: 333519566}
   - component: {fileID: 333519560}
   - component: {fileID: 333519562}
   - component: {fileID: 333519565}
@@ -12281,19 +12280,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: ClickUpdateEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!65 &333519566
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333519558}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &333519567
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13594,7 +13580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.1, y: -28.4}
+  m_AnchoredPosition: {x: -0.1000061, y: -28.399994}
   m_SizeDelta: {x: -170.5, y: -83.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &421132669
@@ -27615,6 +27601,7 @@ GameObject:
   - component: {fileID: 972796895}
   - component: {fileID: 972796894}
   - component: {fileID: 972796897}
+  - component: {fileID: 972796898}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -27631,7 +27618,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972796892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05120002, z: 0.008222369}
+  m_LocalPosition: {x: 0, y: 0.0727, z: 0.008222369}
   m_LocalScale: {x: 0.044444446, y: 0.044444446, z: 0.044444446}
   m_Children:
   - {fileID: 1861278304}
@@ -27742,6 +27729,20 @@ MonoBehaviour:
   fadeColor: {r: 0.01, g: 0.01, b: 0.01, a: 1}
   fadeOnStart: 1
   renderQueue: 5000
+--- !u!136 &972796898
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972796892}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.82
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.74, z: 0}
 --- !u!1 &983777256
 GameObject:
   m_ObjectHideFlags: 0
@@ -34000,15 +34001,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 10488d1fd1808f444b6a963a4a7d103c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.94724023
+      value: 1.0434799
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 10488d1fd1808f444b6a963a4a7d103c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.94724023
+      value: 1.0434799
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 10488d1fd1808f444b6a963a4a7d103c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.94724023
+      value: 1.0434799
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 10488d1fd1808f444b6a963a4a7d103c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -34757,7 +34758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 60.279846, y: -0.07001603}
+  m_AnchoredPosition: {x: 60.279846, y: -0.07001495}
   m_SizeDelta: {x: -196.39996, y: -42.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319346339
@@ -35864,7 +35865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.012500763, y: 87.475}
+  m_AnchoredPosition: {x: -0.012512207, y: 87.475006}
   m_SizeDelta: {x: -99.975, y: -275.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372713946

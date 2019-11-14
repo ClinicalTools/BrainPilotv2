@@ -73,7 +73,10 @@ public class SettingsManager : MonoBehaviour {
 
 		foreach(DefaultValue val in defaultValues) {
 			Debug.Log("Setting default value " + GetPrefsString(val.settingType, val.key) + " to " + val.value);
-			SetSingleValue(val.settingType, val.key, val.value);
+			//SetValue(val.settingType, val.key, val.value, val.radio);
+			a.Find(x =>
+				x.type == val.settingType &&
+				x.settingKey == val.key).OnClick();
 		}
 	}
 

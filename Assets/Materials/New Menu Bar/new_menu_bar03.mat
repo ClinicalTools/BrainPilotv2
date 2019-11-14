@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: AdvancedDissolveCutout
   disabledShaderPasses: []
@@ -60,11 +60,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 8ca0126094be3294b91aebef7e57fbf2, type: 3}
+        m_Texture: {fileID: 2800000, guid: cf46cc7f06bf4834baa9532ed5bc7953, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 819a2f6b733ef3c41b22df41fe0593cc, type: 3}
+        m_Texture: {fileID: 2800000, guid: ea29771f6f7084f489b612afb51976ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -94,7 +94,7 @@ Material:
     - _DissolveAlphaSourceTexturesUVSet: 0
     - _DissolveCombineWithMasterNodeAlpha: 0
     - _DissolveCombineWithMasterNodeColor: 0
-    - _DissolveCutoff: 1
+    - _DissolveCutoff: 0
     - _DissolveEdgeColorIntensity: 0
     - _DissolveEdgeDistortionSource: 0
     - _DissolveEdgeDistortionStrength: 0
@@ -155,5 +155,5 @@ Material:
     - _DissolveMaskNormal: {r: 1, g: 0, b: 0, a: 0}
     - _DissolveMaskPosition: {r: 0, g: 0, b: 0, a: 0}
     - _Dissolve_ObjectWorldPos: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 1.2311444, g: 1.2311444, b: 1.2311444, a: 1}
+    - _EmissionColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

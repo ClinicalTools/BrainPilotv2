@@ -10,7 +10,7 @@ Material:
   m_Name: Main_texture01
   m_Shader: {fileID: 4800000, guid: 748944cb1fe5a7c4d902e55e6cca5677, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_MAIN_MAP_ALPHA _DISSOLVEEDGETEXTURESOURCE_CUSTOM
-    _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMAPPINGTYPE_NORMAL _DISSOLVEMASKCOUNT_THREE
+    _DISSOLVEGLOBALCONTROL_MASK_AND_EDGE _DISSOLVEMAPPINGTYPE_TRIPLANAR _DISSOLVEMASKCOUNT_THREE
     _DISSOLVEMASK_CONE _EMISSION _METALLICGLOSSMAP _METALLICSPECGLOSSMAP _NORMALMAP
     _OCCLUSIONMAP
   m_LightmapFlags: 2
@@ -86,7 +86,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _BumpScale: 0.50621146
+    - _BumpScale: 0.49548697
     - _Cull: 2
     - _Cutoff: 0
     - _DetailNormalMapScale: 1
@@ -96,8 +96,8 @@ Material:
     - _DissolveCombineWithMasterNodeColor: 0
     - _DissolveCutoff: 0.25
     - _DissolveEdgeColorIntensity: 0
-    - _DissolveEdgeDistortionSource: 1
-    - _DissolveEdgeDistortionStrength: 1.3
+    - _DissolveEdgeDistortionSource: 0
+    - _DissolveEdgeDistortionStrength: 0
     - _DissolveEdgeShape: 2
     - _DissolveEdgeTextureAlphaOffset: 0
     - _DissolveEdgeTextureIsDynamic: 0
@@ -115,7 +115,7 @@ Material:
     - _DissolveMap2Intensity: 1
     - _DissolveMap3Channel: 3
     - _DissolveMap3Intensity: 1
-    - _DissolveMappingType: 0
+    - _DissolveMappingType: 1
     - _DissolveMask: 6
     - _DissolveMaskAxis: 0
     - _DissolveMaskCount: 2

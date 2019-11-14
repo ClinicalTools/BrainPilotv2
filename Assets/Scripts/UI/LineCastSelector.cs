@@ -68,7 +68,7 @@ public class LineCastSelector : MonoBehaviour
 
 	public BezierLineRenderer bLine;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isActive)
         {
@@ -325,7 +325,8 @@ public class LineCastSelector : MonoBehaviour
 		//move the x-ray cones based on the length of the line.
 		maskController.spotLight2.range = distance/2;
 		maskController.spotLight3.range = distance/2;
-		maskController.spotLight3.transform.localPosition = new Vector3(spotLight3position.x, spotLight3position.y, (spotLight3position.z + distance));
+		float rangeFactor = 4.5f;
+		maskController.spotLight3.transform.localPosition = new Vector3(spotLight3position.x, spotLight3position.y, (rangeFactor * distance));
 		
 		cursor.localScale = Vector3.one * y;
 	}

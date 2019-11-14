@@ -21,6 +21,6 @@ public class ScrollTex : MonoBehaviour {
 		}
 		float OffsetX = Time.time * Scrollx;
 		float OffsetY = Time.time * Scrolly;
-		r.material.mainTextureOffset = new Vector2(OffsetX,OffsetY);
+		r.sharedMaterial.mainTextureOffset = new Vector2(OffsetX,OffsetY);
 	}
 }
