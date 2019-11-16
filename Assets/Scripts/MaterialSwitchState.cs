@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Used to extend SelectableStateAction but undesirable destroy effects are making me change that
+#if UNITY_EDITOR
+[UnityEditor.CanEditMultipleObjects]
+#endif
 [ExecuteInEditMode]
 public class MaterialSwitchState : MonoBehaviour {
 
@@ -12,11 +15,13 @@ public class MaterialSwitchState : MonoBehaviour {
 
 	new public MeshRenderer renderer;
 
+	public Material mmmat;
+
 	[SerializeField]
 	private Color emissionColor = new Color(63/255f, 63/255f, 63/255f);
 	public Color brightenColor = new Color(.8f, .8f, .8f, 1f);
 
-	private readonly float none = 0;
+	//private readonly float none = 0;
 	//private float cylinder = 6;
 
 	public bool makeSolid = true;
@@ -26,6 +31,7 @@ public class MaterialSwitchState : MonoBehaviour {
 		/*if (element == null && GetComponent<SelectableElement>() != null) {
 			element = GetComponent<SelectableElement>();
 		}*/
+		mmmat = renderer.sharedMaterial;
 #if UNITY_EDITOR
 		if (renderer == null) {
 			if (transform.childCount > 0 && transform.GetChild(0).GetComponentInChildren<MeshRenderer>()) {
@@ -63,10 +69,6 @@ public class MaterialSwitchState : MonoBehaviour {
 
 		renderer.material.SetColor("_Color", brightenColor);
 		bright = true;
-
-		if (makeSolid) {
-			MakeSolid();
-		}
 	}
 
 
@@ -99,6 +101,8 @@ public class MaterialSwitchState : MonoBehaviour {
 		}
 	}
 
+	public static bool zTop = true;
+
 	private void MakeSolid()
 	{
 		renderer.material.DisableKeyword("_DISSOLVEGLOBALCONTROL_ALL");
@@ -125,6 +129,23 @@ public class MaterialSwitchState : MonoBehaviour {
 		}
 		//renderer.enabled = false;
 		//renderer.SetPropertyBlock(null);
+
+		if (zTop) {
+			renderer.gameObject.layer = 0;
+		}
+	}
+
+	private void Update()
+	{
+		if (active) {
+			if (zTop) {
+				if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, ActiveHandAnchor.active)) {
+					renderer.gameObject.layer = 9;
+				} else if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, ActiveHandAnchor.active)) {
+					renderer.gameObject.layer = 0;
+				}
+			}
+		}
 	}
 
 	private void OldActivateCode()

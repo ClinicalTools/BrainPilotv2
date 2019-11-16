@@ -10403,7 +10403,7 @@ MonoBehaviour:
     m_SceneName: Main Scene2 - Copy
   scenesToLoad: {fileID: 11400000, guid: 1ec8bb82bfc1c6b468348567a77f68fa, type: 2}
   useLoadingScreen: 1
-  fade: {fileID: 972796897}
+  fade: {fileID: 1299901825}
   loadingScreenCamera: {fileID: 310780643}
   loadingScreen: {fileID: 2081867816}
 --- !u!4 &250792638
@@ -12004,6 +12004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   line: {fileID: 333519562}
+  alwaysVisableLine: {fileID: 0}
   origin: {fileID: 333519559}
   selection: {fileID: 11400000, guid: fc1fdd2f6921b274f9d8e1eb7aa21c05, type: 2}
   furthestSelectable: {fileID: 0}
@@ -19893,6 +19894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   line: {fileID: 571345768}
+  alwaysVisableLine: {fileID: 0}
   origin: {fileID: 571345767}
   selection: {fileID: 11400000, guid: fc1fdd2f6921b274f9d8e1eb7aa21c05, type: 2}
   furthestSelectable: {fileID: 0}
@@ -27720,7 +27722,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972796892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df8e1d778abf442e4bec449c360e9e1c, type: 3}
   m_Name: 
@@ -34571,6 +34573,7 @@ GameObject:
   - component: {fileID: 1299901823}
   - component: {fileID: 1299901822}
   - component: {fileID: 1299901821}
+  - component: {fileID: 1299901825}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -34724,6 +34727,22 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299901819}
   m_Enabled: 1
+--- !u!114 &1299901825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299901819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8e1d778abf442e4bec449c360e9e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeTime: 1
+  fadeColor: {r: 0.01, g: 0.01, b: 0.01, a: 1}
+  fadeOnStart: 1
+  renderQueue: 5000
 --- !u!1 &1319346335
 GameObject:
   m_ObjectHideFlags: 0

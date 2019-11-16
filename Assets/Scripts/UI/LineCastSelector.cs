@@ -16,6 +16,7 @@ public class LineCastSelector : MonoBehaviour
 {
 
     public LineRenderer line;
+    public LineRenderer alwaysVisableLine;
     public Transform origin;
 
     public SelectionGroup selection;
@@ -85,7 +86,6 @@ public class LineCastSelector : MonoBehaviour
         {
             
             cursor.position = cursorSavedPosition;
-            cursor.LookAt(transform);
 			cursor.GetComponentInChildren<MeshRenderer>().enabled = false;
             //cursor.rotation = cursorSavedRotation;
         }
@@ -97,6 +97,9 @@ public class LineCastSelector : MonoBehaviour
 	{
 		this.isActive = isActive;
 		line.enabled = true;
+		if (!bLine.isActive) {
+			alwaysVisableLine.enabled = true;
+		}
 		if (furthestSelectable != null) {
 			cursor.gameObject.SetActive(true);
 		}
@@ -106,6 +109,9 @@ public class LineCastSelector : MonoBehaviour
 
 	public void Disable()
 	{
+		if (furthestSelectable == null)
+			cursorSavedPosition = transform.position;
+
 		float tempDist = distance;
 		distance = 0;
 		//Setting sticktime to less than 0 (and not -1) to trigger the unstick code
@@ -113,18 +119,22 @@ public class LineCastSelector : MonoBehaviour
 		UpdateSelection(); //To clear the selection
 		distance = tempDist;
 		line.enabled = false;
+		alwaysVisableLine.enabled = false;
 		isActive = false;
+		
 		//SetActive(false);
 	}
 
 	private void SetActive(bool active)
 	{
 		line.enabled = active;
+		alwaysVisableLine.enabled = active;
 	}
 
     public void GetClickDown(bool clickDown)
     {
-        cursorSavedPosition = cursor.position;
+		alwaysVisableLine.enabled = !clickDown;
+		cursorSavedPosition = cursor.position;
         //cursorSavedRotation = cursor.rotation;
         isActive = !clickDown;
 		if (isActive) {
@@ -138,20 +148,24 @@ public class LineCastSelector : MonoBehaviour
 		cursorSavedPosition = newPos;
 	}
 
-	public void ToggleLineColor(bool b)
+	public void ToggleLineColor(bool click)
 	{
-		Color inactive = new Color(1,1,1,1);
+		Color inactive = Color.white;// new Color(.5f,.55f,1,1);
 		Color active = new Color(.9f,1,1,1);
 		Gradient g = line.colorGradient;
 		GradientColorKey[] colors = g.colorKeys;
-		if (b) {
+		GradientAlphaKey[] alphas = g.alphaKeys;
+		if (click) {
 			colors[0].color = active;
 			colors[1].color = active;
+			alphas[0].alpha = 1;
 		} else {
 			colors[0].color = inactive;
 			colors[1].color = inactive;
+			alphas[0].alpha = 0.1f;
 		}
 		g.colorKeys = colors;
+		g.alphaKeys = alphas;
 		line.colorGradient = g;
 	}
 
@@ -338,8 +352,9 @@ public class LineCastSelector : MonoBehaviour
     {
         line.positionCount = 2;
         line.SetPositions(new[] { originPosition, targetPosition });
-        
-    }
+		alwaysVisableLine.positionCount = 2;
+		alwaysVisableLine.SetPositions(new[] { originPosition, targetPosition });
+	}
 
     /// <summary>
     /// Get the input from our Vec2 Resource and adjust the distance of our line caster accordingly

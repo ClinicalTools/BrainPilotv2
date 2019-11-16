@@ -21,6 +21,8 @@ public class MaterialSwitchInspector : Editor
         {
             action.Deactivate();
         }
+
+		MaterialSwitchState.zTop = EditorGUILayout.Toggle("ZTop", MaterialSwitchState.zTop);
     }
 
 }

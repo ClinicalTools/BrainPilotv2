@@ -80,6 +80,7 @@ public class SignalManager : MonoBehaviour {
 				particles[i].remainingLifetime = .8f;
 			}
 			system.SetParticles(particles, particlesAlive);
+			//particles[0].remainingLifetime
 		}
 	}
 
@@ -101,6 +102,14 @@ public class SignalManager : MonoBehaviour {
 
 		if (relayChain.Length == 0) {
 			return null;
+		}
+		if (relayChain.Length == 1) {
+			if (activeSystem != null) {
+				return null;
+			} else {
+				return relayChain[0];
+			}
+			
 		}
 
 		for(int i = 0; i < relayChain.Length; i++) {
@@ -163,7 +172,7 @@ public class SignalManager : MonoBehaviour {
 		//Find the next point
 		ParticleSystem nextPoint = FindNextSignal(startingPoint);
 		if (nextPoint == null) {
-			Debug.Log("NextPoint is null.\nStarting point: " + startingPoint.name + "\nThis manager: " + name);
+			//Debug.Log("NextPoint is null.\nStarting point: " + startingPoint.name + "\nThis manager: " + name);
 			activeSystem = null;
 			return;
 		}

@@ -6,8 +6,12 @@ public class BrainMap : MonoBehaviour
 {
 	public Transform centerPos;
 
+	public Transform player;
+
 	//The red dot representing the player
-	public Transform playerPos;
+	public Transform playerDot;
+
+	public Transform playerDirection;
 
 	public float radius;
 
@@ -26,10 +30,13 @@ public class BrainMap : MonoBehaviour
 		difference *= scale;
 
 		if (difference.magnitude < radius) {
-			playerPos.gameObject.SetActive(true);
-			playerPos.localPosition = difference;
+			playerDot.gameObject.SetActive(true);
+			playerDot.localPosition = difference;
 		} else {
-			playerPos.gameObject.SetActive(false);
+			playerDot.gameObject.SetActive(false);
 		}
+
+		if (playerDirection != null)
+			playerDirection.localRotation = player.localRotation;
 	}
 }

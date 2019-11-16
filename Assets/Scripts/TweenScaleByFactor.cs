@@ -126,6 +126,7 @@ public class TweenScaleByFactor : MonoBehaviour
 		//.02 @ 5
 		//.002 @ .5
 		selector.line.startWidth = .2f * ratio;
+		selector.alwaysVisableLine.startWidth = selector.line.startWidth;
 
 		//Adjust the canvas cursor's size. 3D cursor is independent
 		//.1 @ 50

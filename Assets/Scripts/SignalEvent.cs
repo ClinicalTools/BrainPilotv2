@@ -6,8 +6,10 @@ public class SignalEvent : MonoBehaviour
 {
 	[SerializeField]
 	private SignalManager signalManager;
+	[SerializeField]
+	private List<SignalManager> signalManagers;
 	//instantiate the particle system
-	public ParticleSystem particle;
+	//public ParticleSystem particle;
 	private ParticleSystem stopper;
 	public List<ParticleCollisionEvent> collisionEvents;	
 	
@@ -16,8 +18,8 @@ public class SignalEvent : MonoBehaviour
 	private Color startColor = Color.black;
 	private Color highlightColor = Color.cyan;
 	
-	private float duration = 1f;
-	private float timer;
+	public float duration = 1f;
+	public float timer;
 
 	void Awake ()
 	{
@@ -50,11 +52,12 @@ public class SignalEvent : MonoBehaviour
 		}
 		//startColor = _material.GetColor("_EmissionColor");
 		//Fetching the Particle System
-		if (particle == null) {
+		/*if (particle == null) {
 			particle = GetComponentInChildren<ParticleSystem>();
-		}
+		}*/
 		collisionEvents = new List<ParticleCollisionEvent>();
 		timer = 1f;
+		state = GetComponent<MaterialSwitchState>();
 	}
 	//other represents the particle system that sent the colliding particle
 	void OnParticleCollision (GameObject other)
@@ -64,9 +67,13 @@ public class SignalEvent : MonoBehaviour
 			return;
 		}
 		gameObject.layer = 0;
-		if (!signalManager.active) {
+		if (!signalManagers.Find(x => x.active)) {
 			return;
 		}
+		/*
+		if (!signalManager.active) {
+			return;
+		}*/
 		
 		timer = 0f;
 		stopper = other.GetComponent<ParticleSystem>();
@@ -86,26 +93,33 @@ public class SignalEvent : MonoBehaviour
 	private IEnumerator DelayCall(float time, ParticleSystem system)
 	{
 		yield return new WaitForSecondsRealtime(time);
-		signalManager.SendNextSignal(system);
+
+		foreach(SignalManager manager in signalManagers) {
+			manager.SendNextSignal(system);
+		}
+
+		//signalManager.SendNextSignal(system);
 	}
 
 	MaterialPropertyBlock block;
 	public bool activated;
 	// Update is called once per frame
+	MaterialSwitchState state;
 	void Update () {
 		if (timer < duration) {
 			activated = true;
 			timer += Time.deltaTime;
 			block.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer / duration));
 
-			if (GetComponent<MaterialSwitchState>()) {
-				GetComponent<MaterialSwitchState>().renderer.SetPropertyBlock(block);
+			if (state != null) {  // || (state = GetComponent<MaterialSwitchState>()) != null) {
+				state.renderer.SetPropertyBlock(block);
 			} else {
 				GetComponent<Renderer>().SetPropertyBlock(block);
 			}
 			//GetComponent<Renderer>().SetPropertyBlock(block);
 			//_material.SetColor("_EmissionColor", Color.Lerp(highlightColor, startColor, timer/duration));
 		} else {
+			//state.renderer.SetPropertyBlock(null);
 			timer = duration;
 			activated = false;
 		}

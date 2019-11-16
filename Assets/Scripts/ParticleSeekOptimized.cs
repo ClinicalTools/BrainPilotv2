@@ -75,6 +75,8 @@ public class ParticleSeekOptimized : MonoBehaviour
 
 				particles[i].velocity += seekForce;
 			} else {
+				
+
 				switch (testthing) {
 					case testingEnum.test1:
 						particles[i].velocity = Vector3.zero;
@@ -111,7 +113,7 @@ public class ParticleSeekOptimized : MonoBehaviour
 		test3
 	};
 	public testingEnum testthing;
-
+	
 
 	[ContextMenu("Start")]
 	private void st1()

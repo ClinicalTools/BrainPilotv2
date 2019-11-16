@@ -33,7 +33,7 @@ public class CombineSelectedMeshes : MonoBehaviour {
 		}
 	}
 
-	[MenuItem("Window/SwapSelection")]
+	[MenuItem("Window/Custom Combine/SwapSelection")]
 	public static void DoTheSwap()
 	{
 		if (instance == null) {
@@ -46,7 +46,85 @@ public class CombineSelectedMeshes : MonoBehaviour {
 		instance.PerformSwap();
 	}
 
-	[MenuItem("Window/Combine Meshes")]
+	[MenuItem("Window/Custom Combine/Combine Only Meshes")]
+	public static void CombineOnlyMeshes()
+	{
+		if (instance == null) {
+			instance = FindObjectOfType<CombineSelectedMeshes>();
+			if (instance == null) {
+				instance = new GameObject("MeshCombiner", new System.Type[] { typeof(CombineSelectedMeshes) }).GetComponent<CombineSelectedMeshes>();
+			}
+		}
+
+		if (Selection.gameObjects.Length <= 1) {
+			Debug.LogWarning("Please select more than 1 mesh");
+			return;
+		}
+		SingleMatMesh matMeshes = new SingleMatMesh();
+
+		MeshRenderer tempMesh;
+		//List<MeshFilter> children = new List<MeshFilter>();
+		foreach (GameObject obj in Selection.gameObjects) {
+			tempMesh = obj.GetComponentInChildren<MeshRenderer>();
+			if (tempMesh == null) {
+				obj.SetActive(false);
+				continue;
+			}
+			matMeshes.AddMesh(tempMesh.GetComponent<MeshFilter>());
+		}
+
+		GameObject newObj = new GameObject("CombinedMeshes: " + matMeshes.children[0].transform.name, new System.Type[] { typeof(MeshFilter), typeof(MeshRenderer) });
+		//newObj.transform.parent = children[0].transform.parent;
+		matMeshes.TransposeObjects();
+		newObj.GetComponent<MeshFilter>().mesh = new Mesh();
+		newObj.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(matMeshes.combine.ToArray());
+		newObj.GetComponent<MeshRenderer>().sharedMaterial = matMeshes.children[0].GetComponent<MeshRenderer>().sharedMaterial;
+		newObj.SetActive(false);
+		//CreateMeshAsset(newObj.GetComponent<MeshFilter>().sharedMesh);
+		matMeshes.TransposeObjects(newObj.transform);
+	}
+
+	[MenuItem("Window/Custom Combine/Combine Only Meshes With Chidren")]
+	public static void CombineOnlyMeshesWithChildren()
+	{
+		if (instance == null) {
+			instance = FindObjectOfType<CombineSelectedMeshes>();
+			if (instance == null) {
+				instance = new GameObject("MeshCombiner", new System.Type[] { typeof(CombineSelectedMeshes) }).GetComponent<CombineSelectedMeshes>();
+			}
+		}
+
+		if (Selection.gameObjects.Length <= 1) {
+			Debug.LogWarning("Please select more than 1 mesh");
+			return;
+		}
+		SingleMatMesh matMeshes = new SingleMatMesh();
+
+		MeshRenderer[] tempMesh;
+		//List<MeshFilter> children = new List<MeshFilter>();
+		foreach (GameObject obj in Selection.gameObjects) {
+			tempMesh = obj.GetComponentsInChildren<MeshRenderer>();
+			if (tempMesh == null) {
+				obj.SetActive(false);
+				continue;
+			}
+			foreach (MeshRenderer m in tempMesh) {
+				matMeshes.AddMesh(m.GetComponent<MeshFilter>());
+			}
+		}
+
+		GameObject newObj = new GameObject("CombinedMeshes: " + matMeshes.children[0].transform.name, new System.Type[] { typeof(MeshFilter), typeof(MeshRenderer) });
+		//newObj.transform.parent = children[0].transform.parent;
+		matMeshes.TransposeObjects();
+		newObj.GetComponent<MeshFilter>().mesh = new Mesh();
+		newObj.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(matMeshes.combine.ToArray());
+		newObj.GetComponent<MeshRenderer>().sharedMaterial = matMeshes.children[0].GetComponent<MeshRenderer>().sharedMaterial;
+		newObj.SetActive(false);
+		//CreateMeshAsset(newObj.GetComponent<MeshFilter>().sharedMesh);
+		matMeshes.TransposeObjects(newObj.transform);
+	}
+
+	[MenuItem("Window/Custom Combine/Combine Meshes By Material")]
 	public static void CombineMeshes()
 	{
 		if (instance == null) {
@@ -142,7 +220,6 @@ public class CombineSelectedMeshes : MonoBehaviour {
 		private Vector3 startLoc;
 		private bool assignedStart;
 
-
 		public SingleMatMesh(List<MeshFilter> meshes)
 		{
 			children = meshes;
@@ -160,8 +237,18 @@ public class CombineSelectedMeshes : MonoBehaviour {
 			AddMesh(mat);
 		}
 
+		void Init()
+		{
+			children = new List<MeshFilter>();
+			combine = new List<CombineInstance>();
+			startLoc = Vector3.zero;
+			assignedStart = false;
+		}
+
 		public void AddMesh(MeshFilter newMesh)
 		{
+			if (newMesh == null) return;
+			if (children == null) Init();
 			if (children.Contains(newMesh)) {
 				return;
 			}
