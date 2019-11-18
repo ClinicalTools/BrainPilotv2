@@ -159,7 +159,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.HIS.BrainPilot2
+    Android: com.HIS.BrainPilot2_rebuild
     Standalone: com.oculus.UnitySample
     WebGL: com.oculus.UnitySample
   buildNumber: {}

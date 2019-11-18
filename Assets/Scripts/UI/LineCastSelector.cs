@@ -97,7 +97,7 @@ public class LineCastSelector : MonoBehaviour
 	{
 		this.isActive = isActive;
 		line.enabled = true;
-		if (!bLine.isActive) {
+		if (!bLine.isActive && alwaysVisableLine != null) {
 			alwaysVisableLine.enabled = true;
 		}
 		if (furthestSelectable != null) {
@@ -119,7 +119,7 @@ public class LineCastSelector : MonoBehaviour
 		UpdateSelection(); //To clear the selection
 		distance = tempDist;
 		line.enabled = false;
-		alwaysVisableLine.enabled = false;
+		if (alwaysVisableLine) alwaysVisableLine.enabled = false;
 		isActive = false;
 		
 		//SetActive(false);
@@ -128,12 +128,12 @@ public class LineCastSelector : MonoBehaviour
 	private void SetActive(bool active)
 	{
 		line.enabled = active;
-		alwaysVisableLine.enabled = active;
+		if (alwaysVisableLine) alwaysVisableLine.enabled = active;
 	}
 
     public void GetClickDown(bool clickDown)
     {
-		alwaysVisableLine.enabled = !clickDown;
+		if (alwaysVisableLine) alwaysVisableLine.enabled = !clickDown;
 		cursorSavedPosition = cursor.position;
         //cursorSavedRotation = cursor.rotation;
         isActive = !clickDown;
@@ -352,8 +352,10 @@ public class LineCastSelector : MonoBehaviour
     {
         line.positionCount = 2;
         line.SetPositions(new[] { originPosition, targetPosition });
-		alwaysVisableLine.positionCount = 2;
-		alwaysVisableLine.SetPositions(new[] { originPosition, targetPosition });
+		if (alwaysVisableLine != null) {
+			alwaysVisableLine.positionCount = 2;
+			alwaysVisableLine.SetPositions(new[] { originPosition, targetPosition });
+		}
 	}
 
     /// <summary>

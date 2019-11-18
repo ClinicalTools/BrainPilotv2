@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SettingsManager : MonoBehaviour {
@@ -25,15 +24,7 @@ public class SettingsManager : MonoBehaviour {
 		sound_narration
 	}
 
-	[System.Serializable]
-	public struct DefaultValue
-	{
-		public SettingType settingType;
-		public string key;
-		public bool value;
-	}
-
-	public List<DefaultValue> defaultValues;
+	public DefaultValues defaultValues;
 
 	private Dictionary<SettingType, HashSet<string>> allSettings;
 
@@ -46,6 +37,8 @@ public class SettingsManager : MonoBehaviour {
 		if (selector == null) {
 			selector = FindObjectOfType<LineCastSelector>();
 		}
+
+		List<DefaultValue> values = new List<DefaultValue>(defaultValues.values);
 		
 		//We want to initialize our dataset based on existing settings
 		List<SettingsElement> a = new List<SettingsElement>(GetComponentsInChildren<SettingsElement>(true));
@@ -61,7 +54,8 @@ public class SettingsManager : MonoBehaviour {
 
 			if (value != NOT_FOUND) {
 				Debug.Log("Attempting to resolve " + GetPrefsString(element.type, element.settingKey));
-				defaultValues.RemoveAll(x =>
+				values.RemoveAll(x =>
+					!x.overrideValue &&
 					x.settingType == element.type &&
 					x.key.Equals(element.settingKey));
 			}
@@ -71,12 +65,12 @@ public class SettingsManager : MonoBehaviour {
 			}
 		}
 
-		foreach(DefaultValue val in defaultValues) {
-			Debug.Log("Setting default value " + GetPrefsString(val.settingType, val.key) + " to " + val.value);
+		foreach(DefaultValue val in values) {
+			Debug.Log("Setting default value " + GetPrefsString(val.settingType, val.key));
 			//SetValue(val.settingType, val.key, val.value, val.radio);
 			a.Find(x =>
 				x.type == val.settingType &&
-				x.settingKey == val.key).OnClick();
+				x.settingKey == val.key)?.OnClick();
 		}
 	}
 
@@ -170,6 +164,24 @@ public class SettingsManager : MonoBehaviour {
 
 	public void QuitGame()
 	{
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
 		Application.Quit();
+#endif
 	}
+}
+
+[System.Serializable]
+public struct DefaultValue
+{
+	public SettingsManager.SettingType settingType;
+	public string key;
+	public bool overrideValue;
+}
+
+[CreateAssetMenu]
+public class DefaultValues : ScriptableObject
+{
+	public List<DefaultValue> values;
 }

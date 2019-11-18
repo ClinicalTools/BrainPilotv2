@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ObjectFinder : MonoBehaviour
 {
@@ -69,7 +70,8 @@ public class ObjectFinderEditor : Editor
 
 	public void FindObjectsReferencingTarget(bool findComponent, bool findGameObject, bool findAnyComponent = false)
 	{
-		GameObject[] allObjects = FindObjectsOfType<GameObject>();
+		GameObject[] allObjects = GetAllGameObjects();
+		
 		List<SerializedObject> matches = new List<SerializedObject>();
 
 		SerializedObject sObj;
@@ -134,9 +136,21 @@ public class ObjectFinderEditor : Editor
 
 		foreach(SerializedObject so in matches) {
 			//Debug.Log(so.targetObject.name, so.targetObject);
-			Debug.Log(so.targetObject.name + ": " + (so.targetObject as Component).GetType(), 
-					so.targetObject);
+			if ((so.targetObject as Component) != _target) {
+				Debug.Log(so.targetObject.name + ": " + (so.targetObject as Component).GetType(),
+						so.targetObject);
+			}
 		}
+	}
+
+	private GameObject[] GetAllGameObjects()
+	{
+		List<GameObject> results = new List<GameObject>(SceneManager.GetActiveScene().GetRootGameObjects());
+		int len = results.Count;
+		for (int i = 0; i < len; i++) {
+			new List<Transform>(results[i].GetComponentsInChildren<Transform>(true)).ForEach(t => results.Add(t.gameObject));
+		}
+		return results.ToArray();
 	}
 }
 #endif

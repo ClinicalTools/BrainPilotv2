@@ -151,7 +151,12 @@ public class BeginLesson : MonoBehaviour {
 		asyncLoad.allowSceneActivation = true;
 	}
 
-	public void SetSceneGroup(BrainSceneReferences scenes)
+	public void ClearSceneGroup()
+	{
+		scenesToLoad = null;
+	}
+
+	public void SetSceneGroup(BrainSceneReferences scenes = null)
 	{
 		scenesToLoad = scenes;
 	}
